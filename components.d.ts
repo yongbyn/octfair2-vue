@@ -18,6 +18,8 @@ declare module 'vue' {
     NoticeMain: typeof import('./src/components/page/Board/Notice/NoticeMain.vue')['default']
     NoticeSearch: typeof import('./src/components/page/Board/Notice/NoticeSearch.vue')['default']
     Pagination: typeof import('./src/components/common/Pagination.vue')['default']
+    ResumeMain: typeof import('./src/components/page/Resume/ResumeMain/ResumeMain.vue')['default']
+    ResumeWrite: typeof import('./src/components/page/Resume/ResumeEdit/ResumeWrite.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
