@@ -13,6 +13,6 @@
 <br/>
 
 ## ⚡️ Issue number
--
+- Closes #<Issue Number>
 
 <br/>
