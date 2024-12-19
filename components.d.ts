@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
     ContextBox: typeof import('./src/components/common/ContextBox.vue')['default']
     FirstNoticeMain: typeof import('./src/components/page/Board/Notice/FirstNoticeMain.vue')['default']
     FirstNoticeModal: typeof import('./src/components/page/Board/Notice/FirstNoticeModal.vue')['default']
@@ -14,11 +15,14 @@ declare module 'vue' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LeftManuBar: typeof import('./src/components/layout/LeftManuBar.vue')['default']
     LoginMain: typeof import('./src/components/page/Login/LoginMain.vue')['default']
+    LunchMenu: typeof import('./src/components/layout/AddOnPack/LunchMenu.vue')['default']
+    MusicBox: typeof import('./src/components/layout/AddOnPack/MusicBox.vue')['default']
     NoticeDetail: typeof import('./src/components/page/Board/Notice/NoticeDetail.vue')['default']
     NoticeMain: typeof import('./src/components/page/Board/Notice/NoticeMain.vue')['default']
     NoticeSearch: typeof import('./src/components/page/Board/Notice/NoticeSearch.vue')['default']
     Pagination: typeof import('./src/components/common/Pagination.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SnowSkin: typeof import('./src/components/layout/AddOnPack/SnowSkin.vue')['default']
   }
 }
