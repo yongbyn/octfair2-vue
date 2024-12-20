@@ -4,6 +4,7 @@ import DashBoard from "../views/DashBoard/DashBoard.vue";
 import Notice from "../views/Board/Notice.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import Resume from "../views/Resume/Resume.vue";
+import ResumeDetail from "../components/page/Resume/ResumeDetail/ResumeDetail.vue";
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
             path: "resume.do",
             name: "resume",
             component: Resume,
+          },
+          {
+            path: "resume.do/:idx",
+            name: "resumeDetail",
+            component: ResumeDetail,
           },
         ],
       },
