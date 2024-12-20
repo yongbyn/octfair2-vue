@@ -1,7 +1,7 @@
 export const Notice = {
-  SearchNoticeList: "/api/board/noticeListJson.do",
-  SearchNoticeDetail: "/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/api/board/noticeUpdateBody.do",
-  InsertNoticeDetail: "/api/board/noticeSaveBody.do",
-  DeleteNoticeDetail: "/api/board/noticeDeleteBody.do",
+  SearchNoticeList: "/vue/api/board/noticeListJson.do",
+  SearchNoticeDetail: "/vue/api/board/noticeDetailBody.do",
+  UpdateNoticeDetail: "/vue/api/board/noticeUpdateBody.do",
+  InsertNoticeDetail: "/vue/api/board/noticeSaveBody.do",
+  DeleteNoticeDetail: "/vue/api/board/noticeDeleteBody.do",
 };
