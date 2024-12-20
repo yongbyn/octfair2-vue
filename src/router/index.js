@@ -3,6 +3,7 @@ import Login from "../views/Login/Login.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import Notice from "../views/Board/Notice.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
+import Resume from "../views/Resume/Resume.vue";
 
 const routes = [
   {
@@ -33,6 +34,17 @@ const routes = [
             path: "notice.do/insert",
             name: "noticeInsert",
             component: NoticeDetail,
+          },
+        ],
+      },
+      {
+        path: "apply",
+        name: "apply",
+        children: [
+          {
+            path: "resume.do",
+            name: "resume",
+            component: Resume,
           },
         ],
       },
