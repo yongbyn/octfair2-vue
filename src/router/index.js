@@ -3,6 +3,7 @@ import Login from "../views/Login/Login.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import Notice from "../views/Board/Notice.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
+import AddOn from "../components/layout/AddOn.vue";
 
 const routes = [
   {

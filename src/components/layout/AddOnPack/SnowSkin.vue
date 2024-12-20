@@ -89,8 +89,9 @@ onBeforeUnmount(() => {
   z-index: -1;
   overflow: hidden;
   background: #001a33; /* 어두운 배경 */
-  background-image: url("@/assets/toy.gif");
+  background-image: url("@/assets/bg.jpg");
   background-size: cover;
+  background-position: center 100px; /* 배경을 아래로 20px 내림 */
 }
 
 canvas {
