@@ -18,6 +18,9 @@ declare module 'vue' {
     NoticeMain: typeof import('./src/components/page/Board/Notice/NoticeMain.vue')['default']
     NoticeSearch: typeof import('./src/components/page/Board/Notice/NoticeSearch.vue')['default']
     Pagination: typeof import('./src/components/common/Pagination.vue')['default']
+    Register: typeof import('./src/components/page/Register/Register.vue')['default']
+    RegisterForm: typeof import('./src/components/page/Register/RegisterForm.vue')['default']
+    RegisterModal: typeof import('./src/components/page/Register/RegisterModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
