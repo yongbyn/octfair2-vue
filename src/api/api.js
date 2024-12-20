@@ -5,3 +5,7 @@ export const Notice = {
   InsertNoticeDetail: "/vue/api/board/noticeSaveBody.do",
   DeleteNoticeDetail: "/vue/api/board/noticeDeleteBody.do",
 };
+
+export const Post = {
+  SearchPostList: "/vue/api/jobs/readPostList.do",
+};
