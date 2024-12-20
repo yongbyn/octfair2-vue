@@ -12,7 +12,7 @@
 
 <script setup>
 const props = defineProps(["width"]);
-const musicUrl = "https://www.youtube.com/embed/5khfSE9UbAU";
+const musicUrl = "https://www.youtube.com/embed/a_80o2lDYec";
 const playUrl = ref(musicUrl + "?start=12&autoplay=1&mute=0");
 </script>
 
