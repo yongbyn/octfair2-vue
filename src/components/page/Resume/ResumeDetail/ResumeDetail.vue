@@ -40,7 +40,6 @@
       </div>
 
       <!-- 경력 -->
-      <ResumeCareer />
       <!-- 학력 -->
       <!-- 스킬 -->
       <!-- 자격증 및 외국어 -->
@@ -105,7 +104,6 @@
 <script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
-import ResumeCareer from "./ResumeCareer.vue";
 import { useResumeStore } from "../../../../stores/resumeStore";
 
 const resumeDetail = ref({});
