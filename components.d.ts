@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
+    CommonButton: typeof import('./src/components/common/CommonButton.vue')['default']
+    CommonOnOff: typeof import('./src/components/common/CommonOnOff.vue')['default']
     ContextBox: typeof import('./src/components/common/ContextBox.vue')['default']
     FirstNoticeMain: typeof import('./src/components/page/Board/Notice/FirstNoticeMain.vue')['default']
     FirstNoticeModal: typeof import('./src/components/page/Board/Notice/FirstNoticeModal.vue')['default']
@@ -29,6 +31,8 @@ declare module 'vue' {
     ResumeWrite: typeof import('./src/components/page/Resume/ResumeEdit/ResumeWrite.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SkinImage: typeof import('./src/components/layout/AddOnPack/SkinImage.vue')['default']
+    SnowAni: typeof import('./src/components/layout/AddOnPack/SnowAni.vue')['default']
     SnowSkin: typeof import('./src/components/layout/AddOnPack/SnowSkin.vue')['default']
   }
 }
