@@ -34,8 +34,10 @@ const createSnowflakes = () => {
     snowflakes.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * props.snowConfig.maxRadius + props.snowConfig.minRadius,
-      speed: Math.random() * props.snowConfig.maxSpeed + props.snowConfig.minSpeed,
+      radius:
+        Math.random() * props.snowConfig.maxRadius + props.snowConfig.minRadius,
+      speed:
+        Math.random() * props.snowConfig.maxSpeed + props.snowConfig.minSpeed,
     });
   }
 };
