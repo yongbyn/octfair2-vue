@@ -13,6 +13,8 @@ declare module 'vue' {
     FirstNoticeModal: typeof import('./src/components/page/Board/Notice/FirstNoticeModal.vue')['default']
     FirstNoticeSearch: typeof import('./src/components/page/Board/Notice/FirstNoticeSearch.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    HirePostEditor: typeof import('./src/components/page/Hire/HirePostEditor.vue')['default']
+    HirePostMain: typeof import('./src/components/page/Hire/HirePostMain.vue')['default']
     LeftManuBar: typeof import('./src/components/layout/LeftManuBar.vue')['default']
     LoginMain: typeof import('./src/components/page/Login/LoginMain.vue')['default']
     LunchMenu: typeof import('./src/components/layout/AddOnPack/LunchMenu.vue')['default']
