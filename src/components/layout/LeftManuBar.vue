@@ -35,6 +35,7 @@
       </div>
     </li>
   </ul>
+  <AddOn />
 </template>
 
 <script setup>
