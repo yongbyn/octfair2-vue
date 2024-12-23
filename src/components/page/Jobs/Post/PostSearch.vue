@@ -8,13 +8,8 @@
 </template>
 
 <script setup>
-import { useQueryClient } from "@tanstack/vue-query";
-import { useRouter } from "vue-router";
-
 const injectedValue = inject("providedValue");
 const searchKey = ref({});
-const router = useRouter();
-const queryClient = useQueryClient();
 
 const handlerSearch = () => {
   injectedValue.value = { ...searchKey.value };

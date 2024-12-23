@@ -71,7 +71,7 @@ const handlerSaveBtn = () => {
     "text",
     new Blob([JSON.stringify(textData)], {
       type: "application/json",
-    })
+    }),
   );
 
   axios.post("/api/board/noticeSaveFileForm.do", formData).then((res) => {
@@ -111,7 +111,7 @@ const handlerUpdateBtn = () => {
     "text",
     new Blob([JSON.stringify(textData)], {
       type: "application/json",
-    })
+    }),
   );
 
   axios.post("/api/board/noticeUpdateFileForm.do", formData).then((res) => {

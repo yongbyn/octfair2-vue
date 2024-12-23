@@ -6,6 +6,7 @@ import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import Resume from "../views/Resume/Resume.vue";
 import ResumeDetail from "../components/page/Resume/ResumeDetail/ResumeDetail.vue";
 import Post from "../views/Jobs/Post.vue";
+import HirePost from "../views/Hire/HirePost.vue";
 
 const routes = [
   {
@@ -63,6 +64,17 @@ const routes = [
             path: "posts.do",
             name: "post",
             component: Post,
+          },
+        ],
+      },
+      {
+        path: "manage-hire",
+        name: "manage-hire",
+        children: [
+          {
+            path: "post.do",
+            name: "hire-post",
+            component: HirePost,
           },
         ],
       },
