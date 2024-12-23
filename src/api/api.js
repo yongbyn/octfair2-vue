@@ -9,3 +9,7 @@ export const Notice = {
 export const Post = {
   SearchPostList: "/vue/api/jobs/readPostList.do",
 };
+
+export const Login = {
+  SignUpIdCheck: "/api/check_loginId.do",
+};
