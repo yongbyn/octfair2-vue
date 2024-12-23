@@ -58,12 +58,12 @@ watchEffect(() => {
 
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   detailValue,
-  params.idx
+  params.idx,
 );
 
 const { mutate: handlerInsertBtn } = useNoticeDetailInsertMutation(
   detailValue,
-  userInfo.user.loginId
+  userInfo.user.loginId,
 );
 
 const deleteNoticeDetail = async () => {
