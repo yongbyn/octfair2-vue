@@ -1,16 +1,16 @@
 <script setup>
-import { RouterView } from 'vue-router';
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-    <RouterView />
+  <RouterView />
 </template>
 
 <style>
 body {
-    -ms-overflow-style: none;
+  -ms-overflow-style: none;
 }
 body::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 </style>

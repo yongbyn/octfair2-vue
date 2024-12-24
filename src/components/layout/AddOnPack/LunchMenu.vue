@@ -6,7 +6,12 @@
       alt="로딩 이미지"
       class="styled-image"
     />
-    <img v-else-if="imageUrl === 'error'" src="../../../assets/noImage.jpg" alt="빈 이미지" class="styled-image" />
+    <img
+      v-else-if="imageUrl === 'error'"
+      src="../../../assets/noImage.jpg"
+      alt="빈 이미지"
+      class="styled-image"
+    />
     <img v-else :src="imageUrl" alt="오늘의 메뉴" class="styled-image" />
   </div>
 </template>
@@ -15,19 +20,18 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
-const props = defineProps(["width"]);
+const props = defineProps(["url", "width"]);
 const imageUrl = ref("loading");
 
 onMounted(async () => {
-  const baseURL = "/api";
+  const proxyURL = "/vue";
   const apiURL = "/dashboard/menu.do";
-  //const apiURL = "/vue";
-  const menuURL = "https://pf.kakao.com/_QLvRn"; // 좌측은 이츠푸드, 우측은 벽산더이룸푸드: "https://pf.kakao.com/_xdLzxgG"
+  const menuURL = props.url;
   const queryParam = `?menuURL=${menuURL}`;
 
   try {
-    const response = await axios.get(`${baseURL}${apiURL}${queryParam}`);
-    imageUrl.value = `${baseURL}${response.data.imageUrl}`;
+    const response = await axios.get(`${proxyURL}${apiURL}${queryParam}`);
+    imageUrl.value = `${proxyURL}${response.data.imageUrl}`;
   } catch (error) {
     imageUrl.value = "error";
   }

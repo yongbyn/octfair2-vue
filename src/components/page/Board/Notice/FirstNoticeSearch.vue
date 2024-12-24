@@ -37,7 +37,7 @@ const handlerModal = () => {
 // watchEffect : watch랑 같은 기능이지만 인자 없이 함수실행 가능 => 새로고침 누르면 최초 한 번 실행
 watchEffect(
   () => window.location.search && router.push(window.location.pathname), // 새로고침하면 처음으로 돌아가게함
-  { replace: true }
+  { replace: true },
 );
 </script>
 

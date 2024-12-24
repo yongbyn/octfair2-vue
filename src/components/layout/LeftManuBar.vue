@@ -1,7 +1,7 @@
 <template>
-  <a href="">
-    <img :src="logo" alt="happyjob" />
-  </a>
+  <div>
+    <img :src="logo" alt="happyjob" @click="router.push({ name: 'vue' })" />
+  </div>
   <div class="logo-box">
     <img :src="vue_logo" alt="logoImage" />
     <div class="user-info">
@@ -35,6 +35,7 @@
       </div>
     </li>
   </ul>
+  <AddOn />
 </template>
 
 <script setup>
