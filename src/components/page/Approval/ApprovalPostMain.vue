@@ -1,35 +1,43 @@
 <template>
-  <div class="divNoticeList">
-    현재 페이지: {{ cPage }} 총 개수: {{ noticeList?.noticeCnt }}
+  <div class="divPostList">
+    현재 페이지: {{ cPage }} 총 개수: {{ approvalList?.pendingPostCnt }}
     <table>
       <colgroup>
         <col width="10%" />
-        <col width="50%" />
         <col width="30%" />
         <col width="10%" />
+        <col width="10%" />
+        <col width="15%" />
+        <col width="15%" />
+        <col width="10%" />
       </colgroup>
-
       <thead>
         <tr>
           <th scope="col">번호</th>
           <th scope="col">제목</th>
-          <th scope="col">작성일</th>
-          <th scope="col">작성자</th>
+          <th scope="col">근무 지역</th>
+          <th scope="col">경력 여부</th>
+          <th scope="col">마감일</th>
+          <th scope="col">등록일</th>
+          <th scope="col">승인 여부</th>
         </tr>
       </thead>
       <tbody>
         <template v-if="isLoading">로딩중...</template>
         <template v-else-if="isSuccess">
-          <template v-if="noticeList.noticeCnt > 0">
+          <template v-if="approvalList.pendingPostCnt > 0">
             <tr
-              v-for="notice in noticeList.notice"
-              :key="notice.noticeIdx"
-              @click="handlerDetail(notice.noticeIdx)"
+              v-for="post in approvalList.pendingList"
+              :key="post.postIdx"
+              @click="handlerDetail(post.postIdx)"
             >
-              <td>{{ notice.noticeIdx }}</td>
-              <td>{{ notice.title }}</td>
-              <td>{{ notice.createdDate.substr(0, 10) }}</td>
-              <td>{{ notice.author }}</td>
+              <td>{{ post.postIdx }}</td>
+              <td>{{ post.title }}</td>
+              <td>{{ post.workLocation }}</td>
+              <td>{{ post.expRequired }}</td>
+              <td>{{ post.endDate.substr(0, 10) }}</td>
+              <td>{{ post.postDate.substr(0, 10) }}</td>
+              <td>{{ post.appStatus }}</td>
             </tr>
           </template>
           <template v-else>
@@ -42,7 +50,7 @@
       </tbody>
     </table>
     <Pagination
-      :totalItems="noticeList?.noticeCnt || 0"
+      :totalItems="approvalList?.pendingPostCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
       v-model="cPage"
@@ -51,28 +59,19 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useNoticeListSearchQuery } from "../../../../hook/notice/useNoticeListSearchQuery";
-import Pagination from "../../../common/Pagination.vue";
+import { ref } from "vue";
+import { useApprovalListSearchQuery } from "../../../hook/approval/useApprovalListSearchQuery";
+import Pagination from "../../common/Pagination.vue";
 
-const router = useRouter();
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
 
 const {
-  data: noticeList,
+  data: approvalList,
   isLoading,
-  refetch,
   isSuccess,
   isError,
-} = useNoticeListSearchQuery(injectedValue, cPage);
-
-const handlerDetail = (idx) => {
-  router.push({
-    name: "noticeDetail",
-    params: { idx },
-  });
-};
+} = useApprovalListSearchQuery(injectedValue, cPage);
 </script>
 
 <style lang="scss" scoped>

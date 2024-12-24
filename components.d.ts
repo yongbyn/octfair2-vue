@@ -8,6 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
+    AdminPostMain: typeof import('./src/components/page/Approval/AdminPostMain.vue')['default']
+    AdminPostSearch: typeof import('./src/components/page/Approval/AdminPostSearch.vue')['default']
+    ApprovalPostMain: typeof import('./src/components/page/Approval/ApprovalPostMain.vue')['default']
+    ApprovalPostSearch: typeof import('./src/components/page/Approval/ApprovalPostSearch.vue')['default']
     AsIsQnaDetailModal: typeof import('./src/components/page/Qna/AsIsQnaDetailModal.vue')['default']
     AsIsQnaMain: typeof import('./src/components/page/Qna/AsIsQnaMain.vue')['default']
     AsIsQnaSerchWrite: typeof import('./src/components/page/Qna/AsIsQnaSerchWrite.vue')['default']

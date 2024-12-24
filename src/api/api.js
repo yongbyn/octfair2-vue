@@ -10,3 +10,7 @@ export const Notice = {
 export const Post = {
   SearchPostList: "/vue/api/jobs/readPostList.do",
 };
+
+export const Approval = {
+  SearchApprovalList: "/vue/api/manage-post/readPostList.do",
+};
