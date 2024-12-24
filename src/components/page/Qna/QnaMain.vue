@@ -1,6 +1,7 @@
 <template>
   <div class="divNoticeList">
-    현재 페이지: {{ cPage }} 총 개수: {{ noticeList?.noticeCnt }}
+    현재 페이지: {{ cPage }} 총 개수: {{ qnaListData?.noticeCnt }} 현재
+    유저타입: {{ type }}
     <table>
       <colgroup>
         <col width="10%" />
@@ -20,16 +21,12 @@
       <tbody>
         <template v-if="isLoading">로딩중...</template>
         <template v-else-if="isSuccess">
-          <template v-if="noticeList.noticeCnt > 0">
-            <tr
-              v-for="notice in noticeList.notice"
-              :key="notice.noticeIdx"
-              @click="handlerDetail(notice.noticeIdx)"
-            >
-              <td>{{ notice.noticeIdx }}</td>
-              <td>{{ notice.title }}</td>
-              <td>{{ notice.createdDate.substr(0, 10) }}</td>
-              <td>{{ notice.author }}</td>
+          <template v-if="qnaListData.qnaCnt > 0">
+            <tr v-for="list in qnaListData.qna">
+              <td>{{ list.qnaIdx }}</td>
+              <td>{{ list.title }}</td>
+              <td>{{ list.createdDate.substr(0, 10) }}</td>
+              <td>{{ list.author }}</td>
             </tr>
           </template>
           <template v-else>
@@ -41,38 +38,36 @@
         <template v-else-if="isError">에러발생</template>
       </tbody>
     </table>
-    <Pagination
-      :totalItems="noticeList?.noticeCnt || 0"
+    <VueAwesomePaginate
+      :totalItems="qnaListData?.qnaCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
       v-model="cPage"
     />
   </div>
+
+  <div></div>
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useNoticeListSearchQuery } from "../../../../hook/notice/useNoticeListSearchQuery";
-import Pagination from "../../../common/Pagination.vue";
-
-const router = useRouter();
+import { useQnaListSearchQuery } from "../../../hook/qna/useQnaListSearchQuery";
+import { useUserInfo } from "../../../stores/userInfo";
 const cPage = ref(1);
-const injectedValue = inject("providedValue");
+
+const injectedValue = inject("providedQnaValue");
+const type = useUserInfo().user.userType;
+// const searchKey = ref({ Type: type });
+// injectedValue.value = { ...searchKey.value };
+
+console.log("Type : " + type);
 
 const {
-  data: noticeList,
+  data: qnaListData,
   isLoading,
   refetch,
   isSuccess,
   isError,
-} = useNoticeListSearchQuery(injectedValue, cPage);
-
-const handlerDetail = (idx) => {
-  router.push({
-    name: "noticeDetail",
-    params: { idx },
-  });
-};
+} = useQnaListSearchQuery(cPage, injectedValue, type);
 </script>
 
 <style lang="scss" scoped>
