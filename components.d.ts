@@ -8,6 +8,13 @@ export {};
 declare module 'vue' {
   export interface GlobalComponents {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
+    AdminPostMain: typeof import('./src/components/page/Approval/AdminPostMain.vue')['default']
+    AdminPostSearch: typeof import('./src/components/page/Approval/AdminPostSearch.vue')['default']
+    ApprovalPostMain: typeof import('./src/components/page/Approval/ApprovalPostMain.vue')['default']
+    ApprovalPostSearch: typeof import('./src/components/page/Approval/ApprovalPostSearch.vue')['default']
+    AsIsQnaDetailModal: typeof import('./src/components/page/Qna/AsIsQnaDetailModal.vue')['default']
+    AsIsQnaMain: typeof import('./src/components/page/Qna/AsIsQnaMain.vue')['default']
+    AsIsQnaSerchWrite: typeof import('./src/components/page/Qna/AsIsQnaSerchWrite.vue')['default']
     CommonButton: typeof import('./src/components/common/CommonButton.vue')['default']
     CommonOnOff: typeof import('./src/components/common/CommonOnOff.vue')['default']
     ContextBox: typeof import('./src/components/common/ContextBox.vue')['default']
@@ -27,6 +34,9 @@ declare module 'vue' {
     Pagination: typeof import('./src/components/common/Pagination.vue')['default']
     PostMain: typeof import('./src/components/page/Jobs/Post/PostMain.vue')['default']
     PostSearch: typeof import('./src/components/page/Jobs/Post/PostSearch.vue')['default']
+    QnaDetailModal: typeof import('./src/components/page/Qna/QnaDetailModal.vue')['default']
+    QnaMain: typeof import('./src/components/page/Qna/QnaMain.vue')['default']
+    QnaSerchWrite: typeof import('./src/components/page/Qna/QnaSerchWrite.vue')['default']
     ResumeDetail: typeof import('./src/components/page/Resume/ResumeDetail/ResumeDetail.vue')['default']
     ResumeMain: typeof import('./src/components/page/Resume/ResumeMain/ResumeMain.vue')['default']
     ResumeWrite: typeof import('./src/components/page/Resume/ResumeEdit/ResumeWrite.vue')['default']
@@ -34,6 +44,5 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SkinImage: typeof import('./src/components/layout/AddOnPack/SkinImage.vue')['default']
     SnowAni: typeof import('./src/components/layout/AddOnPack/SnowAni.vue')['default']
-    SnowSkin: typeof import('./src/components/layout/AddOnPack/SnowSkin.vue')['default']
   }
 }
