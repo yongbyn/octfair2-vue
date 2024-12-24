@@ -4,7 +4,7 @@
       <LeftManuBar></LeftManuBar>
     </li>
     <li class="content">
-      <AddOn v-if="showAddOn"></AddOn>
+      <AddOn v-if="(showAddOn = false)"></AddOn>
       <keep-alive><router-view></router-view></keep-alive>
     </li>
   </ul>
