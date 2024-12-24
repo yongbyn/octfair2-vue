@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
+import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import ResumeDetail from "../components/page/Resume/ResumeDetail/ResumeDetail.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
@@ -90,6 +91,11 @@ const routes = [
             path: "post.do",
             name: "hire-post",
             component: HirePost,
+          },
+          {
+            path: "editor.do",
+            name: "hire-post-create",
+            component: HirePostEditor,
           },
         ],
       },
