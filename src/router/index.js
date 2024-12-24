@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import ResumeDetail from "../components/page/Resume/ResumeDetail/ResumeDetail.vue";
+import ApprovalPost from "../views/Approval/ApprovalPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import HirePost from "../views/Hire/HirePost.vue";
@@ -89,6 +90,17 @@ const routes = [
             path: "post.do",
             name: "hire-post",
             component: HirePost,
+          },
+        ],
+      },
+      {
+        path: "manage-post",
+        name: "manage-post",
+        children: [
+          {
+            path: "approval.do",
+            name: "approval-post",
+            component: ApprovalPost,
           },
         ],
       },
