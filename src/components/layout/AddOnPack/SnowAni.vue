@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 // 눈송이 관련 상태 및 변수 선언
 const props = defineProps(["snowConfig"]);
@@ -58,7 +58,7 @@ const animateSnow = () => {
       context.fill();
 
       // 눈송이 이동
-      flake.x += flake.speed * 0.15;
+      flake.x += flake.speed * 5.15 * (Math.random() * 2 - 1);
       flake.y += flake.speed;
 
       // 눈송이가 화면 아래로 지나가면

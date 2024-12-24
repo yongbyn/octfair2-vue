@@ -15,5 +15,5 @@ export const useUserInfo = defineStore(
 
     return { user, setUserData };
   },
-  { persist: { storage: sessionStorage } },
+  { persist: { storage: sessionStorage } }
 );

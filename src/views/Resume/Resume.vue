@@ -1,9 +1,9 @@
 <template>
-  <ContextBox>나의 이력서 </ContextBox>
-  <ResumeWrite />
+  <ResumeNewButton />
+  <ContextBox>나의 이력서</ContextBox>
   <ResumeMain />
 </template>
 
-<script>
-const providedValue = ref();
-</script>
+<script setup></script>
+
+<style scoped></style>

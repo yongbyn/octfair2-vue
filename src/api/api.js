@@ -9,3 +9,11 @@ export const Notice = {
 export const Post = {
   SearchPostList: "/vue/api/jobs/readPostList.do",
 };
+
+export const Resume = {
+  GetResumeList: "/vue/api/apply/resumeList.do",
+  DownResumeImage: "/vue/api/apply/fileDownloadBlob.do",
+  CopyResumeDetail: "/vue/api/apply/resumeCopy.do",
+  DeleteResumeDetail: "/vue/api/apply/resumeDelete.do",
+  GetResumeNew: "/vue/api/apply/resumeNew.do",
+};

@@ -40,8 +40,8 @@
 
 <script setup>
 import axios from "axios";
-import { useModalStore } from "../../../../stores/modalState";
 import { useRouter } from "vue-router";
+import { useModalStore } from "../../../../../../stores/modalState";
 
 const router = useRouter();
 const resumeList = ref();
