@@ -49,7 +49,10 @@
   </div>
 
   <!-- 모달 -->
-  <SignUpModal v-if="modalStore.modalState" @modalClose="noticeIdx = 0" />
+  <SignUpModal
+    v-if="modalStore.modalState"
+    @modalClose="modalStore.modalState"
+  />
 </template>
 
 <script setup>
@@ -58,8 +61,8 @@ import logo from "../../../assets/logo.png";
 import { nullCheck } from "../../../common/nullCheck";
 import { useUserInfo } from "../../../stores/userInfo";
 
-import { useEnterKey } from "@/common/hook/useEnterKey";
-import { useEscKey } from "@/common/hook/useEscKey";
+import { handlerEnterKey } from "@/common/handler/handlerEnterKey";
+import { handlerEscKey } from "@/common/handler/handlerEscKey";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import SignUpModal from "./SignUpModal.vue";
@@ -71,10 +74,12 @@ const modalStore = useModalStore();
 
 const handlerLogin = async () => {
   const isNull = nullCheck([
-    { inval: loginInfo.value.lgn_Id },
+    { inval: loginInfo.value.lgn_Id, msg: "아이디 입력 좀" },
     { inval: loginInfo.value.pwd, msg: "비밀번호 입력 좀" },
   ]);
-  if (!isNull) return;
+  if (!isNull) {
+    return;
+  }
   const param = new URLSearchParams(loginInfo.value);
   const result = await userInfo.setUserData(param);
   if (result === "SUCCESS") {
@@ -84,9 +89,15 @@ const handlerLogin = async () => {
     return;
   }
 };
-// 엔터키, ESC 훅 사용
-useEnterKey(handlerLogin);
-useEscKey(() => {
+// Enter키로 로그인하기(모달창 띄우졌을때는 안되게 함)
+handlerEnterKey(() => {
+  if (!modalStore.modalState) {
+    handlerLogin();
+  }
+});
+
+// ESC키로 모달창 닫기
+handlerEscKey(() => {
   modalStore.modatState.value = false;
 });
 </script>
@@ -160,6 +171,7 @@ button {
   color: #ffffff;
 }
 .login-button {
+  width: 110%;
   background-color: #2676bf;
   color: #ffffff;
 }

@@ -1,14 +1,13 @@
-import { onMounted } from "vue";
 import { useModalStore } from "@/stores/modalState";
+import { onMounted, onUnmounted } from "vue";
 
-// ESC 눌렸을때 모달창 닫기
-export function useEscKey() {
+// ESC키로 모달창 닫기
+export function handlerEscKey() {
   const modalStore = useModalStore();
 
   const onKeyDown = (event) => {
     if (event.key === "Escape") {
       modalStore.setModalState(false);
-      console.log("모달창");
     }
   };
   onMounted(() => {
