@@ -1,7 +1,7 @@
 <template>
-  <div class="qnaListWrapper">
-    <NoticeModal />
-    <!-- {{ qnaList.qna }} -->
+  <div class="divNoticeList">
+    현재 페이지: {{ cPage }} 총 개수: {{ qnaListData?.noticeCnt }} 현재
+    유저타입: {{ type }}
     <table>
       <colgroup>
         <col width="10%" />
@@ -19,86 +19,55 @@
         </tr>
       </thead>
       <tbody>
-        <template v-if="qnaList">
-          <tr v-for="contents in qnaList.qna">
-            <td>{{ contents.qnaIdx }}</td>
-            <td>{{ contents.title }}</td>
-            <td>{{ contents.createdDate }}</td>
-            <td>{{ contents.author }}</td>
-          </tr>
-
-          <!-- <tr>
-            <td colspan="7">일치하는 검색 결과가 없습니다</td>
-          </tr> -->
-
-          <div v-for="currentPage in 10">
-            <button @click="searchList(currentPage)">
-              {{ i }}
-            </button>
-          </div>
+        <template v-if="isLoading">로딩중...</template>
+        <template v-else-if="isSuccess">
+          <template v-if="qnaListData.qnaCnt > 0">
+            <tr v-for="list in qnaListData.qna">
+              <td>{{ list.qnaIdx }}</td>
+              <td>{{ list.title }}</td>
+              <td>{{ list.createdDate.substr(0, 10) }}</td>
+              <td>{{ list.author }}</td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="7">일치하는 검색 결과가 없습니다</td>
+            </tr>
+          </template>
         </template>
+        <template v-else-if="isError">에러발생</template>
       </tbody>
     </table>
+    <VueAwesomePaginate
+      :totalItems="qnaListData?.qnaCnt || 0"
+      :items-per-page="5"
+      :max-pages-shown="5"
+      v-model="cPage"
+    />
   </div>
+
+  <div></div>
 </template>
 
 <script setup>
-import axios from "axios";
-import { useRoute } from "vue-router";
+import { useQnaListSearchQuery } from "../../../hook/qna/useQnaListSearchQuery";
 import { useUserInfo } from "../../../stores/userInfo";
-import { paginCalculation } from "../../../JavaScriptutil/pagingUtil";
+const cPage = ref(1);
 
-// const route = useRoute();
-const qnaList = ref({});
+const injectedValue = inject("providedQnaValue");
+const type = useUserInfo().user.userType;
+// const searchKey = ref({ Type: type });
+// injectedValue.value = { ...searchKey.value };
 
-const currentPage = ref(1);
+console.log("Type : " + type);
 
-// const modalState = useModalStore();
-// const noticeIdx = ref(0);
-
-// 페이지 진입시 필요한 파람 데이터 paramMap: {currentPage=1, pageSize=5, qna_type=B, requestType=all}
-const PageData = ref({
-  currentPage: 1,
-  pageSize: 5,
-  startSeq: 0,
-  qna_type: "B",
-  requestType: "all",
-});
-
-const searchList = async () => {
-  const pagingData = { ...PageData.value };
-
-  console.log("currentPage: " + PageData.value.currentPage);
-
-  await axios.post("/vue/api/board/qnaListBody.do", pagingData).then((res) => {
-    qnaList.value = { qna: res.data.qna, qnaCnt: res.data.qnaCnt };
-
-    //paging 계산 함수를 여기서 계속 호출하면 될듯
-    let totalRows = res.data.qnaCnt;
-
-    let calculObj = paginCalculation(currentPage, totalRows, 5, 10);
-
-    console.log(calculObj);
-
-    // pagingBtn.value = calculObj.totalPage;
-    // unitIndex.value = calculObj.unit_num;
-    // nextPageBtn.value = calculObj.nextPage;
-    // EndFlag.value = calculObj.endFlag;
-  });
-};
-
-// const handlerModal = (idx) => {
-//   noticeIdx.value = idx;
-//   modalState.setModalState();
-// };
-
-// watch(route, searchList);
-// // watch(modalState, searchList); // emit 대신 이거 해도 됐었음 (용빈)
-
-// 화면이 초기에 열렸을 때 실행
-onMounted(() => {
-  searchList();
-});
+const {
+  data: qnaListData,
+  isLoading,
+  refetch,
+  isSuccess,
+  isError,
+} = useQnaListSearchQuery(cPage, injectedValue, type);
 </script>
 
 <style lang="scss" scoped>
@@ -108,7 +77,7 @@ table {
   margin: 20px 0px 0px 0px;
   font-size: 18px;
   text-align: left;
-  background-color: #d3d3d3;
+
   th,
   td {
     padding: 8px;
@@ -124,7 +93,7 @@ table {
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #2676bf;
+    background-color: #d3d3d3;
     opacity: 0.9;
     cursor: pointer;
   }
