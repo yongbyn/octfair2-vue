@@ -58,7 +58,7 @@ const animateSnow = () => {
       context.fill();
 
       // 눈송이 이동
-      flake.x += flake.speed * 5.15 * (Math.random() * 2 - 1);
+      flake.x += flake.speed * 0.15;
       flake.y += flake.speed;
 
       // 눈송이가 화면 아래로 지나가면

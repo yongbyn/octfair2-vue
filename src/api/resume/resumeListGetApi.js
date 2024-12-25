@@ -1,6 +1,6 @@
 import { useUserInfo } from "@/stores/userInfo";
-import axios from "axios";
 import { Resume } from "../api";
+import axios from "axios";
 
 export const resumeListGetApi = async (cPage, itemPerPage) => {
   const userInfo = useUserInfo();

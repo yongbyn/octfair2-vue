@@ -49,69 +49,76 @@
           • 현재 재직중이면 퇴사일을 해당월로 입력해주세요.
         </p>
         <div class="career_table_list">
-          <!-- <div class="career_table_list" v-for="(item, key) in careerList" :key="key"> -->
-          <div class="career_table_input">
-            <div style="grid-area: start-date; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">입사일:</label>
-              <input style="flex: 1" placeholder="입사일" type="month"></input>
-            </div>
-            <div style="grid-area: company; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">회사명:</label>
-              <input style="flex: 1" placeholder="회사명"></input>
-            </div>
-            <div style="grid-area: dept; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">부서명:</label>
-              <input style="flex: 1" placeholder="부서명"></input>
-            </div>
-            <div style="grid-area: end-date; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">퇴사일:</label>
-              <input style="flex: 1" placeholder="퇴사일" type="month"></input>
-            </div>
-            <div style="grid-area: position; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">직급/직책:</label>
-              <input style="flex: 1" placeholder="직급/직책"></input>
-            </div>
-            <div style="grid-area: reason; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">퇴사사유:</label>
-              <input style="flex: 1" placeholder="퇴사사유"></input>
-            </div>
-            <div style="grid-area: crr-desc; display: flex; justify-content: space-between; align-items: center;">
-              <label style="text-align: left">담당업무:</label>
-              <textarea style="flex: 1" placeholder="담당업무"></textarea>
+          <div class="career_table_list" v-for="(item, key) in careerList.payload" :key="key">
+            <div class="career_table_input">
+              <div style="grid-area: start-date; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">입사일:</label>
+                <input style="flex: 1" :value="formatDateToMonth(item.startDate)" type="month" disabled></input>
+              </div>
+              <div style="grid-area: company; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">회사명:</label>
+                <input style="flex: 1" placeholder="회사명" disabled></input>
+              </div>
+              <div style="grid-area: dept; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">부서명:</label>
+                <input style="flex: 1" placeholder="부서명" disabled></input>
+              </div>
+              <div style="grid-area: end-date; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">퇴사일:</label>
+                <input style="flex: 1" placeholder="퇴사일" type="month" disabled></input>
+              </div>
+              <div style="grid-area: position; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">직급/직책:</label>
+                <input style="flex: 1" placeholder="직급/직책" disabled></input>
+              </div>
+              <div style="grid-area: reason; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">퇴사사유:</label>
+                <input style="flex: 1" placeholder="퇴사사유" disabled></input>
+              </div>
+              <div style="grid-area: crr-desc; display: flex; justify-content: space-between; align-items: center;">
+                <label style="text-align: left">담당업무:</label>
+                <textarea style="flex: 1" placeholder="담당업무" disabled></textarea>
+              </div>
+              <div style="grid-area: button; display: flex; justify-content: right; align-items: center;">
+                <CommonButton @click="">삭제</CommonButton>
+              </div>
             </div>
           </div>
-          <!-- </div> -->
         </div>
         <button @click="isAddCareer = true" style="border-radius: 5px; margin-bottom: 10px;">+ 추가</button>
         <div>
           <div class="career_table_input" v-if="isAddCareer">
             <div style="grid-area: start-date; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">입사일:</label>
-              <input style="flex: 1" placeholder="입사일" type="month"></input>
+              <input style="flex: 1" placeholder="입사일" v-model=career.startDate type="month"></input>
             </div>
             <div style="grid-area: company; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">회사명:</label>
-              <input style="flex: 1" placeholder="회사명"></input>
+              <input style="flex: 1" placeholder="회사명" v-model=career.company></input>
             </div>
             <div style="grid-area: dept; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">부서명:</label>
-              <input style="flex: 1" placeholder="부서명"></input>
+              <input style="flex: 1" placeholder="부서명" v-model=career.dept></input>
             </div>
             <div style="grid-area: end-date; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">퇴사일:</label>
-              <input style="flex: 1" placeholder="퇴사일" type="month"></input>
+              <input style="flex: 1" placeholder="퇴사일" v-model=career.endDate type="month"></input>
             </div>
             <div style="grid-area: position; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">직급/직책:</label>
-              <input style="flex: 1" placeholder="직급/직책"></input>
+              <input style="flex: 1" placeholder="직급/직책" v-model=career.position></input>
             </div>
             <div style="grid-area: reason; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">퇴사사유:</label>
-              <input style="flex: 1" placeholder="퇴사사유"></input>
+              <input style="flex: 1" placeholder="퇴사사유" v-model=career.reason></input>
             </div>
             <div style="grid-area: crr-desc; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">담당업무:</label>
-              <textarea style="flex: 1" placeholder="담당업무"></textarea>
+              <textarea style="flex: 1" placeholder="담당업무" v-model=career.crrDesc></textarea>
+            </div>
+            <div style="grid-area: button; display: flex; justify-content: right; align-items: center;">
+              <CommonButton @click="handlerSaveCareerBtn(career)">저장</CommonButton>
+              <CommonButton @click="isAddCareer = false">취소</CommonButton>
             </div>
           </div>
         </div>
@@ -147,7 +154,7 @@
         <p class="resumeDetail_guidetext">
           • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요. <br />
         </p>
-        <textarea placeholder="소개글을 입력해 주세요."></textarea>
+        <textarea placeholder="첨부파일을 입력해 주세요."></textarea>
       </div>
     </div>
     
@@ -161,21 +168,20 @@
 </template>
 
 <script setup>
-import { useResumeNewGetQuery } from "../../../../hook/resume/useResumeNewGetQuery";
 import CommonButton from "../../../common/CommonButton.vue";
+import { useResumeNewGetQuery } from "../../../../hook/resume/useResumeNewGetQuery";
+import { useCareerListGetQuery } from "../../../../hook/resume/useCareerListGetQuery";
+import { useCareerNewInsertMutation } from "../../../../hook/resume/useCareerNewInsertMutation";
 
 const isCreated = ref(false);
+const resIdx = ref("");
 const isAddCareer = ref(false);
+const career = ref({ startDate: '', company: '', dept: '', endDate: '', position: '', reason: '', crrDesc: ''})
 
-const {
-  // resIdx는 Spring-Mapper에서 useGeneratedKeys(=resIdx)로 생성후 받아져온다.
-  data: resumeNew, // useQuery(useResumeListSearchQuery) 내 callback함수 return값이 입력된다
-  isLoading,
-  isSuccess,
-  isError,
-  isStale, // 캐시유지 주기
-  refetch, // 자동갱신 주기
-} = useResumeNewGetQuery(isCreated);
+// resIdx는 Spring-Mapper에서 useGeneratedKeys(=resIdx)로 생성후 받아져온다.
+const { data: resumeNew } = useResumeNewGetQuery(isCreated, resIdx);
+const { data: careerList } = useCareerListGetQuery(resIdx);
+const { mutate: handlerSaveCareerBtn } = useCareerNewInsertMutation(resIdx);
 </script>
 
 <style lang="scss" scoped>
@@ -256,24 +262,7 @@ textarea {
   font-size: 0.9em;
 }
 
-.career_table_row {
-  border: 1px solid black;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  padding: 10px;
-  color: black;
-  font-size: 0.9em;
-
-  display: grid;
-  grid-template-areas:
-    "start-date company dept"
-    "end-date position reason"
-    "crr-desc crr-desc delete";
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto auto;
-  gap: 16px;
-}
-
+.career_table_row,
 .career_table_input {
   border: 1px solid black;
   border-radius: 10px;
@@ -284,10 +273,10 @@ textarea {
 
   display: grid;
   grid-template-areas:
-    "start-date company dept"
-    "end-date position reason"
-    "crr-desc crr-desc crr-desc";
-  grid-template-columns: 1fr 1fr 1fr;
+    "start-date company dept dept "
+    "end-date position reason reason "
+    "crr-desc crr-desc crr-desc button";
+  grid-template-columns: 4fr 4fr 3fr 1fr ;
   grid-template-rows: auto auto auto;
   gap: 16px;
 }

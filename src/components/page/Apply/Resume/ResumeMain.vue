@@ -27,7 +27,12 @@
                   <span class="file_head">첨부파일: </span>
                   <span
                     class="file_link"
-                    @click="handlerDownImageBtn(resume.resIdx, resume.fileName)"
+                    @click="
+                      handlerDownImageBtn({
+                        idx: resume.resIdx,
+                        fileName: resume.fileName,
+                      })
+                    "
                     >{{ resume.fileName }}</span
                   >
                 </div>

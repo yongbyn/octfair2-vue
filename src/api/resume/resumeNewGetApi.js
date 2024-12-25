@@ -1,8 +1,8 @@
 import { useUserInfo } from "@/stores/userInfo";
-import axios from "axios";
 import { Resume } from "../api";
+import axios from "axios";
 
-export const resumeNewGetApi = async (isCreated) => {
+export const resumeNewGetApi = async (isCreated, resIdx) => {
   const userInfo = useUserInfo();
 
   const param = {
@@ -11,7 +11,8 @@ export const resumeNewGetApi = async (isCreated) => {
     userType: userInfo.user.userType,
   };
 
-  isCreated.value = true;
   const result = await axios.post(Resume.GetResumeNew, param);
+  resIdx.value = result.data.payload.resIdx;
+  isCreated.value = true;
   return result.data;
 };

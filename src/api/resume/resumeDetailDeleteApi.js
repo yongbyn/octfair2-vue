@@ -1,7 +1,9 @@
-import axios from "axios";
 import { Resume } from "../api";
+import axios from "axios";
 
 export const resumeDetailDeleteApi = async (idx) => {
-  const result = await axios.post(Resume.DeleteResumeDetail, { resIdx: idx });
+  const param = { resIdx: idx };
+
+  const result = await axios.post(Resume.DeleteResumeDetail, param);
   return result.data;
 };

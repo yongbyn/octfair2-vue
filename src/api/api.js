@@ -13,10 +13,12 @@ export const Post = {
 
 export const Resume = {
   GetResumeList: "/vue/api/apply/resumeList.do",
-  DownResumeImage: "/vue/api/apply/fileDownloadBlob.do",
+  DownResumeImage: "/vue/api/apply/fileDownload.do",
   CopyResumeDetail: "/vue/api/apply/resumeCopy.do",
   DeleteResumeDetail: "/vue/api/apply/resumeDelete.do",
   GetResumeNew: "/vue/api/apply/resumeNew.do",
+  GetCareerList: "/vue/api/apply/careerList.do",
+  InsertCareerNew: "/vue/api/apply/insertCareer.do",
 };
 
 export const Approval = {
