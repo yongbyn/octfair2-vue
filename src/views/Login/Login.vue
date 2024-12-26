@@ -1,10 +1,10 @@
 <template>
-    <component :is="LoginMain"></component>
+  <component :is="LoginMain"></component>
 </template>
 
 <script setup>
-import LoginMain from '../../components/page/Login/LoginMain.vue';
+import LoginMain from "../../components/page/Login/LoginMain.vue";
 
 const providedValue = ref();
-provide('providedValue', providedValue);
+provide("providedValue", providedValue);
 </script>

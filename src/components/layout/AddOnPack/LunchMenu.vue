@@ -6,7 +6,12 @@
       alt="로딩 이미지"
       class="styled-image"
     />
-    <img v-else-if="imageUrl === 'error'" src="../../../assets/noImage.jpg" alt="빈 이미지" class="styled-image" />
+    <img
+      v-else-if="imageUrl === 'error'"
+      src="../../../assets/noImage.jpg"
+      alt="빈 이미지"
+      class="styled-image"
+    />
     <img v-else :src="imageUrl" alt="오늘의 메뉴" class="styled-image" />
   </div>
 </template>

@@ -6,6 +6,6 @@ export const Notice = {
   DeleteNoticeDetail: "/vue/api/board/noticeDeleteBody.do",
 };
 
-export const Register = {
-  Register: "/api/login/register.do",
+export const Faq = {
+  SearchFaqList: "/vue/api/board/faqListJson.do",
 };
