@@ -6,19 +6,19 @@
       <table>
         <tr>
           <th>제목</th>
-          <td v-model="detailValue.title"></td>
+          <td>{{ detailValue.title }}</td>
         </tr>
         <tr>
           <th>작성자</th>
-          <td v-model="detailValue.author"></td>
+          <td>{{ detailValue.author }}</td>
         </tr>
         <tr>
           <th>작성일</th>
-          <td v-model="detailValue.created_date"></td>
+          <td>{{ detailValue.created_date }}</td>
         </tr>
         <tr>
           <th>내용</th>
-          <td v-model="detailValue.content"></td>
+          <td>{{ detailValue.content }}</td>
         </tr>
       </table>
 
@@ -38,11 +38,11 @@
 <script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
-import { useUserInfo } from "../../../../stores/userInfo";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
 import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
 import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
 import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
+import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
 const detailValue = ref({});

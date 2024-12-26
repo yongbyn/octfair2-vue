@@ -1,11 +1,11 @@
 <template>
-  <a href="">
-    <img :src="logo" alt="happyjob" />
-  </a>
+  <div>
+    <img :src="logo" alt="happyjob" @click="router.push({ name: 'vue' })" />
+  </div>
   <div class="logo-box">
     <img :src="vue_logo" alt="logoImage" />
     <div class="user-info">
-      <div></div>
+      <div class="login-id">{{ userInfo.user.loginId }}</div>
       <button @click="handlerLogout">로그아웃</button>
     </div>
   </div>
@@ -35,12 +35,13 @@
       </div>
     </li>
   </ul>
+  <AddOn />
 </template>
 
 <script setup>
-import { useUserInfo } from "@/stores/userInfo";
 import logo from "../../assets/logo.png";
 import vue_logo from "../../assets/vue_logo.png";
+import { useUserInfo } from "../../stores/userInfo";
 
 const userInfo = useUserInfo();
 const router = useRouter();
@@ -82,6 +83,10 @@ const handlerLogout = () => {
 </script>
 
 <style lang="scss" scoped>
+.login-id {
+  color: #ddd;
+  font-weight: bold;
+}
 a {
   cursor: pointer;
 }

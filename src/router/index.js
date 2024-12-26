@@ -58,13 +58,13 @@ const routes = [
           },
           {
             path: "faq.do",
-            name: "FAQ",
+            name: "faq",
             component: FAQ,
           },
 
           {
-            path: "FAQInsert.do/insert",
-            name: "FAQ",
+            path: "faqSavePart.do",
+            name: "faqInsert",
             component: FAQDetailModal,
           },
         ],

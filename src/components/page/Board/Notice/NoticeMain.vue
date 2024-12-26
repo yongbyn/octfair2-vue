@@ -52,8 +52,8 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import Pagination from "../../../common/Pagination.vue";
 import { useNoticeListSearchQuery } from "../../../../hook/notice/useNoticeListSearchQuery";
+import Pagination from "../../../common/Pagination.vue";
 
 const router = useRouter();
 const cPage = ref(1);

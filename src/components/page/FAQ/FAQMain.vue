@@ -1,7 +1,6 @@
 <template>
   <div class="divFAQList">
-    현재 페이지:{{ cPage }} 총 개수:{{ faqList?.faqCnt }} 유저타입:
-    {{ userType }}
+    현재 페이지:{{ cPage }} 총 개수:{{ faqList?.faqCnt }} 유저타입: {{ type }}
     <table>
       <colgroup>
         <col width="10%" />
@@ -60,15 +59,15 @@ import { useUserInfo } from "../../../stores/userInfo";
 import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
-const injectedValue = inject("providedFaqValue");
-const userType = useUserInfo().user.userType;
+const injectedValue = inject("providedValue");
+const type = useUserInfo().user.userType;
 const router = useRouter();
 const {
   data: faqList,
   isLoading,
   isSuccess,
   isError,
-} = useFAQListQuery(injectedValue, cPage, userType);
+} = useFAQListQuery(injectedValue, cPage, type);
 
 const faqDetail = (faq_idx) => {
   router.push({

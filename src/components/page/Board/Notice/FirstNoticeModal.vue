@@ -39,9 +39,9 @@
 
 <script setup>
 import axios from "axios";
+import { onMounted, onUnmounted } from "vue";
 import { useModalStore } from "../../../../stores/modalState";
 import { useUserInfo } from "../../../../stores/userInfo";
-import { onMounted, onUnmounted } from "vue";
 
 const emit = defineEmits(["postSuccess", "modalClose"]);
 const props = defineProps(["idx"]);
@@ -56,7 +56,7 @@ const handlerModal = () => {
   modalState.setModalState();
 };
 
-const handlerSaveBtn = () => {
+const handlerSaveBtn = async () => {
   const textData = {
     ...noticeDetail.value,
     loginId: userInfo.user.loginId,
@@ -74,7 +74,7 @@ const handlerSaveBtn = () => {
     }),
   );
 
-  axios.post("/api/board/noticeSaveFileForm.do", formData).then((res) => {
+  await axios.post("/api/board/noticeSaveFileForm.do", formData).then((res) => {
     if (res.data.result === "success") {
       modalState.setModalState();
       emit("postSuccess");
