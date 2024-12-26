@@ -30,6 +30,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/prx/, ""),
       },
+      "/serverfile": {
+        target: "http://localhost:80",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/serverfile/, "/serverfile"),
+      },
     },
   },
 });

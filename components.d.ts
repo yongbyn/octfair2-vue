@@ -15,6 +15,7 @@ declare module 'vue' {
     AsIsQnaSerchWrite: typeof import('./src/components/page/Qna/AsIsQnaSerchWrite.vue')['default']
     CommonButton: typeof import('./src/components/common/CommonButton.vue')['default']
     CommonOnOff: typeof import('./src/components/common/CommonOnOff.vue')['default']
+    CompanyDetail: typeof import('./src/components/page/Company/CompanyDetail.vue')['default']
     ContextBox: typeof import('./src/components/common/ContextBox.vue')['default']
     FirstNoticeMain: typeof import('./src/components/page/Board/Notice/FirstNoticeMain.vue')['default']
     FirstNoticeModal: typeof import('./src/components/page/Board/Notice/FirstNoticeModal.vue')['default']
