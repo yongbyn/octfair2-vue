@@ -1,16 +1,16 @@
 export const Notice = {
-  SearchNoticeList: "/vue/api/board/noticeListJson.do",
-  SearchNoticeDetail: "/vue/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/vue/api/board/noticeUpdateBody.do",
-  InsertNoticeDetail: "/vue/api/board/noticeSaveBody.do",
-  DeleteNoticeDetail: "/vue/api/board/noticeDeleteBody.do",
-  SearchQnaBoardList: "/vue/api/board/qnaListBody.do",
+  SearchNoticeList: "/prx/api/board/noticeListJson.do",
+  SearchNoticeDetail: "/prx/api/board/noticeDetailBody.do",
+  UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
+  InsertNoticeDetail: "/prx/api/board/noticeSaveBody.do",
+  DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
+  SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
 };
 
 export const Post = {
-  SearchPostList: "/vue/api/jobs/readPostList.do",
+  SearchPostList: "/prx/api/jobs/readPostList.do",
 };
 
 export const Approval = {
-  SearchApprovalList: "/vue/api/manage-post/readPostList.do",
+  SearchApprovalList: "/prx/api/manage-post/readPostList.do",
 };

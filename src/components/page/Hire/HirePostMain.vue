@@ -74,7 +74,7 @@ const searchList = () => {
     pageSize: 5,
   });
 
-  axios.post("/vue/api/manage-hire/post-list.do", param).then((res) => {
+  axios.post("/prx/api/manage-hire/post-list.do", param).then((res) => {
     hirePostList.value = res.data;
   });
 };
