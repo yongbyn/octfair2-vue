@@ -5,30 +5,38 @@
       <ContextBox>FAQ</ContextBox>
       <table>
         <tr>
-          <th>제목</th>
-          <td>{{ detailValue.title }}</td>
+          <th>제목:</th>
+          <td>
+            <input type="text" v-model="detailValue.title" />
+          </td>
         </tr>
         <tr>
-          <th>작성자</th>
-          <td>{{ detailValue.author }}</td>
+          <th>작성자:</th>
+          <td>
+            <input type="text" v-model="detailValue.author" />
+          </td>
         </tr>
         <tr>
-          <th>작성일</th>
-          <td>{{ detailValue.created_date }}</td>
+          <th>작성일:</th>
+          <td>
+            <input type="text" v-model="detailValue.created_date" />
+          </td>
         </tr>
         <tr>
           <th>내용</th>
-          <td>{{ detailValue.content }}</td>
+          <td>
+            <input type="text" v-model="detailValue.content" />
+          </td>
         </tr>
       </table>
 
       <div class="button-box">
-        <button
+        <!-- <button
           @click="params.faq_idx ? handlerUpdateBtn() : handlerInsertBtn()"
         >
           {{ params.faq_idx ? "수정" : "등록" }}
-        </button>
-        <button v-if="params.faq_idx" @click="handlerDeleteBtn">삭제</button>
+        </button> -->
+        <button @click="handlerInsertBtn">등록</button>
         <button @click="$router.go(-1)">뒤로가기</button>
       </div>
     </div>
@@ -36,7 +44,6 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
 import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
@@ -66,12 +73,11 @@ const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
   userInfo.user.loginId
 );
-
-const deleteFAQDetail = async () => {
-  await axios.post("/api/board/faqDeleteBody.do", { faqSeq: params.faq_idx });
-};
-
 const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
+
+/* const deleteFAQDetail = async () => {
+  await axios.post("/api/board/faqDeleteBody.do", { faqSeq: params.faq_idx });
+}; */
 </script>
 
 <style lang="scss" scoped>

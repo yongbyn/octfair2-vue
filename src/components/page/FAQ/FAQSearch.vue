@@ -27,7 +27,7 @@ const FAQSearch = () => {
 
 const FAQInsert = () => {
   queryClient.removeQueries({ queryKey: ["FAQDetailModal"] });
-  router.push("faq.do/insert");
+  router.push("faqSavePart.do");
 };
 </script>
 
