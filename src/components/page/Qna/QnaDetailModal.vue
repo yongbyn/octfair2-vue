@@ -104,7 +104,7 @@ const qnaApplication = async () => {
     })
   );
 
-  await axios.post("/vue/api/board/qnaSaveFileForm.do", formData);
+  await axios.post("/prx/api/board/qnaSaveFileForm.do", formData);
 };
 </script>
 
