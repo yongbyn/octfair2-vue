@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { resumeDetailDeleteApi } from "../../api/resume/resumeDetailDeleteApi";
+import { resumeOneDeleteApi } from "../../api/resume/resumeOneDeleteApi";
 
-export const useResumeDetailDeleteMutation = () => {
+export const useResumeOneDeleteMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["resumeDelete"],
-    mutationFn: (idx) => resumeDetailDeleteApi(idx),
+    mutationFn: (idx) => resumeOneDeleteApi(idx),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["resumeList"],

@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { careerNewInsertApi } from "../../api/resume/careerNewInsertApi";
+import { careerNewCreateApi } from "../../../api/resume/career/careerNewCreateApi";
 
-export const useCareerNewInsertMutation = (resIdx) => {
+export const useCareerNewCreateMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["careerInsert"],
-    mutationFn: (career) => careerNewInsertApi(career, resIdx),
+    mutationKey: ["careerCreate"],
+    mutationFn: ({ resIdx, career }) => careerNewCreateApi(resIdx, career),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["careerList"],

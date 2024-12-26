@@ -1,9 +1,9 @@
 import { Resume } from "../api";
 import axios from "axios";
 
-export const resumeDetailCopyApi = async (idx) => {
+export const resumeOneDeleteApi = async (idx) => {
   const param = { resIdx: idx };
 
-  const result = await axios.post(Resume.CopyResumeDetail, param);
+  const result = await axios.post(Resume.DeleteResumeOne, param);
   return result.data;
 };

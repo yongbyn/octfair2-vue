@@ -73,10 +73,10 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import { useResumeDetailCopyMutation } from "../../../../hook/resume/useResumeDetailCopyMutation";
-import { useResumeDetailDeleteMutation } from "../../../../hook/resume/useResumeDetailDeleteMutation";
 import { useResumeImageDownMutation } from "../../../../hook/resume/useResumeImageDownMutation";
-import { useResumeListGetQuery } from "../../../../hook/resume/useResumeListGetQuery";
+import { useResumeListReadQuery } from "../../../../hook/resume/useResumeListReadQuery";
+import { useResumeOneCopyMutation } from "../../../../hook/resume/useResumeOneCopyMutation";
+import { useResumeOneDeleteMutation } from "../../../../hook/resume/useResumeOneDeleteMutation";
 
 const router = useRouter();
 const itemPerPage = ref(12);
@@ -103,10 +103,10 @@ const {
   isError,
   isStale, // 캐시유지 주기
   refetch, // 자동갱신 주기
-} = useResumeListGetQuery(cPage, itemPerPage);
+} = useResumeListReadQuery(cPage, itemPerPage);
 const { mutate: handlerDownImageBtn } = useResumeImageDownMutation();
-const { mutate: handlerCopyResumeBtn } = useResumeDetailCopyMutation();
-const { mutate: handlerDeleteResumeBtn } = useResumeDetailDeleteMutation();
+const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
+const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
 </script>
 
 <style lang="scss" scoped>
