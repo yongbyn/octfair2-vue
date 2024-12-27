@@ -352,9 +352,9 @@
           </template>
           <template v-if="fileData">
             <label>파일명: {{ fileData.name }}</label>
-            <img :src="resume.logicalPath" />
             <CommonButton @click="fileData=null">파일 삭제</CommonButton>
           </template>
+          <img :src="resume.logicalPath" style="width: 80%"/>
         </div>
       </div>
     </div>

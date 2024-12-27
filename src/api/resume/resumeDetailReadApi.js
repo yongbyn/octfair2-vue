@@ -11,7 +11,7 @@ export const resumeDetailReadApi = async (resIdx, resume) => {
     resume.value.shortIntro = result.data.payload.shortIntro;
     resume.value.pfoLink = result.data.payload.proLink; // Spring Mapper 오타
     resume.value.perStatement = result.data.payload.perStatement;
-    resume.value.logicalPath = "/prx" + result.data.payload.logicalPath;
+    resume.value.logicalPath = result.data.payload.logicalPath;
   }
   return result.data;
 };
