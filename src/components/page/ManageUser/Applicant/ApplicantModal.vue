@@ -203,6 +203,8 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 caption {
+  display: table-caption;
+  caption-side: top;
   font-size: 25px;
   font-weight: bold;
 }
