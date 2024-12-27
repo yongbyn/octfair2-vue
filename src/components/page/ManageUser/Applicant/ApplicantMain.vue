@@ -87,7 +87,6 @@ const searchList = async () => {
     .post("/prx/api/manage-user/applicantListBody.do", requestBody)
     .then((res) => {
       applicantList.value = res.data;
-      console.log(res.data);
     });
 };
 
