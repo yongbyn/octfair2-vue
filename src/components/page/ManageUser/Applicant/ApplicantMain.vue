@@ -58,7 +58,7 @@
       :totalItems="applicantList?.applicantCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
-      :onClick="applicantList"
+      :onClick="searchList"
       v-model="cPage"
     />
   </div>
