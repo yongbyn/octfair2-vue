@@ -8,7 +8,7 @@ export const useUserInfo = defineStore(
     const user = ref();
     async function setUserData(loginInfo) {
       const param = new URLSearchParams(loginInfo);
-      const result = await axios.post("/vue/loginProc.do", param);
+      const result = await axios.post("/prx/loginProc.do", param);
       user.value = result.data;
       return result.data.result;
     }

@@ -115,7 +115,7 @@ const perStatement = ref(null);
 const resumeStore = useResumeStore();
 
 const searchDetail = (resIdx) => {
-  axios.post("/vue/api/apply/resumeDetail.do", { resIdx }).then((res) => {
+  axios.post("/prx/api/apply/resumeDetail.do", { resIdx }).then((res) => {
     resumeDetail.value = res.data.payload;
   });
 };

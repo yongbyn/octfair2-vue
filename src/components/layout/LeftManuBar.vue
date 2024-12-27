@@ -5,7 +5,7 @@
   <div class="logo-box">
     <img :src="vue_logo" alt="logoImage" />
     <div class="user-info">
-      <div></div>
+      <div class="login-id">{{ userInfo.user.loginId }}</div>
       <button @click="handlerLogout">로그아웃</button>
     </div>
   </div>
@@ -39,9 +39,9 @@
 </template>
 
 <script setup>
-import { useUserInfo } from "@/stores/userInfo";
 import logo from "../../assets/logo.png";
 import vue_logo from "../../assets/vue_logo.png";
+import { useUserInfo } from "../../stores/userInfo";
 
 const userInfo = useUserInfo();
 const router = useRouter();
@@ -83,6 +83,10 @@ const handlerLogout = () => {
 </script>
 
 <style lang="scss" scoped>
+.login-id {
+  color: #ddd;
+  font-weight: bold;
+}
 a {
   cursor: pointer;
 }
