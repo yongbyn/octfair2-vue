@@ -1,5 +1,11 @@
 <template>
   <div class="form-container">
+    <ApplicantModal
+      v-if="modalState.modalState"
+      @postSuccess="searchList"
+      @modalClose="() => (userLoginId = '')"
+      :loginId="userLoginId"
+    />
     <table class="form-table">
       <colgroup>
         <col width="10%" />
@@ -31,7 +37,18 @@
               <td>{{ applicant.name }}</td>
               <td>{{ applicant.email }}</td>
               <td>{{ applicant.regdate }}</td>
-              <td><button>정보수정</button></td>
+              <td>
+                <button @click="handlerUpdateModal(applicant.loginId)">
+                  정보수정
+                </button>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="7" class="not-info">
+                일치하는 검색 결과가 없습니다.
+              </td>
             </tr>
           </template>
         </template>
@@ -57,7 +74,7 @@ const route = useRoute();
 const applicantList = ref();
 const cPage = ref(1);
 const modalState = useModalStore();
-const applicantIdx = ref(0);
+const userLoginId = ref("");
 
 const searchList = async () => {
   const requestBody = {
@@ -69,10 +86,17 @@ const searchList = async () => {
   await axios
     .post("/prx/api/manage-user/applicantListBody.do", requestBody)
     .then((res) => {
-      console.log(res.data.applicant);
       applicantList.value = res.data;
+      console.log(res.data);
     });
 };
+
+const handlerUpdateModal = (loginId) => {
+  userLoginId.value = loginId;
+  modalState.setModalState();
+};
+
+watch(route, searchList);
 
 onMounted(() => {
   searchList();
@@ -100,6 +124,11 @@ table {
     color: #ddd;
   }
 }
+
+.not-info {
+  font-size: 36px;
+}
+
 button {
   padding: 6px 12px;
   margin: 5px;
