@@ -1,3 +1,4 @@
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { BootstrapVue3 } from "bootstrap-vue-3";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -8,6 +9,8 @@ import { VueQueryPlugin } from "@tanstack/vue-query";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import VueAwesomePaginate from "vue-awesome-paginate";
 import App from "./App.vue";
+import "./assets/fonts/pretendard.css";
+import "./assets/styles/global.css";
 import router from "./router";
 
 const app = createApp(App);
