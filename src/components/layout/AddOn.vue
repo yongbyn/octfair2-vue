@@ -36,12 +36,12 @@
 대신 v-show 사용 */
 
 <script setup>
-import { reactive, watch, watchEffect } from "vue";
+import { reactive, watch } from "vue";
 import CommonOnOff from "../common/CommonOnOff.vue";
-import SnowAni from "./AddOnPack/SnowAni.vue";
-import SkinImage from "./AddOnPack/SkinImage.vue";
-import MusicBox from "./AddOnPack/MusicBox.vue";
 import LunchMenu from "./AddOnPack/LunchMenu.vue";
+import MusicBox from "./AddOnPack/MusicBox.vue";
+import SkinImage from "./AddOnPack/SkinImage.vue";
+import SnowAni from "./AddOnPack/SnowAni.vue";
 
 const items = reactive({
   snow: {
@@ -87,6 +87,7 @@ const musicUrlList = [
   "https://www.youtube.com/watch?v=tEm9EyEPMYM",
   "https://www.youtube.com/watch?v=a_80o2lDYec",
   "https://www.youtube.com/watch?v=EvWo0xDpQGU",
+  "https://www.youtube.com/watch?v=6o_6PmjkoCM",
 ];
 const musicUrl = ref("");
 const lunchUrl = ref("https://pf.kakao.com/_QLvRn"); // 이츠푸드='https://pf.kakao.com/_QLvRn', 벽산더이룸푸드='https://pf.kakao.com/_xdLzxgG'

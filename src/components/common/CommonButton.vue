@@ -24,7 +24,7 @@ button {
   &:hover {
     background-color: #45a049;
     border-color: #646cff;
-    filter: drop-shadow(0 0 2em #5d00ffaa);
+    filter: drop-shadow(0 0 2em #00ff33aa);
   }
 
   &:active {
