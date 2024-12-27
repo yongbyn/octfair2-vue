@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/vue-query";
 import { signUpIdCheckApi } from "../../api/login/signUpIdCheckApi";
 
-export const useSignUpIdCheck = (userId, isChecked) => {
+export const useSignUpIdCheck = (signUpValid, isIdCheck) => {
   return useMutation({
-    mutationFn: () => signUpIdCheckApi(userId, isChecked),
+    mutationFn: () => signUpIdCheckApi(signUpValid, isIdCheck),
   });
 };
