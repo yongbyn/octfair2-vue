@@ -3,10 +3,10 @@
   <div>
     <br />
 
-    <div class="sero_wrapper" v-if="resumeNew?.result">
+    <div class="sero_wrapper" v-if="resumeNew?.payload">
       <div class="garo_wrapper">
         <label class="title-input">제목: </label>
-        <input type="text" v-model="resumeNew.payload.resTitle" />
+        <input type="text" v-model="resume.resTitle" />
       </div>
       <div class="garo_wrapper">
         <label class="readonly-input">이름: </label>
@@ -344,19 +344,27 @@
     <div class="sero_wrapper">
       <div class="resumeDetail_header">첨부파일</div>
       <div class="resumeDetail_border" />
-      <div class="sero_wrapper">
+      <div class="sero_wrapper" style="justify-content: space-between;">
         <p class="resumeDetail_guidetext">
           • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요. <br />
         </p>
-        <label htmlFor="fileInput" style="flex: 0 0 30px">파일 첨부</label>
-        <input id="fileInput" type="file" @change="handlerSelectFileBtn()" style="margin-bottom: 20px; border: 0px;"></input>
+        <div>
+          <template v-if="!fileData">
+            <label htmlFor="fileInput" style="flex: 0 0 30px">파일 첨부</label>
+            <input id="fileInput" type="file" @change="handlerSelectFileBtn" style="margin-bottom: 20px; border: 0px;"></input>
+          </template>
+          <template v-else="fileData">
+            <label>파일명: {{ fileData.name }}</label>
+            <CommonButton @click="fileData=null">파일 삭제</CommonButton>
+          </template>
+        </div>
       </div>
     </div>
     
     <div class="resumeDetail_endLine"/>
     <div class="resumeDetail_endButtons">
       <CommonButton @click="$router.go(-1)">목록으로</CommonButton>
-      <CommonButton @click="handlerUpdateResumeBtn({ resIdx: resumeNew.payload.resIdx, resTitle: resumeNew.payload.resTitle, resume: resume })">저장하기</CommonButton>
+      <CommonButton @click="{handlerUpdateResumeBtn({ resIdx: resumeNew.payload.resIdx, resume: resume }); $router.go(-1)}">저장하기</CommonButton>
       <CommonButton>미리보기</CommonButton>
     </div>
   </div>
@@ -395,10 +403,10 @@ const isAddCareer = ref(false);
 const isAddEdu = ref(false);
 const isAddSkill = ref(false);
 const isAddCert = ref(false);
-const fileData = ref("");
+const fileData = ref(null);
 
 // resIdx는 Spring-Mapper에서 useGeneratedKeys(=resIdx)로 생성후 받아져온다.
-const { data: resumeNew } = useResumeNewCreateQuery(resIdx);
+const { data: resumeNew } = useResumeNewCreateQuery(resIdx, resume);
 const { mutate: handlerSelectFileBtn } = useResumeFileSelectMutation(fileData);
 const { mutate: handlerUpdateResumeBtn } = useResumeNewUpdateMutation(fileData);
 const { data: careerList } = useCareerListReadQuery(resIdx);

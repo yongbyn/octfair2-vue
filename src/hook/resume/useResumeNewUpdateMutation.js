@@ -6,8 +6,8 @@ export const useResumeNewUpdateMutation = (fileData) => {
 
   return useMutation({
     mutationKey: ["resumeUpdate"],
-    mutationFn: ({ resIdx, resTitle, resume }) =>
-      resumeNewUpdateApi(resIdx, resTitle, resume, fileData),
+    mutationFn: ({ resIdx, resume }) =>
+      resumeNewUpdateApi(resIdx, resume, fileData),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["resumeList"],
