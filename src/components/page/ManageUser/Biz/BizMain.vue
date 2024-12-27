@@ -1,44 +1,41 @@
 <template>
   <div class="form-container">
-    <ApplicantModal
+    <BizModal
       v-if="modalState.modalState"
       @postSuccess="searchList"
-      @modalClose="() => (userLoginId = '')"
-      :loginId="userLoginId"
+      @modalClose="() => (bizIdx = 0)"
+      :idx="bizIdx"
     />
     <table class="form-table">
       <colgroup>
         <col width="10%" />
         <col width="15%" />
+        <col width="15%" />
         <col width="20%" />
-        <col width="20%" />
-        <col width="20%" />
+        <col width="25%" />
         <col width="15%" />
       </colgroup>
       <thead>
         <tr>
-          <th>회원번호</th>
-          <th>회원ID</th>
-          <th>회원명</th>
-          <th>이메일</th>
-          <th>회원가입날짜</th>
+          <th>사업자번호</th>
+          <th>사업자명</th>
+          <th>대표자</th>
+          <th>연락처</th>
+          <th>홈페이지</th>
           <th>관리</th>
         </tr>
       </thead>
       <tbody>
-        <template v-if="applicantList">
-          <template v-if="applicantList.applicantCnt > 0">
-            <tr
-              v-for="applicant in applicantList.applicant"
-              :key="applicant.userIdx"
-            >
-              <td>{{ applicant.userIdx }}</td>
-              <td>{{ applicant.loginId }}</td>
-              <td>{{ applicant.name }}</td>
-              <td>{{ applicant.email }}</td>
-              <td>{{ applicant.regdate }}</td>
+        <template v-if="bizList">
+          <template v-if="bizList.bizCnt > 0">
+            <tr v-for="biz in bizList.biz" :key="biz.userIdx">
+              <td>{{ biz.bizIdx }}</td>
+              <td>{{ biz.bizName }}</td>
+              <td>{{ biz.bizCeoName }}</td>
+              <td>{{ biz.bizContact }}</td>
+              <td>{{ biz.bizWebUrl }}</td>
               <td>
-                <button @click="handlerUpdateModal(applicant.loginId)">
+                <button @click="handlerUpdateModal(biz.bizIdx)">
                   정보수정
                 </button>
               </td>
@@ -55,7 +52,7 @@
       </tbody>
     </table>
     <Pagination
-      :totalItems="applicantList?.applicantCnt || 0"
+      :totalItems="bizList?.bizCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
       :onClick="searchList"
@@ -71,10 +68,10 @@ import { useRoute } from "vue-router";
 import { useModalStore } from "../../../../stores/modalState";
 
 const route = useRoute();
-const applicantList = ref();
+const bizList = ref();
 const cPage = ref(1);
 const modalState = useModalStore();
-const userLoginId = ref("");
+const bizIdx = ref("");
 
 const searchList = async () => {
   const requestBody = {
@@ -84,14 +81,14 @@ const searchList = async () => {
   };
 
   await axios
-    .post("/prx/api/manage-user/applicantListBody.do", requestBody)
+    .post("/prx/api/manage-user/bizList.do", requestBody)
     .then((res) => {
-      applicantList.value = res.data;
+      bizList.value = res.data;
     });
 };
 
-const handlerUpdateModal = (loginId) => {
-  userLoginId.value = loginId;
+const handlerUpdateModal = (idx) => {
+  bizIdx.value = idx;
   modalState.setModalState();
 };
 

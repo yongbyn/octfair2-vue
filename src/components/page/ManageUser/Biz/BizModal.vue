@@ -4,7 +4,7 @@
       <div class="container">
         <table class="form-table">
           <caption>
-            개인회원정보
+            기업회원정보
           </caption>
           <colgroup>
             <col with="25%" />
@@ -14,116 +14,105 @@
           </colgroup>
           <tbody>
             <tr>
-              <th>유저타입</th>
-              <td colspan="3">
-                <select v-model="applicantDetail.userType">
-                  <option selected disabled>선택</option>
-                  <option value="A">개인회원</option>
-                  <option value="B">기업회원</option>
-                </select>
-              </td>
-            </tr>
-
-            <tr>
-              <th>아이디</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="applicantDetail.loginId"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>비밀번호</th>
-              <td colspan="3">
-                <button @click="handlerPasswordReset">초기화</button>
-              </td>
-            </tr>
-            <tr>
-              <th>이름</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="applicantDetail.name"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>성별</th>
-              <td colspan="3">
-                <select v-model="applicantDetail.sex">
-                  <option selected disabled>선택</option>
-                  <option value="1">남자</option>
-                  <option value="2">여자</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>생년월일</th>
-              <td colspan="3">
-                <input
-                  type="date"
-                  id="birthday"
-                  v-model="applicantDetail.birthday"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>전화번호</th>
-              <td colspan="3">
-                <input type="text" id="phone" v-model="applicantDetail.phone" />
-              </td>
-            </tr>
-            <tr>
-              <th>가입일자</th>
+              <th>사업자번호</th>
               <td colspan="3">
                 <input
                   disabled
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizIdx"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>사업자명</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizName"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>대표자</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizCeoName"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>사원수</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizEmpCount"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>매출액</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizRevenue"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>연락처</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizContact"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>사업자 주소</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="input-text"
+                  v-model="bizDetail.bizAddr"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>홈페이지 주소</th>
+              <td colspan="3">
+                <input
+                  type="url"
+                  class="input-text"
+                  v-model="bizDetail.bizWebUrl"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>설립일</th>
+              <td colspan="3">
+                <input
                   type="date"
-                  id="birthday"
-                  v-model="applicantDetail.birthday"
+                  class="input-text"
+                  v-model="bizDetail.bizFoundDate"
                 />
               </td>
             </tr>
             <tr>
-              <th>활성화</th>
-              <td colspan="3">
-                <select v-model="applicantDetail.statusYn">
-                  <option selected disabled>선택</option>
-                  <option value="1">활성</option>
-                  <option value="2">비활성</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>우편번호</th>
-              <td colspan="2">
-                <input
-                  type="text"
-                  id="zip-code"
-                  v-model="applicantDetail.zipCode"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>주소</th>
+              <th>회사 소개</th>
               <td colspan="3">
                 <input
                   type="text"
-                  id="address"
-                  v-model="applicantDetail.address"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>상세주소</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  id="address"
-                  v-model="applicantDetail.detailAddress"
+                  id="biz-intro"
+                  class="input-text"
+                  v-model="bizDetail.bizIntro"
+                  rows="1"
                 />
               </td>
             </tr>
@@ -143,43 +132,28 @@ import axios from "axios";
 import { useModalStore } from "../../../../stores/modalState";
 
 const emit = defineEmits(["postSuccess", "modalClose"]);
-const props = defineProps(["loginId"]);
+const props = defineProps(["idx"]);
 
 const modalState = useModalStore();
-const applicantDetail = ref({});
+const bizDetail = ref({});
 
 const searchDetail = async () => {
   await axios
-    .post("/prx/api/manage-user/applicantManageDetail.do", {
-      loginId: props.loginId,
+    .post("/prx/api/manage-user/bizManageDetail.do", {
+      bizIdx: props.idx,
     })
     .then((res) => {
-      applicantDetail.value = res.data.detail;
+      bizDetail.value = res.data.detail;
     });
-};
-
-const handlerPasswordReset = () => {
-  if (confirm("정말 초기화하시겠습니까?")) {
-    axios
-      .post("/prx/api/manage-user/applicantPwReset.do", {
-        loginId: props.loginId,
-      })
-      .then((res) => {
-        alert("비밀번호가 1234 로 초기화되었습니다.");
-        handlerModal();
-      });
-  } else {
-    return false;
-  }
 };
 
 const handlerUpdate = () => {
   const requestBody = {
-    ...applicantDetail.value,
-    loginId: props.loginId,
+    ...bizDetail.value,
+    bizIdx: props.idx,
   };
   axios
-    .post("/prx/api/manage-user/applicantInfoUpdate.do", requestBody)
+    .post("/prx/api/manage-user/bizInfoUpdate.do", requestBody)
     .then((res) => {
       if (res.data.result == "success") {
         alert("수정이 완료되었습니다.");
@@ -337,5 +311,13 @@ table {
     box-shadow: 0 2px #666;
     transform: translateY(2px);
   }
+}
+
+#biz-intro {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  line-height: 1.5; /* 줄 간격 설정 */
 }
 </style>
