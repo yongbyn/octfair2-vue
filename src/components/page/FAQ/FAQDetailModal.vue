@@ -1,8 +1,59 @@
 <template>
   <div>
+    <ContextBox>FAQ 등록</ContextBox>
+  </div>
+  <div class="board-detail">
+    <div class="board-contents">
+      <input
+        type="text"
+        v-model="detailValue.title"
+        class="w3-input w3-border"
+        placeholder="제목을 입력해주세요."
+      />
+      <input
+        type="text"
+        v-model="detailValue.author"
+        class="w3-input w3-border"
+        placeholder="작성자를 입력해주세요."
+        v-if="idx === undefined"
+      />
+    </div>
+    <div class="board-contents">
+      <textarea
+        id=""
+        cols="30"
+        rows="10"
+        v-model="detailValue.content"
+        class="w3-input w3-border"
+        style="resize: none"
+      >
+      </textarea>
+    </div>
+    <div class="common-buttons">
+      <button
+        type="button"
+        class="w3-button w3-round w3-blue-gray"
+        v-on:click="handlerInsertBtn"
+      >
+        등록</button
+      >&nbsp;
+      <button
+        type="button"
+        class="w3-button w3-round w3-gray"
+        v-on:click="handlerListBtn"
+      >
+        목록
+      </button>
+    </div>
+  </div>
+</template>
+
+<!-- 
+<template>
+  <div>
     <div v-if="isLoading">기다려주세요</div>
     <div v-else>
-      <ContextBox>FAQ</ContextBox>
+      <ContextBox>FAQ 등록</ContextBox>
       <table>
         <tr>
           <th>제목:</th>
@@ -25,30 +76,27 @@
         <tr>
           <th>내용</th>
           <td>
-            <input type="text" v-model="detailValue.content" />
+            <textarea v-model="detailValue.content"></textarea>
           </td>
         </tr>
-      </table>
+      </table> -->
 
-      <div class="button-box">
-        <!-- <button
-          @click="params.faq_idx ? handlerUpdateBtn() : handlerInsertBtn()"
-        >
-          {{ params.faq_idx ? "수정" : "등록" }}
-        </button> -->
+<!--    <div class="button-box">
+        
         <button @click="handlerInsertBtn">등록</button>
         <button @click="$router.go(-1)">뒤로가기</button>
       </div>
     </div>
   </div>
 </template>
-
+ -->
 <script setup>
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
 import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
 import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
 import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
+//import { useFAQListQuery } from "../../../hook/faq/useFAQListQuery";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
@@ -73,10 +121,13 @@ const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
   userInfo.user.loginId
 );
+
 const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 
-/* const deleteFAQDetail = async () => {
-  await axios.post("/api/board/faqDeleteBody.do", { faqSeq: params.faq_idx });
+//const { mutate: handlerListBtn } = useFAQListQuery();
+
+/* const handlerListBtn = async () => {
+  await axios.post("/prx/api/board/faqListJson.do");
 }; */
 </script>
 

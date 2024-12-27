@@ -5,8 +5,17 @@ export const faqDetailInsertApi = async (detailValue, loginId) => {
   const textData = {
     title: detailValue.title,
     context: detailValue.content,
+    author: detailValue.author,
     loginId: loginId,
   };
 
-  await axios.post(Faq.InsertFaqDetail, textData);
+  const formData = new FormData();
+
+  formData.append(
+    "text",
+    new Blob([JSON.stringify(textData)], {
+      type: "application/json",
+    })
+  );
+  await axios.post(Faq.InsertFaqDetail, formData);
 };
