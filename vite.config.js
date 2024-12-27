@@ -25,10 +25,15 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/vue": {
+      "/prx": {
         target: "http://localhost:80",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/vue/, ""),
+        rewrite: (path) => path.replace(/^\/prx/, ""),
+      },
+      "/serverfile": {
+        target: "http://localhost:80",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/serverfile/, "/serverfile"),
       },
     },
   },

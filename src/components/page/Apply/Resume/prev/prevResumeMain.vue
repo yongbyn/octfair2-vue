@@ -48,7 +48,7 @@ const resumeList = ref();
 const modalState = useModalStore();
 
 const searchList = () => {
-  axios.post("/vue/api/apply/resumeList", {}).then((res) => {
+  axios.post("/prx/api/apply/resumeList", {}).then((res) => {
     resumeList.value = res.data.payload;
     console.log(res.data.payload);
   });
@@ -62,14 +62,14 @@ const handlerDetail = (idx) => {
 };
 
 const handlerCopy = (idx) => {
-  axios.post("/vue/api/apply/resumeCopy", { resIdx: idx }).then((res) => {
+  axios.post("/prx/api/apply/resumeCopy", { resIdx: idx }).then((res) => {
     alert("복사가 완료되었습니다.");
     searchList();
   });
 };
 
 const handlerDelete = (idx) => {
-  axios.post("/vue/api/apply/resumeDelete", { resIdx: idx }).then((res) => {
+  axios.post("/prx/api/apply/resumeDelete", { resIdx: idx }).then((res) => {
     alert("삭제가 완료되었습니다.");
     searchList();
   });

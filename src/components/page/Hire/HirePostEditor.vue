@@ -261,7 +261,7 @@ const handlerHiringProc = () => {
 
 const hirePostSearchApi = async (params) => {
   await axios
-    .post("/vue/api/manage-hire/post-detail", { postIdx: params.idx })
+    .post("/prx/api/manage-hire/post-detail", { postIdx: params.idx })
     .then((res) => {
       postData.value = res.data.payload;
       postData.value.expRequired = Array.isArray(postData.value.expRequired)
@@ -289,7 +289,7 @@ const handlerPostCreate = () => {
     })
   );
   axios
-    .post("/vue/api/manage-hire/post-new", formData)
+    .post("/prx/api/manage-hire/post-new", formData)
     .then((res) => console.log(res))
     .catch((err) => console.log("err : ", err));
 };

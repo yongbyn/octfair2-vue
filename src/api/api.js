@@ -1,42 +1,42 @@
 export const Notice = {
-  SearchNoticeList: "/vue/api/board/noticeListJson.do",
-  SearchNoticeDetail: "/vue/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/vue/api/board/noticeUpdateBody.do",
-  InsertNoticeDetail: "/vue/api/board/noticeSaveBody.do",
-  DeleteNoticeDetail: "/vue/api/board/noticeDeleteBody.do",
-  SearchQnaBoardList: "/vue/api/board/qnaListBody.do",
+  SearchNoticeList: "/prx/api/board/noticeListJson.do",
+  SearchNoticeDetail: "/prx/api/board/noticeDetailBody.do",
+  UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
+  InsertNoticeDetail: "/prx/api/board/noticeSaveBody.do",
+  DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
+  SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
 };
 
 export const Post = {
-  SearchPostList: "/vue/api/jobs/readPostList.do",
+  SearchPostList: "/prx/api/jobs/readPostList.do",
 };
 
 export const Resume = {
-  ReadResumeList: "/vue/api/apply/resumeList.do",
-  CopyResumeOne: "/vue/api/apply/resumeCopy.do",
-  DeleteResumeOne: "/vue/api/apply/resumeDelete.do",
-  DownResumeImage: "/vue/api/apply/fileDownload.do",
+  ReadResumeList: "/prx/api/apply/resumeList.do",
+  CopyResumeOne: "/prx/api/apply/resumeCopy.do",
+  DeleteResumeOne: "/prx/api/apply/resumeDelete.do",
+  DownResumeImage: "/prx/api/apply/fileDownload.do",
 
-  CreateResumeNew: "/vue/api/apply/resumeNew.do",
-  UpdateResumeNew: "/vue/api/apply/resumeUpdate.do",
+  CreateResumeNew: "/prx/api/apply/resumeNew.do",
+  UpdateResumeNew: "/prx/api/apply/resumeUpdate.do",
 
-  ReadCareerList: "/vue/api/apply/careerList.do",
-  CreateCareerNew: "/vue/api/apply/insertCareer.do",
-  DeleteCareerNew: "/vue/api/apply/deleteCareer.do",
+  ReadCareerList: "/prx/api/apply/careerList.do",
+  CreateCareerNew: "/prx/api/apply/insertCareer.do",
+  DeleteCareerNew: "/prx/api/apply/deleteCareer.do",
 
-  ReadEduList: "/vue/api/apply/educationList.do",
-  CreateEduNew: "/vue/api/apply/insertEdu.do",
-  DeleteEduNew: "/vue/api/apply/deleteEdu.do",
+  ReadEduList: "/prx/api/apply/educationList.do",
+  CreateEduNew: "/prx/api/apply/insertEdu.do",
+  DeleteEduNew: "/prx/api/apply/deleteEdu.do",
 
-  ReadSkillList: "/vue/api/apply/skillList.do",
-  CreateSkillNew: "/vue/api/apply/insertSkill.do",
-  DeleteSkillNew: "/vue/api/apply/deleteSkill.do",
+  ReadSkillList: "/prx/api/apply/skillList.do",
+  CreateSkillNew: "/prx/api/apply/insertSkill.do",
+  DeleteSkillNew: "/prx/api/apply/deleteSkill.do",
 
-  ReadCertList: "/vue/api/apply/certList.do",
-  CreateCertNew: "/vue/api/apply/insertCert.do",
-  DeleteCertNew: "/vue/api/apply/deleteCert.do",
+  ReadCertList: "/prx/api/apply/certList.do",
+  CreateCertNew: "/prx/api/apply/insertCert.do",
+  DeleteCertNew: "/prx/api/apply/deleteCert.do",
 };
 
 export const Approval = {
-  SearchApprovalList: "/vue/api/manage-post/readPostList.do",
+  SearchApprovalList: "/prx/api/manage-post/readPostList.do",
 };

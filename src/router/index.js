@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ResumeNew from "../components/page/Apply/Resume/ResumeNew.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
+import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
@@ -107,6 +108,17 @@ const routes = [
             path: "approval.do",
             name: "approval-post",
             component: ApprovalPost,
+          },
+        ],
+      },
+      {
+        path: "company",
+        name: "company",
+        children: [
+          {
+            path: "companyDetail.do/:bizIdx",
+            name: "companyDetail",
+            component: CompanyDetail,
           },
         ],
       },
