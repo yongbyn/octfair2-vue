@@ -17,8 +17,9 @@ export const Resume = {
   DeleteResumeOne: "/prx/api/apply/resumeDelete.do",
   DownResumeImage: "/prx/api/apply/fileDownload.do",
 
-  CreateResumeNew: "/prx/api/apply/resumeNew.do",
-  UpdateResumeNew: "/prx/api/apply/resumeUpdate.do",
+  CreateResumeDetail: "/prx/api/apply/resumeNew.do",
+  ReadResumeDetail: "/prx/api/apply/resumeDetail.do",
+  UpdateResumeDetail: "/prx/api/apply/resumeUpdate.do",
 
   ReadCareerList: "/prx/api/apply/careerList.do",
   CreateCareerNew: "/prx/api/apply/insertCareer.do",

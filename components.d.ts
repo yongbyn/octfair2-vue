@@ -38,6 +38,8 @@ declare module 'vue' {
     QnaDetailModal: typeof import('./src/components/page/Qna/QnaDetailModal.vue')['default']
     QnaMain: typeof import('./src/components/page/Qna/QnaMain.vue')['default']
     QnaSerchWrite: typeof import('./src/components/page/Qna/QnaSerchWrite.vue')['default']
+    ResumeDetail: typeof import('./src/components/page/Apply/Resume/ResumeDetail.vue')['default']
+    ResumeFrame: typeof import('./src/components/page/Apply/Resume/ResumeFrame.vue')['default']
     ResumeMain: typeof import('./src/components/page/Apply/Resume/ResumeMain.vue')['default']
     ResumeNew: typeof import('./src/components/page/Apply/Resume/ResumeNew.vue')['default']
     ResumeNewButton: typeof import('./src/components/page/Apply/Resume/ResumeNewButton.vue')['default']

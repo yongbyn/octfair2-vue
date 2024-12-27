@@ -2,7 +2,7 @@ import { useUserInfo } from "@/stores/userInfo";
 import axios from "axios";
 import { Resume } from "../api";
 
-export const resumeNewCreateApi = async (resIdx, resume) => {
+export const resumeDetailCreateApi = async (resIdx) => {
   const userInfo = useUserInfo();
 
   const param = {
@@ -11,8 +11,8 @@ export const resumeNewCreateApi = async (resIdx, resume) => {
     userType: userInfo.user.userType,
   };
 
-  const result = await axios.post(Resume.CreateResumeNew, param);
+  // resIdx는 Spring-Mapper에서 useGeneratedKeys(=resIdx)로 생성후 받아져온다.
+  const result = await axios.post(Resume.CreateResumeDetail, param);
   resIdx.value = result.data.payload.resIdx;
-  resume.value.resTitle = result.data.payload.resTitle;
   return result.data;
 };

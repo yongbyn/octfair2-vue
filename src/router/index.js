@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ResumeNew from "../components/page/Apply/Resume/ResumeNew.vue";
+import ResumeFrame from "../components/page/Apply/Resume/ResumeFrame.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
@@ -67,9 +67,9 @@ const routes = [
             component: Resume,
           },
           {
-            path: "resume.do/new",
-            name: "resumeNew",
-            component: ResumeNew,
+            path: "resume-detail.do",
+            name: "resumeFrame",
+            component: ResumeFrame,
           },
         ],
       },

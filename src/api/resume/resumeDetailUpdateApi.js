@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Resume } from "../api";
 
-export const resumeNewUpdateApi = async (resIdx, resume, fileData) => {
+export const resumeDetailUpdateApi = async (resIdx, resume, fileData) => {
   const formData = new FormData();
 
   // Spring컨트롤러에서 MultiPart방식이 아니라 MultipartHttpServletRequest방식으로 보내고 있어서 그에 맞게 수정
@@ -18,7 +18,7 @@ export const resumeNewUpdateApi = async (resIdx, resume, fileData) => {
   });
   if (fileData.value) formData.append("resumeAttach", fileData.value);
 
-  const result = await axios.post(Resume.UpdateResumeNew, formData, {
+  const result = await axios.post(Resume.UpdateResumeDetail, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return result.data;

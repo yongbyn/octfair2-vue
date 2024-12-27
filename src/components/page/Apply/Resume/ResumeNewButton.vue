@@ -1,13 +1,14 @@
 <template>
-  <CommonButton
-    @click="() => $router.push('resume.do/new')"
-    style="float: inline-end"
+  <CommonButton @click="handlerNewResumeBtn" style="float: inline-end"
     >새 이력서 작성</CommonButton
   >
 </template>
 
 <script setup>
+import { useResumeDetailCreateMutation } from "../../../../hook/resume/useResumeDetailCreateMutation";
 import CommonButton from "../../../common/CommonButton.vue";
+
+const { mutate: handlerNewResumeBtn } = useResumeDetailCreateMutation();
 </script>
 
 <style></style>
