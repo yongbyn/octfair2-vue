@@ -104,7 +104,7 @@
 <script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
-import { useResumeStore } from "../../../../stores/resumeStore";
+import { useResumeStore } from "../../../../../stores/resumeStore";
 
 const resumeDetail = ref({});
 const { params } = useRoute();

@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
+import ResumeNew from "../components/page/Apply/Resume/ResumeNew.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
-import ResumeDetail from "../components/page/Resume/ResumeDetail/ResumeDetail.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
@@ -67,9 +67,9 @@ const routes = [
             component: Resume,
           },
           {
-            path: "resume.do/:idx",
-            name: "resumeDetail",
-            component: ResumeDetail,
+            path: "resume.do/new",
+            name: "resumeNew",
+            component: ResumeNew,
           },
         ],
       },

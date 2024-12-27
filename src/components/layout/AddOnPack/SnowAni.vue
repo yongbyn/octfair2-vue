@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 // 눈송이 관련 상태 및 변수 선언
 const props = defineProps(["snowConfig"]);
