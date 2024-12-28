@@ -11,6 +11,32 @@ export const Post = {
   SearchPostList: "/prx/api/jobs/readPostList.do",
 };
 
+export const Resume = {
+  ReadResumeList: "/prx/api/apply/resumeList.do",
+  CopyResumeOne: "/prx/api/apply/resumeCopy.do",
+  DeleteResumeOne: "/prx/api/apply/resumeDelete.do",
+  DownResumeImage: "/prx/api/apply/fileDownload.do",
+
+  CreateResumeNew: "/prx/api/apply/resumeNew.do",
+  UpdateResumeNew: "/prx/api/apply/resumeUpdate.do",
+
+  ReadCareerList: "/prx/api/apply/careerList.do",
+  CreateCareerNew: "/prx/api/apply/insertCareer.do",
+  DeleteCareerNew: "/prx/api/apply/deleteCareer.do",
+
+  ReadEduList: "/prx/api/apply/educationList.do",
+  CreateEduNew: "/prx/api/apply/insertEdu.do",
+  DeleteEduNew: "/prx/api/apply/deleteEdu.do",
+
+  ReadSkillList: "/prx/api/apply/skillList.do",
+  CreateSkillNew: "/prx/api/apply/insertSkill.do",
+  DeleteSkillNew: "/prx/api/apply/deleteSkill.do",
+
+  ReadCertList: "/prx/api/apply/certList.do",
+  CreateCertNew: "/prx/api/apply/insertCert.do",
+  DeleteCertNew: "/prx/api/apply/deleteCert.do",
+};
+
 export const Approval = {
   SearchApprovalList: "/prx/api/manage-post/readPostList.do",
 };

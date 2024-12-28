@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
+import ResumeNew from "../components/page/Apply/Resume/ResumeNew.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
-import ResumeDetail from "../components/page/Resume/ResumeDetail/ResumeDetail.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
@@ -12,6 +12,8 @@ import FAQ from "../views/FAQ/FAQ.vue";
 import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
 import Login from "../views/Login/Login.vue";
+import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
+import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
 import Resume from "../views/Resume/Resume.vue";
 
@@ -80,9 +82,9 @@ const routes = [
             component: Resume,
           },
           {
-            path: "resume.do/:idx",
-            name: "resumeDetail",
-            component: ResumeDetail,
+            path: "resume.do/new",
+            name: "resumeNew",
+            component: ResumeNew,
           },
         ],
       },
@@ -132,6 +134,22 @@ const routes = [
             path: "companyDetail.do/:bizIdx",
             name: "companyDetail",
             component: CompanyDetail,
+          },
+        ],
+      },
+      {
+        path: "manage-user",
+        name: "manage-user",
+        children: [
+          {
+            path: "applicant.do",
+            name: "manageApplicant",
+            component: ManageApplicant,
+          },
+          {
+            path: "biz.do",
+            name: "manageBiz",
+            component: ManageBiz,
           },
         ],
       },
