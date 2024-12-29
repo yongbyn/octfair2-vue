@@ -11,7 +11,8 @@ import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
 import Login from "../views/Login/Login.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
-import Resume from "../views/Resume/Resume.vue";
+import Resume from "../views/Apply/Resume/Resume.vue";
+import History from "../views/Apply/History/History.vue";
 
 const routes = [
   {
@@ -68,8 +69,13 @@ const routes = [
           },
           {
             path: "resume-detail.do",
-            name: "resumeFrame",
+            name: "resumeDetail",
             component: ResumeFrame,
+          },
+          {
+            path: "history.do",
+            name: "history",
+            component: History,
           },
         ],
       },

@@ -1,10 +1,10 @@
 import { Resume } from "../api";
 import axios from "axios";
 
-export const resumeImageDownApi = async (idx, fileName) => {
-  const param = { resIdx: idx };
+export const resumeFileDownApi = async (resIdx, fileName) => {
+  const param = { resIdx: resIdx };
 
-  const result = await axios.post(Resume.DownResumeImage, param, {
+  const result = await axios.post(Resume.DownResumeFile, param, {
     responseType: "blob",
   });
 

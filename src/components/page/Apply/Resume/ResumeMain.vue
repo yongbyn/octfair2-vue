@@ -33,7 +33,7 @@
                     class="file_link"
                     @click.stop="
                       handlerDownImageBtn({
-                        idx: resume.resIdx,
+                        resIdx: resume.resIdx,
                         fileName: resume.fileName,
                       })
                     "
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { useResumeImageDownMutation } from "../../../../hook/resume/useResumeImageDownMutation";
+import { useResumeFileDownMutation } from "../../../../hook/resume/useResumeFileDownMutation";
 import { useResumeListReadQuery } from "../../../../hook/resume/useResumeListReadQuery";
 import { useResumeOneCopyMutation } from "../../../../hook/resume/useResumeOneCopyMutation";
 import { useResumeOneDeleteMutation } from "../../../../hook/resume/useResumeOneDeleteMutation";
@@ -103,7 +103,7 @@ const {
   isStale, // 캐시유지 주기
   refetch, // 자동갱신 주기
 } = useResumeListReadQuery(cPage, itemPerPage);
-const { mutate: handlerDownImageBtn } = useResumeImageDownMutation();
+const { mutate: handlerDownImageBtn } = useResumeFileDownMutation();
 const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
 const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
 </script>
@@ -134,7 +134,7 @@ table {
     background-color: rgba(75, 248, 225, 0.561);
     opacity: 0.9;
     cursor: pointer;
-    filter: drop-shadow(0 0 2em #00ff33aa); // 번짐효과
+    filter: drop-shadow(0 0 2em rgba(0, 255, 51, 0.667)); // 번짐효과
     transform: scale(1.005); // 확대효과
     transition: transform 0.05s; // 효과를 시간차
   }

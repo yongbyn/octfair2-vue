@@ -51,7 +51,7 @@ const props = defineProps(["resIdx"]);
   max-height: 80%; /* 모달 최대 높이 */
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 221, 255, 0.8);
+  box-shadow: 0 4px 800px rgba(0, 0, 0, 0.8);
   background: #fff; /* 모달 배경 */
   overflow-y: auto; /* 세로 스크롤 */
 }

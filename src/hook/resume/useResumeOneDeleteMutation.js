@@ -6,7 +6,7 @@ export const useResumeOneDeleteMutation = () => {
 
   return useMutation({
     mutationKey: ["resumeDelete"],
-    mutationFn: (idx) => resumeOneDeleteApi(idx),
+    mutationFn: (resIdx) => resumeOneDeleteApi(resIdx),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["resumeList"],
