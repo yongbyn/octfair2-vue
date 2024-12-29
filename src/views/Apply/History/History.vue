@@ -1,9 +1,12 @@
 <template>
-  <!-- <HistorySearch /> -->
+  <HistorySearch />
   <ContextBox>입사지원 내역</ContextBox>
-  <!-- <HistoryMain /> -->
+  <HistoryMain />
 </template>
 
-<script setup></script>
+<script setup>
+const providedHistorySearchValue = ref({});
+provide("providedHistorySearchValue", providedHistorySearchValue);
+</script>
 
 <style scoped></style>

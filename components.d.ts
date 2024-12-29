@@ -29,6 +29,7 @@ declare module 'vue' {
     HirePostEditor: typeof import('./src/components/page/Hire/HirePostEditor.vue')['default']
     HirePostMain: typeof import('./src/components/page/Hire/HirePostMain.vue')['default']
     HistoryMain: typeof import('./src/components/page/Apply/History/HistoryMain.vue')['default']
+    HistorySearch: typeof import('./src/components/page/Apply/History/HistorySearch.vue')['default']
     LeftManuBar: typeof import('./src/components/layout/LeftManuBar.vue')['default']
     LoginMain: typeof import('./src/components/page/Login/LoginMain.vue')['default']
     LunchMenu: typeof import('./src/components/layout/AddOnPack/LunchMenu.vue')['default']

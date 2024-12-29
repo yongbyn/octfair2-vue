@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { useResumeDetailCreateMutation } from "../../../../hook/resume/useResumeDetailCreateMutation";
+import { useResumeDetailCreateMutation } from "../../../../hook/apply/resume/useResumeDetailCreateMutation";
 import CommonButton from "../../../common/CommonButton.vue";
 
 const { mutate: handlerNewResumeBtn } = useResumeDetailCreateMutation();

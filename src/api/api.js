@@ -39,6 +39,11 @@ export const Resume = {
   DeleteCertNew: "/prx/api/apply/deleteCert.do",
 };
 
+export const History = {
+  ReadHistoryList: "/prx/api/apply/historySearchRest.do",
+  CancleHistoryOne: "/prx/apply/cancleApply.do",
+};
+
 export const Approval = {
   SearchApprovalList: "/prx/api/manage-post/readPostList.do",
 };
