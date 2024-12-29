@@ -12,4 +12,5 @@ export const Post = {
 
 export const Login = {
   SignUpIdCheck: "/vue/api/check_loginId.do",
+  SignUp: "/vue/api/register.do",
 };

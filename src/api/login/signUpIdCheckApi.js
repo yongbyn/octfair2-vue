@@ -2,18 +2,11 @@ import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { Login } from "../api";
 
-export const signUpIdCheckApi = async (signUpValid, isIdCheck) => {
-  let data = { loginId: signUpValid.value.userId };
+export const signUpIdCheckApi = async (signUpUserInfo, isIdCheck) => {
+  let data = { loginId: signUpUserInfo.value.loginId };
   const result = await axios.post(Login.SignUpIdCheck, data);
 
   const idCheckBtn = document.querySelector(".idCheckBtn");
-  /*
-  const result = await axios.post(Login.SignUpIdCheck, data);
-  const result = await axios.post(Login.SignUpIdCheck+"?loginId=admin"); // URLquery -> RequestParam
-  const result = await axios.post(Login.SignUpIdCheck, new URLSearchParmas({loginId: userId.value})); // 2번째칸(URLSearchparams()) -> RequestParam
-  const result = await axios.post(Login.SignUpIdCheck, "", { params : { Headers: }}); // 3번째칸(헤더:param) -> Requestparam
-  const result = await axios.post(Login.SignUpIdCheck, { loginId: admin }); // JSON -> Request'Body'
-  */
   if (result.data.result === "success") {
     toast.error("중복된 ID입니다.");
     idCheckBtn.style.backgroundColor = "red";
