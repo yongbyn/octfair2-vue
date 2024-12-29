@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ResumeNew from "../components/page/Apply/Resume/ResumeNew.vue";
+import ResumeFrame from "../components/page/Apply/Resume/ResumeFrame.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
@@ -13,7 +13,8 @@ import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
-import Resume from "../views/Resume/Resume.vue";
+import Resume from "../views/Apply/Resume/Resume.vue";
+import History from "../views/Apply/History/History.vue";
 
 const routes = [
   {
@@ -69,9 +70,14 @@ const routes = [
             component: Resume,
           },
           {
-            path: "resume.do/new",
-            name: "resumeNew",
-            component: ResumeNew,
+            path: "resume-detail.do",
+            name: "resumeDetail",
+            component: ResumeFrame,
+          },
+          {
+            path: "history.do",
+            name: "history",
+            component: History,
           },
         ],
       },

@@ -18,18 +18,22 @@
         <template v-if="isLoading">...로딩중</template>
         <template v-if="isSuccess">
           <template v-if="resumeList?.payload?.length > 0">
-            <tr v-for="resume in resumeList.payload" :key="resume.resIdx">
+            <tr
+              v-for="resume in resumeList.payload"
+              :key="resume.resIdx"
+              @click="handlerGetResumeBtn(resume.resIdx)"
+            >
               <td>
-                <div @click="handlerGetResumeDetail(resume.resIdx)">
+                <div>
                   {{ resume.resTitle }}
                 </div>
                 <div v-if="resume.fileName">
                   <span class="file_head">첨부파일: </span>
                   <span
                     class="file_link"
-                    @click="
+                    @click.stop="
                       handlerDownImageBtn({
-                        idx: resume.resIdx,
+                        resIdx: resume.resIdx,
                         fileName: resume.fileName,
                       })
                     "
@@ -37,14 +41,15 @@
                   >
                 </div>
               </td>
-              <td @click="handlerGetResumeDetail(resume.resIdx)">
+              <td>
                 {{ resume.updatedDate }}
               </td>
               <td>
-                <CommonButton @click="handlerCopyResumeBtn(resume.resIdx)"
+                <CommonButton @click.stop="handlerCopyResumeBtn(resume.resIdx)"
                   >복사하기</CommonButton
                 >
-                <CommonButton @click="handlerDeleteResumeBtn(resume.resIdx)"
+                <CommonButton
+                  @click.stop="handlerDeleteResumeBtn(resume.resIdx)"
                   >삭제하기</CommonButton
                 >
               </td>
@@ -69,32 +74,26 @@
             v-model="cPage"
         /> -->
   </div>
+  <ResumeFrame :resIdx="resIdx" v-if="modalStore.modalState" />
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useResumeImageDownMutation } from "../../../../hook/resume/useResumeImageDownMutation";
+import { useResumeFileDownMutation } from "../../../../hook/resume/useResumeFileDownMutation";
 import { useResumeListReadQuery } from "../../../../hook/resume/useResumeListReadQuery";
 import { useResumeOneCopyMutation } from "../../../../hook/resume/useResumeOneCopyMutation";
 import { useResumeOneDeleteMutation } from "../../../../hook/resume/useResumeOneDeleteMutation";
+import { useModalStore } from "../../../../stores/modalState";
+import ResumeFrame from "./ResumeFrame.vue";
 
-const router = useRouter();
 const itemPerPage = ref(12);
 const cPage = ref(1);
+const resIdx = ref("");
+const modalStore = useModalStore();
 
-const searchList = () => {
-  queryClient.invalidateQueries({
-    // 'resumeList'란 key로 ResumeMain에 있는 useQuery를 가동시켜 list 새로고침
-    queryKey: ["resumeList"],
-  });
+const handlerGetResumeBtn = (idx) => {
+  modalStore.modalState = true;
+  resIdx.value = idx;
 };
-
-// const handlerGetDetailBtn = (param) => {
-//     router.push({ // URLpath를 push해도 되고 router(index.js)에 명시된 name을 push해도 된다.
-//         name: 'resumeDetail',
-//         params: { idx : param },
-//     });
-// };
 
 const {
   data: resumeList, // useQuery(useResumeListSearchQuery) 내 callback함수 return값이 입력된다
@@ -104,7 +103,7 @@ const {
   isStale, // 캐시유지 주기
   refetch, // 자동갱신 주기
 } = useResumeListReadQuery(cPage, itemPerPage);
-const { mutate: handlerDownImageBtn } = useResumeImageDownMutation();
+const { mutate: handlerDownImageBtn } = useResumeFileDownMutation();
 const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
 const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
 </script>
@@ -132,9 +131,12 @@ table {
   }
 
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: rgba(75, 248, 225, 0.561);
     opacity: 0.9;
     cursor: pointer;
+    filter: drop-shadow(0 0 2em rgba(0, 255, 51, 0.667)); // 번짐효과
+    transform: scale(1.005); // 확대효과
+    transition: transform 0.05s; // 효과를 시간차
   }
 }
 

@@ -6,7 +6,7 @@ export const useResumeOneCopyMutation = () => {
 
   return useMutation({
     mutationKey: ["resumeCopy"],
-    mutationFn: (idx) => resumeOneCopyApi(idx), // ResumeMain 내 HTML코드에서 handlerCopyResumeBtn(resume.resIdx)에 입력된 resume.resIdx가 여기의 idx에 입력된다.
+    mutationFn: (resIdx) => resumeOneCopyApi(resIdx), // ResumeMain 내 HTML코드에서 handlerCopyResumeBtn(resume.resIdx)에 입력된 resume.resIdx가 여기의 idx에 입력된다.
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["resumeList"],

@@ -3,7 +3,7 @@ import { skillListReadApi } from "../../../api/resume/skill/skillListReadApi";
 
 export const useSkillListReadQuery = (resIdx) => {
   return useQuery({
-    queryKey: ["skillList"],
+    queryKey: ["skillList", resIdx],
     queryFn: () => skillListReadApi(resIdx),
   });
 };

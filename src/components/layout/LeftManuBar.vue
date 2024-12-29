@@ -42,9 +42,11 @@
 import logo from "../../assets/logo.png";
 import vue_logo from "../../assets/vue_logo.png";
 import { useUserInfo } from "../../stores/userInfo";
+import { useModalStore } from "../../stores/modalState";
 
 const userInfo = useUserInfo();
 const router = useRouter();
+const modalStore = useModalStore();
 
 const handlerClick = (menuId, e) => {
   const childMenuId = document.getElementById(menuId);
@@ -80,6 +82,20 @@ const handlerLogout = () => {
   sessionStorage.setItem("userInfo", "");
   router.push("/");
 };
+
+// 대부분의 페이지와 함께 랜더링되는 LeftManuBar.vue 여기에 작성되는 이벤트들은, 즉 일괄적용 효과
+const handlerKeyEvent = (event) => {
+  // ESC 누를시 모달닫기 작동
+  if (event.key === "Escape") modalStore.modalState = false;
+};
+
+onMounted(() => {
+  document.addEventListener("keyup", handlerKeyEvent);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("keyup", handlerKeyEvent);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -3,7 +3,7 @@ import { eduListReadApi } from "../../../api/resume/edu/eduListReadApi";
 
 export const useEduListReadQuery = (resIdx) => {
   return useQuery({
-    queryKey: ["eduList"],
+    queryKey: ["eduList", resIdx],
     queryFn: () => eduListReadApi(resIdx),
   });
 };
