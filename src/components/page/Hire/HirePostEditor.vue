@@ -55,6 +55,7 @@
               v-model="postData.expYears"
               :disabled="!postData.expRequired.includes('경력')"
             >
+              <option selected disabled>선택</option>
               <option value="1년이상">1년 이상</option>
               <option value="2년이상">2년 이상</option>
               <option value="3년이상">3년 이상</option>

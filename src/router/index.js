@@ -10,6 +10,8 @@ import DashBoard from "../views/DashBoard/DashBoard.vue";
 import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
 import Login from "../views/Login/Login.vue";
+import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
+import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import History from "../views/Apply/History/History.vue";
@@ -125,6 +127,22 @@ const routes = [
             path: "companyDetail.do/:bizIdx",
             name: "companyDetail",
             component: CompanyDetail,
+          },
+        ],
+      },
+      {
+        path: "manage-user",
+        name: "manage-user",
+        children: [
+          {
+            path: "applicant.do",
+            name: "manageApplicant",
+            component: ManageApplicant,
+          },
+          {
+            path: "biz.do",
+            name: "manageBiz",
+            component: ManageBiz,
           },
         ],
       },
