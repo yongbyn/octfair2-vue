@@ -1,11 +1,12 @@
 <template>
   <div class="divResumeList">
-    현재 페이지: {{ cPage }} 총 개수: {{ resumeList?.payload?.length || 0 }}
+    현재 페이지: {{ currentPage }} 총 개수:
+    {{ resumeList?.payload?.length || 0 }}
     <table>
       <colgroup>
-        <col width="60%" />
         <col width="15%" />
-        <col width="35%" />
+        <col width="70%" />
+        <col width="15%" />
       </colgroup>
       <thead>
         <tr>
@@ -24,25 +25,35 @@
               @click="handlerGetResumeBtn(resume.resIdx)"
             >
               <td>
-                <div>
-                  {{ resume.resTitle }}
-                </div>
-                <div v-if="resume.fileName">
-                  <span class="file_head">첨부파일: </span>
-                  <span
-                    class="file_link"
-                    @click.stop="
-                      handlerDownImageBtn({
-                        resIdx: resume.resIdx,
-                        fileName: resume.fileName,
-                      })
-                    "
-                    >{{ resume.fileName }}</span
-                  >
-                </div>
+                {{ resume.updatedDate }}
               </td>
               <td>
-                {{ resume.updatedDate }}
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    height: auto;
+                    font-size: 0.95vw;
+                  "
+                >
+                  <div>
+                    {{ resume.resTitle }}
+                  </div>
+                  <div v-if="resume.fileName">
+                    <span class="file_head">첨부파일: </span>
+                    <span
+                      class="file_link"
+                      @click.stop="
+                        handlerDownImageBtn({
+                          resIdx: resume.resIdx,
+                          fileName: resume.fileName,
+                        })
+                      "
+                      >{{ resume.fileName }}</span
+                    >
+                  </div>
+                </div>
               </td>
               <td>
                 <CommonButton @click.stop="handlerCopyResumeBtn(resume.resIdx)"
@@ -66,27 +77,29 @@
     </table>
 
     <!-- 페이지네이션 -->
-    <!-- <Pagination 
-            :totalItems="resumeList?.payload?.length || 0"
-            :items-per-page="itemPerPage"
-            :max-pages-shown="5"
-            :onClick="searchList"
-            v-model="cPage"
-        /> -->
+    <Pagination
+      :totalItems="resumeList?.payload?.length || 0"
+      :items-per-page="itemPerPage"
+      :max-pages-shown="5"
+      :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
+      v-model="currentPage"
+    />
   </div>
   <ResumeFrame :resIdx="resIdx" v-if="modalStore.modalState" />
 </template>
 
 <script setup>
-import { useResumeFileDownMutation } from "../../../../hook/resume/useResumeFileDownMutation";
-import { useResumeListReadQuery } from "../../../../hook/resume/useResumeListReadQuery";
-import { useResumeOneCopyMutation } from "../../../../hook/resume/useResumeOneCopyMutation";
-import { useResumeOneDeleteMutation } from "../../../../hook/resume/useResumeOneDeleteMutation";
+import { useResumeFileDownMutation } from "../../../../hook/apply/resume/useResumeFileDownMutation";
+import { useResumeListReadQuery } from "../../../../hook/apply/resume/useResumeListReadQuery";
+import { useResumeOneCopyMutation } from "../../../../hook/apply/resume/useResumeOneCopyMutation";
+import { useResumeOneDeleteMutation } from "../../../../hook/apply/resume/useResumeOneDeleteMutation";
+import { useQueryClient } from "@tanstack/vue-query";
 import { useModalStore } from "../../../../stores/modalState";
 import ResumeFrame from "./ResumeFrame.vue";
 
 const itemPerPage = ref(12);
-const cPage = ref(1);
+const currentPage = ref(1);
+const queryClient = useQueryClient();
 const resIdx = ref("");
 const modalStore = useModalStore();
 
@@ -102,7 +115,7 @@ const {
   isError,
   isStale, // 캐시유지 주기
   refetch, // 자동갱신 주기
-} = useResumeListReadQuery(cPage, itemPerPage);
+} = useResumeListReadQuery(itemPerPage, currentPage);
 const { mutate: handlerDownImageBtn } = useResumeFileDownMutation();
 const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
 const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();

@@ -76,7 +76,7 @@
             </div>
           </div>
         </template>
-        <button @click="isAddCareer = !isAddCareer" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
+        <button class="add_btn" @click="isAddCareer = !isAddCareer" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
         <div>
           <div class="career_table" v-if="isAddCareer">
             <div style="grid-area: startDate; display: flex; justify-content: space-between; align-items: center;">
@@ -154,7 +154,7 @@
             </div>
           </div>
         </template>
-        <button @click="isAddEdu = !isAddEdu" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
+        <button class="add_btn" @click="isAddEdu = !isAddEdu" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
         <div>
           <div class="edu_table" v-if="isAddEdu">
             <div style="grid-area: admDate; display: flex; justify-content: space-between; align-items: center;">
@@ -164,7 +164,6 @@
             <div style="grid-area: eduLevel; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">학력구분:</label>
               <select style="flex: 1" v-model=edu.eduLevel placeholder="학력구분">
-                <option value="학력구분" selected disabled>학력구분</option>
                 <option value="고등학교">고등학교</option>
                 <option value="대학교">대학교</option>
                 <option value="대학원(석사)">대학원(석사)</option>
@@ -174,7 +173,6 @@
             <div style="grid-area: grdStatus; display: flex; justify-content: space-between; align-items: center;">
               <label style="text-align: left">졸업여부:</label>
               <select style="flex: 1" v-model=edu.grdStatus placeholder="졸업여부">
-                <option value="학력구분" selected disabled>학력구분</option>
                 <option value="졸업">졸업</option>
                 <option value="재학">재학</option>
                 <option value="휴학">휴학</option>
@@ -225,7 +223,7 @@
             </div>
           </div>
         </template>
-        <button @click="isAddSkill = !isAddSkill" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
+        <button class="add_btn" @click="isAddSkill = !isAddSkill" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
         <div>
           <div class="skill_table" v-if="isAddSkill">
             <div style="grid-area: skillName; display: flex; justify-content: space-between; align-items: center;">
@@ -276,7 +274,7 @@
             </div>
           </div>
         </template>
-        <button @click="isAddCert = !isAddCert" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
+        <button class="add_btn" @click="isAddCert = !isAddCert" style="border-radius: 5px; margin-bottom: 10px;" v-if="isEditable">+ 추가</button>
         <div>
           <div class="cert_table" v-if="isAddCert">
             <div style="grid-area: acqDate; display: flex; justify-content: space-between; align-items: center;">
@@ -366,22 +364,22 @@
 import { onMounted } from 'vue';
 import { useModalStore } from "../../../../stores/modalState";
 import { useRoute, useRouter } from 'vue-router';
-import { useCareerListReadQuery } from "../../../../hook/resume/career/useCareerListReadQuery";
-import { useCareerNewCreateMutation } from "../../../../hook/resume/career/useCareerNewCreateMutation";
-import { useCareerNewDeleteMutation } from "../../../../hook/resume/career/useCareerNewDeleteMutation";
-import { useCertListReadQuery } from "../../../../hook/resume/cert/useCertListReadQuery";
-import { useCertNewCreateMutation } from "../../../../hook/resume/cert/useCertNewCreateMutation";
-import { useCertNewDeleteMutation } from "../../../../hook/resume/cert/useCertNewDeleteMutation";
-import { useEduListReadQuery } from "../../../../hook/resume/edu/useEduListReadQuery";
-import { useEduNewCreateMutation } from "../../../../hook/resume/edu/useEduNewCreateMutation";
-import { useEduNewDeleteMutation } from "../../../../hook/resume/edu/useEduNewDeleteMutation";
-import { useSkillListReadQuery } from "../../../../hook/resume/skill/useSkillListReadQuery";
-import { useSkillNewCreateMutation } from "../../../../hook/resume/skill/useSkillNewCreateMutation";
-import { useSkillNewDeleteMutation } from "../../../../hook/resume/skill/useSkillNewDeleteMutation";
-import { useResumeDetailReadQuery } from "../../../../hook/resume/useResumeDetailReadQuery";
-import { useResumeDetailUpdateMutation } from "../../../../hook/resume/useResumeDetailUpdateMutation";
-import { useResumeFileSelectMutation } from "../../../../hook/resume/useResumeFileSelectMutation";
-import { useResumeFileDeleteMutation } from "../../../../hook/resume/useResumeFileDeleteMutation";
+import { useCareerListReadQuery } from "../../../../hook/apply/resume/career/useCareerListReadQuery";
+import { useCareerNewCreateMutation } from "../../../../hook/apply/resume/career/useCareerNewCreateMutation";
+import { useCareerNewDeleteMutation } from "../../../../hook/apply/resume/career/useCareerNewDeleteMutation";
+import { useCertListReadQuery } from "../../../../hook/apply/resume/cert/useCertListReadQuery";
+import { useCertNewCreateMutation } from "../../../../hook/apply/resume/cert/useCertNewCreateMutation";
+import { useCertNewDeleteMutation } from "../../../../hook/apply/resume/cert/useCertNewDeleteMutation";
+import { useEduListReadQuery } from "../../../../hook/apply/resume/edu/useEduListReadQuery";
+import { useEduNewCreateMutation } from "../../../../hook/apply/resume/edu/useEduNewCreateMutation";
+import { useEduNewDeleteMutation } from "../../../../hook/apply/resume/edu/useEduNewDeleteMutation";
+import { useSkillListReadQuery } from "../../../../hook/apply/resume/skill/useSkillListReadQuery";
+import { useSkillNewCreateMutation } from "../../../../hook/apply/resume/skill/useSkillNewCreateMutation";
+import { useSkillNewDeleteMutation } from "../../../../hook/apply/resume/skill/useSkillNewDeleteMutation";
+import { useResumeDetailReadQuery } from "../../../../hook/apply/resume/useResumeDetailReadQuery";
+import { useResumeDetailUpdateMutation } from "../../../../hook/apply/resume/useResumeDetailUpdateMutation";
+import { useResumeFileSelectMutation } from "../../../../hook/apply/resume/useResumeFileSelectMutation";
+import { useResumeFileDeleteMutation } from "../../../../hook/apply/resume/useResumeFileDeleteMutation";
 import CommonButton from "../../../common/CommonButton.vue";
 // import '@/components/page/Apply/Resume/ResumeStyle.css';
 import printJS from "print-js";
@@ -393,7 +391,7 @@ const router = useRouter();
 const resIdx = ref("");
 const isEditable = ref(true);
 const isPrintable = ref(true);
-const resumeDefault = { user_idx: '', resIdx: '', resTitle: '', shortIntro: '', pfoLink: '', perStatement: '', fileName: '', fileExt: '', logicalPath: '' };
+const resumeDefault = { userIdx: '', resIdx: '', resTitle: '', shortIntro: '', pfoLink: '', perStatement: '', fileName: '', fileExt: '', logicalPath: '' };
 const careerDefault = { startDate: '', company: '', dept: '', endDate: '', position: '', reason: '', crrDesc: ''};
 const eduDefault = { admDate: '', eduLevel: '', grdStatus: '', grdDate: '', schoolName: '', major: ''};
 const skillDefault = { skillName: '', skillDetail: ''};
@@ -465,8 +463,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column; /* 세로 나열, 없으면 기본값 가로 나열 */
   justify-content: center; /* 가로방향 내 정렬 */
-  width: 95%; /* 부모 요소의 전체 너비 차지 */
-  margin-right: 20px;
+  width: 100%; /* 부모 요소의 전체 너비 차지 */
   margin-bottom: 15px;
   padding: 15px;
   overflow-y: auto; /* 세로 방향으로 넘칠시 스크롤 기능 */
@@ -494,8 +491,9 @@ select {
   overflow-y: auto; /* 세로 방향으로 넘칠시 스크롤 기능 */
   resize: vertical;  /* 세로 방향으로만 크기 조정 가능 */
 
-  &:focus {
-    flex: 1; /* 나머지 공간을 입력 필드가 차지 */
+  &:focus,
+  &:hover {
+    flex: 1 0 clamp(2vw, 5vw, 8vw); /* 나머지 공간을 입력 필드가 차지 */
     box-sizing: border-box;
     border: 1px solid black;
     border-radius: 10px;
@@ -504,6 +502,16 @@ select {
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.6); /* 파란색 그림자 추가 */
     padding: 10px;
     outline: none;
+  }
+}
+
+.add_btn,
+img {
+  &:hover {
+    border: 2px solid black;
+    border-color: rgb(52, 152, 219); /* 포커스 시 테두리 색상 변경 (파란색) */
+    background-color: rgb(230, 247, 255); /* 포커스 시 배경색 변경 (연한 파란색) */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.6); /* 파란색 그림자 추가 */
   }
 }
 
