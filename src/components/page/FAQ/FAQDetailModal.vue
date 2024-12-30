@@ -4,46 +4,44 @@
   </div>
   <div class="board-detail">
     <div class="board-contents">
-      <input
-        type="text"
-        v-model="detailValue.title"
-        class="w3-input w3-border"
-        placeholder="제목을 입력해주세요."
-      />
-      <input
-        type="text"
-        v-model="detailValue.author"
-        class="w3-input w3-border"
-        placeholder="작성자를 입력해주세요."
-        v-if="idx === undefined"
-      />
-    </div>
-    <div class="board-contents">
-      <textarea
-        id=""
-        cols="30"
-        rows="10"
-        v-model="detailValue.content"
-        class="w3-input w3-border"
-        style="resize: none"
-      >
-      </textarea>
-    </div>
-    <div class="common-buttons">
-      <button
-        type="button"
-        class="w3-button w3-round w3-blue-gray"
-        v-on:click="handlerInsertBtn"
-      >
-        등록</button
-      >&nbsp;
-      <button
-        type="button"
-        class="w3-button w3-round w3-gray"
-        v-on:click="handlerListBtn"
-      >
-        목록
-      </button>
+      <table>
+        <tr>
+          <td>유형</td>
+          <td>
+            <input type="radio" name="faq_type" value="1" /> 개인회원
+            <input type="radio" name="faq_type" value="2" /> 일반회원
+          </td>
+        </tr>
+        <tr>
+          <td>제목</td>
+          <td>
+            <input type="text" />
+          </td>
+        </tr>
+        <tr>
+          <td>내용</td>
+          <td>
+            <input type="text" />
+          </td>
+        </tr>
+      </table>
+
+      <div class="common-buttons">
+        <button
+          type="button"
+          class="w3-button w3-round w3-blue-gray"
+          v-on:click="handlerInsertBtn"
+        >
+          등록</button
+        >&nbsp;
+        <button
+          type="button"
+          class="w3-button w3-round w3-gray"
+          v-on:click="handlerListBtn"
+        >
+          목록
+        </button>
+      </div>
     </div>
   </div>
 </template>

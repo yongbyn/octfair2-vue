@@ -1,14 +1,10 @@
 <template>
   <div class="search-box">
-    <select>
-      <option value="">전체</option>
-      <option value="title">제목</option>
-      <option value="author">작성자</option>
-    </select>
-
-    <input type="text" v-model="search" />
+    <input v-model.lazy="keyword" />
+    <input type="date" v-model="searchStartDate" />
+    <input type="date" v-model="searchEndDate" />
     <button @click="FAQSearch">검색</button>
-    <button @click="FAQInsert">글쓰기</button>
+    <button @click="FAQInsert">신규등록</button>
   </div>
 </template>
 
