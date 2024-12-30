@@ -24,7 +24,9 @@ button {
   &:hover {
     background-color: #45a049;
     border-color: #646cff;
-    filter: drop-shadow(0 0 2em #5d00ffaa);
+    filter: drop-shadow(0 0 2em #00ff33aa); // 번짐효과
+    transform: scale(1.2); // 확대효과
+    transition: transform 0.05s; // 효과를 시간차
   }
 
   &:active {
