@@ -75,16 +75,17 @@
         <template v-if="isError">...에러</template>
       </tbody>
     </table>
-
-    <!-- 페이지네이션 -->
-    <Pagination
-      :totalItems="resumeList?.payload?.length || 0"
-      :items-per-page="itemPerPage"
-      :max-pages-shown="5"
-      :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
-      v-model="currentPage"
-    />
   </div>
+
+  <!-- 페이지네이션 -->
+  <Pagination
+    :totalItems="resumeList?.payload?.length || 0"
+    :items-per-page="itemPerPage"
+    :max-pages-shown="5"
+    :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
+    v-model="currentPage"
+  />
+
   <ResumeFrame :resIdx="resIdx" v-if="modalStore.modalState" />
 </template>
 

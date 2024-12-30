@@ -75,7 +75,9 @@
                   :style="
                     history.viewed == '1' ? { backgroundColor: 'gray' } : {}
                   "
-                  >지원취소</CommonButton
+                  >{{
+                    history.viewed == "1" ? "이미열람" : "지원취소"
+                  }}</CommonButton
                 >
               </td>
             </tr>
@@ -89,16 +91,16 @@
         <template v-if="isError">...에러</template>
       </tbody>
     </table>
-
-    <!-- 페이지네이션 -->
-    <Pagination
-      :totalItems="historyList?.result?.length || 0"
-      :items-per-page="itemPerPage"
-      :max-pages-shown="5"
-      :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
-      v-model="currentPage"
-    />
   </div>
+
+  <!-- 페이지네이션 -->
+  <Pagination
+    :totalItems="historyList?.result?.length || 0"
+    :items-per-page="itemPerPage"
+    :max-pages-shown="5"
+    :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
+    v-model="currentPage"
+  />
 
   <!-- 모달 -->
   <ResumeFrame :resIdx="resIdx" v-if="modalStore.modalState" />
