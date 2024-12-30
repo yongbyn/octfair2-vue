@@ -1,18 +1,18 @@
 <template>
   <div class="garo_wrapper">
-    <label class="title-input">제목: </label>
+    <label>제목: </label>
     <input v-model="props.resume.resTitle" :disabled="!props.isEditable" />
   </div>
   <div class="garo_wrapper">
-    <label class="readonly-input">이름: </label>
+    <label>이름: </label>
     <input v-model="props.resume.userNm" disabled />
   </div>
   <div class="garo_wrapper">
-    <label class="readonly-input">이메일: </label>
+    <label>이메일: </label>
     <input v-model="props.resume.email" disabled />
   </div>
   <div class="garo_wrapper">
-    <label class="readonly-input">전화번호: </label>
+    <label>전화번호: </label>
     <input v-model="props.resume.phone" disabled />
   </div>
 </template>

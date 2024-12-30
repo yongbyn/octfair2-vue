@@ -4,31 +4,31 @@
   </p>
   <template v-for="(item, key) in eduList?.payload" :key="key">
     <div class="edu_table">
-      <div style="grid-area: admDate; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">입학연도:</label>
-        <input style="flex: 1" :value="item.admDate.slice(0, 7)" placeholder="입학연도" type="month" disabled></input>
+      <div class="garo_wrapper_lr" style="grid-area: admDate">
+        <label class="garo_wrapper_lr_l">입학연도:</label>
+        <input class="garo_wrapper_lr_r" :value="item.admDate.slice(0, 7)" placeholder="입학연도" type="month" disabled></input>
       </div>
-      <div style="grid-area: eduLevel; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">학력구분:</label>
-        <input style="flex: 1" :value="item.eduLevel" placeholder="학력구분" disabled />
+      <div class="garo_wrapper_lr" style="grid-area: eduLevel">
+        <label class="garo_wrapper_lr_l">학력구분:</label>
+        <input class="garo_wrapper_lr_r" :value="item.eduLevel" placeholder="학력구분" disabled />
       </div>
-      <div style="grid-area: grdStatus; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">졸업여부:</label>
-        <input style="flex: 1" :value="item.grdStatus" placeholder="졸업여부" disabled />
+      <div class="garo_wrapper_lr" style="grid-area: grdStatus">
+        <label class="garo_wrapper_lr_l">졸업여부:</label>
+        <input class="garo_wrapper_lr_r" :value="item.grdStatus" placeholder="졸업여부" disabled />
       </div>
-      <div style="grid-area: grdDate; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">졸업연도:</label>
-        <input style="flex: 1" :value="item.grdDate.slice(0, 7)" placeholder="졸업연도" type="month" disabled></input>
+      <div class="garo_wrapper_lr" style="grid-area: grdDate">
+        <label class="garo_wrapper_lr_l">졸업연도:</label>
+        <input class="garo_wrapper_lr_r" :value="item.grdDate.slice(0, 7)" placeholder="졸업연도" type="month" disabled></input>
       </div>
-      <div style="grid-area: schoolName; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">학교명:</label>
-        <input style="flex: 1" :value="item.schoolName" placeholder="학교명" disabled></input>
+      <div class="garo_wrapper_lr" style="grid-area: schoolName">
+        <label class="garo_wrapper_lr_l">학교명:</label>
+        <input class="garo_wrapper_lr_r" :value="item.schoolName" placeholder="학교명" disabled></input>
       </div>
-      <div style="grid-area: major; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">전공명:</label>
-        <input style="flex: 1" :value="item.major" placeholder="전공명" disabled></input>
+      <div class="garo_wrapper_lr" style="grid-area: major">
+        <label class="garo_wrapper_lr_l">전공명:</label>
+        <input class="garo_wrapper_lr_r" :value="item.major" placeholder="전공명" disabled></input>
       </div>
-      <div style="grid-area: button; display: flex; justify-content: right; align-items: center;">
+      <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
         <CommonButton @click="handlerDeleteEduBtn({ resIdx: props.resume.resIdx, eduIdx: item.eduIdx })" v-if="props.isEditable">삭제</CommonButton>
       </div>
     </div>
@@ -36,41 +36,41 @@
   <button class="add_btn" @click="isAddEdu = !isAddEdu" style="border-radius: 5px; margin-bottom: 10px;" v-if="props.isEditable">+ 추가</button>
   <div>
     <div class="edu_table" v-if="isAddEdu && props.isEditable">
-      <div style="grid-area: admDate; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">입학연도:</label>
-        <input style="flex: 1" v-model=edu.admDate placeholder="입학연도" type="month"></input>
+      <div class="garo_wrapper_lr" style="grid-area: admDate">
+        <label class="garo_wrapper_lr_l">입학연도:</label>
+        <input class="garo_wrapper_lr_r" v-model=edu.admDate placeholder="입학연도" type="month"></input>
       </div>
-      <div style="grid-area: eduLevel; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">학력구분:</label>
-        <select style="flex: 1" v-model=edu.eduLevel placeholder="학력구분">
+      <div class="garo_wrapper_lr" style="grid-area: eduLevel">
+        <label class="garo_wrapper_lr_l">학력구분:</label>
+        <select class="garo_wrapper_lr_r" v-model=edu.eduLevel placeholder="학력구분">
           <option value="고등학교">고등학교</option>
           <option value="대학교">대학교</option>
           <option value="대학원(석사)">대학원(석사)</option>
           <option value="대학원(박사)">대학원(박사)</option>
         </select>
       </div>
-      <div style="grid-area: grdStatus; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">졸업여부:</label>
-        <select style="flex: 1" v-model=edu.grdStatus placeholder="졸업여부">
+      <div class="garo_wrapper_lr" style="grid-area: grdStatus">
+        <label class="garo_wrapper_lr_l">졸업여부:</label>
+        <select class="garo_wrapper_lr_r" v-model=edu.grdStatus placeholder="졸업여부">
           <option value="졸업">졸업</option>
           <option value="재학">재학</option>
           <option value="휴학">휴학</option>
           <option value="중퇴">중퇴</option>
         </select>
       </div>
-      <div style="grid-area: grdDate; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">졸업연도:</label>
-        <input style="flex: 1" v-model=edu.grdDate placeholder="졸업연도" type="month"></input>
+      <div class="garo_wrapper_lr" style="grid-area: grdDate">
+        <label class="garo_wrapper_lr_l">졸업연도:</label>
+        <input class="garo_wrapper_lr_r" v-model=edu.grdDate placeholder="졸업연도" type="month"></input>
       </div>
-      <div style="grid-area: schoolName; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">학교명:</label>
-        <input style="flex: 1" v-model=edu.schoolName placeholder="학교명"></input>
+      <div class="garo_wrapper_lr" style="grid-area: schoolName">
+        <label class="garo_wrapper_lr_l">학교명:</label>
+        <input class="garo_wrapper_lr_r" v-model=edu.schoolName placeholder="학교명"></input>
       </div>
-      <div style="grid-area: major; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">전공명:</label>
-        <input style="flex: 1" v-model=edu.major placeholder="전공명"></input>
+      <div class="garo_wrapper_lr" style="grid-area: major">
+        <label class="garo_wrapper_lr_l">전공명:</label>
+        <input class="garo_wrapper_lr_r" v-model=edu.major placeholder="전공명"></input>
       </div>
-      <div style="grid-area: button; display: flex; justify-content: right; align-items: center;">
+      <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
         <CommonButton @click="{ handlerCreateEduBtn({ resIdx: props.resume.resIdx, edu: edu }); edu={ ...eduDefault } }">저장</CommonButton>
         <CommonButton @click="isAddEdu = false">취소</CommonButton>
       </div>
@@ -85,13 +85,18 @@ import { useEduNewCreateMutation } from "../../../../../hook/apply/resume/edu/us
 import { useEduNewDeleteMutation } from "../../../../../hook/apply/resume/edu/useEduNewDeleteMutation";
 
 const props = defineProps(["resume", "isEditable"]);
+const resIdx = ref("");
 const eduDefault = { admDate: '', eduLevel: '', grdStatus: '', grdDate: '', schoolName: '', major: ''};
 const edu = ref({ ...eduDefault });
 const isAddEdu = ref(false);
 
-const { data: eduList } = useEduListReadQuery(props.resume.resIdx);
+const { data: eduList } = useEduListReadQuery(resIdx);
 const { mutate: handlerCreateEduBtn } = useEduNewCreateMutation();
 const { mutate: handlerDeleteEduBtn } = useEduNewDeleteMutation();
+
+watch(() => props.resume.resIdx, () => {
+  resIdx.value = props.resume.resIdx;
+})
 </script>
 
 <style></style>

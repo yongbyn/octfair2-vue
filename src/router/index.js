@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ResumeFrame from "../components/page/Apply/Resume/ResumeFrame.vue";
+import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
+import History from "../views/Apply/History/History.vue";
+import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
@@ -13,8 +15,6 @@ import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
-import Resume from "../views/Apply/Resume/Resume.vue";
-import History from "../views/Apply/History/History.vue";
 
 const routes = [
   {
@@ -72,7 +72,7 @@ const routes = [
           {
             path: "resume-detail.do",
             name: "resumeDetail",
-            component: ResumeFrame,
+            component: ResumeDetail,
           },
           {
             path: "history.do",

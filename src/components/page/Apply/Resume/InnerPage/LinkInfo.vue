@@ -1,6 +1,6 @@
 <template>
   <p class="resumeDetail_guidetext" v-if="props.isEditable">
-    • 깃허브, 노션으로 작성한 포트폴리오, 구글 드라이브 파일 등 업무 성과를 보여줄 수 있는 링크가 있다면 작성해주세요. <br />
+    • 깃허브, 노션으로 작성한 포트폴리오, 구글 드라이브 파일 등 업무 성과를 보여줄 수 있는 링크가 있다면 작성해주세요.
   </p>
   <input 
     v-model="props.resume.pfoLink" 

@@ -103,15 +103,17 @@
   />
 
   <!-- 모달 -->
-  <ResumeFrame :resIdx="resIdx" v-if="modalStore.modalState" />
+  <CommonModalFrame>
+    <ResumeDetail :resIdx="resIdx" />
+  </CommonModalFrame>
 </template>
 
 <script setup>
+import { useModalStore } from "@/stores/modalState";
+import { useQueryClient } from "@tanstack/vue-query";
 import { useHistoryListReadQuery } from "../../../../hook/apply/history/useHistoryListReadQuery";
 import { useHistoryOneCancleMutation } from "../../../../hook/apply/history/useHistoryOneCancleMutation";
 import Pagination from "../../../common/Pagination.vue";
-import { useQueryClient } from "@tanstack/vue-query";
-import { useModalStore } from "@/stores/modalState";
 
 const injectedHistorySearchValue = inject("providedHistorySearchValue");
 const itemPerPage = ref(24);

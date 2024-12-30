@@ -5,15 +5,15 @@
   </p>
   <template v-for="(item, key) in skillList?.payload" :key="key">
     <div class="skill_table">
-      <div style="grid-area: skillName; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">스킬명:</label>
-        <input style="flex: 1" :value="item.skillName" placeholder="스킬명" disabled></input>
+      <div class="garo_wrapper_lr" style="grid-area: skillName">
+        <label class="garo_wrapper_lr_l">스킬명:</label>
+        <input class="garo_wrapper_lr_r" :value="item.skillName" placeholder="스킬명" disabled></input>
       </div>
-      <div style="grid-area: skillDetail; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">스킬상세:</label>
-        <input style="flex: 1" :value="item.skillDetail" placeholder="스킬상세" disabled></input>
+      <div class="garo_wrapper_lr" style="grid-area: skillDetail">
+        <label class="garo_wrapper_lr_l">스킬상세:</label>
+        <input class="garo_wrapper_lr_r" :value="item.skillDetail" placeholder="스킬상세" disabled></input>
       </div>
-      <div style="grid-area: button; display: flex; justify-content: right; align-items: center;">
+      <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
         <CommonButton @click="handlerDeleteSkillBtn({ resIdx: props.resume.resIdx, skillIdx: item.skillIdx })" v-if="props.isEditable">삭제</CommonButton>
       </div>
     </div>
@@ -21,15 +21,15 @@
   <button class="add_btn" @click="isAddSkill = !isAddSkill" style="border-radius: 5px; margin-bottom: 10px;" v-if="props.isEditable">+ 추가</button>
   <div>
     <div class="skill_table" v-if="isAddSkill && props.isEditable">
-      <div style="grid-area: skillName; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">스킬명:</label>
-        <input style="flex: 1" v-model=skill.skillName placeholder="스킬명"></input>
+      <div class="garo_wrapper_lr" style="grid-area: skillName">
+        <label class="garo_wrapper_lr_l">스킬명:</label>
+        <input class="garo_wrapper_lr_r" v-model=skill.skillName placeholder="스킬명"></input>
       </div>
-      <div style="grid-area: skillDetail; display: flex; justify-content: space-between; align-items: center;">
-        <label style="text-align: left">스킬상세:</label>
-        <input style="flex: 1" v-model=skill.skillDetail placeholder="스킬상세"></input>
+      <div class="garo_wrapper_lr" style="grid-area: skillDetail">
+        <label class="garo_wrapper_lr_l">스킬상세:</label>
+        <input class="garo_wrapper_lr_r" v-model=skill.skillDetail placeholder="스킬상세"></input>
       </div>
-      <div style="grid-area: button; display: flex; justify-content: right; align-items: center;">
+      <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
         <CommonButton @click="{ handlerCreateSkillBtn({ resIdx: props.resume.resIdx, skill: skill }); skill={ ...skillDefault } }">저장</CommonButton>
         <CommonButton @click="isAddSkill = false">취소</CommonButton>
       </div>
@@ -44,13 +44,18 @@ import { useSkillNewCreateMutation } from "../../../../../hook/apply/resume/skil
 import { useSkillNewDeleteMutation } from "../../../../../hook/apply/resume/skill/useSkillNewDeleteMutation";
 
 const props = defineProps(["resume", "isEditable"]);
+const resIdx = ref("");
 const skillDefault = { skillName: '', skillDetail: ''};
 const skill = ref({ ...skillDefault });
 const isAddSkill = ref(false);
 
-const { data: skillList } = useSkillListReadQuery(props.resume.resIdx);
+const { data: skillList } = useSkillListReadQuery(resIdx);
 const { mutate: handlerCreateSkillBtn } = useSkillNewCreateMutation();
 const { mutate: handlerDeleteSkillBtn } = useSkillNewDeleteMutation();
+
+watch(() => props.resume.resIdx, () => {
+  resIdx.value = props.resume.resIdx;
+})
 </script>
 
 <style></style>
