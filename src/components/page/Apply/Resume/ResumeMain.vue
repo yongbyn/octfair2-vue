@@ -75,27 +75,30 @@
         <template v-if="isError">...에러</template>
       </tbody>
     </table>
-
-    <!-- 페이지네이션 -->
-    <Pagination
-      :totalItems="resumeList?.payload?.length || 0"
-      :items-per-page="itemPerPage"
-      :max-pages-shown="5"
-      :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
-      v-model="currentPage"
-    />
   </div>
-  <ResumeFrame :resIdx="resIdx" v-if="modalStore.modalState" />
+
+  <!-- 페이지네이션 -->
+  <Pagination
+    :totalItems="resumeList?.payload?.length || 0"
+    :items-per-page="itemPerPage"
+    :max-pages-shown="5"
+    :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
+    v-model="currentPage"
+  />
+
+  <!-- 모달 -->
+  <CommonModalFrame>
+    <ResumeDetail :resIdx="resIdx" />
+  </CommonModalFrame>
 </template>
 
 <script setup>
+import { useQueryClient } from "@tanstack/vue-query";
 import { useResumeFileDownMutation } from "../../../../hook/apply/resume/useResumeFileDownMutation";
 import { useResumeListReadQuery } from "../../../../hook/apply/resume/useResumeListReadQuery";
 import { useResumeOneCopyMutation } from "../../../../hook/apply/resume/useResumeOneCopyMutation";
 import { useResumeOneDeleteMutation } from "../../../../hook/apply/resume/useResumeOneDeleteMutation";
-import { useQueryClient } from "@tanstack/vue-query";
 import { useModalStore } from "../../../../stores/modalState";
-import ResumeFrame from "./ResumeFrame.vue";
 
 const itemPerPage = ref(12);
 const currentPage = ref(1);
