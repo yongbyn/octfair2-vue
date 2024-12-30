@@ -8,7 +8,10 @@
         </tr>
 
         <tr>
-          <th>회원 유형 <span class="required">*</span></th>
+          <th>
+            회원 유형
+            <span class="required">*</span>
+          </th>
           <td>
             <label>
               <input
@@ -31,10 +34,13 @@
 
         <tr>
           <th>
-            <label for="loginId">아이디 <span class="required">*</span></label>
+            <label for="loginId"
+              >아이디
+              <span class="required">*</span>
+            </label>
           </th>
           <td>
-            <div class="table_span">
+            <div>
               <input
                 type="text"
                 id="loginId"
@@ -55,7 +61,8 @@
         <tr>
           <th>
             <label for="password"
-              >비밀번호 <span class="required">*</span>
+              >비밀번호
+              <span class="required">*</span>
             </label>
           </th>
           <td>
@@ -72,8 +79,9 @@
         <tr>
           <th>
             <label for="passwordCk"
-              >비밀번호 확인 <span class="required">*</span></label
-            >
+              >비밀번호 확인
+              <span class="required">*</span>
+            </label>
           </th>
           <td>
             <input
@@ -90,7 +98,10 @@
 
         <tr>
           <th>
-            <label for="name">이름<span class="required">*</span></label>
+            <label for="name"
+              >이름
+              <span class="required">*</span>
+            </label>
           </th>
           <td>
             <input
@@ -139,9 +150,7 @@
 
         <tr>
           <th>
-            <label for="phone"
-              >전화번호 <span class="required">*</span></label
-            >
+            <label for="phone">전화번호 <span class="required">*</span></label>
           </th>
           <td>
             <input
@@ -155,9 +164,7 @@
 
         <tr>
           <th>
-            <label for="emailId"
-              >이메일 <span class="required">*</span></label
-            >
+            <label for="emailId">이메일 <span class="required">*</span></label>
           </th>
           <td>
             <input
@@ -169,7 +176,12 @@
             />
             <span> @ </span>
             <span v-if="signUpUserInfo.emailDomain === 'userCustomDomain'">
-              <input type="text" class="inputEmail" placeholder="입력하세요." v-model="signUpUserInfo.userCustomDomain"/>
+              <input
+                type="text"
+                class="inputEmail"
+                placeholder="입력하세요."
+                v-model="signUpUserInfo.userCustomDomain"
+              />
             </span>
             <select id="emailDomain" v-model="signUpUserInfo.emailDomain">
               <option value="" disabled>선택하세요.</option>
@@ -226,7 +238,9 @@
       </table>
       <div class="buttons">
         <button @click="signUpModalCloseBtn()">닫기</button>
-        <button class="signUpBtn" @click="handlerSignUp" disabled>가입하기</button>
+        <button class="signUpBtn" @click="handlerSignUp" disabled>
+          가입하기
+        </button>
       </div>
     </div>
   </div>
@@ -237,9 +251,8 @@ import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref, watch } from "vue";
-import { useUserInfo } from "../../../stores/userInfo";
-import { useSignUpIdCheck } from "../../../hook/signUp/useSignUpIdCheck";
-import { signUp } from "../../../hook/signUp/signUp";
+import { signUp } from "../../../hook/Login/signUp";
+import { useSignUpIdCheck } from "../../../hook/Login/useSignUpIdCheck";
 
 const modalStore = useModalStore();
 const idCheckBtn = ref(true); // 아이디 중복검사 버튼 활성화
@@ -331,10 +344,7 @@ watch(
   () => signUpUserInfo.value.name,
   () => {
     if (!regExName.test(signUpUserInfo.value.name)) {
-      let nameReplace = signUpUserInfo.value.name.replace(
-        /[^가-힣]/g,
-        ""
-      );
+      let nameReplace = signUpUserInfo.value.name.replace(/[^가-힣]/g, "");
 
       signUpUserInfo.value.name = nameReplace;
     }
@@ -361,10 +371,7 @@ const birthdayCheck = () => {
 watch(
   () => signUpUserInfo.value.phone,
   () => {
-    let regExPhoneReplace = signUpUserInfo.value.phone.replace(
-      /[^0-9]/g,
-      ""
-    );
+    let regExPhoneReplace = signUpUserInfo.value.phone.replace(/[^0-9]/g, "");
     // 2자리 지역번호 처리
     if (/^(02)/.test(regExPhoneReplace)) {
       if (regExPhoneReplace.length <= 2) {
@@ -497,18 +504,27 @@ watch(
   }
 );
 // 6. 이메일 유효성 검사
-watch(() => [signUpUserInfo.value.emailId, signUpUserInfo.value.emailDomain, signUpUserInfo.value.userCustomDomain], () => {
-  let regExEmailReplace = signUpUserInfo.value.emailId.replace(
-    /[^a-zA-Z0-9._%+-]/g,
-    ""
-  );
-  signUpUserInfo.value.emailId = regExEmailReplace;
+watch(
+  () => [
+    signUpUserInfo.value.emailId,
+    signUpUserInfo.value.emailDomain,
+    signUpUserInfo.value.userCustomDomain,
+  ],
+  () => {
+    let regExEmailReplace = signUpUserInfo.value.emailId.replace(
+      /[^a-zA-Z0-9._%+-]/g,
+      ""
+    );
+    signUpUserInfo.value.emailId = regExEmailReplace;
 
-  signUpUserInfo.value.email = signUpUserInfo.value.emailDomain === 'userCustomDomain'
-    ? signUpUserInfo.value.emailId + "@" + signUpUserInfo.value.userCustomDomain
-    : signUpUserInfo.value.emailId + "@" + signUpUserInfo.value.emailDomain;
-
-});
+    signUpUserInfo.value.email =
+      signUpUserInfo.value.emailDomain === "userCustomDomain"
+        ? signUpUserInfo.value.emailId +
+          "@" +
+          signUpUserInfo.value.userCustomDomain
+        : signUpUserInfo.value.emailId + "@" + signUpUserInfo.value.emailDomain;
+  }
+);
 
 // 7. 우편번호 찾기
 const handlerKakaoPost = () => {
@@ -532,7 +548,8 @@ watch([signUpUserInfo.value, () => isIdCheck.value], () => {
     signUpUserInfo.value.birthday &&
     phonePattern.test(signUpUserInfo.value.phone) &&
     signUpUserInfo.value.phone.length >= 9 &&
-    signUpUserInfo.value.email && signUpUserInfo.value.emailDomain &&
+    signUpUserInfo.value.email &&
+    signUpUserInfo.value.emailDomain &&
     signUpUserInfo.value.zipCode
   ) {
     signUpBtn.disabled = false;

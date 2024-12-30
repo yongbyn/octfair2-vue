@@ -13,4 +13,7 @@ export const Post = {
 export const Login = {
   SignUpIdCheck: "/vue/api/check_loginId.do",
   SignUp: "/vue/api/register.do",
+  FindId: "/vue/api/selectFindInfoId.do",
+  FindPwd: "/vue/api/selectFindInfoPw.do",
+  UpdatePwd: "/vue/api/updateFindPw.do",
 };

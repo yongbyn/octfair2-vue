@@ -8,12 +8,12 @@ export const useUserInfo = defineStore(
     const user = ref();
     async function setUserData(loginInfo) {
       const param = new URLSearchParams(loginInfo);
-      const result = await axios.post("/vue/loginProc.do", param);
+      const result = await axios.post("/vue/api/loginProc.do", param);
       user.value = result.data;
       return result.data.result;
     }
 
     return { user, setUserData };
   },
-  { persist: { storage: sessionStorage } },
+  { persist: { storage: sessionStorage } }
 );

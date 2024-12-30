@@ -34,13 +34,15 @@
           </div>
         </div>
         <div class="joinDiv">
-          <strong class="strong joinDivBtn">아이디 찾기</strong>
+          <strong class="strong joinDivBtn" @click="findIdModalOpen"
+            >아이디 찾기</strong
+          >
           <span class="strong joinDivBtn noHoverCursor">|</span>
-          <strong class="strong joinDivBtn">비밀번호 찾기</strong>
+          <strong class="strong joinDivBtn" @click="findPwdModalOpen"
+            >비밀번호 찾기</strong
+          >
           <span class="strong joinDivBtn noHoverCursor">|</span>
-          <strong
-            class="strong joinDivBtn"
-            @click="modalStore.modalState = true"
+          <strong class="strong joinDivBtn" @click="signUpModalOpen"
             >회원가입</strong
           >
         </div>
@@ -49,10 +51,9 @@
   </div>
 
   <!-- 모달 -->
-  <SignUpModal
-    v-if="modalStore.modalState"
-    @modalClose="modalStore.modalState"
-  />
+  <FindIdModal v-if="modalStore.modalState && modalType === 'findIdModal'" />
+  <FindPwdModal v-if="modalStore.modalState && modalType === 'findPwdModal'" />
+  <SignUpModal v-if="modalStore.modalState && modalType === 'signUpModal'" />
 </template>
 
 <script setup>
@@ -65,12 +66,15 @@ import { handlerEnterKey } from "@/common/handler/handlerEnterKey";
 import { handlerEscKey } from "@/common/handler/handlerEscKey";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
+import FindIdModal from "./FindIdModal.vue";
+import FindPwdModal from "./FindPwdModal.vue";
 import SignUpModal from "./SignUpModal.vue";
 
 const loginInfo = ref({});
 const userInfo = useUserInfo();
 const router = useRouter();
 const modalStore = useModalStore();
+const modalType = ref("");
 
 const handlerLogin = async () => {
   const isNull = nullCheck([
@@ -89,6 +93,18 @@ const handlerLogin = async () => {
     return;
   }
 };
+// 모달 열기
+const openModal = (type) => {
+  modalStore.modalState = true;
+  modalType.value = type;
+};
+// 아이디 찾기 모달
+const findIdModalOpen = () => openModal("findIdModal");
+// 비밀번호 찾기 모달
+const findPwdModalOpen = () => openModal("findPwdModal");
+// 회원가입 모달
+const signUpModalOpen = () => openModal("signUpModal");
+
 // Enter키로 로그인하기(모달창 띄우졌을때는 안되게 함)
 handlerEnterKey(() => {
   if (!modalStore.modalState) {

@@ -9,6 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
     ContextBox: typeof import('./src/components/common/ContextBox.vue')['default']
+    FindIdModal: typeof import('./src/components/page/Login/FindIdModal.vue')['default']
+    FindPwdModal: typeof import('./src/components/page/Login/FindPwdModal.vue')['default']
+    FindUserIdModal: typeof import('./src/components/page/Login/FindUserIdModal.vue')['default']
     FirstNoticeMain: typeof import('./src/components/page/Board/Notice/FirstNoticeMain.vue')['default']
     FirstNoticeModal: typeof import('./src/components/page/Board/Notice/FirstNoticeModal.vue')['default']
     FirstNoticeSearch: typeof import('./src/components/page/Board/Notice/FirstNoticeSearch.vue')['default']
