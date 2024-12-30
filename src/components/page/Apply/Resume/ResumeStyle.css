@@ -1,6 +1,6 @@
 .garo_wrapper {
   display: flex;
-  align-items: center; /* 수직 정렬 */
+  align-items: center; /* 세로방향 내 정렬 */
   width: 100%; /* 부모 요소의 전체 너비 차지 */
   margin-bottom: 15px;
 }
@@ -8,9 +8,8 @@
 .sero_wrapper {
   display: flex;
   flex-direction: column; /* 세로 나열, 없으면 기본값 가로 나열 */
-  justify-content: center; /* 수평 정렬 */
-  width: 95%; /* 부모 요소의 전체 너비 차지 */
-  margin-right: 20px;
+  justify-content: center; /* 가로방향 내 정렬 */
+  width: 100%; /* 부모 요소의 전체 너비 차지 */
   margin-bottom: 15px;
   padding: 15px;
   overflow-y: auto; /* 세로 방향으로 넘칠시 스크롤 기능 */
@@ -42,8 +41,9 @@ select {
   overflow-y: auto; /* 세로 방향으로 넘칠시 스크롤 기능 */
   resize: vertical; /* 세로 방향으로만 크기 조정 가능 */
 
-  &:focus {
-    flex: 1; /* 나머지 공간을 입력 필드가 차지 */
+  &:focus,
+  &:hover {
+    flex: 1 0 clamp(2vw, 5vw, 8vw); /* 나머지 공간을 입력 필드가 차지 */
     box-sizing: border-box;
     border: 1px solid black;
     border-radius: 10px;
@@ -56,6 +56,20 @@ select {
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.6); /* 파란색 그림자 추가 */
     padding: 10px;
     outline: none;
+  }
+}
+
+.add_btn,
+img {
+  &:hover {
+    border: 2px solid black;
+    border-color: rgb(52, 152, 219); /* 포커스 시 테두리 색상 변경 (파란색) */
+    background-color: rgb(
+      230,
+      247,
+      255
+    ); /* 포커스 시 배경색 변경 (연한 파란색) */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.6); /* 파란색 그림자 추가 */
   }
 }
 
