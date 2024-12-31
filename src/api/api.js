@@ -47,3 +47,11 @@ export const History = {
 export const Approval = {
   SearchApprovalList: "/prx/api/manage-post/readPostList.do",
 };
+
+export const Login = {
+  SignUpIdCheck: "/vue/api/check_loginId.do",
+  SignUp: "/vue/api/register.do",
+  FindId: "/vue/api/selectFindInfoId.do",
+  FindPwd: "/vue/api/selectFindInfoPw.do",
+  FindPwdUpdate: "/vue/api/updateFindPw.do",
+};
