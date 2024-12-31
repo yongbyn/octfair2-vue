@@ -15,5 +15,5 @@ export const Login = {
   SignUp: "/vue/api/register.do",
   FindId: "/vue/api/selectFindInfoId.do",
   FindPwd: "/vue/api/selectFindInfoPw.do",
-  UpdatePwd: "/vue/api/updateFindPw.do",
+  FindPwdUpdate: "/vue/api/updateFindPw.do",
 };

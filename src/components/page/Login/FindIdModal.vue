@@ -112,8 +112,8 @@ const findUserIdModalCloseBtn = () => {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 480px;
+  height: 240px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,6 +155,7 @@ table {
 
 th {
   background-color: rgb(220, 220, 220);
+  width: 30%;
 }
 
 input {

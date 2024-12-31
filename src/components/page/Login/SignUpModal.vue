@@ -306,7 +306,7 @@ const regExPwd =
   /^(?=(.*[a-zA-Z]))(?=(.*\d))(?=(.*[!@#$%^&*]))[a-zA-Z0-9!@#$%^&*]{4,18}$/;
 const { mutate: handlerIdCheck } = useSignUpIdCheck(signUpUserInfo, isIdCheck);
 
-// 2. 비밀번호 사용 가능 여부 및 확인
+// 2. 비밀번호 유효성 검사
 watch(
   () => [signUpUserInfo.value.password, signUpUserInfo.value.passwordCk],
   () => {
