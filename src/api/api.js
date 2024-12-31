@@ -67,4 +67,6 @@ export const Login = {
 export const Applicant = {
   SearchApplicantList: "/prx/api/manage-user/applicantListBody.do",
   SearchApplicantDetail: "/prx/api/manage-user/applicantManageDetail.do",
+  ResetApplicantPw: "/prx/api/manage-user/applicantPwReset.do",
+  UpdateApplicantDetail: "/prx/api/manage-user/applicantInfoUpdate.do",
 };

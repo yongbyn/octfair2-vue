@@ -135,9 +135,8 @@
 </template>
 
 <script setup>
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import axios from "axios";
 import { useApplicantDetailSearchQuery } from "../../../../hook/manageUser/useApplicantDetailSearchQuery";
+import { useApplicantDetailUpdateMutation } from "../../../../hook/manageUser/useApplicantDetailUpdateMutation";
 import { useApplicantPwResetMutation } from "../../../../hook/manageUser/useApplicantPwResetMutation";
 import { useModalStore } from "../../../../stores/modalState";
 
@@ -162,57 +161,15 @@ const { mutate: handlerPasswordReset } = useApplicantPwResetMutation(
   props.loginId
 );
 
-const queryClient = useQueryClient();
-const { mutate: handlerUpdate } = useMutation({
-  mutationKey: ["applicantUpdate"],
-  mutationFn: () => {
-    const requestBody = {
-      ...detailValue.value,
-      loginId: props.loginId,
-    };
-    axios
-      .post("/prx/api/manage-user/applicantInfoUpdate.do", requestBody)
-      .then((res) => {
-        if (res.data.result == "success") {
-          alert("수정이 완료되었습니다.");
-          handlerModal();
-        } else {
-          alert("다시 시도해주세요.");
-        }
-      });
-  },
-  onSuccess: () => {
-    modalState.setModalState();
-    queryClient.invalidateQueries({
-      queryKey: ["applicantUpdate"],
-    });
-  },
-});
-
-// const handlerUpdate = () => {
-//   const requestBody = {
-//     ...detailValue.value,
-//     loginId: props.loginId,
-//   };
-//   axios
-//     .post("/prx/api/manage-user/applicantInfoUpdate.do", requestBody)
-//     .then((res) => {
-//       if (res.data.result == "success") {
-//         alert("수정이 완료되었습니다.");
-//         handlerModal();
-//       } else {
-//         alert("다시 시도해주세요.");
-//       }
-//     });
-// };
+const { mutate: handlerUpdate } = useApplicantDetailUpdateMutation(
+  detailValue.value,
+  props.loginId,
+  modalState
+);
 
 const handlerModal = () => {
   modalState.setModalState();
 };
-
-// onMounted(() => {
-//   searchDetail();
-// });
 
 onUnmounted(() => {
   emit("modalClose");

@@ -5,5 +5,5 @@ export const applcantDetailSearchApi = async (params) => {
   const result = await axios.post(Applicant.SearchApplicantDetail, {
     loginId: params.loginId,
   });
-  return result.data.detail;
+  return result.data;
 };
