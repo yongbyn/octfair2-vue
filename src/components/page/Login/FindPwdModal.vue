@@ -114,20 +114,18 @@ const { mutate: handlerFindPwd } = findPwd(findPwdUserInfo, findPwdCheck);
 
 // 3. 정보 확인 후 비밀번호 업데이트 유효성 검사
 const pwdValid = () => {
-  const RegExPwd =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,20}$/;
+  const regExPwd =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{4,18}$/;
 
   if (!findPwdUserInfo.value.pw || !findPwdUserInfo.value.pwCk) {
     toast.error("비밀번호를 모두 입력해주세요.");
     return;
-  }
-  if (!RegExPwd.test(findPwdUserInfo.value.pw)) {
+  } else if (!regExPwd.test(findPwdUserInfo.value.pw)) {
     toast.error(
-      "비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 하며 4~20자리여야 합니다."
+      "비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 하며 4~18자리여야 합니다."
     );
     return;
-  }
-  if (findPwdUserInfo.value.pw !== findPwdUserInfo.value.pwCk) {
+  } else if (findPwdUserInfo.value.pw !== findPwdUserInfo.value.pwCk) {
     toast.error("비밀번호가 일치하지 않습니다.");
     return;
   }

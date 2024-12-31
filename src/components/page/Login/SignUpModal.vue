@@ -8,53 +8,47 @@
         </tr>
 
         <tr>
-          <th>
-            회원 유형
-            <span class="required">*</span>
-          </th>
+          <th>회원 유형 <span class="required">*</span></th>
           <td>
-            <label>
-              <input
-                type="radio"
-                name="userType"
-                value="A"
+            <b-form-group>
+              <b-form-radio-group
                 v-model="signUpUserInfo.userType"
-              />일반회원
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="userType"
-                value="B"
-                v-model="signUpUserInfo.userType"
-              />기업회원
-            </label>
+                :options="[
+                  { value: 'A', text: '일반회원' },
+                  { value: 'B', text: '기업회원' },
+                ]"
+                button-variant="outline-info"
+                size="sm"
+                name="radio-btn-outline"
+                buttons
+              ></b-form-radio-group>
+            </b-form-group>
           </td>
         </tr>
 
         <tr>
           <th>
-            <label for="loginId"
-              >아이디
-              <span class="required">*</span>
-            </label>
+            <label for="loginId">아이디 <span class="required">*</span> </label>
           </th>
           <td>
-            <div>
-              <input
-                type="text"
-                id="loginId"
-                v-model="signUpUserInfo.loginId"
-                placeholder="숫자, 영문 조합(4~20자)"
-              />
-              <button
-                class="idCheckBtn"
-                :disabled="idCheckBtn"
-                @click="handlerIdCheck"
-              >
-                중복 확인
-              </button>
-            </div>
+            <b-row class="my-1">
+              <b-col class="d-flex align-items-center">
+                <b-form-input
+                  id="userId"
+                  :state="idState"
+                  placeholder="숫자, 영문 조합(4~20자)"
+                  v-model="signUpUserInfo.loginId"
+                ></b-form-input>
+                <b-button
+                  id="idCheckBtn"
+                  variant="outline-secondary"
+                  class="idCheckBtn"
+                  @click="idValid"
+                >
+                  중복 확인
+                </b-button>
+              </b-col>
+            </b-row>
           </td>
         </tr>
 
@@ -65,7 +59,7 @@
               <span class="required">*</span>
             </label>
           </th>
-          <td>
+          <!-- <td>
             <input
               type="password"
               id="password"
@@ -73,6 +67,20 @@
               placeholder="숫자, 영문, 특수문자 조합(4~18자)"
             />
             <div class="passwordStatus">사용가능</div>
+          </td> -->
+
+          <td>
+            <b-row class="my-1">
+              <b-col class="d-flex align-items-center">
+                <b-form-input
+                  id="password"
+                  type="password"
+                  :state="null"
+                  placeholder="숫자, 영문, 특수문자 조합(4~18자)"
+                  v-model="signUpUserInfo.password"
+                ></b-form-input>
+              </b-col>
+            </b-row>
           </td>
         </tr>
 
@@ -255,8 +263,8 @@ import { signUp } from "../../../hook/Login/signUp";
 import { useSignUpIdCheck } from "../../../hook/Login/useSignUpIdCheck";
 
 const modalStore = useModalStore();
-const idCheckBtn = ref(true); // 아이디 중복검사 버튼 활성화
-const isIdCheck = ref(false); // 아이디 중복여부
+const idCheckBtn = ref(true);
+const isIdCheck = ref(false);
 const signUpUserInfo = ref({
   // 회원가입 사용자 정보
   action: "I",
@@ -277,6 +285,19 @@ const signUpUserInfo = ref({
   detailAddress: "",
 });
 
+// 1. 아이디 중복체크
+const idValid = () => {
+  const regExId = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/;
+
+  if (!regExId.test(signUpUserInfo.value.loginId)) {
+    toast.error("아이디는 영문, 숫자 모두 포함해야 하며 4~20자리여야 합니다.");
+    return;
+  } else {
+    // 중복버튼 css 수정하기
+  }
+  handlerIdCheck();
+};
+
 // 1-1. 아이디 변경될 때 중복확인 버튼 사용 할 수 있게
 watch(
   () => signUpUserInfo.value.loginId,
@@ -293,10 +314,10 @@ watch(
     const regExId = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,20}$/;
 
     if (regExId.test(signUpUserInfo.value.loginId)) {
-      idCheckBtn.disabled = false;
+      // idCheckBtn.disabled = false;
       idCheckBtn.style.backgroundColor = "gray";
     } else {
-      idCheckBtn.disabled = true;
+      // idCheckBtn.disabled = true;
       idCheckBtn.style.backgroundColor = "gainsboro";
     }
   }
@@ -587,8 +608,7 @@ const signUpModalCloseBtn = () => {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 480px;
-
+  width: 600px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -596,128 +616,5 @@ const signUpModalCloseBtn = () => {
 
 .required {
   color: red;
-}
-
-th {
-  width: 100px;
-  text-align: left;
-  height: 33px;
-}
-th,
-td,
-input[type="text"],
-input[type="password"] {
-  font-size: 12px;
-}
-label {
-  display: inline-flex;
-  white-space: nowrap;
-  margin-right: 20px;
-}
-
-.signupTitle {
-  text-align: center;
-}
-input[type="text"],
-input[type="password"],
-input[type="date"] {
-  width: 220px;
-  height: 20px;
-  border: 1px solid darkgray;
-  border-radius: 4px;
-}
-::placeholder {
-  font-size: 12px;
-}
-
-.addressInput,
-.detailAddressInput {
-  width: 250px !important;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid gray;
-}
-button {
-  width: 120px;
-  padding: 10px 20px;
-  background-color: #3bb2ea;
-  color: #ffffff;
-  border: 2px solid transparent;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s,
-    transform 0.2s ease,
-    box-shadow 0.3s;
-}
-
-.zipCodeInput {
-  width: 70px !important;
-}
-
-.zipCodeInput,
-.addressInput {
-  background-color: gainsboro;
-}
-
-button:hover {
-  background-color: #87ceeb;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.buttons {
-  margin-top: 20px;
-  gap: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.idCheckBtn,
-.zipCodeBtn {
-  font-size: 12px;
-  width: auto;
-  height: 30px;
-  background-color: gray;
-  margin-left: 10px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.idCheckBtn:disabled {
-  background-color: gainsboro;
-}
-.zipCodeBtn {
-  width: 100px;
-  white-space: nowrap;
-}
-.idCheckBtn:hover,
-.zipCodeBtn:hover {
-  background-color: darkgray;
-}
-.signUpBtn:disabled {
-  background-color: #a3e4ff;
-}
-
-.passwordStatus,
-.passwordCkStatus {
-  width: 95.34px;
-  height: 30px;
-  background-color: green;
-  color: white;
-  margin-left: 10px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  display: none;
-}
-.emailId {
-  width: 120px !important;
-}
-.inputEmail {
-  width: 80px !important;
-  margin: 0 5px 0 0;
 }
 </style>
