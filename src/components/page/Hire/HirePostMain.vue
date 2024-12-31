@@ -2,7 +2,7 @@
   <div class="divPostList">
     현재 페이지: {{ cPage }} 총 개수: {{ hirePostList?.hireCnt }}
     <div>
-      <button>등록</button>
+      <button @click="handlerEditor">공고 등록</button>
     </div>
     <table>
       <colgroup>
@@ -57,14 +57,15 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 // import { useRoute } from "vue-router";
-import Pagination from "../../common/Pagination.vue";
 
 // const route = useRoute();
 const hirePostList = ref();
 const cPage = ref(1);
 // const injectedValue = inject("providedValue");
 // const managePostIdx = ref(0);
+const router = useRouter();
 
 const searchList = () => {
   const param = new URLSearchParams({
@@ -72,8 +73,14 @@ const searchList = () => {
     pageSize: 5,
   });
 
-  axios.post("/vue/api/manage-hire/post-list.do", param).then((res) => {
+  axios.post("/prx/api/manage-hire/post-list.do", param).then((res) => {
     hirePostList.value = res.data;
+  });
+};
+
+const handlerEditor = () => {
+  router.push({
+    name: "hire-post-create",
   });
 };
 
@@ -116,5 +123,19 @@ table {
     opacity: 0.9;
     cursor: pointer;
   }
+}
+
+button {
+  padding: 6px 12px;
+  margin: 5px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1378e4;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #003d7e;
 }
 </style>

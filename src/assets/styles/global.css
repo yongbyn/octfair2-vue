@@ -1,0 +1,18 @@
+/* global.css */
+
+/* Pretendard 폰트 설정 */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-display: swap;
+  src:
+    local("Pretendard Black"),
+    url("./assets/fonts/woff2/Pretendard-Black.woff2") format("woff2");
+}
+
+/* 기본 스타일 설정 */
+body {
+  font-family: "Pretendard", sans-serif;
+  margin: 0;
+  padding: 0;
+}
