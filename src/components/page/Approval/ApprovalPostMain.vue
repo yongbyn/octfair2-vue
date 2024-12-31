@@ -61,6 +61,7 @@
 <script setup>
 import { ref } from "vue";
 import { useApprovalListSearchQuery } from "../../../hook/approval/useApprovalListSearchQuery";
+import router from "../../../router";
 import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
@@ -72,6 +73,13 @@ const {
   isSuccess,
   isError,
 } = useApprovalListSearchQuery(injectedValue, cPage);
+
+const handlerDetail = (idx) => {
+  router.push({
+    name: "postDetail",
+    params: { idx },
+  });
+};
 </script>
 
 <style lang="scss" scoped>

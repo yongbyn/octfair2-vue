@@ -9,6 +9,14 @@ export const Notice = {
 
 export const Post = {
   SearchPostList: "/prx/api/jobs/readPostList.do",
+  SearchPostDetail: "/prx/api/jobs/readPostDetailBody.do",
+  DeletePostDetail: "/prx/api/manage-hire/deleteHirePost.do",
+};
+
+export const Scrap = {
+  SearchScrapList: "/prx/api/jobs/readScrapList.do",
+  UpdateScrap: "/prx/api/jobs/saveScrap.do",
+  DeleteScrap: "/prx/api/jobs/deleteScrap.do",
 };
 
 export const Resume = {

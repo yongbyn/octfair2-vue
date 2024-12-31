@@ -3,7 +3,7 @@
     <input v-model="searchKey.searchTitle" />
     <input type="date" v-model="searchKey.searchStartDate" />
     <input type="date" v-model="searchKey.searchEndDate" />
-    <button @click="handlerSearch">검1색</button>
+    <button @click="handlerSearch">검색</button>
   </div>
 </template>
 
