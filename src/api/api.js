@@ -49,9 +49,9 @@ export const Approval = {
 };
 
 export const Login = {
-  SignUpIdCheck: "/vue/api/check_loginId.do",
-  SignUp: "/vue/api/register.do",
-  FindId: "/vue/api/selectFindInfoId.do",
-  FindPwd: "/vue/api/selectFindInfoPw.do",
-  FindPwdUpdate: "/vue/api/updateFindPw.do",
+  SignUpIdCheck: "/prx/api/check_loginId.do",
+  SignUp: "/prx/api/register.do",
+  FindId: "/prx/api/selectFindInfoId.do",
+  FindPwd: "/prx/api/selectFindInfoPw.do",
+  FindPwdUpdate: "/prx/api/updateFindPw.do",
 };
