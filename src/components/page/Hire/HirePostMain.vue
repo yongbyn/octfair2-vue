@@ -84,12 +84,12 @@ const handlerEditor = () => {
   });
 };
 
-// const handlerDetail = (idx) => {
-//   router.push({
-//     name: "postDetail",
-//     params: { idx },
-//   });
-// };
+const handlerDetail = (idx) => {
+  router.push({
+    name: "postDetail",
+    params: { idx },
+  });
+};
 
 onMounted(() => {
   searchList();
