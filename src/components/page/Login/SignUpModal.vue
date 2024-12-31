@@ -525,7 +525,7 @@ watch(
         : signUpUserInfo.value.emailId + "@" + signUpUserInfo.value.emailDomain;
   }
 );
-//#82테스트ㅇ
+//#82테스트ㅇㅇㅇㅇ1212
 // 7. 우편번호 찾기
 const handlerKakaoPost = () => {
   kakaoPostcode((data) => {
