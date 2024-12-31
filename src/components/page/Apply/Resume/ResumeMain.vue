@@ -1,7 +1,7 @@
 <template>
   <div class="divResumeList">
     현재 페이지: {{ currentPage }} 총 개수:
-    {{ resumeList?.payload?.length || 0 }}
+    {{ resumeList?.resumeCnt || 0 }}
     <table>
       <colgroup>
         <col width="15%" />
@@ -79,7 +79,7 @@
 
   <!-- 페이지네이션 -->
   <Pagination
-    :totalItems="resumeList?.payload?.length || 0"
+    :totalItems="resumeList?.resumeCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
     :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
@@ -100,7 +100,7 @@ import { useResumeOneCopyMutation } from "../../../../hook/apply/resume/useResum
 import { useResumeOneDeleteMutation } from "../../../../hook/apply/resume/useResumeOneDeleteMutation";
 import { useModalStore } from "../../../../stores/modalState";
 
-const itemPerPage = ref(12);
+const itemPerPage = ref(5);
 const currentPage = ref(1);
 const queryClient = useQueryClient();
 const resIdx = ref("");

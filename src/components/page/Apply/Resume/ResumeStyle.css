@@ -9,6 +9,7 @@
   display: flex; /* 가로 나열 */
   justify-content: space-between; /* 가로 양끝 나열 */
   align-items: center;
+  overflow: hidden; /* 이 요소(부모) 밖을 넘으려는 자식의 넘은부분을 히든 */
 }
 
 .garo_wrapper_lr_l {
@@ -17,6 +18,7 @@
 
 .garo_wrapper_lr_r {
   flex: 1; /* 위 garo_wrapper_lr 요소 중 우측 배치 요소 */
+  overflow-wrap: anywhere; /* 부모를 넘겨버려 히든된 부분을 줄넘김 */
 }
 
 .garo_wrapper_r {

@@ -1,7 +1,7 @@
 <template>
   <div class="divHistoryList">
     현재 페이지: {{ currentPage }} 총 개수:
-    {{ historyList?.result?.length || 0 }}
+    {{ historyList?.historyCnt || 0 }}
     <table>
       <colgroup>
         <col width="15%" />
@@ -95,7 +95,7 @@
 
   <!-- 페이지네이션 -->
   <Pagination
-    :totalItems="historyList?.result?.length || 0"
+    :totalItems="historyList?.historyCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
     :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
@@ -116,7 +116,7 @@ import { useHistoryOneCancleMutation } from "../../../../hook/apply/history/useH
 import Pagination from "../../../common/Pagination.vue";
 
 const injectedHistorySearchValue = inject("providedHistorySearchValue");
-const itemPerPage = ref(24);
+const itemPerPage = ref(5);
 const currentPage = ref(1);
 const queryClient = useQueryClient();
 const resIdx = ref(0);
