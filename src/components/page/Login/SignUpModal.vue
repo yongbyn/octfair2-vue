@@ -18,7 +18,6 @@
                   { value: 'B', text: '기업회원' },
                 ]"
                 button-variant="outline-info"
-                size="sm"
                 name="radio-btn-outline"
                 buttons
               ></b-form-radio-group>
@@ -31,24 +30,23 @@
             <label for="loginId">아이디 <span class="required">*</span> </label>
           </th>
           <td>
-            <b-row class="my-1">
-              <b-col class="d-flex align-items-center">
-                <b-form-input
-                  id="userId"
-                  :state="idState"
-                  placeholder="숫자, 영문 조합(4~20자)"
-                  v-model="signUpUserInfo.loginId"
-                ></b-form-input>
-                <b-button
-                  id="idCheckBtn"
-                  variant="outline-secondary"
-                  class="idCheckBtn"
-                  @click="idValid"
-                >
-                  중복 확인
-                </b-button>
-              </b-col>
-            </b-row>
+            <b-col class="d-flex align-items-center">
+              <b-form-input
+                id="loginId"
+                class="userId"
+                :state="idState"
+                placeholder="숫자, 영문 조합(4~20자)"
+                v-model="signUpUserInfo.loginId"
+              ></b-form-input>
+              <b-button
+                id="idCheckBtn"
+                variant="outline-secondary"
+                class="idCheckBtn"
+                @click="idValid"
+              >
+                중복 확인
+              </b-button>
+            </b-col>
           </td>
         </tr>
 
@@ -59,15 +57,6 @@
               <span class="required">*</span>
             </label>
           </th>
-          <!-- <td>
-            <input
-              type="password"
-              id="password"
-              v-model="signUpUserInfo.password"
-              placeholder="숫자, 영문, 특수문자 조합(4~18자)"
-            />
-            <div class="passwordStatus">사용가능</div>
-          </td> -->
 
           <td>
             <b-row class="my-1">
@@ -75,13 +64,15 @@
                 <b-form-input
                   id="password"
                   type="password"
-                  :state="null"
+                  :state="pwdState"
                   placeholder="숫자, 영문, 특수문자 조합(4~18자)"
-                  v-model="signUpUserInfo.password"
+                  v-model.lazy="signUpUserInfo.password"
                 ></b-form-input>
               </b-col>
             </b-row>
+            <div class="statusPwd">숫자, 영문, 특수문자 조합(4~18자)으로 만들어주세요.</div>
           </td>
+ 
         </tr>
 
         <tr>
@@ -92,7 +83,7 @@
             </label>
           </th>
           <td>
-            <input
+            <!-- <input
               type="password"
               id="passwordCk"
               v-model="signUpUserInfo.passwordCk"
@@ -100,7 +91,20 @@
             />
             <div class="passwordCkStatus">
               {{ signUpUserInfo.passwordCkStatus ? "일치" : "불일치" }}
-            </div>
+            </div> -->
+
+            <b-row class="my-1">
+              <b-col class="d-flex align-items-center">
+                <b-form-input
+                  id="passwordCk"
+                  type="password"
+                  :state="pwdCkstate"
+                  placeholder="비밀번호를 다시 입력하세요."
+                  v-model.lazy="signUpUserInfo.passwordCk"
+                ></b-form-input>
+              </b-col>
+            </b-row>
+            <div class="statusPwdCk">위의 비밀번호와 내용이 다릅니다.</div>
           </td>
         </tr>
 
@@ -258,13 +262,16 @@
 import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import { signUp } from "../../../hook/Login/signUp";
 import { useSignUpIdCheck } from "../../../hook/Login/useSignUpIdCheck";
 
 const modalStore = useModalStore();
-const idCheckBtn = ref(true);
-const isIdCheck = ref(false);
+// const isIdCheck = ref(false);
+
+const idState = ref(null);
+const pwdState = ref(null);
+const pwdCkstate = ref(null);
 const signUpUserInfo = ref({
   // 회원가입 사용자 정보
   action: "I",
@@ -291,86 +298,84 @@ const idValid = () => {
 
   if (!regExId.test(signUpUserInfo.value.loginId)) {
     toast.error("아이디는 영문, 숫자 모두 포함해야 하며 4~20자리여야 합니다.");
+    idState.value = false;
+    document.getElementById('loginId').focus();  
     return;
   } else {
-    // 중복버튼 css 수정하기
+    handlerIdCheck();
   }
-  handlerIdCheck();
 };
-
-// 1-1. 아이디 변경될 때 중복확인 버튼 사용 할 수 있게
-watch(
-  () => signUpUserInfo.value.loginId,
-  () => {
-    isIdCheck.value = false;
-    const idCheckBtn = document.querySelector(".idCheckBtn");
-    let regExIdReplace = signUpUserInfo.value.loginId.replace(
-      /[^a-zA-Z0-9]/g,
-      ""
-    );
-
-    signUpUserInfo.value.loginId = regExIdReplace;
-
-    const regExId = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,20}$/;
-
-    if (regExId.test(signUpUserInfo.value.loginId)) {
-      // idCheckBtn.disabled = false;
-      idCheckBtn.style.backgroundColor = "gray";
-    } else {
-      // idCheckBtn.disabled = true;
-      idCheckBtn.style.backgroundColor = "gainsboro";
-    }
-  }
-);
-// 1-2. 아이디 중복 체크 버튼
-const regExPwd =
-  /^(?=(.*[a-zA-Z]))(?=(.*\d))(?=(.*[!@#$%^&*]))[a-zA-Z0-9!@#$%^&*]{4,18}$/;
-const { mutate: handlerIdCheck } = useSignUpIdCheck(signUpUserInfo, isIdCheck);
+watch(() => signUpUserInfo.value.loginId, () => {
+  idState.value = false;
+})
+const { mutate: handlerIdCheck } = useSignUpIdCheck(signUpUserInfo, idState);
 
 // 2. 비밀번호 유효성 검사
 watch(
   () => [signUpUserInfo.value.password, signUpUserInfo.value.passwordCk],
   () => {
-    const passwordStatus = document.querySelector(".passwordStatus");
-    const passwordCkStatus = document.querySelector(".passwordCkStatus");
+    const statusPwd = document.querySelector(".statusPwd");
+    const statusPwdCk = document.querySelector(".statusPwdCk");
 
-    // 비밀번호 사용 가능하면 "사용가능" 표시
-    if (regExPwd.test(signUpUserInfo.value.password)) {
-      passwordStatus.style.display = "inline-flex";
-    } else {
-      passwordStatus.style.display = "none";
+    const regExPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{4,18}$/;
+
+    if(!regExPwd.test(signUpUserInfo.value.password)){
+      pwdState.value = false;
+      statusPwd.style.visibility = "visible";
+    } else{
+      pwdState.value = true;
+      statusPwd.style.visibility = "hidden";
     }
 
-    if (signUpUserInfo.value.password) {
-      passwordCkStatus.style.setProperty("display", "inline-flex");
-    }
-
-    // 비밀번호가 일치할 경우 "일치 | 불일치" 표시
-    if (
-      signUpUserInfo.value.password === signUpUserInfo.value.passwordCk &&
-      signUpUserInfo.value.password !== ""
-    ) {
-      passwordCkStatus.style.backgroundColor = "green";
-      signUpUserInfo.value.passwordCkStatus = true;
-    } else {
-      passwordCkStatus.style.backgroundColor = "red";
-      signUpUserInfo.value.passwordCkStatus = false;
-    }
   }
-);
+)
+
+// 2. 비밀번호 유효성 검사
+// watch(
+//   () => [signUpUserInfo.value.password, signUpUserInfo.value.passwordCk],
+//   () => {
+//     const passwordStatus = document.querySelector(".passwordStatus");
+//     const passwordCkStatus = document.querySelector(".passwordCkStatus");
+
+//     // 비밀번호 사용 가능하면 "사용가능" 표시
+//     if (regExPwd.test(signUpUserInfo.value.password)) {
+//       passwordStatus.style.display = "inline-flex";
+//     } else {
+//       passwordStatus.style.display = "none";
+//     }
+
+//     if (signUpUserInfo.value.password) {
+//       passwordCkStatus.style.setProperty("display", "inline-flex");
+//     }
+
+//     // 비밀번호가 일치할 경우 "일치 | 불일치" 표시
+//     if (
+//       signUpUserInfo.value.password === signUpUserInfo.value.passwordCk &&
+//       signUpUserInfo.value.password !== ""
+//     ) {
+//       passwordCkStatus.style.backgroundColor = "green";
+//       signUpUserInfo.value.passwordCkStatus = true;
+//     } else {
+//       passwordCkStatus.style.backgroundColor = "red";
+//       signUpUserInfo.value.passwordCkStatus = false;
+//     }
+//   }
+// );
 
 // 3. 이름 유효성 검사
-const regExName = /^[가-힣]{2,}$/;
-watch(
-  () => signUpUserInfo.value.name,
-  () => {
-    if (!regExName.test(signUpUserInfo.value.name)) {
-      let nameReplace = signUpUserInfo.value.name.replace(/[^가-힣]/g, "");
 
-      signUpUserInfo.value.name = nameReplace;
-    }
-  }
-);
+
+// const regExName = /^[가-힣]{2,}$/;
+// watch(
+//   () => signUpUserInfo.value.name,
+//   () => {
+//     if (!regExName.test(signUpUserInfo.value.name)) {
+//       let nameReplace = signUpUserInfo.value.name.replace(/[^가-힣]/g, "");
+
+//       signUpUserInfo.value.name = nameReplace;
+//     }
+//   }
+// );
 
 // 4. 생년월일 유효성 체크(과거~오늘 선택가능, 미래 선택불가)
 const birthdayCheck = () => {
@@ -556,28 +561,28 @@ const handlerKakaoPost = () => {
 };
 
 // 8. 회원가입 버튼 활성화
-watch([signUpUserInfo.value, () => isIdCheck.value], () => {
-  const signUpBtn = document.querySelector(".signUpBtn");
-  const phonePattern = /-\d{4}$/;
-  if (
-    signUpUserInfo.value.userType &&
-    isIdCheck.value === true &&
-    regExPwd.test(signUpUserInfo.value.password) &&
-    regExPwd.test(signUpUserInfo.value.passwordCk) &&
-    regExName.test(signUpUserInfo.value.name) &&
-    signUpUserInfo.value.sex &&
-    signUpUserInfo.value.birthday &&
-    phonePattern.test(signUpUserInfo.value.phone) &&
-    signUpUserInfo.value.phone.length >= 9 &&
-    signUpUserInfo.value.email &&
-    signUpUserInfo.value.emailDomain &&
-    signUpUserInfo.value.zipCode
-  ) {
-    signUpBtn.disabled = false;
-  } else {
-    signUpBtn.disabled = true;
-  }
-});
+// watch([signUpUserInfo.value, () => isIdCheck.value], () => {
+//   const signUpBtn = document.querySelector(".signUpBtn");
+//   const phonePattern = /-\d{4}$/;
+//   if (
+//     signUpUserInfo.value.userType &&
+//     isIdCheck.value === true &&
+//     regExPwd.test(signUpUserInfo.value.password) &&
+//     regExPwd.test(signUpUserInfo.value.passwordCk) &&
+//     regExName.test(signUpUserInfo.value.name) &&
+//     signUpUserInfo.value.sex &&
+//     signUpUserInfo.value.birthday &&
+//     phonePattern.test(signUpUserInfo.value.phone) &&
+//     signUpUserInfo.value.phone.length >= 9 &&
+//     signUpUserInfo.value.email &&
+//     signUpUserInfo.value.emailDomain &&
+//     signUpUserInfo.value.zipCode
+//   ) {
+//     signUpBtn.disabled = false;
+//   } else {
+//     signUpBtn.disabled = true;
+//   }
+// });
 // 9. 회원가입 버튼
 const { mutate: handlerSignUp } = signUp(signUpUserInfo);
 
@@ -614,7 +619,27 @@ const signUpModalCloseBtn = () => {
   align-items: center;
 }
 
+
+input {
+  padding: 10px;
+  font-size: 14px;
+}
+
 .required {
   color: red;
+}
+
+.idCheckBtn{
+  margin-left: 10px;
+}
+.userId{
+  width: 150px;
+}
+
+.statusPwd,
+.statusPwdCk {
+  visibility: hidden;
+  color: red;
+  font-size: 14px;
 }
 </style>
