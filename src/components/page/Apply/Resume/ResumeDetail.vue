@@ -97,7 +97,7 @@ const { mutate: handlerSelectFileBtn } = useResumeFileSelectMutation(fileData, f
 const { mutate: handlerDeleteFileBtn } = useResumeFileDeleteMutation(resIdx);
 
 const handlerPreviewBtn = () => {
-  isPreview = !isPreview;
+  isPreview.value = !isPreview.value;
 };
 
 const handlerPrintBtn = () => {

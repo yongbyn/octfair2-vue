@@ -1,6 +1,9 @@
 <template>
   <ul class="dashboard-ul">
-    <li class="menu-bar">
+    <li>
+      <button @click="isShowMenu = !isShowMenu" />
+    </li>
+    <li class="menu-bar" v-show="isShowMenu">
       <LeftManuBar></LeftManuBar>
     </li>
     <li class="content">
@@ -11,6 +14,8 @@
 
 <script setup>
 import LeftManuBar from "../../components/layout/LeftManuBar.vue";
+
+const isShowMenu = ref("false");
 </script>
 
 <style scoped>
@@ -18,6 +23,10 @@ import LeftManuBar from "../../components/layout/LeftManuBar.vue";
   list-style-type: none;
   display: flex;
   overflow: hidden;
+}
+
+.button {
+  display: none;
 }
 
 .menu-bar {
@@ -30,5 +39,25 @@ import LeftManuBar from "../../components/layout/LeftManuBar.vue";
   padding-right: 10%;
   width: 77%;
   flex: 1;
+}
+
+@media (max-width: 900px) {
+  .dashboard-ul {
+    flex-direction: column;
+  }
+
+  .button {
+    display: block;
+  }
+
+  .menu-bar {
+    float: inline-start;
+    opacity: 0.6;
+  }
+
+  .content {
+    padding: 25px;
+    width: 100%;
+  }
 }
 </style>
