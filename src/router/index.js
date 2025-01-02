@@ -3,6 +3,7 @@ import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
+import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
@@ -89,6 +90,11 @@ const routes = [
             path: "posts.do",
             name: "post",
             component: Post,
+          },
+          {
+            path: "posts.do/:idx",
+            name: "postDetail",
+            component: PostDetail,
           },
         ],
       },

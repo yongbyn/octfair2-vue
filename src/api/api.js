@@ -9,6 +9,14 @@ export const Notice = {
 
 export const Post = {
   SearchPostList: "/prx/api/jobs/readPostList.do",
+  SearchPostDetail: "/prx/api/jobs/readPostDetailBody.do",
+  DeletePostDetail: "/prx/api/manage-hire/deleteHirePost.do",
+};
+
+export const Scrap = {
+  SearchScrapList: "/prx/api/jobs/readScrapList.do",
+  UpdateScrap: "/prx/api/jobs/saveScrap.do",
+  DeleteScrap: "/prx/api/jobs/deleteScrap.do",
 };
 
 export const Resume = {
@@ -46,4 +54,19 @@ export const History = {
 
 export const Approval = {
   SearchApprovalList: "/prx/api/manage-post/readPostList.do",
+};
+
+export const Login = {
+  SignUpIdCheck: "/prx/api/check_loginId.do",
+  SignUp: "/prx/api/register.do",
+  FindId: "/prx/api/selectFindInfoId.do",
+  FindPwd: "/prx/api/selectFindInfoPw.do",
+  FindPwdUpdate: "/prx/api/updateFindPw.do",
+};
+
+export const Applicant = {
+  SearchApplicantList: "/prx/api/manage-user/applicantListBody.do",
+  SearchApplicantDetail: "/prx/api/manage-user/applicantManageDetail.do",
+  ResetApplicantPw: "/prx/api/manage-user/applicantPwReset.do",
+  UpdateApplicantDetail: "/prx/api/manage-user/applicantInfoUpdate.do",
 };
