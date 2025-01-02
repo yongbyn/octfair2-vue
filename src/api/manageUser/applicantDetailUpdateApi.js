@@ -7,8 +7,10 @@ export const applicantDetailUpdateApi = async (detailValue, loginId) => {
     loginId,
   };
 
-  axios.post(Applicant.UpdateApplicantDetail, requestBody).then((res) => {
-    if (res.data.result !== "success") {
+  await axios.post(Applicant.UpdateApplicantDetail, requestBody).then((res) => {
+    if (res.data.result === "success") {
+      return;
+    } else {
       alert("다시 시도해주세요.");
     }
   });

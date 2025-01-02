@@ -7,8 +7,10 @@ export const bizDetailUpdateApi = async (detailValue, bizidx) => {
     bizidx,
   };
 
-  axios.post(Biz.UpdateBizDetail, requestBody).then((res) => {
-    if (res.data.result !== "success") {
+  await axios.post(Biz.UpdateBizDetail, requestBody).then((res) => {
+    if (res.data.result === "success") {
+      return;
+    } else {
       alert("다시 시도해주세요.");
     }
   });
