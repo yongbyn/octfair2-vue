@@ -1,41 +1,31 @@
 <template>
-<h1>지원자 관리</h1>
+  <h1>지원자 관리</h1>
 
   <div class="searchWrapper">
+    <div class="selectArea" v-if="isSuccess">
+      <div>
+        <h1>{{ applicantList.MDetail[0].title }}</h1>
+      </div>
 
-<div class="selectArea" v-if="isSuccess">
-
-<div>
-
-    <h1>{{ applicantList.MDetail[0].title }}</h1>
-</div>
-
-    <div >
-      <select>
-        <option
-          v-for="md in applicantList.MDetail"
-          :key="md"
-          :value="md.postIdx"
-          @change="changeHirePostingFnc(md.postIdx)"
-        >
-          {{ md.title }}
-        </option>
-      </select>
-
-      <select v-model="statusMesaage" @change="choiceStatusFnc(statusMesaage)">
-        <option>서류심사중</option>
-        <option>면접준비중</option>
-        <option>최종합격</option>
-        <option>불합격</option>
-      </select>
+      <div>
+        <select>
+          <option
+            v-for="md in applicantList.MDetail"
+            :key="md"
+            :value="md.postIdx"
+            @change="changeHirePostingFnc(md.postIdx)"
+          >
+            {{ md.title }}
+          </option>
+        </select>
+        <select v-model="statusMesaage" @change="choiceStatusFnc(statusMesaage)">
+          <option>서류심사중</option>
+          <option>면접준비중</option>
+          <option>최종합격</option>
+          <option>불합격</option>
+        </select>
+      </div>
     </div>
-
-</div>
-
-
-
-
-
   </div>
 </template>
 
@@ -92,11 +82,11 @@ const changeHirePostingFnc = async (postIdx) => {
   justify-content: flex-end;
 }
 
-.selectArea {  
-    display: flex;
-    width: 100%;
-    gap: 30px;
-    justify-content: space-between;
+.selectArea {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+  justify-content: space-between;
 }
 
 select {

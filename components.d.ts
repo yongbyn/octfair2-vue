@@ -10,6 +10,7 @@ declare module 'vue' {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
     ApplicantMain: typeof import('./src/components/page/ManageUser/Applicant/ApplicantMain.vue')['default']
     ApplicantModal: typeof import('./src/components/page/ManageUser/Applicant/ApplicantModal.vue')['default']
+    ApplicantResume: typeof import('./src/components/page/Applicant/ApplicantResume.vue')['default']
     ApplicantSearch: typeof import('./src/components/page/ManageUser/Applicant/ApplicantSearch.vue')['default']
     ApplyInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/ApplyInfo.vue')['default']
     ApprovalPostMain: typeof import('./src/components/page/Approval/ApprovalPostMain.vue')['default']

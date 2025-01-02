@@ -118,7 +118,13 @@ const router=useRouter();
 
 const showResume=(resIdx)=>{
 
-router.push("/apply/resume-detail.do")
+    console.log(resIdx)
+
+router.push({
+   
+            name:"volunteerresume",
+             params:{resIdx},
+})
 
 }
 

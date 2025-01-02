@@ -17,6 +17,7 @@ import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
 import Applicant from "../views/Applicant/Applicant.vue";
+import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
 import Withdraw from "../views/Withdraw/Withdraw.vue";
 const routes = [
   {
@@ -118,6 +119,12 @@ const routes = [
             path:'applicant.do',
             name:"volunteer",
             component: Applicant,
+          }
+          ,
+          {
+            path:'applicantresume.do?:resIdx',
+            name:"volunteerresume",
+            component: ApplicantResume,
           }
 
         ],
