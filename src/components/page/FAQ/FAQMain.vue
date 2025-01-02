@@ -44,7 +44,7 @@
             </tr>
             <tr
               v-for="faq in faqList.faq"
-              :key="faq.content"
+              :key="faq.faq_idx"
               :class="style === faq.faq_idx ? 'show' : 'hide'"
             >
               <td colspan="5">{{ faq.content }}</td>
@@ -98,8 +98,8 @@ const {
 
 const faqDetail = (faq_idx) => {
   router.push({
-    name: "faqInsert",
-    params: { faq_idx: faq_idx },
+    name: "faqDetail",
+    params: { faq_idx },
   });
 };
 

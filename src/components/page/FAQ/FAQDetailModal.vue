@@ -8,86 +8,50 @@
         <tr>
           <td>유형</td>
           <td>
-            <input type="radio" name="faq_type" value="1" /> 개인회원
-            <input type="radio" name="faq_type" value="2" /> 일반회원
+            <input
+              type="radio"
+              :checked="faq_type === '1'"
+              @change="handlerRadio('1')"
+            />
+            개인회원
+            <input
+              type="radio"
+              :checked="faq_type === '2'"
+              @change="handlerRadio('2')"
+            />
+            기업회원
           </td>
         </tr>
         <tr>
           <td>제목</td>
           <td>
-            <input type="text" />
+            <input type="text" v-model="detailValue.title" />
           </td>
         </tr>
         <tr>
           <td>내용</td>
           <td>
-            <input type="text" />
+            <input type="text" v-model="detailValue.content" />
           </td>
         </tr>
       </table>
-
-      <div class="common-buttons">
+      <div>
         <button
-          type="button"
-          class="w3-button w3-round w3-blue-gray"
-          v-on:click="handlerInsertBtn"
+          @click="
+            params.faq_idx
+              ? handlerUpdateBtn(faq_type)
+              : handlerInsertBtn(faq_type)
+          "
         >
-          등록</button
-        >&nbsp;
-        <button
-          type="button"
-          class="w3-button w3-round w3-gray"
-          v-on:click="handlerListBtn"
-        >
-          목록
+          {{ params.faq_idx ? "수정" : "등록" }}
         </button>
+        <button v-if="params.faq_idx" @click="handlerDeleteBtn">삭제</button>
+        <button button @click="$router.go(-1)">닫기</button>
       </div>
     </div>
   </div>
 </template>
 
-<!-- 
-<template>
-  <div>
-    <div v-if="isLoading">기다려주세요</div>
-    <div v-else>
-      <ContextBox>FAQ 등록</ContextBox>
-      <table>
-        <tr>
-          <th>제목:</th>
-          <td>
-            <input type="text" v-model="detailValue.title" />
-          </td>
-        </tr>
-        <tr>
-          <th>작성자:</th>
-          <td>
-            <input type="text" v-model="detailValue.author" />
-          </td>
-        </tr>
-        <tr>
-          <th>작성일:</th>
-          <td>
-            <input type="text" v-model="detailValue.created_date" />
-          </td>
-        </tr>
-        <tr>
-          <th>내용</th>
-          <td>
-            <textarea v-model="detailValue.content"></textarea>
-          </td>
-        </tr>
-      </table> -->
-
-<!--    <div class="button-box">
-        
-        <button @click="handlerInsertBtn">등록</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
-      </div>
-    </div>
-  </div>
-</template>
- -->
 <script setup>
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
@@ -100,8 +64,11 @@ import { useUserInfo } from "../../../stores/userInfo";
 const { params } = useRoute();
 const detailValue = ref({});
 const userInfo = useUserInfo();
-
 const { data: FAQDetail, isLoading, isSuccess } = useFAQDetailSearch(params);
+const setFaqType = ref(null);
+const handlerRadio = (faq_type) => {
+  setFaqType.value = faq_type;
+};
 
 watchEffect(() => {
   if (isSuccess.value && FAQDetail.value) {
@@ -112,21 +79,17 @@ watchEffect(() => {
 
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
-  params.faq_idx
+  params.faq_idx,
+  setFaqType
 );
 
 const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
+  setFaqType,
   userInfo.user.loginId
 );
 
 const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
-
-//const { mutate: handlerListBtn } = useFAQListQuery();
-
-/* const handlerListBtn = async () => {
-  await axios.post("/prx/api/board/faqListJson.do");
-}; */
 </script>
 
 <style lang="scss" scoped>

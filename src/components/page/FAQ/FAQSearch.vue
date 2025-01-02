@@ -1,21 +1,24 @@
 <template>
   <div class="search-box">
-    <input v-model.lazy="keyword" />
-    <input type="date" v-model="searchStartDate" />
-    <input type="date" v-model="searchEndDate" />
+    제목<input v-model.lazy="searchKey.searchTitle" />
+    <input type="date" v-model="searchKey.searchStartDate" />
+    <input type="date" v-model="searchKey.searchEndDate" />
     <button @click="FAQSearch">검색</button>
-    <button @click="FAQInsert">신규등록</button>
+    <button v-if="userType === 'M'" @click="FAQInsert()">신규등록</button>
   </div>
 </template>
 
 <script setup>
 import { useQueryClient } from "@tanstack/vue-query";
 import { useRouter } from "vue-router";
+import { useUserInfo } from "../../../stores/userInfo";
 
-const injectedValue = inject("providedFaqValue");
+const injectedValue = inject("providedValue");
 const searchKey = ref({});
 const router = useRouter();
 const queryClient = useQueryClient();
+const userInfo = useUserInfo();
+const userType = computed(() => userInfo.user.userType);
 
 const FAQSearch = () => {
   injectedValue.value = { ...searchKey.value };

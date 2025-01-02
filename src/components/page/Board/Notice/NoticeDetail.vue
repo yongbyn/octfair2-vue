@@ -33,11 +33,11 @@
 <script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
-import { useUserInfo } from "../../../../stores/userInfo";
+import { useNoticeDetailDeleteMutation } from "../../../../hook/notice/useNoticeDetailDeleteMutation";
+import { useNoticeDetailInsertMutation } from "../../../../hook/notice/useNoticeDetailInsertMutation";
 import { useNoticeDetailSearchQuery } from "../../../../hook/notice/useNoticeDetailSearchQuery";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
-import { useNoticeDetailInsertMutation } from "../../../../hook/notice/useNoticeDetailInsertMutation";
-import { useNoticeDetailDeleteMutation } from "../../../../hook/notice/useNoticeDetailDeleteMutation";
+import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
 const detailValue = ref({});
@@ -58,12 +58,12 @@ watchEffect(() => {
 
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   detailValue,
-  params.idx,
+  params.idx
 );
 
 const { mutate: handlerInsertBtn } = useNoticeDetailInsertMutation(
   detailValue,
-  userInfo.user.loginId,
+  userInfo.user.loginId
 );
 
 const deleteNoticeDetail = async () => {

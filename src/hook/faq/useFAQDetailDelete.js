@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useRouter } from "vue-router";
 import { faqDetailDeleteApi } from "../../api/faq/faqDetailDeleteApi";
 
@@ -11,7 +11,7 @@ export const useFAQDetailDelete = (params) => {
     mutationFn: () => faqDetailDeleteApi(params.faq_idx),
     onSuccess: () => {
       router.go(-1);
-      QueryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ["faqList"],
       });
     },
