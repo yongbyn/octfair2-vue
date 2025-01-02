@@ -4,6 +4,8 @@ export const Notice = {
   UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
   InsertNoticeDetail: "/prx/api/board/noticeSaveBody.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
+  FileNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
+  FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
 };
 

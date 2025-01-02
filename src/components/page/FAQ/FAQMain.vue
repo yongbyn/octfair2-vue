@@ -80,7 +80,7 @@ const cPage = ref(1);
 //const faqType = ref("1");
 const injectedValue = inject("providedValue");
 //const type = ref();
-const type = ref("1");
+const type = ref();
 const style = ref(null);
 const userInfo = useUserInfo();
 const userType = computed(() => userInfo.user.userType);
@@ -91,10 +91,6 @@ const {
   isSuccess,
   isError,
 } = useFAQListQuery(injectedValue, cPage, type);
-
-/* const DateFormat = (date) => {
-  return new Date(date).toISOString().slice(0, 10);
-}; */
 
 const faqDetail = (faq_idx) => {
   router.push({

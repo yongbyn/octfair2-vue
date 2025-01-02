@@ -8,16 +8,21 @@
         내용 :
         <input type="text" v-model="detailValue.content" />
       </label>
-      파일 :<input type="file" style="display: none" id="fileInput" />
+      파일 :<input
+        type="file"
+        style="display: none"
+        id="fileInput"
+        @change="handlerFile"
+      />
       <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-      <div>
-        <!-- <div v-if="imageUrl">
+      <div @click="fileDownload">
+        <div v-if="imageUrl">
           <label>미리보기</label>
           <img :src="imageUrl" />
         </div>
         <div v-else>
           <label>파일명</label>
-        </div> -->
+        </div>
       </div>
       <div class="button-box">
         <button @click="params.idx ? handlerUpdateBtn() : handlerInsertBtn()">
@@ -32,6 +37,7 @@
 
 <script setup>
 import axios from "axios";
+import { onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import { useNoticeDetailDeleteMutation } from "../../../../hook/notice/useNoticeDetailDeleteMutation";
 import { useNoticeDetailInsertMutation } from "../../../../hook/notice/useNoticeDetailInsertMutation";
@@ -42,7 +48,9 @@ import { useUserInfo } from "../../../../stores/userInfo";
 const { params } = useRoute();
 const detailValue = ref({});
 const userInfo = useUserInfo();
-
+const imageUrl = ref("");
+const fileData = ref("");
+const props = defineProps(["idx"]);
 const {
   data: noticeDetail,
   isLoading,
@@ -56,6 +64,59 @@ watchEffect(() => {
   }
 });
 
+const searchDetail = () => {
+  axios
+    .post("/api/board/noticeDetailBody.do", { noticeSeq: props.idx })
+    .then((res) => {
+      noticeDetail.value = res.data.detail;
+      if (
+        noticeDetail.value.fileExt === "jpg" ||
+        noticeDetail.value.fileExt === "gif" ||
+        noticeDetail.value.fileExt === "png" ||
+        noticeDetail.value.fileExt === "webp"
+      ) {
+        getFileImage();
+      }
+    });
+};
+
+const getFileImage = async () => {
+  let param = new URLSearchParams();
+  param.append("noticeSeq", props.idx);
+  const postAction = {
+    url: "/api/board/noticeDownload.do",
+    method: "POST",
+    data: param,
+    responseType: "blob",
+  };
+
+  await axios(postAction).then((res) => {
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    imageUrl.value = url;
+  });
+};
+
+const fileDownload = () => {
+  let param = new URLSearchParams();
+  param.append("noticeSeq", props.idx);
+  const postAction = {
+    url: "/api/board/noticeDownload.do",
+    method: "POST",
+    data: param,
+    responseType: "blob",
+  };
+
+  axios(postAction).then((res) => {
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", noticeDetail.value.fileName); // a태그에 다운로드 속성 부여
+    document.body.appendChild(link); // document body에 link 생성
+    link.click();
+    link.remove();
+  });
+};
+
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   detailValue,
   params.idx
@@ -63,14 +124,15 @@ const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
 
 const { mutate: handlerInsertBtn } = useNoticeDetailInsertMutation(
   detailValue,
-  userInfo.user.loginId
+  userInfo.user.loginId,
+  fileData.value
 );
 
-const deleteNoticeDetail = async () => {
-  await axios.post("/api/board/noticeDeleteBody.do", { noticeSeq: params.idx });
-};
-
 const { mutate: handlerDeleteBtn } = useNoticeDetailDeleteMutation(params);
+
+onMounted(() => {
+  props.idx && searchDetail();
+});
 </script>
 
 <style lang="scss" scoped>

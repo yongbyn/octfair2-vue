@@ -13,8 +13,8 @@
         <tr>
           <th scope="col">번호</th>
           <th scope="col">제목</th>
-          <th scope="col">작성일</th>
           <th scope="col">작성자</th>
+          <th scope="col">등록일</th>
         </tr>
       </thead>
       <tbody>
@@ -28,8 +28,8 @@
             >
               <td>{{ notice.noticeIdx }}</td>
               <td>{{ notice.title }}</td>
-              <td>{{ notice.createdDate.substr(0, 10) }}</td>
               <td>{{ notice.author }}</td>
+              <td>{{ notice.createdDate.substr(0, 10) }}</td>
             </tr>
           </template>
           <template v-else>

@@ -8,5 +8,14 @@ export const noticeDetailInsertApi = async (detailValue, loginId) => {
     loginId: loginId,
   };
 
-  await axios.post(Notice.InsertNoticeDetail, textData);
+  const formData = new FormData();
+  //if (fileData.value) formData.append("file", fileData.value);
+  formData.append(
+    "text",
+    new Blob([JSON.stringify(textData)], {
+      type: "application/json",
+    })
+  );
+
+  await axios.post(Notice.FileNoticeDetail, formData);
 };
