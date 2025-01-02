@@ -159,18 +159,12 @@
             <label for="phone">전화번호 <span class="required">*</span></label>
           </th>
           <td>
-            <!-- <input
+            <input
               id="phone"
+              class="form-control"
               v-model="signUpUserInfo.phone"
               :state="phoneState"
               placeholder="전화번호를 입력하세요.(숫자만 입력하세요.)"
-            /> -->
-            <b-form-input
-              id="phone"
-              v-model="signUpUserInfo.phone"
-              :state="phoneState"
-              placeholder="전화번호를 입력하세요.(숫자만 입력하세요.)"
-              @input="phoneValid"
             />
           </td>
         </tr>
@@ -180,29 +174,40 @@
             <label for="emailId">이메일 <span class="required">*</span></label>
           </th>
           <td>
-            <input
-              type="text"
-              id="emailId"
-              class="emailId"
-              v-model="signUpUserInfo.emailId"
-              placeholder="이메일을 입력하세요."
-            />
-            <span> @ </span>
-            <span v-if="signUpUserInfo.emailDomain === 'userCustomDomain'">
-              <input
+            <div class="d-flex align-items-center">
+              <b-form-input
                 type="text"
-                class="inputEmail"
-                placeholder="입력하세요."
-                v-model="signUpUserInfo.userCustomDomain"
+                id="emailId"
+                class="emailId form-control me-1"
+                v-model="signUpUserInfo.emailId"
+                placeholder="이메일을 입력하세요."
               />
-            </span>
-            <select id="emailDomain" v-model="signUpUserInfo.emailDomain">
-              <option value="" disabled>선택하세요.</option>
-              <option value="gmail.com">gmail.com</option>
-              <option value="naver.com">naver.com</option>
-              <option value="daum.net">daum.net</option>
-              <option value="userCustomDomain">직접입력</option>
-            </select>
+              <span>@</span>
+              <span v-if="signUpUserInfo.emailDomain === 'userCustomDomain'">
+                <b-form-input
+                  type="text"
+                  class="inputEmail ms-2"
+                  placeholder="입력하세요."
+                  v-model="signUpUserInfo.userCustomDomain"
+                />
+              </span>
+              <b-form-select
+                id="emailDomain"
+                class="form-control">
+                  <option value="" disabled>선택하세요</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="daum.net">daum.net</option>
+                  <option value="userCustomDomain">직접입력</option>
+              </b-form-select>
+              <!-- <select id="emailDomain" class="form-control ms-1 emailDomain" v-model="signUpUserInfo.emailDomain">
+                <option value="" disabled>선택하세요.</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="naver.com">naver.com</option>
+                <option value="daum.net">daum.net</option>
+                <option value="userCustomDomain">직접입력</option>
+              </select> -->
+            </div>
           </td>
         </tr>
 
@@ -372,144 +377,96 @@ const birthdayValid = () => {
 };
 
 // 5. 전화번호 정규식
-const phoneValid = () => {
-  let regExPhoneReplace = /^[0-9]$/;
+watch(
+  () => signUpUserInfo.value.phone,
+  () => {
+    let regExPhoneReplace = signUpUserInfo.value.phone.replace(/[^0-9]/g, "");
 
-  if (!regExPhoneReplace.test(signUpUserInfo.value.phone)) {
-    phoneState.value = false;
-  } else {
-    phoneState.value = true;
-  }
-  // 앞자리 2자리 전화번호 처리
-  if (/^(02)/.test(regExPhoneReplace)) {
-    if (regExPhoneReplace.length <= 2) {
-      regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})$/, "$1");
-    } else if (regExPhoneReplace.length <= 3) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{1})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 4) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{2})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 5) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{3})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 6) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{4})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 7) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{4})(\d{1})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 8) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{4})(\d{2})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 9) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{3})(\d{4})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 10) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{2})(\d{4})(\d{4})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 11) {
-      regExPhoneReplace = regExPhoneReplace.slice(0, 10);
+    if (/^(02)/.test(regExPhoneReplace)) {
+      if (regExPhoneReplace.length <= 2) {
+        regExPhoneReplace = regExPhoneReplace;
+      } else if (regExPhoneReplace.length <= 3) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{1})$/, "$1-$2");
+      } else if (regExPhoneReplace.length <= 4) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{2})$/, "$1-$2");
+      } else if (regExPhoneReplace.length <= 5) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{3})$/, "$1-$2");
+      } else if (regExPhoneReplace.length <= 6) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{3})(\d{1})$/, "$1-$2-$3");
+      } else if (regExPhoneReplace.length <= 7) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{3})(\d{2})$/, "$1-$2-$3");
+      } else if (regExPhoneReplace.length <= 8) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{3})(\d{3})$/, "$1-$2-$3");
+      } else if (regExPhoneReplace.length <= 9) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{3})(\d{4})$/, "$1-$2-$3");
+      } else if (regExPhoneReplace.length <= 10) {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{2})(\d{4})(\d{4})$/, "$1-$2-$3");
+      } else {
+        regExPhoneReplace = regExPhoneReplace.slice(0, 10);
+      }
     }
-  }
-  // 앞자리 3자리 전화번호 처리
-  else if (
-    /^(010|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)/.test(
+    else if (/^(010|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)/.test(regExPhoneReplace)) {
+    if (regExPhoneReplace.startsWith("010")) {
+        if (regExPhoneReplace.length <= 3) {
+            regExPhoneReplace = regExPhoneReplace;
+        } else if (regExPhoneReplace.length <= 7) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{1,4})$/, "$1-$2");
+        } else if (regExPhoneReplace.length <= 11) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{4})(\d{1,4})$/, "$1-$2-$3");
+        } else {
+          regExPhoneReplace = regExPhoneReplace.slice(0, 11);
+        }
+    } else {
+        if (regExPhoneReplace.length <= 3) {
+            regExPhoneReplace = regExPhoneReplace;
+        } else if (regExPhoneReplace.length <= 4) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{1})$/, "$1-$2");
+        } else if (regExPhoneReplace.length <= 5) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{2})$/, "$1-$2");
+        } else if (regExPhoneReplace.length <= 6) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{3})$/, "$1-$2");
+        } else if (regExPhoneReplace.length <= 7) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{3})(\d{1})$/, "$1-$2-$3");
+        } else if (regExPhoneReplace.length <= 8) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{3})(\d{2})$/, "$1-$2-$3");
+        } else if (regExPhoneReplace.length <= 9) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{3})(\d{3})$/, "$1-$2-$3");
+        } else if (regExPhoneReplace.length <= 10) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3");
+        } else if (regExPhoneReplace.length <= 11) {
+            regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})(\d{4})(\d{4})$/, "$1-$2-$3");
+        } else {
+            regExPhoneReplace = regExPhoneReplace.slice(0, 11);
+        }
+    }
+}
+    else if (/^\d{4,8}$/.test(regExPhoneReplace)) {
+      if (regExPhoneReplace.length <= 4) {
+        regExPhoneReplace = regExPhoneReplace;
+      } else {
+        regExPhoneReplace = regExPhoneReplace.replace(/^(\d{4})(\d{1,4})$/, "$1-$2");
+      }
+    }
+    else {
+      regExPhoneReplace = regExPhoneReplace.slice(0, 8);
+    }
+
+    signUpUserInfo.value.phone = regExPhoneReplace;
+
+    const phoneValid = /^(02-\d{3,4}-\d{4}|010-\d{4}-\d{4}|\d{3}-\d{3,4}-\d{4}|\d{4}-\d{4})$/.test(
       regExPhoneReplace
-    )
-  ) {
-    if (regExPhoneReplace.length <= 3) {
-      regExPhoneReplace = regExPhoneReplace.replace(/^(\d{3})$/, "$1");
-    } else if (regExPhoneReplace.length <= 4) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{1})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 5) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{2})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 6) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{3})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 7) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{4})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 8) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{4})(\d{1})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 9) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{4})(\d{2})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 10) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{3})(\d{4})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 11) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{3})(\d{4})(\d{4})$/,
-        "$1-$2-$3"
-      );
-    } else if (regExPhoneReplace.length <= 12) {
-      regExPhoneReplace = regExPhoneReplace.slice(0, 11);
+    );
+    const inputElement = document.getElementById('phone');
+
+    if (phoneValid) {
+      inputElement.classList.add('is-valid');
+      inputElement.classList.remove('is-invalid');
+    } else {
+      inputElement.classList.add('is-invalid');
+      inputElement.classList.remove('is-valid');
     }
   }
-  // 지정된 번호가 아닌경우 4자리-4자리로 표시
-  else if (/^\d{4,8}$/.test(regExPhoneReplace)) {
-    if (regExPhoneReplace.length <= 4) {
-      regExPhoneReplace = regExPhoneReplace.replace(/^(\d{4})$/, "$1");
-    } else if (regExPhoneReplace.length <= 5) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{4})(\d{1})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 6) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{4})(\d{2})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 7) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{4})(\d{3})$/,
-        "$1-$2"
-      );
-    } else if (regExPhoneReplace.length <= 8) {
-      regExPhoneReplace = regExPhoneReplace.replace(
-        /^(\d{4})(\d{4})$/,
-        "$1-$2"
-      );
-    }
-  } else {
-    regExPhoneReplace = regExPhoneReplace.slice(0, 8);
-  }
-  signUpUserInfo.value.phone = regExPhoneReplace;
-};
+);
 
 // 6. 이메일 유효성 검사
 watch(
@@ -519,10 +476,6 @@ watch(
     signUpUserInfo.value.userCustomDomain,
   ],
   () => {
-    let regExEmailReplace = signUpUserInfo.value.emailId.replace(
-      /[^a-zA-Z0-9._%+-]/g,
-      ""
-    );
     signUpUserInfo.value.emailId = regExEmailReplace;
 
     signUpUserInfo.value.email =
@@ -595,7 +548,7 @@ const signUpModalCloseBtn = () => {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 500px;
+  width: 550px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -623,5 +576,21 @@ input {
 .name {
   color: red;
   font-size: 14px;
+}
+
+.emailId {
+  width: 160px;
+}
+
+.inputEmail{
+  background-color: burlywood;
+  width: 80px;
+}
+
+.emailDomain{
+  background-color: red;
+  width: 20px;
+}
+b-form-select:hover{
 }
 </style>
