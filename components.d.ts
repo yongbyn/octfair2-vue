@@ -57,7 +57,6 @@ declare module 'vue' {
     ResumeDetail: typeof import('./src/components/page/Apply/Resume/ResumeDetail.vue')['default']
     ResumeMain: typeof import('./src/components/page/Apply/Resume/ResumeMain.vue')['default']
     ResumeNewButton: typeof import('./src/components/page/Apply/Resume/ResumeNewButton.vue')['default']
-    ResumePreview: typeof import('./src/components/page/Apply/Resume/ResumePreview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelfintroInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/SelfintroInfo.vue')['default']

@@ -38,16 +38,15 @@
                 <div>
                   기업명:
                   <a
-                    :href="`/vue/company/companyDetailPage.do/${history.postingId}/${history.bizIdx}`"
+                    :href="`/vue/company/companyDetail.do/${history.bizIdx}`"
                     >{{ history.bizName }}</a
                   >
                 </div>
                 <div>
                   공고명:
-                  <a
-                    :href="`/vue/manage-post/${history.postingId}/${history.bizIdx}`"
-                    >{{ history.postTitle }}</a
-                  >
+                  <a :href="`/vue/jobs/posts.do/${history.postingId}`">{{
+                    history.postTitle
+                  }}</a>
                 </div>
                 <div>
                   이력서:
@@ -116,7 +115,7 @@ import { useHistoryOneCancleMutation } from "../../../../hook/apply/history/useH
 import Pagination from "../../../common/Pagination.vue";
 
 const injectedHistorySearchValue = inject("providedHistorySearchValue");
-const itemPerPage = ref(5);
+const itemPerPage = ref(2);
 const currentPage = ref(1);
 const queryClient = useQueryClient();
 const resIdx = ref(0);

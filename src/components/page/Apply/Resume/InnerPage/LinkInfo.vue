@@ -4,7 +4,7 @@
   </p>
   <a 
     :href="
-      props.resume.pfoLink.startsWith('http') 
+      props.resume.pfoLink?.startsWith('http') 
       ? props.resume.pfoLink 
       : 'https://' + props.resume.pfoLink
     "
