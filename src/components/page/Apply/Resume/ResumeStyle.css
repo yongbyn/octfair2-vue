@@ -1,3 +1,64 @@
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.2);
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 150px;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title_and_file {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: auto;
+  font-size: 0.95vw;
+}
+
+.title_above_file {
+  color: gray;
+  font-size: 0.7em;
+}
+
+.file_below_title {
+  color: blue;
+  font-size: 0.7em;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(0, 139, 49);
+  }
+}
+
 .garo_wrapper {
   display: flex; /* 가로 나열 */
   align-items: center; /* 세로방향 내 정렬 */

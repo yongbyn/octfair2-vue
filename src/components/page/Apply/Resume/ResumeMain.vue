@@ -1,7 +1,53 @@
 <template>
-  <div class="divResumeList">
-    현재 페이지: {{ currentPage }} 총 개수:
-    {{ resumeList?.resumeCnt || 0 }}
+  현재 페이지: {{ currentPage }} 총 개수: {{ resumeList?.resumeCnt || 0 }}
+  <div class="gallery-container" v-if="resumeList?.resumeCnt > 0">
+    <div
+      class="card"
+      v-for="resume in resumeList.payload"
+      :key="resume.resIdx"
+      @click="handlerGetResumeBtn(resume.resIdx)"
+    >
+      <div class="image-wrapper">
+        <img v-if="resume.logicalPath" :src="`/prx${resume.logicalPath}`" />
+        <img v-else src="../../../../assets/logo.png" />
+      </div>
+      <div>
+        {{ resume.updatedDate }}
+      </div>
+      <div class="title_and_file">
+        <div>
+          {{ resume.resTitle }}
+        </div>
+        <div v-if="resume.fileName">
+          <span class="title_above_file">첨부파일: </span>
+          <span
+            class="file_below_title"
+            @click.stop="
+              handlerDownImageBtn({
+                resIdx: resume.resIdx,
+                fileName: resume.fileName,
+              })
+            "
+            >{{ resume.fileName }}</span
+          >
+        </div>
+      </div>
+      <div>
+        {{ resume.updatedDate }}
+      </div>
+      <div>
+        <CommonButton @click.stop="handlerCopyResumeBtn(resume.resIdx)"
+          >복사하기</CommonButton
+        >
+        <CommonButton @click.stop="handlerDeleteResumeBtn(resume.resIdx)"
+          >삭제하기</CommonButton
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="divResumeList">
+    현재 페이지: {{ currentPage }} 총 개수: {{ resumeList?.resumeCnt || 0 }}
     <table>
       <colgroup>
         <col width="15%" />
@@ -10,9 +56,9 @@
       </colgroup>
       <thead>
         <tr>
+          <th scope="col">최종 수정일</th>
           <th scope="col">이력서 제목</th>
           <th scope="col">관리</th>
-          <th scope="col">최종 수정일</th>
         </tr>
       </thead>
       <tbody>
@@ -41,9 +87,9 @@
                     {{ resume.resTitle }}
                   </div>
                   <div v-if="resume.fileName">
-                    <span class="file_head">첨부파일: </span>
+                    <span class="title_above_file">첨부파일: </span>
                     <span
-                      class="file_link"
+                      class="file_below_title"
                       @click.stop="
                         handlerDownImageBtn({
                           resIdx: resume.resIdx,
@@ -75,7 +121,7 @@
         <template v-if="isError">...에러</template>
       </tbody>
     </table>
-  </div>
+  </div> -->
 
   <!-- 페이지네이션 -->
   <Pagination
@@ -122,6 +168,32 @@ const {
 const { mutate: handlerDownImageBtn } = useResumeFileDownMutation();
 const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
 const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
+
+// 화면크기 변경시 반응형으로, itemPerRow의 배수이면서 12이상인 값을 itemPerPage로 정하는 계산함수
+const calculateItemPerPage = () => {
+  const gridContainer = document.querySelector(".gallery-container");
+  const gridItems = document.querySelectorAll(".card");
+
+  if (gridContainer && gridItems.length > 0) {
+    const containerWidth = gridContainer.offsetWidth;
+    const itemWidth = gridItems[0].offsetWidth;
+    let itemPerRow = Math.floor(containerWidth / itemWidth);
+
+    itemPerPage.value = Math.ceil(24 / itemPerRow) * itemPerRow;
+    searchList();
+  }
+};
+
+onMounted(() => {
+  setTimeout(() => {
+    calculateItemPerPage();
+  }, 1000); // mount가 완료될때쯤 까지 delay건 후 calculateItemPerPage 함수 실행
+  window.addEventListener("resize", calculateItemPerPage); // 리사이즈 이벤트 리스너 등록
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", calculateItemPerPage); // 리사이즈 이벤트 리스너 제거
+});
 </script>
 
 <style lang="scss" scoped>
@@ -153,22 +225,6 @@ table {
     filter: drop-shadow(0 0 2em rgba(0, 255, 51, 0.667)); // 번짐효과
     transform: scale(1.005); // 확대효과
     transition: transform 0.05s; // 효과를 시간차
-  }
-}
-
-.file_head {
-  color: gray;
-  font-size: 0.7em;
-}
-
-.file_link {
-  color: blue;
-  font-size: 0.7em;
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover {
-    color: rgb(0, 139, 49);
   }
 }
 </style>

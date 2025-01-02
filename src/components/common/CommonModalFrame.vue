@@ -1,10 +1,9 @@
+<!-- 일반페이지도 모달로 만들어주는 간편양식 -->
 <template>
   <template v-if="modalStore.modalState">
     <teleport to="body">
       <div class="modal_overlay" @click="modalStore.modalState = false">
         <div class="modal_content" @click.stop="">
-          <h1>이력서</h1>
-          <br />
           <slot></slot>
         </div>
       </div>

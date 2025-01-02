@@ -4,7 +4,6 @@
       <LeftManuBar></LeftManuBar>
     </li>
     <li class="content">
-      <AddOn v-if="(showAddOn = false)"></AddOn>
       <keep-alive><router-view></router-view></keep-alive>
     </li>
   </ul>
@@ -12,14 +11,6 @@
 
 <script setup>
 import LeftManuBar from "../../components/layout/LeftManuBar.vue";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import AddOn from "@/components/layout/AddOn.vue";
-
-const route = useRoute();
-
-// AddOn을 /vue 경로에서만 렌더링
-const showAddOn = computed(() => route.path === "/vue");
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <div class="garo_wrapper">
     <label>제목: </label>
-    <input v-model="props.resume.resTitle" :disabled="!props.isEditor" />
+    <input v-model="props.resume.resTitle" :disabled="!props.isShow" />
   </div>
   <div class="garo_wrapper">
     <label>이름: </label>
@@ -20,7 +20,7 @@
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
 
-const props = defineProps(["resume", "isEditor"]);
+const props = defineProps(["resume", "isShow"]);
 </script>
 
 <style></style>
