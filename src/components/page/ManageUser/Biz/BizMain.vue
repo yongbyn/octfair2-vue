@@ -2,7 +2,7 @@
   <div class="form-container">
     <BizModal
       v-if="modalState.modalState"
-      @postSuccess="searchList"
+      @postSuccess="refetch"
       @modalClose="() => (bizIdx = 0)"
       :idx="bizIdx"
     />
