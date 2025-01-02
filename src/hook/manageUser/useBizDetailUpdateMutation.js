@@ -1,23 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { applicantDetailUpdateApi } from "../../api/manageUser/applicantDetailUpdateApi";
+import { bizDetailUpdateApi } from "../../api/manageUser/bizDetailUpdateApi";
 
-export const useApplicantDetailUpdateMutation = (
-  detailValue,
-  loginId,
-  modalState
-) => {
+export const useBizDetailUpdateMutation = (detailValue, bizIdx, modalState) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["applicantUpdate"],
+    mutationKey: ["bizUpdate"],
     mutationFn: () => {
-      applicantDetailUpdateApi(detailValue, loginId);
+      bizDetailUpdateApi(detailValue, bizIdx);
     },
     onSuccess: () => {
       alert("수정이 완료되었습니다.");
       modalState.setModalState();
       queryClient.invalidateQueries({
-        queryKey: ["applicantList"],
+        queryKey: ["bizList"],
       });
     },
   });

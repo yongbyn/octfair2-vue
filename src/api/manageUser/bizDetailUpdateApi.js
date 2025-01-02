@@ -1,13 +1,13 @@
 import axios from "axios";
-import { Applicant } from "../api";
+import { Biz } from "../api";
 
-export const applicantDetailUpdateApi = async (detailValue, loginId) => {
+export const bizDetailUpdateApi = async (detailValue, bizidx) => {
   const requestBody = {
     ...detailValue,
-    loginId,
+    bizidx,
   };
 
-  await axios.post(Applicant.UpdateApplicantDetail, requestBody).then((res) => {
+  await axios.post(Biz.UpdateBizDetail, requestBody).then((res) => {
     if (res.data.result === "success") {
       return;
     } else {

@@ -2,7 +2,7 @@
   <div class="form-container">
     <ApplicantModal
       v-if="modalState.modalState"
-      @postSuccess="searchList"
+      @postSuccess="refetch"
       @modalClose="() => (userLoginId = '')"
       :loginId="userLoginId"
     />
