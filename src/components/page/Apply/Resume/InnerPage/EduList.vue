@@ -90,16 +90,16 @@ const resIdx = ref("");
 const eduDefault = { admDate: '', eduLevel: '', grdStatus: '', grdDate: '', schoolName: '', major: ''};
 const edu = ref({ ...eduDefault });
 const isAddEdu = ref(false);
+const isExistEdu = computed(() => eduList?.payload?.length >= 1 || false);
 
 const { data: eduList } = useEduListReadQuery(resIdx);
 const { mutate: handlerCreateEduBtn } = useEduNewCreateMutation();
 const { mutate: handlerDeleteEduBtn } = useEduNewDeleteMutation();
 
-watch(() => [props.resume.resIdx, eduList], () => {
+watch(() => [props.resume.resIdx, eduList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-  if (eduList.payload && eduList.payload.length >= 1) emits("isExistCareer", true);
-  else                                                emits("isExistCareer", false);
-})
+  emits("isExistEdu", isExistEdu.value);
+});
 </script>
 
 <style></style>

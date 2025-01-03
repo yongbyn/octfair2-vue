@@ -69,12 +69,12 @@ const isAddCert = ref(false);
 const { data: certList } = useCertListReadQuery(resIdx);
 const { mutate: handlerCreateCertBtn } = useCertNewCreateMutation();
 const { mutate: handlerDeleteCertBtn } = useCertNewDeleteMutation();
+const isExistCert = computed(() => certList?.payload?.length >= 1 || false);
 
-watch(() => [props.resume.resIdx, certList], () => {
+watch(() => [props.resume.resIdx, certList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-  if (certList.payload && certList.payload.length >= 1) emits("isExistCareer", true);
-  else                                                  emits("isExistCareer", false);
-})
+  emits("isExistCert", isExistCert.value);
+});
 </script>
 
 <style></style>

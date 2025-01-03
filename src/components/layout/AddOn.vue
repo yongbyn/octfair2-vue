@@ -81,9 +81,8 @@ const items = reactive({
 
 const skinUrlList = [
   // ON/OFF버튼 껐다켤때마다 watch()에서 List목록 중 랜덤하게 뽑힘
-  ...Array(4).fill("@/assets/christmas.gif"), // Array().fill: 해당함목 뽑힐 확률 4배 증가
-  "@/assets/bg.jpg",
-  "@/assets/alone.png",
+  ...Array(4).fill("@/assets/newyear.gif"), // Array().fill: 해당함목 뽑힐 확률 4배 증가
+  "@/assets/christmas.gif",
   "@/assets/harry.jpg",
   "@/assets/seol.jpg",
 ];
