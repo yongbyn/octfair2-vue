@@ -8,10 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
-    ApplicantMain: typeof import('./src/components/page/ManageUser/Applicant/ApplicantMain.vue')['default']
+    ApplicantMain: typeof import('./src/components/page/Applicant/ApplicantMain.vue')['default']
     ApplicantModal: typeof import('./src/components/page/ManageUser/Applicant/ApplicantModal.vue')['default']
     ApplicantResume: typeof import('./src/components/page/Applicant/ApplicantResume.vue')['default']
-    ApplicantSearch: typeof import('./src/components/page/ManageUser/Applicant/ApplicantSearch.vue')['default']
+    ApplicantSearch: typeof import('./src/components/page/Applicant/ApplicantSearch.vue')['default']
     ApplyInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/ApplyInfo.vue')['default']
     ApprovalPostMain: typeof import('./src/components/page/Approval/ApprovalPostMain.vue')['default']
     ApprovalPostSearch: typeof import('./src/components/page/Approval/ApprovalPostSearch.vue')['default']
@@ -49,7 +49,6 @@ declare module 'vue' {
     NoticeMain: typeof import('./src/components/page/Board/Notice/NoticeMain.vue')['default']
     NoticeSearch: typeof import('./src/components/page/Board/Notice/NoticeSearch.vue')['default']
     Pagination: typeof import('./src/components/common/Pagination.vue')['default']
-    PostApplyModal: typeof import('./src/components/page/Jobs/Post/PostApplyModal.vue')['default']
     PostDetail: typeof import('./src/components/page/Jobs/Post/PostDetail.vue')['default']
     PostMain: typeof import('./src/components/page/Jobs/Post/PostMain.vue')['default']
     PostSearch: typeof import('./src/components/page/Jobs/Post/PostSearch.vue')['default']
