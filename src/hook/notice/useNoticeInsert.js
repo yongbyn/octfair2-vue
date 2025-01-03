@@ -1,14 +1,14 @@
-import { useRouter } from "vue-router";
-import { noticeDetailDeleteApi } from "../../api/notice/noticeDetailDeleteApi";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { useRouter } from "vue-router";
+import { noticeDetailInsertApi } from "../../api/notice/noticeDetailInsertApi";
 
-export const useNoticeDetailDeleteMutation = (params) => {
+export const useNoticeInsert = (detailValue, loginId) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["noticeDelete"],
-    mutationFn: () => noticeDetailDeleteApi(params.idx),
+    mutationKey: ["noticeInsert"],
+    mutationFn: () => noticeDetailInsertApi(detailValue.value, loginId),
     onSuccess: () => {
       router.go(-1);
       queryClient.invalidateQueries({

@@ -1,27 +1,26 @@
 <template>
   <div class="search-box">
-    <input v-model="searchKey.searchTitle" />
+    제목<input v-model="searchKey.searchTitle" />
     <input type="date" v-model="searchKey.searchStartDate" />
     <input type="date" v-model="searchKey.searchEndDate" />
     <button @click="handlerSearch">검색</button>
-    <button @click="handlerInsert">신규등록</button>
+    <button
+      v-if="userType === 'M'"
+      @click="() => $router.push('notice.do/insert')"
+    >
+      신규등록
+    </button>
   </div>
 </template>
-
-<!-- setup 입력하면 js처럼 사용 가능 -->
 <script setup>
-import { useQueryClient } from "@tanstack/vue-query";
-import { useRouter } from "vue-router";
+import { computed } from "vue";
+import { useUserInfo } from "../../../../stores/userInfo";
 
 const injectedValue = inject("providedValue");
 const searchKey = ref({});
-const router = useRouter();
-const queryClient = useQueryClient();
+const userInfo = useUserInfo();
+const userType = computed(() => userInfo.user.userType);
 
-const handlerInsert = () => {
-  queryClient.removeQueries({ queryKey: ["noticeDetail"] });
-  router.push("notice.do/insert");
-};
 const handlerSearch = () => {
   injectedValue.value = { ...searchKey.value };
 };

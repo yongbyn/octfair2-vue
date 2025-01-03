@@ -36,16 +36,10 @@
         </tr>
       </table>
       <div>
-        <button
-          @click="
-            params.faq_idx
-              ? handlerUpdateBtn(faq_type)
-              : handlerInsertBtn(faq_type)
-          "
-        >
-          {{ params.faq_idx ? "수정" : "등록" }}
+        <button @click="actionHandler">
+          {{ actionLabel }}
         </button>
-        <button v-if="params.faq_idx" @click="handlerDeleteBtn">삭제</button>
+        <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
         <button button @click="$router.go(-1)">닫기</button>
       </div>
     </div>
@@ -59,12 +53,13 @@ import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
 import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
 import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
 //import { useFAQListQuery } from "../../../hook/faq/useFAQListQuery";
+import { computed } from "vue";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
 const detailValue = ref({});
 const userInfo = useUserInfo();
-const { data: FAQDetail, isLoading, isSuccess } = useFAQDetailSearch(params);
+const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
 const setFaqType = ref(null);
 const handlerRadio = (faq_type) => {
   setFaqType.value = faq_type;
@@ -72,10 +67,24 @@ const handlerRadio = (faq_type) => {
 
 watchEffect(() => {
   if (isSuccess.value && FAQDetail.value) {
-    detailValue.value = toRaw(FAQDetail.value.detail);
-    // detailValue.value = {... noticeDetail.value.detail}; // 이거도 가능
+    detailValue.value = { ...FAQDetail.value.detail };
   }
 });
+const validateInputs = () => {
+  if (!setFaqType.value) {
+    alert("회원유형을 선택해주세요.");
+    return false;
+  }
+  if (!detailValue.value.title) {
+    alert("제목을 입력해주세요.");
+    return false;
+  }
+  if (!detailValue.value.content) {
+    alert("내용을 입력해주세요.");
+    return false;
+  }
+  return true;
+};
 
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
@@ -88,6 +97,20 @@ const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   setFaqType,
   userInfo.user.loginId
 );
+
+const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
+const actionHandler = () => {
+  if (!validateInputs()) return;
+  params.faq_idx
+    ? handlerUpdateBtn(setFaqType.value)
+    : handlerInsertBtn(setFaqType.value);
+};
+
+const handleDelete = () => {
+  if (confirm("삭제하시겠습니까?")) {
+    handlerDeleteBtn();
+  }
+};
 
 const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="divNoticeList">
-    현재 페이지: {{ cPage }} 총 개수: {{ noticeList?.noticeCnt }}
+    현재 페이지: {{ cPage }} 총 개수: {{ noticeList?.noticeCnt || 0 }}
     <table>
       <colgroup>
         <col width="10%" />
@@ -13,13 +13,14 @@
         <tr>
           <th scope="col">번호</th>
           <th scope="col">제목</th>
+          <th scope="col">작성일</th>
           <th scope="col">작성자</th>
-          <th scope="col">등록일</th>
+          
         </tr>
       </thead>
       <tbody>
-        <template v-if="isLoading">로딩중...</template>
-        <template v-else-if="isSuccess">
+        <template v-if="isLoading">...로딩중</template>
+        <template v-if="isSuccess">
           <template v-if="noticeList.noticeCnt > 0">
             <tr
               v-for="notice in noticeList.notice"
@@ -28,8 +29,8 @@
             >
               <td>{{ notice.noticeIdx }}</td>
               <td>{{ notice.title }}</td>
-              <td>{{ notice.author }}</td>
               <td>{{ notice.createdDate.substr(0, 10) }}</td>
+              <td>{{ notice.author }}</td>
             </tr>
           </template>
           <template v-else>
@@ -38,13 +39,13 @@
             </tr>
           </template>
         </template>
-        <template v-else-if="isError">에러발생</template>
       </tbody>
     </table>
     <Pagination
       :totalItems="noticeList?.noticeCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
+      :onClick="searchList"
       v-model="cPage"
     />
   </div>
@@ -64,13 +65,12 @@ const {
   isLoading,
   refetch,
   isSuccess,
-  isError,
 } = useNoticeListSearchQuery(injectedValue, cPage);
 
-const handlerDetail = (idx) => {
+const handlerDetail = (param) => {
   router.push({
     name: "noticeDetail",
-    params: { idx },
+    params: { idx: param },
   });
 };
 </script>

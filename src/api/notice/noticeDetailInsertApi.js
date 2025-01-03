@@ -8,8 +8,9 @@ export const noticeDetailInsertApi = async (detailValue, loginId) => {
     loginId: loginId,
   };
 
+  const fileData = ref("");
   const formData = new FormData();
-  //if (fileData.value) formData.append("file", fileData.value);
+  if (fileData.value) formData.append("file", fileData.value);
   formData.append(
     "text",
     new Blob([JSON.stringify(textData)], {

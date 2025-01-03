@@ -1,12 +1,12 @@
-/* import axios from "axios";
-
+import axios from "axios";
+import { Notice } from "../api";
 export const noticeFileInsertApi = async (detailValue, idx) => {
   const textData = {
     ...detailValue,
     noticeSeq: idx,
     context: detailValue.content,
   };
-  const fileData = ();
+  const fileData = ref("");
   const formData = new FormData();
   if (fileData.value) formData.append("file", fileData.value);
   formData.append(
@@ -16,10 +16,5 @@ export const noticeFileInsertApi = async (detailValue, idx) => {
     })
   );
 
-  await axios.post("/api/board/noticeSaveFileForm.do", formData).then((res) => {
-    if (res.data.result === "success") {
-      modalState.setModalState();
-      emit("postSuccess");
-    }
-  });
-}; */
+  await axios.post(Notice.InsertNoticeDetail, formData);
+};

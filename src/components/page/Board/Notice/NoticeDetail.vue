@@ -2,7 +2,7 @@
   <div>
     <div v-if="isLoading">기다려주세요</div>
     <div v-else>
-      <ContextBox>공지사항 상세조회</ContextBox>
+      <ContextBox>공지사항</ContextBox>
       <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
       <label>
         내용 :
@@ -15,7 +15,7 @@
         @change="handlerFile"
       />
       <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-      <div @click="fileDownload">
+      <div>
         <div v-if="imageUrl">
           <label>미리보기</label>
           <img :src="imageUrl" />
@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="button-box">
-        <button @click="params.idx ? handlerUpdateBtn() : handlerInsertBtn()">
-          {{ params.idx ? "수정" : "등록" }}
+        <button @click="actionHandler">
+          {{ actionLabel }}
         </button>
-        <button v-if="params.idx" @click="handlerDeleteBtn">삭제</button>
+        <button v-if="params.idx" @click="handleDelete">삭제</button>
         <button @click="$router.go(-1)">뒤로가기</button>
       </div>
     </div>
@@ -36,85 +36,53 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { onMounted, onUnmounted } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useNoticeDetailDeleteMutation } from "../../../../hook/notice/useNoticeDetailDeleteMutation";
-import { useNoticeDetailInsertMutation } from "../../../../hook/notice/useNoticeDetailInsertMutation";
-import { useNoticeDetailSearchQuery } from "../../../../hook/notice/useNoticeDetailSearchQuery";
+import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
+import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
+import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
 import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
 const detailValue = ref({});
+const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
 const userInfo = useUserInfo();
 const imageUrl = ref("");
 const fileData = ref("");
-const props = defineProps(["idx"]);
-const {
-  data: noticeDetail,
-  isLoading,
-  isSuccess,
-} = useNoticeDetailSearchQuery(params);
+
+const handlerFile = (e) => {
+  const fileInfo = e.target.files;
+  const fileInfoSplit = fileInfo[0].name.split(".");
+  const fileExtension = fileInfoSplit[1].toLowerCase();
+
+  if (
+    fileExtension === "jpg" ||
+    fileExtension === "gif" ||
+    fileExtension === "png" ||
+    fileExtension === "webp"
+  ) {
+    imageUrl.value = URL.createObjectURL(fileInfo[0]);
+  }
+  fileData.value = fileInfo[0];
+};
 
 watchEffect(() => {
-  if (isSuccess.value && noticeDetail.value) {
-    detailValue.value = toRaw(noticeDetail.value.detail);
-    // detailValue.value = {... noticeDetail.value.detail}; // 이거도 가능
+  if (isSuccess.value && NoticeDetail.value) {
+    detailValue.value = { ...NoticeDetail.value.detail };
   }
 });
 
-const searchDetail = () => {
-  axios
-    .post("/api/board/noticeDetailBody.do", { noticeSeq: props.idx })
-    .then((res) => {
-      noticeDetail.value = res.data.detail;
-      if (
-        noticeDetail.value.fileExt === "jpg" ||
-        noticeDetail.value.fileExt === "gif" ||
-        noticeDetail.value.fileExt === "png" ||
-        noticeDetail.value.fileExt === "webp"
-      ) {
-        getFileImage();
-      }
-    });
-};
-
-const getFileImage = async () => {
-  let param = new URLSearchParams();
-  param.append("noticeSeq", props.idx);
-  const postAction = {
-    url: "/api/board/noticeDownload.do",
-    method: "POST",
-    data: param,
-    responseType: "blob",
-  };
-
-  await axios(postAction).then((res) => {
-    const url = window.URL.createObjectURL(new Blob([res.data]));
-    imageUrl.value = url;
-  });
-};
-
-const fileDownload = () => {
-  let param = new URLSearchParams();
-  param.append("noticeSeq", props.idx);
-  const postAction = {
-    url: "/api/board/noticeDownload.do",
-    method: "POST",
-    data: param,
-    responseType: "blob",
-  };
-
-  axios(postAction).then((res) => {
-    const url = window.URL.createObjectURL(new Blob([res.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", noticeDetail.value.fileName); // a태그에 다운로드 속성 부여
-    document.body.appendChild(link); // document body에 link 생성
-    link.click();
-    link.remove();
-  });
+const validateInputs = () => {
+  if (!detailValue.value.title) {
+    alert("제목을 입력해주세요.");
+    return false;
+  }
+  if (!detailValue.value.content) {
+    alert("내용을 입력해주세요.");
+    return false;
+  }
+  return true;
 };
 
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
@@ -122,17 +90,22 @@ const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   params.idx
 );
 
-const { mutate: handlerInsertBtn } = useNoticeDetailInsertMutation(
+const { mutate: handlerInsertBtn } = useNoticeInsert(
   detailValue,
-  userInfo.user.loginId,
-  fileData.value
+  userInfo.user.loginId
 );
+const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
+const actionHandler = () => {
+  if (!validateInputs()) return;
+  params.idx ? handlerUpdateBtn() : handlerInsertBtn();
+};
 
-const { mutate: handlerDeleteBtn } = useNoticeDetailDeleteMutation(params);
-
-onMounted(() => {
-  props.idx && searchDetail();
-});
+const handleDelete = () => {
+  if (confirm("삭제하시겠습니까?")) {
+    handlerDeleteBtn();
+  }
+};
+const { mutate: handlerDeleteBtn } = useNoticeDelete(params);
 </script>
 
 <style lang="scss" scoped>

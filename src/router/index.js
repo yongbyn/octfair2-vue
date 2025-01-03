@@ -51,13 +51,13 @@ const routes = [
 
           {
             path: "qna.do",
-            qna: "qna",
+            name: "qna",
             component: Qna,
           },
 
           {
             path: "qnaInsert.do/insert",
-            qna: "qnaInsert",
+            name: "qnaInsert",
             component: QnaDetailModal,
           },
           {
