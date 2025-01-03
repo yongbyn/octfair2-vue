@@ -142,8 +142,8 @@ button:active {
 
   .user-info {
     position: relative;
-    right: 120px;
-    top: 30px;
+    right: 150px;
+    top: 10px;
     float: right;
   }
 }
