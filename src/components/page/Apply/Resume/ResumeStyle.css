@@ -12,11 +12,15 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s;
-}
+  transition: transform 0.1;
 
-.card:hover {
-  transform: scale(1.2);
+  &:hover {
+    filter: drop-shadow(0 0 0.7em gold);
+    opacity: 0.95;
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: transform 0.05s;
+  }
 }
 
 .image-wrapper {
@@ -40,17 +44,21 @@
   flex-direction: column;
   align-items: flex-start;
   height: auto;
-  font-size: 0.95vw;
+  margin: 5px;
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: bold;
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+  overflow: hidden; /* 넘치는 텍스트를 숨김 */
 }
 
 .title_above_file {
   color: gray;
-  font-size: 0.7em;
+  font-size: clamp(8px, 2vw, 11px);
 }
 
 .file_below_title {
   color: blue;
-  font-size: 0.7em;
+  font-size: clamp(7px, 2vw, 10px);
   text-decoration: underline;
   cursor: pointer;
 
@@ -99,6 +107,12 @@
   resize: vertical; /* 세로 방향으로만 크기 조정 가능 */
   border-radius: 10px;
   background-color: rgba(222, 184, 135, 0.849); /* 나무 원목 색 */
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 label {

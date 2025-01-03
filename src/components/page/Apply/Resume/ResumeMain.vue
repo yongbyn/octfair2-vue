@@ -11,9 +11,6 @@
         <img v-if="resume.logicalPath" :src="`/prx${resume.logicalPath}`" />
         <img v-else src="../../../../assets/logo.png" />
       </div>
-      <div>
-        {{ resume.updatedDate }}
-      </div>
       <div class="title_and_file">
         <div>
           {{ resume.resTitle }}
@@ -32,7 +29,7 @@
           >
         </div>
       </div>
-      <div>
+      <div style="margin-left: 5px; font-size: clamp(8px, 2vw, 11px)">
         {{ resume.updatedDate }}
       </div>
       <div>
@@ -45,83 +42,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div class="divResumeList">
-    현재 페이지: {{ currentPage }} 총 개수: {{ resumeList?.resumeCnt || 0 }}
-    <table>
-      <colgroup>
-        <col width="15%" />
-        <col width="70%" />
-        <col width="15%" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th scope="col">최종 수정일</th>
-          <th scope="col">이력서 제목</th>
-          <th scope="col">관리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-if="isLoading">...로딩중</template>
-        <template v-if="isSuccess">
-          <template v-if="resumeList?.payload?.length > 0">
-            <tr
-              v-for="resume in resumeList.payload"
-              :key="resume.resIdx"
-              @click="handlerGetResumeBtn(resume.resIdx)"
-            >
-              <td>
-                {{ resume.updatedDate }}
-              </td>
-              <td>
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    height: auto;
-                    font-size: 0.95vw;
-                  "
-                >
-                  <div>
-                    {{ resume.resTitle }}
-                  </div>
-                  <div v-if="resume.fileName">
-                    <span class="title_above_file">첨부파일: </span>
-                    <span
-                      class="file_below_title"
-                      @click.stop="
-                        handlerDownImageBtn({
-                          resIdx: resume.resIdx,
-                          fileName: resume.fileName,
-                        })
-                      "
-                      >{{ resume.fileName }}</span
-                    >
-                  </div>
-                </div>
-              </td>
-              <td>
-                <CommonButton @click.stop="handlerCopyResumeBtn(resume.resIdx)"
-                  >복사하기</CommonButton
-                >
-                <CommonButton
-                  @click.stop="handlerDeleteResumeBtn(resume.resIdx)"
-                  >삭제하기</CommonButton
-                >
-              </td>
-            </tr>
-          </template>
-          <template v-else>
-            <tr>
-              <td colspan="7">일치하는 검색 결과가 없습니다</td>
-            </tr>
-          </template>
-        </template>
-        <template v-if="isError">...에러</template>
-      </tbody>
-    </table>
-  </div> -->
 
   <!-- 페이지네이션 -->
   <Pagination
@@ -196,35 +116,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0px 0px 0px;
-  font-size: 18px;
-  text-align: left;
-  background-color: #ffffff;
-
-  th,
-  td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-  }
-
-  th {
-    background-color: #2676bf;
-    color: #ddd;
-  }
-
-  tbody tr:hover {
-    background-color: rgba(75, 248, 225, 0.561);
-    opacity: 0.9;
-    cursor: pointer;
-    filter: drop-shadow(0 0 2em rgba(0, 255, 51, 0.667)); // 번짐효과
-    transform: scale(1.005); // 확대효과
-    transition: transform 0.05s; // 효과를 시간차
-  }
-}
-</style>
+<style lang="scss" scoped></style>

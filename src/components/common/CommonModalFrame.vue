@@ -2,8 +2,8 @@
 <template>
   <template v-if="modalStore.modalState">
     <teleport to="body">
-      <div class="modal_overlay" @click="modalStore.modalState = false">
-        <div class="modal_content" @click.stop="">
+      <div class="modal_overlay" @mousedown="modalStore.modalState = false">
+        <div class="modal_content" @mousedown.stop="">
           <slot></slot>
         </div>
       </div>
