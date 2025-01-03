@@ -52,7 +52,8 @@ button {
   width: 50px;
   height: 50px;
   margin-bottom: 10px;
-  background-image: url("@/assets/menu.jpg");
+  background-color: transparent; /* 투명배경, 즉 배경을 부모배경으로 */
+  background-image: url("@/assets/menu.png");
   background-size: cover;
   background-position: center;
   border: none;
