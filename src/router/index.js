@@ -12,6 +12,7 @@ import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
+import Scrap from "../views/Jobs/Scrap.vue";
 import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
@@ -95,6 +96,11 @@ const routes = [
             path: "posts.do/:idx",
             name: "postDetail",
             component: PostDetail,
+          },
+          {
+            path: "scrap.do",
+            name: "scrap",
+            component: Scrap,
           },
         ],
       },
