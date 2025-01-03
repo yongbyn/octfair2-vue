@@ -119,6 +119,11 @@ const routes = [
             name: "hire-post-create",
             component: HirePostEditor,
           },
+          {
+            path: "editor.do/:idx",
+            name: "hire-post-update",
+            component: HirePostEditor,
+          },
         ],
       },
       {
