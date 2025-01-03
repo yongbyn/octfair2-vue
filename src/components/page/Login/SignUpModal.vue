@@ -645,8 +645,8 @@ const signUpValid = () => {
     return;
   } else {
     handlerSignUp();
+    toast.success("회원 가입 완료!!!");
   }
-  toast.success("회원 가입 완료!!!");
 };
 
 // 9. 회원가입
