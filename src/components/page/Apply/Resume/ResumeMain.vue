@@ -8,7 +8,13 @@
       @click="handlerGetResumeBtn(resume.resIdx)"
     >
       <div class="image-wrapper">
-        <img v-if="resume.logicalPath" :src="`/prx${resume.logicalPath}`" />
+        <img
+          v-if="
+            resume.logicalPath &&
+            /\.(jpg|jpeg|png|bmp|webp|gif)$/i.test(resume.logicalPath)
+          "
+          :src="`/prx${resume.logicalPath}`"
+        />
         <img v-else src="../../../../assets/logo.png" />
       </div>
       <div class="title_and_file">
@@ -66,7 +72,8 @@ import { useResumeOneCopyMutation } from "../../../../hook/apply/resume/useResum
 import { useResumeOneDeleteMutation } from "../../../../hook/apply/resume/useResumeOneDeleteMutation";
 import { useModalStore } from "../../../../stores/modalState";
 
-const itemPerPage = ref(5);
+const itemPerPageDefault = 12;
+const itemPerPage = ref(itemPerPageDefault * 2);
 const currentPage = ref(1);
 const queryClient = useQueryClient();
 const resIdx = ref("");
@@ -89,7 +96,7 @@ const { mutate: handlerDownImageBtn } = useResumeFileDownMutation();
 const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
 const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
 
-// 화면크기 변경시 반응형으로, itemPerRow의 배수이면서 12이상인 값을 itemPerPage로 정하는 계산함수
+// 화면크기 변경시 반응형으로, itemPerRow의 배수이면서 12(itemPerPageDefault)이상인 값을 itemPerPage로 정하는 계산함수
 const calculateItemPerPage = () => {
   const gridContainer = document.querySelector(".gallery-container");
   const gridItems = document.querySelectorAll(".card");
@@ -99,7 +106,7 @@ const calculateItemPerPage = () => {
     const itemWidth = gridItems[0].offsetWidth;
     let itemPerRow = Math.floor(containerWidth / itemWidth);
 
-    itemPerPage.value = Math.ceil(24 / itemPerRow) * itemPerRow;
+    itemPerPage.value = Math.ceil(itemPerPageDefault / itemPerRow) * itemPerRow;
     queryClient.invalidateQueries({ queryKey: ["resumeList"] });
   }
 };

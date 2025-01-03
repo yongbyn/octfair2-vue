@@ -49,15 +49,15 @@ const resIdx = ref("");
 const skillDefault = { skillName: '', skillDetail: ''};
 const skill = ref({ ...skillDefault });
 const isAddSkill = ref(false);
+const isExistSkill = computed(() => skillList?.payload?.length >= 1 || false);
 
 const { data: skillList } = useSkillListReadQuery(resIdx);
 const { mutate: handlerCreateSkillBtn } = useSkillNewCreateMutation();
 const { mutate: handlerDeleteSkillBtn } = useSkillNewDeleteMutation();
 
-watch(() => [props.resume.resIdx, skillList], () => {
+watch(() => [props.resume.resIdx, skillList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-  if (skillList.payload && skillList.payload.length >= 1) emits("isExistCareer", true);
-  else                                                    emits("isExistCareer", false);
+  emits("isExistSkill", isExistSkill.value);
 })
 </script>
 

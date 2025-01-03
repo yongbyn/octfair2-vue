@@ -8,9 +8,9 @@ export const resumeDetailUpdateApi = async (resIdx, resume, fileData) => {
   const textData = {
     resIdx: resIdx.value,
     res_title: resume.value.resTitle,
-    short_intro: resume.value.shortIntro,
-    pfo_link: resume.value.pfoLink,
-    per_statement: resume.value.perStatement,
+    short_intro: resume.value.shortIntro || "",
+    pfo_link: resume.value.pfoLink || "",
+    per_statement: resume.value.perStatement || "",
   };
 
   Object.entries(textData).forEach(([key, value]) => {

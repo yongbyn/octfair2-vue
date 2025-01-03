@@ -99,9 +99,7 @@ const { mutate: handlerDeleteCareerBtn } = useCareerNewDeleteMutation();
 
 watch(() => [props.resume.resIdx, careerList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-
-  console.log('isExistCareer:', isExistCareer.value); // .value로 접근
-  emits("isExistCareer", isExistCareer.value); // .value로 emit
+  emits("isExistCareer", isExistCareer.value);
 });
 </script>
 
