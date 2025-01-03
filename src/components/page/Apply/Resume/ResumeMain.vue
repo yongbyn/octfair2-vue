@@ -100,7 +100,7 @@ const calculateItemPerPage = () => {
     let itemPerRow = Math.floor(containerWidth / itemWidth);
 
     itemPerPage.value = Math.ceil(24 / itemPerRow) * itemPerRow;
-    searchList();
+    queryClient.invalidateQueries({ queryKey: ["resumeList"] });
   }
 };
 

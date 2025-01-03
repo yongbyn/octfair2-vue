@@ -1,13 +1,11 @@
 <template>
   <ul class="dashboard-ul">
     <li class="align-center">
-      <button @click="isShowMenu = !isShowMenu"></button>
+      <button @click="isShow = !isShow"></button>
     </li>
-    <li class="menu-bar" v-show="isShowMenu">
-      <LeftManuBar></LeftManuBar>
-      <div class="align-center">
-        <AddOn class="add-on" />
-      </div>
+    <li class="menu-bar">
+      <LeftManuBar v-show="isShow" />
+      <AddOn class="add-on" :isShow="isShow" />
     </li>
     <li class="content">
       <keep-alive><router-view></router-view></keep-alive>
@@ -18,10 +16,17 @@
 <script setup>
 import LeftManuBar from "../../components/layout/LeftManuBar.vue";
 
-const isShowMenu = ref(true);
+const isShow = ref(true);
+let previousWidth = window.innerWidth; // 이전 창 너비를 저장
+let currentWidth = 0; // 현재 창 너비를 저장할 예정
 
 const updateMenuVisibility = () => {
-  isShowMenu.value = window.innerWidth >= 900;
+  currentWidth = window.innerWidth;
+
+  if (currentWidth >= 900 && previousWidth < 900) isShow.value = true;
+  else if (currentWidth < 900 && previousWidth >= 900) isShow.value = false;
+
+  previousWidth = currentWidth;
 };
 
 onMounted(() => {
@@ -48,7 +53,7 @@ onUnmounted(() => {
 }
 
 button {
-  display: none;
+  display: none; /* 숨김 */
   width: 50px;
   height: 50px;
   margin-bottom: 10px;
@@ -63,10 +68,6 @@ button {
   float: left;
 }
 
-.add-on {
-  display: flex; /* 숨김해제 */
-}
-
 .content {
   float: left;
   padding-left: 50px;
@@ -77,22 +78,13 @@ button {
 
 @media (max-width: 900px) {
   .dashboard-ul {
+    flex-direction: column;
     margin: 5px;
     padding: 5px;
-    flex-direction: column;
   }
 
   button {
     display: block; /* 숨김해제 */
-  }
-
-  .menu-bar {
-    float: inline-start;
-    opacity: 1;
-  }
-
-  .add-on {
-    display: block;
   }
 
   .content {
