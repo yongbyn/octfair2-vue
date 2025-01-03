@@ -1,49 +1,50 @@
 <template>
   <div class="divPostList">
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ approvalList?.pendingPostCnt }}
-      </b-badge>
-      개의 글
-    </b-button>
+    <PostApplyModal
+      v-if="modalState.modalState"
+      @modalClose="refetch()"
+      :postIdx="scrapList.postIdx"
+    />
+    현재 페이지: {{ cPage }} 총 개수: {{ postList?.approvalPostCnt }}
     <table>
       <colgroup>
         <col width="10%" />
         <col width="30%" />
-        <col width="10%" />
+        <col width="20%" />
         <col width="10%" />
         <col width="15%" />
         <col width="15%" />
-        <col width="10%" />
+        <col width="15%" />
       </colgroup>
       <thead>
         <tr>
-          <th scope="col">번호</th>
-          <th scope="col">제목</th>
+          <th scope="col"></th>
+          <th scope="col">기업명</th>
+          <th scope="col">공고 제목</th>
+          <th scope="col">자격 요건</th>
           <th scope="col">근무 지역</th>
-          <th scope="col">경력 여부</th>
           <th scope="col">마감일</th>
-          <th scope="col">등록일</th>
-          <th scope="col">승인 여부</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <template v-if="isLoading">로딩중...</template>
         <template v-else-if="isSuccess">
-          <template v-if="approvalList.pendingPostCnt > 0">
-            <tr
-              v-for="post in approvalList.pendingList"
-              :key="post.postIdx"
-              @click="handlerDetail(post.postIdx)"
-            >
-              <td>{{ post.postIdx }}</td>
-              <td>{{ post.title }}</td>
-              <td>{{ post.workLocation }}</td>
-              <td>{{ post.expRequired }}</td>
-              <td>{{ post.endDate.substr(0, 10) }}</td>
-              <td>{{ post.postDate.substr(0, 10) }}</td>
-              <td>{{ post.appStatus }}</td>
+          <template v-if="scrapList.scrapCnt > 0">
+            <tr v-for="scrap in scrapList.scrapList" :key="scrap.scrapIdx">
+              <td>체크박스</td>
+              <td>{{ scrap.postBizName }}</td>
+              <td @click="handlerDetail(scrap.postIdx)">
+                {{ scrap.postTitle }}
+              </td>
+              <td>{{ scrap.postStatus }}</td>
+              <td>{{ scrap.postWorkLocation }}</td>
+              <td>{{ scrap.postExpRequired }}</td>
+              <td>
+                <b-button @click="handlerApply(scrap.postIdx)"
+                  >입사지원</b-button
+                >
+              </td>
             </tr>
           </template>
           <template v-else>
@@ -56,7 +57,7 @@
       </tbody>
     </table>
     <Pagination
-      :totalItems="approvalList?.pendingPostCnt || 0"
+      :totalItems="scrapList?.scrapCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
       v-model="cPage"
@@ -66,25 +67,33 @@
 
 <script setup>
 import { ref } from "vue";
-import { useApprovalListSearchQuery } from "../../../hook/approval/useApprovalListSearchQuery";
-import router from "../../../router";
-import Pagination from "../../common/Pagination.vue";
+import { useRouter } from "vue-router";
+import { useScrapListSearchQuery } from "../../../../hook/jobs/useScrapListSearchQuery";
+import { useModalStore } from "../../../../stores/modalState";
+import Pagination from "../../../common/Pagination.vue";
 
+const router = useRouter();
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
+const modalState = useModalStore();
 
 const {
-  data: approvalList,
+  data: scrapList,
   isLoading,
   isSuccess,
   isError,
-} = useApprovalListSearchQuery(injectedValue, cPage);
+  refetch,
+} = useScrapListSearchQuery(injectedValue, cPage);
 
 const handlerDetail = (idx) => {
   router.push({
     name: "postDetail",
     params: { idx },
   });
+};
+
+const handlerApply = (idx) => {
+  modalState.setModalState();
 };
 </script>
 
