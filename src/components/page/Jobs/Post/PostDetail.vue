@@ -125,7 +125,7 @@
               id="btnManagehireUpdate"
               class="btn-edit"
               variant="outline-primary"
-              @click="handlerUpdateBtn"
+              @click="handlerUpdateBtn(detailValue.postIdx)"
             >
               수정
             </b-button>
@@ -272,7 +272,12 @@ const handlerUpdateStatus = async (postIdx, status) => {
     });
 };
 
-const handlerUpdateBtn = () => {};
+const handlerUpdateBtn = (idx) => {
+  router.push({
+    name: "hire-post-update",
+    params: { idx },
+  });
+};
 
 const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation(
   bizDetail.value.bizIdx,
