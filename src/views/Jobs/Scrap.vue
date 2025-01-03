@@ -1,13 +1,10 @@
 <template>
-  <ContextBox>기업회원관리</ContextBox>
-  <BizSearch />
-  <BizMain />
+  <ContextBox>스크랩</ContextBox>
+  <ScrapSearch />
+  <ScrapMain />
 </template>
 
 <script setup>
-import { provide } from "vue";
-
 const providedValue = ref();
-
 provide("providedValue", providedValue);
 </script>

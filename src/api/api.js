@@ -86,3 +86,9 @@ export const Applicant = {
   ApplicantEducationListtIndependent:"/prx/api/apply/educationListt",
   ApplicantskillListIndependent:"/prx/api/apply/skillList",
 };
+
+export const Biz = {
+  SearchBizList: "/prx/api/manage-user/bizList.do",
+  SearchBizDetail: "/prx/api/manage-user/bizManageDetail.do",
+  UpdateBizDetail: "/prx/api/manage-user/bizInfoUpdate.do",
+};
