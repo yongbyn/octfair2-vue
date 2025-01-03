@@ -3,7 +3,7 @@
     <b-button variant="light">
       총
       <b-badge pill variant="primary">
-        {{ approvalList?.pendingPostCnt }}
+        {{ approvalList?.approvalPostCnt }}
       </b-badge>
       개의 글
     </b-button>
@@ -31,9 +31,9 @@
       <tbody>
         <template v-if="isLoading">로딩중...</template>
         <template v-else-if="isSuccess">
-          <template v-if="approvalList.pendingPostCnt > 0">
+          <template v-if="approvalList.approvalPostCnt > 0">
             <tr
-              v-for="post in approvalList.pendingList"
+              v-for="post in approvalList.approvalList"
               :key="post.postIdx"
               @click="handlerDetail(post.postIdx)"
             >
@@ -56,7 +56,7 @@
       </tbody>
     </table>
     <Pagination
-      :totalItems="approvalList?.pendingPostCnt || 0"
+      :totalItems="approvalList?.approvalPostCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
       v-model="cPage"

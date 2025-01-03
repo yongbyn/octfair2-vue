@@ -8,6 +8,7 @@ import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
+import ConfirmedPost from "../views/Approval/ConfirmedPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import HirePost from "../views/Hire/HirePost.vue";
@@ -128,6 +129,11 @@ const routes = [
             path: "approval.do",
             name: "approval-post",
             component: ApprovalPost,
+          },
+          {
+            path: "post.do",
+            name: "post",
+            component: ConfirmedPost,
           },
         ],
       },
