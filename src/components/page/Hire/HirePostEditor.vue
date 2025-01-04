@@ -431,18 +431,24 @@ input[type="checkbox"] {
 }
 
 .checkbox-group-horizontal label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
   white-space: nowrap; /* 가로 정렬 강제 */
+}
+
+.checkbox-group-horizontal input {
+  resize: none;
 }
 
 .hireDateGroup {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  font-size: 14px; /* 작게 표시 */
+  font-size: 14px;
+}
+
+.hireDateGroup label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hiringProcText {
@@ -450,7 +456,7 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 14px; /* 작게 표시 */
+  font-size: 14px;
 }
 
 .hiringProcText #hirProcess {
