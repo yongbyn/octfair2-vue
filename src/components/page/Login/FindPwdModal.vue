@@ -2,12 +2,13 @@
   <div class="findPwdModal">
     <div class="findPwdModalContent">
       <div class="findPwdModalTitle">
-        <h1>비밀번호 찾기</h1>
+        <h2>비밀번호 찾기</h2>
         <span>
           <img
             src="../../../../public/icon_close.png"
             class="closeModalBtn"
             @click="findUserPwdModalCloseBtn"
+            alt="close"
           />
         </span>
       </div>
@@ -105,8 +106,9 @@ const findPwdVaild = () => {
   if (!findPwdUserInfo.value.id || !findPwdUserInfo.value.email) {
     toast.error("아이디와 이메일을 모두 입력해주세요.");
     return;
+  } else{
+    handlerFindPwd();
   }
-  handlerFindPwd();
 };
 
 // 2. 비밀번호 찾기 사용자 정보 확인
@@ -114,20 +116,15 @@ const { mutate: handlerFindPwd } = findPwd(findPwdUserInfo, findPwdCheck);
 
 // 3. 정보 확인 후 비밀번호 업데이트 유효성 검사
 const pwdValid = () => {
-  const RegExPwd =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,20}$/;
+  const regExPwd = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/;
 
   if (!findPwdUserInfo.value.pw || !findPwdUserInfo.value.pwCk) {
     toast.error("비밀번호를 모두 입력해주세요.");
     return;
-  }
-  if (!RegExPwd.test(findPwdUserInfo.value.pw)) {
-    toast.error(
-      "비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 하며 4~20자리여야 합니다."
-    );
+  } else if (!regExPwd.test(findPwdUserInfo.value.pw)) {
+    toast.error("비밀번호는 영문, 숫자 4~40자리여야 합니다.");
     return;
-  }
-  if (findPwdUserInfo.value.pw !== findPwdUserInfo.value.pwCk) {
+  } else if (findPwdUserInfo.value.pw !== findPwdUserInfo.value.pwCk) {
     toast.error("비밀번호가 일치하지 않습니다.");
     return;
   }
@@ -165,7 +162,7 @@ const findUserPwdModalCloseBtn = () => {
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 480px;
-  height: 240px;
+  height: 260px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,6 +205,7 @@ table {
 th {
   background-color: rgb(220, 220, 220);
   width: 30%;
+  text-align: center;
 }
 
 input {
