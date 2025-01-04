@@ -1,14 +1,14 @@
 <template>
   <div class="signUpModal">
     <div class="signUpModalContent">
-      <h1 class="signupTitle">회원가입</h1>
+      <h1 class="signUpTitle">회원가입</h1>
       <table>
         <tr>
           <td colspan="2"><hr /></td>
         </tr>
 
         <tr>
-          <th>회원 유형 <span class="required">*</span></th>
+          <th>회원 유형 <span class="text-danger">*</span></th>
           <td>
             <b-form-radio-group
               v-model="signUpUserInfo.userType"
@@ -17,7 +17,6 @@
                 { value: 'B', text: '기업회원' },
               ]"
               button-variant="outline-primary"
-              name="radio-btn-outline"
               buttons
             ></b-form-radio-group>
           </td>
@@ -25,23 +24,23 @@
 
         <tr>
           <th>
-            <label for="loginId">아이디 <span class="required">*</span> </label>
+            <label for="loginId">아이디 <span class="text-danger">*</span> </label>
           </th>
           <td>
-            <b-col class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
               <b-form-input
                 id="loginId"
-                class="userId"
-                :state="idState"
+                :state="signUpUserInfo.loginId.state"
                 placeholder="아이디는 숫자, 영문 조합(4~20자)"
-                v-model="signUpUserInfo.loginId"
+                v-model="signUpUserInfo.loginId.value"
+                ref="loginId"
               ></b-form-input>
               <b-button
                 id="idCheckBtn"
                 :variant="
-                  idState === null
+                  signUpUserInfo.loginId.state === null
                     ? 'secondary'
-                    : idState
+                    : signUpUserInfo.loginId.state
                       ? 'success'
                       : 'danger'
                 "
@@ -50,7 +49,7 @@
               >
                 중복 확인
               </b-button>
-            </b-col>
+            </div>
           </td>
         </tr>
 
@@ -58,7 +57,7 @@
           <th>
             <label for="password"
               >비밀번호
-              <span class="required">*</span>
+              <span class="text-danger">*</span>
             </label>
           </th>
           <td>
@@ -66,13 +65,14 @@
               <b-form-input
                 id="password"
                 type="password"
-                :state="pwdState"
+                :state="signUpUserInfo.password.state"
                 placeholder="비밀번호는 숫자,영어 4~40자 입력"
-                v-model="signUpUserInfo.password"
+                v-model="signUpUserInfo.password.value"
                 @input="pwdValid"
+                ref="password"
               ></b-form-input>
             </b-col>
-            <div v-show="pwdState === false" class="statusPwd">
+            <div v-show="signUpUserInfo.password.state === false" class="statusPwd">
               숫자,영어 4~40자 입력
             </div>
           </td>
@@ -82,7 +82,7 @@
           <th>
             <label for="passwordCk"
               >비밀번호 확인
-              <span class="required">*</span>
+              <span class="text-danger">*</span>
             </label>
           </th>
           <td>
@@ -90,13 +90,14 @@
               <b-form-input
                 id="passwordCk"
                 type="password"
-                :state="pwdCkState"
+                :state="signUpUserInfo.passwordCk.state"
                 placeholder="비밀번호를 다시 입력하세요."
-                v-model="signUpUserInfo.passwordCk"
+                v-model="signUpUserInfo.passwordCk.value"
                 @input="pwdCkValid"
+                ref="passwordCk"
               ></b-form-input>
             </b-col>
-            <div v-show="pwdCkState === false" class="statusPwdCk">
+            <div v-show="signUpUserInfo.passwordCk.state === false" class="statusPwdCk">
               올바른 비밀번호를 입력해주세요.
             </div>
           </td>
@@ -106,28 +107,28 @@
           <th>
             <label for="name"
               >이름
-              <span class="required">*</span>
+              <span class="text-danger">*</span>
             </label>
           </th>
           <td>
             <b-col class="d-flex align-items-center">
               <b-form-input
                 id="name"
-                type="name"
-                :state="nameState"
+                :state="signUpUserInfo.name.state"
                 placeholder="이름을 입력하세요.(한글2자 이상)"
-                v-model="signUpUserInfo.name"
-                @input="nameValid"
+                v-model="signUpUserInfo.name.value"
+                @blur="nameValid"
+                ref="name"
               ></b-form-input>
             </b-col>
-            <div v-show="nameState === false" class="name">
+            <div v-show="signUpUserInfo.name.state === false" class="name">
               한글 2자 이상으로 입력하세요.
             </div>
           </td>
         </tr>
 
         <tr>
-          <th>성별 <span class="required">*</span></th>
+          <th>성별 <span class="text-danger">*</span></th>
           <td>
             <b-form-radio-group
               v-model="signUpUserInfo.sex"
@@ -145,22 +146,23 @@
         <tr>
           <th>
             <label for="birthday"
-              >생년월일 <span class="required">*</span></label
+              >생년월일 <span class="text-danger">*</span></label
             >
           </th>
           <td>
             <b-form-input
               type="date"
-              :state="birthdayState"
-              v-model="signUpUserInfo.birthday"
+              :state="signUpUserInfo.birthday.state"
+              v-model="signUpUserInfo.birthday.value"
               @input="birthdayValid"
+              ref="birthday"
             ></b-form-input>
           </td>
         </tr>
 
         <tr>
           <th>
-            <label for="phone">전화번호 <span class="required">*</span></label>
+            <label for="phone">전화번호 <span class="text-danger">*</span></label>
           </th>
           <td>
             <input
@@ -168,33 +170,37 @@
               class="form-control"
               v-model="signUpUserInfo.phone"
               placeholder="전화번호를 입력하세요.(숫자만 입력하세요.)"
+              ref="phone"
             />
           </td>
         </tr>
 
         <tr>
           <th>
-            <label for="emailId">이메일 <span class="required">*</span></label>
+            <label for="emailId">이메일 <span class="text-danger">*</span></label>
           </th>
           <td>
             <div class="d-flex align-items-center">
               <b-form-input
-                type="text"
                 id="emailId"
-                class="emailId form-control me-1"
-                v-model="signUpUserInfo.emailId"
+                class="emailId me-1"
+                :state="signUpUserInfo.emailId.state"
+                v-model="signUpUserInfo.emailId.value"
                 placeholder="이메일을 입력하세요."
                 @input="emailValid"
+                ref="emailId"
               />
               <span>@</span>
-              <input
+              <b-form-input
                 list="emailDomains"
                 id="emailDomain"
                 name="emailDomain"
-                v-model="signUpUserInfo.emailDomain"
+                :state="signUpUserInfo.emailDomain.state"
+                v-model="signUpUserInfo.emailDomain.value"
                 class="form-control ms-1 emailDomain"
                 placeholder="이메일 도메인 입력"
                 @input="emailValid"
+                ref="emailDomain"
               />
               <datalist id="emailDomains">
                 <option value="gmail.com"></option>
@@ -206,10 +212,9 @@
         </tr>
 
         <tr>
-          <th>우편번호 <span class="required">*</span></th>
+          <th>우편번호 <span class="text-danger">*</span></th>
           <td class="d-flex align-items-center zipCodeDiv">
             <b-form-input
-              type="text"
               class="zipCodeInput w-200"
               :state="signUpUserInfo.zipCode ? true : null"
               v-model="signUpUserInfo.zipCode"
@@ -226,11 +231,11 @@
         </tr>
 
         <tr>
-          <th>주소 <span class="required">*</span></th>
+          <th>주소 <span class="text-danger">*</span></th>
           <td>
             <b-form-input
-              type="text"
               class="addressInput"
+              :state="signUpUserInfo.address ? true : null"
               v-model="signUpUserInfo.address"
               readonly
             />
@@ -241,7 +246,6 @@
           <th><label for="detailAddress">상세주소</label></th>
           <td>
             <b-form-input
-              type="text"
               id="detailAddress"
               class="detailAddressInput"
               v-model="signUpUserInfo.detailAddress"
@@ -279,102 +283,119 @@ import { useSignUpIdCheck } from "../../../hook/Login/useSignUpIdCheck";
 
 const modalStore = useModalStore();
 
-const idState = ref(null);
-const pwdState = ref(null);
-const pwdCkState = ref(null);
-const nameState = ref(null);
-const birthdayState = ref(null);
-
+// 회원가입 사용자 정보
 const signUpUserInfo = ref({
-  // 회원가입 사용자 정보
   action: "I",
   userType: "",
-  loginId: "",
-  password: "",
-  passwordCk: "",
-  name: "",
+  loginId: {
+    value: "",
+    state: null,
+  },
+  password: {
+    value: "",
+    state: null,
+  },
+  passwordCk: {
+    value: "",
+    state: null,
+  },
+  name: {
+    value: "",
+    state: null,
+  },
   sex: "",
-  birthday: "",
+  birthday: {
+    value: "",
+    state: null,
+  },
   phone: "",
   email: "",
-  emailId: "",
-  emailDomain: "",
+  emailId: {
+    value: "",
+    state: null,
+  },
+  emailDomain: {
+    value: "",
+    state: null,
+  },
   zipCode: "",
   address: "",
   detailAddress: "",
 });
 
+// 정규식
+const regExPatterns = {
+  id: /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/,
+  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/,
+  name: /^[가-힣]{2,}$/,
+  domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
+}
+
 // 1. 아이디 중복체크
 const idValid = () => {
-  const regExId = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/;
-
-  if (!regExId.test(signUpUserInfo.value.loginId)) {
-    toast.error("아이디는 영문, 숫자 모두 포함해야 하며 4~20자리여야 합니다.");
-    idState.value = false;
+  if (!regExPatterns.id.test(signUpUserInfo.value.loginId.value)) {
+    toast.error("아이디는 4~20자 이내로 영문과 숫자를 조합해 주세요.");
+    signUpUserInfo.value.loginId.state = false;
     document.getElementById("loginId").focus();
-    return;
   } else {
     handlerIdCheck();
   }
 };
 watch(
-  () => signUpUserInfo.value.loginId,
+  () => signUpUserInfo.value.loginId.value,
   () => {
-    if (idState.value !== null) {
-      idState.value = false;
+    if (signUpUserInfo.value.loginId.state !== null) {
+      signUpUserInfo.value.loginId.state = false;
     }
   }
 );
-const { mutate: handlerIdCheck } = useSignUpIdCheck(signUpUserInfo, idState);
+const { mutate: handlerIdCheck } = useSignUpIdCheck(signUpUserInfo);
 
-const regExPwd = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/;
 // 2. 비밀번호 유효성 검사
 const pwdValid = () => {
-  if (regExPwd.test(signUpUserInfo.value.password)) {
-    pwdState.value = true;
+  if (regExPatterns.pwd.test(signUpUserInfo.value.password.value)) {
+    signUpUserInfo.value.password.state = true;
     pwdCkValid();
   } else {
-    pwdState.value = false;
-    pwdCkState.value = false;
+    signUpUserInfo.value.password.state = false;
+    signUpUserInfo.value.passwordCk.state = false;
   }
 };
 const pwdCkValid = () => {
   if (
-    signUpUserInfo.value.password === signUpUserInfo.value.passwordCk &&
-    regExPwd.test(signUpUserInfo.value.password) &&
-    regExPwd.test(signUpUserInfo.value.passwordCk)
+    signUpUserInfo.value.password.value === signUpUserInfo.value.passwordCk.value &&
+    regExPatterns.pwd.test(signUpUserInfo.value.password.value) &&
+    regExPatterns.pwd.test(signUpUserInfo.value.passwordCk.value)
   ) {
-    pwdCkState.value = true;
+    signUpUserInfo.value.passwordCk.state = true;
   } else {
-    pwdCkState.value = false;
+    signUpUserInfo.value.passwordCk.state = false;
   }
 };
 
 // 3. 이름 유효성 검사
 const nameValid = () => {
-  const regExName = /^[가-힣]{2,}$/;
-
-  if (!regExName.test(signUpUserInfo.value.name)) {
-    nameState.value = false;
+  if (!regExPatterns.name.test(signUpUserInfo.value.name.value)) {
+    signUpUserInfo.value.name.state = false;
   } else {
-    nameState.value = true;
+    signUpUserInfo.value.name.state = true;
   }
 };
 
 // 4. 생년월일 유효성 검사(과거~오늘 선택가능, 미래 선택불가)
 const birthdayValid = () => {
-  const birthdayDate = new Date(signUpUserInfo.value.birthday);
+  const birthdayDate = new Date(signUpUserInfo.value.birthday.value);
   const today = new Date();
 
   birthdayDate.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
 
-  if (birthdayDate > today || signUpUserInfo.value.birthday === "") {
+  if (birthdayDate > today || signUpUserInfo.value.birthday.value === "") {
     toast.error("미래의 날짜로 선택 할 수 없습니다.");
-    birthdayState.value = false;
-    signUpUserInfo.value.birthday = "";
+    signUpUserInfo.value.birthday.state = false;
+    signUpUserInfo.value.birthday.value = "";
   } else {
-    birthdayState.value = true;
+    signUpUserInfo.value.birthday.state = true;
   }
 };
 
@@ -527,31 +548,22 @@ watch(
 
 // 6. 이메일 유효성 검사
 const emailValid = () => {
-  signUpUserInfo.value.email =
-    signUpUserInfo.value.emailId + "@" + signUpUserInfo.value.emailDomain;
+  signUpUserInfo.value.email = 
+    signUpUserInfo.value.emailId.value + "@" + signUpUserInfo.value.emailDomain.value;
 
-  const emailIdInput = document.getElementById("emailId");
-  const emailDomainInput = document.getElementById("emailDomain");
-
-  const regExDomain =
-    /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/;
-
-  if (signUpUserInfo.value.emailId.length >= 1) {
-    emailIdInput.classList.add("is-valid");
-    emailIdInput.classList.remove("is-invalid");
+  if(signUpUserInfo.value.emailId.value.length >= 1){
+    signUpUserInfo.value.emailId.state = true;
   } else {
-    emailIdInput.classList.add("is-invalid");
-    emailIdInput.classList.remove("is-valid");
+    signUpUserInfo.value.emailId.state = false;
+    signUpUserInfo.value.emailDomain.state = false;
   }
 
-  if (regExDomain.test(signUpUserInfo.value.emailDomain)) {
-    emailDomainInput.classList.add("is-valid");
-    emailDomainInput.classList.remove("is-invalid");
+  if(regExPatterns.domain.test(signUpUserInfo.value.emailDomain.value)){
+    signUpUserInfo.value.emailDomain.state = true;
   } else {
-    emailDomainInput.classList.add("is-invalid");
-    emailDomainInput.classList.remove("is-valid");
+    signUpUserInfo.value.emailDomain.state = false;
   }
-};
+}
 
 // 7. 우편번호 찾기
 const handlerKakaoPost = () => {
@@ -562,40 +574,43 @@ const handlerKakaoPost = () => {
 };
 
 // 8. 회원가입 검증
-
-const signUpValid = () => {
-  const phone = document.getElementById("phone");
-  const emailId = document.getElementById("emailId");
-  const emailDomain = document.getElementById("emailDomain");
-
+const signUpValid = () => {  
+  const signUpFocus = ref({
+  loginId: loginId,
+  password: password,
+  passwordCk: passwordCk,
+})
+  // 8.1 회원 유형
   if (!signUpUserInfo.value.userType) {
     toast.error("회원 유형을 선택하세요!");
     return;
-  } else if (
-    !signUpUserInfo.value.loginId ||
-    idState.value === null ||
-    idState.value === false
-  ) {
-    if (!signUpUserInfo.value.loginId) {
+
+  // 8.2 아이디
+  } else if (!signUpUserInfo.value.loginId.state) {
+    if (!signUpUserInfo.value.loginId.value) {
       toast.error("아이디를 입력하세요!");
-    } else if (idState.value === null || idState.value === false) {
+    } else if (signUpUserInfo.value.loginId.value === null || signUpUserInfo.value.loginId.state === false) {
       toast.error("아이디를 중복 검사를 하세요!");
     }
-    idState.value = false;
-    document.getElementById("loginId").focus();
+    signUpUserInfo.value.loginId.state = false;
+    signUpFocus.value.loginId.focus();
     return;
-  } else if (!pwdState.value || !pwdCkState.value) {
-    if (!pwdState.value) {
-      toast.error("비밀번호를 다시 입력해주세요!");
-      pwdState.value = false;
-      document.getElementById("password").focus();
+
+  // 8.3 비밀번호
+  } else if (!signUpUserInfo.value.password.value || !signUpUserInfo.value.passwordCk.value) {
+    if (!signUpUserInfo.value.password.state) {
+      toast.error("비밀번호를 확인해 주세요!");
+      signUpUserInfo.value.password.state = false;
+      signUpFocus.value.password.focus();
     } else {
-      toast.error("비밀번호 확인을 다시 입력해주세요!");
-      document.getElementById("passwordCk").focus();
+      toast.error("비밀번호 확인을 확인해 주세요!");
+      signUpFocus.value.passwordCk.focus();
     }
     return;
-  } else if (nameState.value === null || nameState.value === false) {
-    if (nameState.value === null) {
+
+  // 8.4 이름
+  } else if (!signUpUserInfo.value.name.state) {
+    if (signUpUserInfo.value.name.value === null) {
       toast.error("이름을 입력해주세요!");
     } else {
       toast.error("올바른 이름을 입력해주세요!");
@@ -603,17 +618,23 @@ const signUpValid = () => {
     document.getElementById("name").focus();
     nameState.value = false;
     return;
+
+  // 8.5 성별
   } else if (!signUpUserInfo.value.sex) {
     toast.error("성별을 선택하세요!");
     return;
-  } else if (!birthdayState.value) {
-    if (birthdayState.value === null) {
+
+  // 8.6 생년월일
+  } else if (!signUpUserInfo.value.birthday.state) {
+    signUpUserInfo.value.birthday.state = false;
+    if (signUpUserInfo.value.birthday.state === null) {
       toast.error("생년월일을 선택하세요!");
-      birthdayState.value = false;
     } else {
       toast.error("올바른 생년월일을 선택하세요!");
     }
     return;
+  
+  // 8.7 전화번호
   } else if (!phone.classList.contains("is-valid")) {
     if (!phone.classList.contains("is-invalid")) {
       toast.error("전화번호를 입력하세요!");
@@ -623,12 +644,14 @@ const signUpValid = () => {
     }
     phone.focus();
     return;
+  
+  // 8.8 이메일
   } else if (
-    !signUpUserInfo.value.emailId ||
-    !signUpUserInfo.value.emailDomain ||
+    !signUpUserInfo.value.emailId.value ||
+    !signUpUserInfo.value.emailDomain.value ||
     !emailDomain.classList.contains("is-valid")
   ) {
-    if (!signUpUserInfo.value.emailId) {
+    if (!signUpUserInfo.value.emailId.value) {
       toast.error("이메일을 입력하세요!");
       emailId.focus();
       emailId.classList.add("is-invalid");
@@ -640,8 +663,12 @@ const signUpValid = () => {
       emailDomain.focus();
     }
     return;
+  
+  // 8.9 우편번호
   } else if (!signUpUserInfo.value.zipCode) {
     toast.error("우편번호를 입력하세요!");
+    signUpUserInfo.value.zipCode.state = false;
+    signUpUserInfo.value.address.state = false;
     return;
   } else {
     handlerSignUp();
@@ -684,6 +711,9 @@ const signUpModalCloseBtn = () => {
   flex-direction: column;
   align-items: center;
 }
+.signUpTitle{
+  margin-top: 10px;
+}
 
 th,
 label,
@@ -698,15 +728,8 @@ select {
   height: 35px;
 }
 
-.required {
-  color: red;
-}
-
 .idCheckBtn {
   margin-left: 10px;
-}
-.userId {
-  width: 240px;
 }
 
 .statusPwd,
