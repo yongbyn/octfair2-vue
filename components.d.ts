@@ -49,6 +49,7 @@ declare module 'vue' {
     NoticeMain: typeof import('./src/components/page/Board/Notice/NoticeMain.vue')['default']
     NoticeSearch: typeof import('./src/components/page/Board/Notice/NoticeSearch.vue')['default']
     Pagination: typeof import('./src/components/common/Pagination.vue')['default']
+    PostApplyModal: typeof import('./src/components/page/Jobs/Post/PostApplyModal.vue')['default']
     PostDetail: typeof import('./src/components/page/Jobs/Post/PostDetail.vue')['default']
     PostMain: typeof import('./src/components/page/Jobs/Post/PostMain.vue')['default']
     PostSearch: typeof import('./src/components/page/Jobs/Post/PostSearch.vue')['default']
