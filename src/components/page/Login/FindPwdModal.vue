@@ -106,8 +106,9 @@ const findPwdVaild = () => {
   if (!findPwdUserInfo.value.id || !findPwdUserInfo.value.email) {
     toast.error("아이디와 이메일을 모두 입력해주세요.");
     return;
+  } else{
+    handlerFindPwd();
   }
-  handlerFindPwd();
 };
 
 // 2. 비밀번호 찾기 사용자 정보 확인

@@ -25,9 +25,9 @@
           </th>
           <td>
             <input
-              type="text"
               id="name"
               v-model="findIdUserInfo.name"
+              ref="name"
               placeholder="가입하신 이름을 입력하세요."
             />
           </td>
@@ -39,9 +39,9 @@
           </th>
           <td>
             <input
-              type="text"
               id="email"
               v-model="findIdUserInfo.email"
+              ref="email"
               placeholder="가입하신 이메일을 입력하세요."
             />
           </td>
@@ -53,7 +53,6 @@
           </th>
           <td>
             <input
-              type="text"
               id="userId"
               v-model="findIdUserInfo.foundId"
               readonly
@@ -61,13 +60,11 @@
           </td>
         </tr>
       </table>
-      <b-button
-        class="handlerFindIdBtn"
-        @click="findIdValid"
-        v-if="!findIdUserInfo.foundId"
+      <button
+        @click="findIdUserInfo.foundId ? findUserIdModalCloseBtn() : findIdValid()"
       >
-        확인
-      </b-button>
+        {{ findIdUserInfo.foundId ? "닫기" : "확인"}}
+      </button>
     </div>
   </div>
 </template>
