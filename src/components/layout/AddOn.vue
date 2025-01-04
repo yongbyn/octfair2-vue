@@ -1,7 +1,7 @@
 <template>
   <div class="align-center">
     <div
-      v-show="isShow"
+      v-show="props.addonShow"
       :style="{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 75px)',
@@ -22,13 +22,13 @@
     <SkinImage v-if="items.skin.isActive" :url="skinUrl" />
     <MusicBox
       v-if="items.music.isActive"
-      v-show="isShow"
+      v-show="props.addonShow"
       :url="musicUrl"
       :width="width"
       class="wrapper"
     />
     <LunchMenu
-      v-show="items.lunch.isActive && isShow"
+      v-show="items.lunch.isActive && props.addonShow"
       :url="lunchUrl"
       :width="width"
       class="wrapper"
@@ -44,7 +44,7 @@ import MusicBox from "./AddOnPack/MusicBox.vue";
 import SkinImage from "./AddOnPack/SkinImage.vue";
 import SnowAni from "./AddOnPack/SnowAni.vue";
 
-const props = defineProps(["isShow"]);
+const props = defineProps(["addonShow"]);
 
 const items = reactive({
   snow: {
@@ -93,7 +93,7 @@ const musicUrlList = [
 ];
 const musicUrl = ref(musicUrlList[0]);
 const lunchUrl = ref("https://pf.kakao.com/_QLvRn"); // 이츠푸드='https://pf.kakao.com/_QLvRn', 벽산더이룸푸드='https://pf.kakao.com/_xdLzxgG'
-const width = ref("100%");
+const width = ref("clamp(50px, 280px, 280px)");
 const snowConfig = ref({
   numSnow: 100,
   minRadius: 1,

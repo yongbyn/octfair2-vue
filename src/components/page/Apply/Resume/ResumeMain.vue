@@ -14,6 +14,7 @@
             /\.(jpg|jpeg|png|bmp|webp|gif)$/i.test(resume.logicalPath)
           "
           :src="`/prx${resume.logicalPath}`"
+          onerror="this.onerror=null; this.src='../../../../assets/logo.png';"
         />
         <img v-else src="../../../../assets/logo.png" />
       </div>

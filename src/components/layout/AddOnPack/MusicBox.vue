@@ -3,7 +3,7 @@
     :src="playUrl"
     allow="autoplay; encrypted-media"
     allowfullscreen
-    :style="{ width: props.width, aspectRatio: '1.733' }"
+    :style="{ width: props.width, aspectRatio: '1.7' }"
   />
 </template>
 
