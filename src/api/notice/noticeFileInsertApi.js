@@ -1,15 +1,13 @@
 import axios from "axios";
 import { Notice } from "../api";
-
-export const noticeDetailUpdateApi = async (detailValue, idx) => {
+export const noticeFileInsertApi = async (detailValue, idx) => {
   const textData = {
     ...detailValue,
     noticeSeq: idx,
     context: detailValue.content,
   };
-
-  const formData = new FormData();
   const fileData = ref("");
+  const formData = new FormData();
   if (fileData.value) formData.append("file", fileData.value);
   formData.append(
     "text",
@@ -18,5 +16,5 @@ export const noticeDetailUpdateApi = async (detailValue, idx) => {
     })
   );
 
-  await axios.post(Notice.FileNoticeUpdate, formData);
+  await axios.post(Notice.InsertNoticeDetail, formData);
 };
