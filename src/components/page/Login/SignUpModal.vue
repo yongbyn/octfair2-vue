@@ -278,7 +278,7 @@ import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref, watch } from "vue";
-import { signUp } from "../../../hook/Login/signUp";
+import { useSignUp } from "../../../hook/Login/useSignUp";
 import { useSignUpIdCheck } from "../../../hook/Login/useSignUpIdCheck";
 
 const modalStore = useModalStore();
@@ -326,7 +326,7 @@ const signUpUserInfo = ref({
 // 정규식
 const regExPatterns = {
   id: /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/,
-  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/,
+  pwd: /^[a-zA-Z0-9]{4,40}$/,
   name: /^[가-힣]{2,}$/,
   domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
 }
@@ -576,10 +576,10 @@ const handlerKakaoPost = () => {
 // 8. 회원가입 검증
 const signUpValid = () => {  
   const signUpFocus = ref({
-  loginId: loginId,
-  password: password,
-  passwordCk: passwordCk,
-})
+    loginId: loginId,
+    password: password,
+    passwordCk: passwordCk,
+  })
   // 8.1 회원 유형
   if (!signUpUserInfo.value.userType) {
     toast.error("회원 유형을 선택하세요!");
@@ -616,7 +616,6 @@ const signUpValid = () => {
       toast.error("올바른 이름을 입력해주세요!");
     }
     document.getElementById("name").focus();
-    nameState.value = false;
     return;
 
   // 8.5 성별
@@ -668,8 +667,9 @@ const signUpValid = () => {
   } else if (!signUpUserInfo.value.zipCode) {
     toast.error("우편번호를 입력하세요!");
     signUpUserInfo.value.zipCode.state = false;
-    signUpUserInfo.value.address.state = false;
+    signUpUserInfo.value.zipCode.state = false;
     return;
+    
   } else {
     handlerSignUp();
     toast.success("회원 가입 완료!!!");
@@ -677,7 +677,7 @@ const signUpValid = () => {
 };
 
 // 9. 회원가입
-const { mutate: handlerSignUp } = signUp(signUpUserInfo);
+const { mutate: handlerSignUp } = useSignUp(signUpUserInfo);
 
 //  모달창 닫기 버튼(ESC로도 닫기 가능)
 const signUpModalCloseBtn = () => {

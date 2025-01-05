@@ -44,6 +44,7 @@ declare module 'vue' {
     LoginMain: typeof import('./src/components/page/Login/LoginMain.vue')['default']
     LunchMenu: typeof import('./src/components/layout/AddOnPack/LunchMenu.vue')['default']
     MusicBox: typeof import('./src/components/layout/AddOnPack/MusicBox.vue')['default']
+    MyPageMain: typeof import('./src/components/page/MyPage/MyPageMain.vue')['default']
     NoticeDetail: typeof import('./src/components/page/Board/Notice/NoticeDetail.vue')['default']
     NoticeMain: typeof import('./src/components/page/Board/Notice/NoticeMain.vue')['default']
     NoticeSearch: typeof import('./src/components/page/Board/Notice/NoticeSearch.vue')['default']
@@ -64,5 +65,7 @@ declare module 'vue' {
     SkillList: typeof import('./src/components/page/Apply/Resume/InnerPage/SkillList.vue')['default']
     SkinImage: typeof import('./src/components/layout/AddOnPack/SkinImage.vue')['default']
     SnowAni: typeof import('./src/components/layout/AddOnPack/SnowAni.vue')['default']
+    UpdatePwdModal: typeof import('./src/components/page/MyPage/UpdatePwdModal.vue')['default']
+    WithdrawMain: typeof import('./src/components/page/MyPage/WithdrawMain.vue')['default']
   }
 }

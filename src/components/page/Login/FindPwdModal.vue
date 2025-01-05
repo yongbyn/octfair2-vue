@@ -89,8 +89,8 @@
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref } from "vue";
-import { findPwd } from "../../../hook/Login/findPwd";
-import { findPwdUpdate } from "../../../hook/Login/findPwdUpdate";
+import { useFindPwd } from "../../../hook/Login/useFindPwd";
+import { useFindPwdUpdate } from "../../../hook/Login/useFindPwdUpdate";
 
 const modalStore = useModalStore();
 const findPwdUserInfo = ref({
@@ -112,11 +112,11 @@ const findPwdVaild = () => {
 };
 
 // 2. 비밀번호 찾기 사용자 정보 확인
-const { mutate: handlerFindPwd } = findPwd(findPwdUserInfo, findPwdCheck);
+const { mutate: handlerFindPwd } = useFindPwd(findPwdUserInfo, findPwdCheck);
 
 // 3. 정보 확인 후 비밀번호 업데이트 유효성 검사
 const pwdValid = () => {
-  const regExPwd = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/;
+  const regExPwd = /^[a-zA-Z0-9]{4,40}$/;
 
   if (!findPwdUserInfo.value.pw || !findPwdUserInfo.value.pwCk) {
     toast.error("비밀번호를 모두 입력해주세요.");
@@ -132,7 +132,7 @@ const pwdValid = () => {
 };
 
 // 3. 정보 확인 후 비밀번호 업데이트
-const { mutate: handlerFindPwdUpdate } = findPwdUpdate(findPwdUserInfo);
+const { mutate: handlerFindPwdUpdate } = useFindPwdUpdate(findPwdUserInfo);
 
 // 모달창 닫기 버튼
 const findUserPwdModalCloseBtn = () => {
