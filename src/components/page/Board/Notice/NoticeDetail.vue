@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="isLoading">기다려주세요</div>
-    <div v-else>
+    
       <ContextBox>공지사항</ContextBox>
+      </div>
       <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
       <label>
         내용 :
@@ -31,8 +31,7 @@
         <button v-if="params.idx" @click="handleDelete">삭제</button>
         <button @click="$router.go(-1)">뒤로가기</button>
       </div>
-    </div>
-  </div>
+    
 </template>
 
 <script setup>
@@ -45,7 +44,11 @@ import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
 import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
-const detailValue = ref({});
+const detailValue = ref({
+   
+  title: "",
+  content: "",
+});
 const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
 const userInfo = useUserInfo();
 const imageUrl = ref("");
@@ -73,6 +76,9 @@ watchEffect(() => {
   }
 });
 
+
+const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
+
 const validateInputs = () => {
   if (!detailValue.value.title) {
     alert("제목을 입력해주세요.");
@@ -94,10 +100,18 @@ const { mutate: handlerInsertBtn } = useNoticeInsert(
   detailValue,
   userInfo.user.loginId
 );
-const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
 const actionHandler = () => {
   if (!validateInputs()) return;
-  params.idx ? handlerUpdateBtn() : handlerInsertBtn();
+
+  if (params.idx) {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
+    }
+  } else {
+    if (confirm("등록하시겠습니까?")) {
+    handlerInsertBtn();
+  }
+}
 };
 
 const handleDelete = () => {

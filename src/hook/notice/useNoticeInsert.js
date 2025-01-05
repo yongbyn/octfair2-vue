@@ -12,7 +12,7 @@ export const useNoticeInsert = (detailValue, loginId) => {
     onSuccess: () => {
       router.go(-1);
       queryClient.invalidateQueries({
-        queryKey: ["noticeList"],
+        queryKey: ["noticeInsert"],
       });
     },
   });

@@ -1,3 +1,6 @@
+
+
+
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
   NoticeDetail: "/prx/api/board/noticeDetailBody.do",
@@ -56,4 +59,13 @@ export const Notice = {
   InsertFaqDetail: "/prx/api/board/faqSavePart.do",
   DeleteFaqDetail: "/prx/api/board/faqDeleteBody.do",
   };
-  
+
+
+  export const Login = {
+    SignUpIdCheck: "/prx/api/check_loginId.do",
+    SignUp: "/prx/api/register.do",
+    FindId: "/prx/api/selectFindInfoId.do",
+    FindPwd: "/prx/api/selectFindInfoPw.do",
+    FindPwdUpdate: "/prx/api/updateFindPw.do",
+  };
+

@@ -7,8 +7,7 @@
       <table>
         <tr>
           <td>유형</td>
-          <td>
-           
+          <td> 
             <input
               type="radio"
               id="individual"
@@ -18,7 +17,6 @@
             <label for="individual">개인회원</label>
           </td>
           <td>
-          
             <input
               type="radio"
               id="company"
@@ -62,6 +60,7 @@ import { ref, computed, watchEffect } from "vue";
 import { useUserInfo } from "../../../stores/userInfo";
 
 
+
 const { params } = useRoute();
 
 
@@ -78,6 +77,19 @@ const userInfo = useUserInfo();
 const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
 
 
+
+const detailValue = ref({
+  faq_type: "1", 
+  title: "",
+  content: "",
+});
+
+
+const userInfo = useUserInfo();
+
+
+const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
+
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {
     detailValue.value = { ...FAQDetail.value.detail };
@@ -85,7 +97,9 @@ watchEffect(() => {
 });
 
 
+
 const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
+
 
 
 const validateInputs = () => {
@@ -105,6 +119,7 @@ const validateInputs = () => {
 };
 
 
+
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
   params.faq_idx,
@@ -121,6 +136,7 @@ const { mutate: handlerInsertBtn } = useFAQDetailInsert(
 const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 
 
+
 const actionHandler = () => {
   if (!validateInputs()) return;
 
@@ -129,20 +145,21 @@ const actionHandler = () => {
       handlerUpdateBtn();
     }
   } else {
+
     if (confirm("등록하시겠습니까?")) {
     handlerInsertBtn();
   }
 }
+
 };
 
+// 삭제 처리
 const handleDelete = () => {
   if (confirm("삭제하시겠습니까?")) {
     handlerDeleteBtn();
   }
 };
 </script>
-
-
 
 <style lang="scss" scoped>
 .backdrop {

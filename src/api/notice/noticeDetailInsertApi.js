@@ -18,5 +18,5 @@ export const noticeDetailInsertApi = async (detailValue, loginId) => {
     })
   );
 
-  await axios.post(Notice.FileNoticeDetail, formData);
+  await axios.post(Notice.InsertNoticeDetail, formData);
 };
