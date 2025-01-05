@@ -64,6 +64,12 @@ export const Login = {
   FindPwdUpdate: "/prx/api/updateFindPw.do",
 };
 
+export const MyPage = {
+  GetUserInfo: "/prx/api/mypage/userDetail.do",
+  UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
+  UpdatePwd: "/prx/api/mypage/updatePw.do",
+}
+
 export const Applicant = {
   SearchApplicantList: "/prx/api/manage-user/applicantListBody.do",
   SearchApplicantDetail: "/prx/api/manage-user/applicantManageDetail.do",
