@@ -17,6 +17,8 @@ import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
+import MyPage from "../views/MyPage/MyPage.vue";
+import Withdraw from "../views/MyPage/Withdraw.vue";
 
 const routes = [
   {
@@ -161,6 +163,22 @@ const routes = [
             path: "biz.do",
             name: "manageBiz",
             component: ManageBiz,
+          },
+        ],
+      },
+      {
+        path: "mypage",
+        name: "mypage",
+        children: [
+          {
+            path: "update.do",
+            name: "update",
+            component: MyPage,
+          },
+          {
+            path: "withdraw.do",
+            name: "withdraw",
+            component: Withdraw,
           },
         ],
       },
