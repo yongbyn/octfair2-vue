@@ -10,16 +10,19 @@
           <td>
             <input
               type="radio"
-              :checked="faq_type === '1'"
-              @change="handlerRadio('1')"
+              id="individual"
+              value="1"
+              v-model="detailValue.faq_type"
             />
-            개인회원
+            <label for="individual">개인회원</label>
+
             <input
               type="radio"
-              :checked="faq_type === '2'"
-              @change="handlerRadio('2')"
+              id="company"
+              value="2"
+              v-model="detailValue.faq_type"
             />
-            기업회원
+            <label for="company">기업회원</label>
           </td>
         </tr>
         <tr>
@@ -40,7 +43,7 @@
           {{ actionLabel }}
         </button>
         <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
-        <button button @click="$router.go(-1)">닫기</button>
+        <button @click="$router.go(-1)">닫기</button>
       </div>
     </div>
   </div>
@@ -52,26 +55,38 @@ import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
 import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
 import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
 import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
-//import { useFAQListQuery } from "../../../hook/faq/useFAQListQuery";
-import { computed } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { useUserInfo } from "../../../stores/userInfo";
 
+// 라우트 파라미터
 const { params } = useRoute();
-const detailValue = ref({});
-const userInfo = useUserInfo();
-const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
-const setFaqType = ref(null);
-const handlerRadio = (faq_type) => {
-  setFaqType.value = faq_type;
-};
 
+// FAQ 세부 데이터
+const detailValue = ref({
+  faq_type: "1", 
+  title: "",
+  content: "",
+});
+
+// 유저 정보
+const userInfo = useUserInfo();
+
+// FAQ 세부 정보 조회
+const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
+
+// 상태 변경에 따른 내용 업데이트
 watchEffect(() => {
-  if (isSuccess.value && FAQDetail.value) {
+  if (isSuccess && FAQDetail.value) {
     detailValue.value = { ...FAQDetail.value.detail };
   }
 });
+
+// 버튼 라벨: 수정 또는 등록
+const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
+
+// 입력 유효성 검사
 const validateInputs = () => {
-  if (!setFaqType.value) {
+  if (!detailValue.value.faq_type) {
     alert("회원유형을 선택해주세요.");
     return false;
   }
@@ -86,34 +101,42 @@ const validateInputs = () => {
   return true;
 };
 
+// FAQ 수정 처리
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
-  params.faq_idx,
-  setFaqType
+  params.faq_idx
 );
 
+// FAQ 등록 처리
 const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
-  setFaqType,
   userInfo.user.loginId
 );
 
-const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
+// FAQ 삭제 처리
+const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
+
+// 처리 핸들러
 const actionHandler = () => {
   if (!validateInputs()) return;
-  params.faq_idx
-    ? handlerUpdateBtn(setFaqType.value)
-    : handlerInsertBtn(setFaqType.value);
+
+  if (params.faq_idx) {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
+    }
+  } else {
+    handlerInsertBtn();
+  }
 };
 
+// 삭제 처리
 const handleDelete = () => {
   if (confirm("삭제하시겠습니까?")) {
     handlerDeleteBtn();
   }
 };
-
-const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 </script>
+
 
 <style lang="scss" scoped>
 .backdrop {
