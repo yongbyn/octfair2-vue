@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import vue_logo from "../../assets/vue_logo.png";
+import vue_logo from "../../assets/utilcons/vue_logo.png";
 import { useUserInfo } from "../../stores/userInfo";
 
 const userInfo = useUserInfo();

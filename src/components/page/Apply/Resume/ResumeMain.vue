@@ -14,9 +14,8 @@
             /\.(jpg|jpeg|png|bmp|webp|gif)$/i.test(resume.logicalPath)
           "
           :src="`/prx${resume.logicalPath}`"
-          onerror="this.onerror=null; this.src='../../../../assets/logo.png';"
         />
-        <img v-else src="../../../../assets/logo.png" />
+        <img v-else src="../../../../assets/utilcons/logo.png" />
       </div>
       <div class="title_and_file">
         <div>
@@ -55,7 +54,7 @@
     :totalItems="resumeList?.resumeCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
-    :onClick="queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
+    :onClick="() => queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
     v-model="currentPage"
   />
 

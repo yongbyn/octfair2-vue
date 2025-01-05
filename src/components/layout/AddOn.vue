@@ -77,12 +77,12 @@ const items = reactive({
   },
 });
 
+const skinUrlListImport = Object.keys(
+  import.meta.glob("@/assets/backgrounds/*.{jpg,jpeg,png,bmp,webp,gif}") // backgrounds폴더의 이미지들 자동 import (단 이 방식은 Vite에서만 되고 WebPack에선 다른문법으로 해야함)
+);
 const skinUrlList = [
-  // ON/OFF버튼 껐다켤때마다 watch()에서 List목록 중 랜덤하게 뽑힘
-  ...Array(4).fill("@/assets/newyear.gif"), // Array().fill: 해당함목 뽑힐 확률 4배 증가
-  "@/assets/christmas.gif",
-  "@/assets/harry.jpg",
-  "@/assets/seol.jpg",
+  ...skinUrlListImport,
+  ...Array(4).fill("@/assets/backgrounds/christmas.gif"), // Array().fill: 해당함목 뽑힐 확률 n배 증가
 ];
 const skinUrl = ref(skinUrlList[0]);
 const musicUrlList = [
