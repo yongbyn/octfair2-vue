@@ -78,17 +78,7 @@ const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
 
 
 
-const detailValue = ref({
-  faq_type: "1", 
-  title: "",
-  content: "",
-});
 
-
-const userInfo = useUserInfo();
-
-
-const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
 
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {

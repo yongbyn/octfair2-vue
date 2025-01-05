@@ -68,4 +68,4 @@ export const Notice = {
     FindPwd: "/prx/api/selectFindInfoPw.do",
     FindPwdUpdate: "/prx/api/updateFindPw.do",
   };
-
+  
