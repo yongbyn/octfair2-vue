@@ -8,6 +8,7 @@ import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
+import ConfirmedPost from "../views/Approval/ConfirmedPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import HirePost from "../views/Hire/HirePost.vue";
@@ -120,6 +121,7 @@ const routes = [
             name: "hire-post-create",
             component: HirePostEditor,
           },
+<<<<<<< HEAD
 
           {
             path:'applicant.do',
@@ -133,6 +135,13 @@ const routes = [
             component: ApplicantResume,
           }
 
+=======
+          {
+            path: "editor.do/:idx",
+            name: "hire-post-update",
+            component: HirePostEditor,
+          },
+>>>>>>> 43b28ee312407185777edb524c2674571e144366
         ],
       },
       {
@@ -143,6 +152,11 @@ const routes = [
             path: "approval.do",
             name: "approval-post",
             component: ApprovalPost,
+          },
+          {
+            path: "post.do",
+            name: "post",
+            component: ConfirmedPost,
           },
         ],
       },

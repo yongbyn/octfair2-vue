@@ -1,5 +1,12 @@
 <template>
   <div>
+    <PostApplyModal
+      v-if="modalState.modalState"
+      @applySuccess="refetch()"
+      :postIdx="detailValue.postIdx"
+      :title="detailValue.title"
+      :bizName="bizDetail.bizName"
+    />
     <div v-if="isLoading">기다려주세요</div>
     <div v-else>
       <ContextBox> 공고 보기 </ContextBox>
@@ -110,6 +117,13 @@
               v-if="!isClicked.isApplyed"
               variant="warning"
               class="btn-apply"
+              @click="
+                handlerApplyModal(
+                  detailValue.postIdx,
+                  detailValue.title,
+                  bizDetail.bizName
+                )
+              "
             >
               지원하기
             </b-button>
@@ -125,7 +139,7 @@
               id="btnManagehireUpdate"
               class="btn-edit"
               variant="outline-primary"
-              @click="handlerUpdateBtn"
+              @click="handlerUpdateBtn(detailValue.postIdx)"
             >
               수정
             </b-button>
@@ -216,6 +230,12 @@
               </b-button>
             </b-card-body>
           </b-card>
+          <b-list-group>
+            <b-list-group-item @click="fileDownload" style="cursor: pointer">
+              <i class="bi bi-download"></i>
+              {{ detailValue.fileName }}
+            </b-list-group-item>
+          </b-list-group>
         </div>
       </div>
     </div>
@@ -227,7 +247,9 @@ import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { usePostDetailDeleteMutation } from "../../../../hook/jobs/usePostDetailDeleteMutation";
 import { usePostDetailSearchQuery } from "../../../../hook/jobs/usePostDetailSearchQuery";
+import { useModalStore } from "../../../../stores/modalState";
 import { useUserInfo } from "../../../../stores/userInfo";
+import PostApplyModal from "./PostApplyModal.vue";
 
 const { params } = useRoute();
 const router = useRouter();
@@ -235,6 +257,7 @@ const detailValue = ref({});
 const bizDetail = ref({});
 const isClicked = ref({});
 const userInfo = useUserInfo();
+const modalState = useModalStore();
 
 const {
   data: postDetail,
@@ -248,6 +271,11 @@ const companyDetail = (bizIdx) => {
     name: "companyDetail",
     params: { bizIdx },
   });
+};
+
+const handlerApplyModal = (idx) => {
+  detailValue.value.postIdx = idx;
+  modalState.setModalState();
 };
 
 const handlerScrap = async (postIdx) => {
@@ -272,12 +300,47 @@ const handlerUpdateStatus = async (postIdx, status) => {
     });
 };
 
-const handlerUpdateBtn = () => {};
+const handlerUpdateBtn = (idx) => {
+  router.push({
+    name: "hire-post-update",
+    params: { idx },
+  });
+};
 
 const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation(
   bizDetail.value.bizIdx,
   detailValue.value.postIdx
 );
+
+const fileDownload = () => {
+  const param = {
+    postIdx: detailValue.value.postIdx,
+    bizIdx: bizDetail.value.bizIdx,
+  };
+  const postAction = {
+    url: "/prx/api/manage-hire/downloadAttachment.do",
+    method: "POST",
+    data: param,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    responseType: "blob",
+  };
+
+  axios(postAction)
+    .then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", detailValue.value.fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+    .catch((err) => {
+      alert("파일 다운로드 오류:", err);
+    });
+};
 
 watchEffect(() => {
   if (isSuccess.value && postDetail.value) {
@@ -303,12 +366,6 @@ watchEffect(() => {
   z-index: 1;
   font-weight: bold;
 }
-
-label {
-  display: flex;
-  flex-direction: column;
-}
-
 input[type="text"] {
   padding: 8px;
   margin-top: 5px;
@@ -316,7 +373,6 @@ input[type="text"] {
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-
 .container {
   background: white;
   padding: 20px;
@@ -325,32 +381,6 @@ input[type="text"] {
   position: relative;
   width: 400px;
 }
-
-img {
-  width: 100px;
-  height: 100px;
-}
-
-.img-label {
-  margin-top: 10px;
-  padding: 6px 25px;
-  background-color: #ccc;
-  border-radius: 4px;
-  color: rgba(0, 0, 0, 0.9);
-  cursor: pointer;
-
-  &:hover {
-    background-color: #45a049;
-    color: white;
-  }
-
-  &:active {
-    background-color: #3e8e41;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px);
-  }
-}
-
 .button-box {
   text-align: right;
   margin-top: 10px;
@@ -358,25 +388,17 @@ img {
 .div-container {
   min-width: 1000px;
   margin: 50px 0px 0px 10px;
-  // border: solid 1px green;
 }
 .job-details {
-  // 왼쪽
   float: left;
   width: 60%;
   min-width: 600px;
   margin-bottom: 150px;
-  // border: solid 1px blue;
 }
 .company-detail {
-  // 오른쪽
   float: right;
   width: 30%;
   min-width: 250px;
-  // border: solid 1px rgb(179, 65, 65);
-  // display: inline-block;
-  // width: 300px;
-  // height: 100px;
   margin-left: 10px;
 }
 .btnGroup-apply {
@@ -384,11 +406,9 @@ img {
   float: right;
   text-align: right;
   width: 100%;
-  // border: solid 1px rgb(134, 28, 148);
 }
 .mb-2 {
   max-width: 25rem;
-  // width: 600px;
 }
 .wrapped-container {
   min-width: 1200px;
@@ -397,31 +417,25 @@ img {
 .detail-container {
   min-width: 1200px;
   margin: 80px 10px 50px;
-  // border: solid 1px black;
 }
-
 .btnGroup-bottom {
   text-align: center;
   width: 100%;
   margin-bottom: 30px;
-  // border: solid 1px black;
 }
-
 .btn {
   margin: 5px;
-  // min-width: 80px;
   font-size: 18px;
 }
-
 .detail-header {
   font-size: 23px;
   font-weight: 600;
   margin: 50px 0px 10px;
-  // border-bottom: solid 1px rgb(168, 168, 168);
 }
 .detail-item {
   margin: 18px 0px 5px;
   font-size: 18px;
+  font-weight: 500;
 }
 .detail-describe {
   margin-left: 20px;
@@ -429,48 +443,18 @@ img {
 .bi-star-fill {
   color: rgb(255, 204, 0);
 }
-
 h1 {
   font-weight: 600;
 }
-
 .btn-scrap {
   width: 50px;
 }
-
 .btn-scrap:hover {
   background-color: #f0f0f0;
   color: rgb(95, 95, 95);
 }
-
 .btn-edit,
 .btn-status {
   min-width: 80px;
 }
-
-// button {
-//   background-color: #3bb2ea;
-//   border: none;
-//   color: white;
-//   padding: 10px 22px;
-//   text-align: right;
-//   text-decoration: none;
-//   display: inline-block;
-//   font-size: 16px;
-//   margin: 4px 2px;
-//   cursor: pointer;
-//   border-radius: 12px;
-//   box-shadow: 0 4px #999;
-//   transition: 0.3s;
-
-//   &:hover {
-//     background-color: #45a049;
-//   }
-
-//   &:active {
-//     background-color: #3e8e41;
-//     box-shadow: 0 2px #666;
-//     transform: translateY(2px);
-//   }
-// }
 </style>

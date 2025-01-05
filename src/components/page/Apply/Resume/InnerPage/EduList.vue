@@ -1,41 +1,41 @@
 <template>
-  <p class="resumeDetail_guidetext" v-if="props.isEditable">
+  <p v-if="props.isShow" class="resumeDetail_guidetext">
     • 최신순으로 작성해주세요.
   </p>
   <template v-for="(item, key) in eduList?.payload" :key="key">
     <div class="edu_table">
       <div class="garo_wrapper_lr" style="grid-area: admDate">
         <label class="garo_wrapper_lr_l">입학연도:</label>
-        <input class="garo_wrapper_lr_r" :value="item.admDate.slice(0, 7)" placeholder="입학연도" type="month" disabled></input>
+        <textarea class="garo_wrapper_lr_r" :value="item.admDate.slice(0, 7)" placeholder="입학연도" type="month" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: eduLevel">
         <label class="garo_wrapper_lr_l">학력구분:</label>
-        <input class="garo_wrapper_lr_r" :value="item.eduLevel" placeholder="학력구분" disabled />
+        <textarea class="garo_wrapper_lr_r" :value="item.eduLevel" placeholder="학력구분" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grdStatus">
         <label class="garo_wrapper_lr_l">졸업여부:</label>
-        <input class="garo_wrapper_lr_r" :value="item.grdStatus" placeholder="졸업여부" disabled />
+        <textarea class="garo_wrapper_lr_r" :value="item.grdStatus" placeholder="졸업여부" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grdDate">
         <label class="garo_wrapper_lr_l">졸업연도:</label>
-        <input class="garo_wrapper_lr_r" :value="item.grdDate.slice(0, 7)" placeholder="졸업연도" type="month" disabled></input>
+        <textarea class="garo_wrapper_lr_r" :value="item.grdDate.slice(0, 7)" placeholder="졸업연도" type="month" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: schoolName">
         <label class="garo_wrapper_lr_l">학교명:</label>
-        <input class="garo_wrapper_lr_r" :value="item.schoolName" placeholder="학교명" disabled></input>
+        <textarea class="garo_wrapper_lr_r" :value="item.schoolName" placeholder="학교명" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: major">
         <label class="garo_wrapper_lr_l">전공명:</label>
-        <input class="garo_wrapper_lr_r" :value="item.major" placeholder="전공명" disabled></input>
+        <textarea class="garo_wrapper_lr_r" :value="item.major" placeholder="전공명" disabled />
       </div>
       <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
-        <CommonButton @click="handlerDeleteEduBtn({ resIdx: props.resume.resIdx, eduIdx: item.eduIdx })" v-if="props.isEditable">삭제</CommonButton>
+        <CommonButton @click="handlerDeleteEduBtn({ resIdx: props.resume.resIdx, eduIdx: item.eduIdx })" v-if="props.isShow">삭제</CommonButton>
       </div>
     </div>
   </template>
-  <button class="add_btn" @click="isAddEdu = !isAddEdu" style="border-radius: 5px; margin-bottom: 10px;" v-if="props.isEditable">+ 추가</button>
+  <button class="add_btn" @click="isAddEdu = !isAddEdu" style="border-radius: 5px; margin-bottom: 10px;" v-if="props.isShow">+ 추가</button>
   <div>
-    <div class="edu_table" v-if="isAddEdu && props.isEditable">
+    <div class="edu_table" v-if="isAddEdu && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: admDate">
         <label class="garo_wrapper_lr_l">입학연도:</label>
         <input class="garo_wrapper_lr_r" v-model=edu.admDate placeholder="입학연도" type="month"></input>
@@ -84,7 +84,8 @@ import { useEduListReadQuery } from "../../../../../hook/apply/resume/edu/useEdu
 import { useEduNewCreateMutation } from "../../../../../hook/apply/resume/edu/useEduNewCreateMutation";
 import { useEduNewDeleteMutation } from "../../../../../hook/apply/resume/edu/useEduNewDeleteMutation";
 
-const props = defineProps(["resume", "isEditable"]);
+const props = defineProps(["resume", "isShow"]);
+const emits = defineEmits(["isExistEdu"]);
 const resIdx = ref("");
 const eduDefault = { admDate: '', eduLevel: '', grdStatus: '', grdDate: '', schoolName: '', major: ''};
 const edu = ref({ ...eduDefault });
@@ -94,8 +95,10 @@ const { data: eduList } = useEduListReadQuery(resIdx);
 const { mutate: handlerCreateEduBtn } = useEduNewCreateMutation();
 const { mutate: handlerDeleteEduBtn } = useEduNewDeleteMutation();
 
-watch(() => props.resume.resIdx, () => {
+watch(() => [props.resume.resIdx, eduList], () => {
   resIdx.value = props.resume.resIdx;
+  if (eduList.payload && eduList.payload.length >= 1) emits("isExistCareer", true);
+  else                                                emits("isExistCareer", false);
 })
 </script>
 
