@@ -73,7 +73,7 @@
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref } from "vue";
-import { findId } from "../../../hook/Login/findId";
+import { useFindId } from "../../../hook/Login/usefindId";
 
 const modalStore = useModalStore();
 const findIdUserInfo = ref({
@@ -102,7 +102,7 @@ const findIdValid = async () => {
 };
 
 // 2. 아이디 찾기
-const { mutateAsync: handlerFindId } = findId(findIdUserInfo);
+const { mutateAsync: handlerFindId } = useFindId(findIdUserInfo);
 
 // 모달창 닫기 버튼(ESC도 가능)
 const findUserIdModalCloseBtn = () => {
