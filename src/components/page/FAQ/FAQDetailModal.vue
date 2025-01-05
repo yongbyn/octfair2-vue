@@ -1,79 +1,80 @@
 <template>
   <div>
-    <div v-if="isLoading">기다려주세요</div>
-    <div v-else>
-      <ContextBox>공지사항</ContextBox>
-      <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
-      <label>
-        내용 :
-        <input type="text" v-model="detailValue.content" />
-      </label>
-      파일 :<input
-        type="file"
-        style="display: none"
-        id="fileInput"
-        @change="handlerFile"
-      />
-      <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+    <ContextBox>FAQ 등록</ContextBox>
+  </div>
+  <div class="board-detail">
+    <div class="board-contents">
+      <table>
+        <tr>
+          <td>유형</td>
+          <td>
+            <input
+              type="radio"
+              :checked="faq_type === '1'"
+              @change="handlerRadio('1')"
+            />
+            개인회원
+            <input
+              type="radio"
+              :checked="faq_type === '2'"
+              @change="handlerRadio('2')"
+            />
+            기업회원
+          </td>
+        </tr>
+        <tr>
+          <td>제목</td>
+          <td>
+            <input type="text" v-model="detailValue.title" />
+          </td>
+        </tr>
+        <tr>
+          <td>내용</td>
+          <td>
+            <input type="text" v-model="detailValue.content" />
+          </td>
+        </tr>
+      </table>
       <div>
-        <div v-if="imageUrl">
-          <label>미리보기</label>
-          <img :src="imageUrl" />
-        </div>
-        <div v-else>
-          <label>파일명</label>
-        </div>
-      </div>
-      <div class="button-box">
         <button @click="actionHandler">
           {{ actionLabel }}
         </button>
-        <button v-if="params.idx" @click="handleDelete">삭제</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
+        <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
+        <button button @click="$router.go(-1)">닫기</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
-import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
-import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
-import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
-import { useUserInfo } from "../../../../stores/userInfo";
+import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
+import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
+import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
+import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
+//import { useFAQListQuery } from "../../../hook/faq/useFAQListQuery";
+import { computed } from "vue";
+import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
 const detailValue = ref({});
-const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
 const userInfo = useUserInfo();
-const imageUrl = ref("");
-const fileData = ref("");
-
-const handlerFile = (e) => {
-  const fileInfo = e.target.files;
-  const fileInfoSplit = fileInfo[0].name.split(".");
-  const fileExtension = fileInfoSplit[1].toLowerCase();
-
-  if (
-    fileExtension === "jpg" ||
-    fileExtension === "gif" ||
-    fileExtension === "png" ||
-    fileExtension === "webp"
-  ) {
-    imageUrl.value = URL.createObjectURL(fileInfo[0]);
-  }
-  fileData.value = fileInfo[0];
+const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
+const setFaqType = ref(null);
+const handlerRadio = (faq_type) => {
+  setFaqType.value = faq_type;
 };
 
 watchEffect(() => {
-  if (isSuccess.value && NoticeDetail.value) {
-    detailValue.value = { ...NoticeDetail.value.detail };
+  if (isSuccess.value && FAQDetail.value) {
+    detailValue.value = { ...FAQDetail.value.detail };
   }
 });
-
 const validateInputs = () => {
+  if (!setFaqType.value) {
+    alert("회원유형을 선택해주세요.");
+    return false;
+  }
   if (!detailValue.value.title) {
     alert("제목을 입력해주세요.");
     return false;
@@ -85,19 +86,24 @@ const validateInputs = () => {
   return true;
 };
 
-const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
+const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
-  params.idx
+  params.faq_idx,
+  setFaqType
 );
 
-const { mutate: handlerInsertBtn } = useNoticeInsert(
+const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
+  setFaqType,
   userInfo.user.loginId
 );
-const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
+
+const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
 const actionHandler = () => {
   if (!validateInputs()) return;
-  params.idx ? handlerUpdateBtn() : handlerInsertBtn();
+  params.faq_idx
+    ? handlerUpdateBtn(setFaqType.value)
+    : handlerInsertBtn(setFaqType.value);
 };
 
 const handleDelete = () => {
@@ -105,7 +111,8 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
-const { mutate: handlerDeleteBtn } = useNoticeDelete(params);
+
+const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 </script>
 
 <style lang="scss" scoped>
