@@ -86,6 +86,7 @@ onUnmounted(() => {
   padding-right: 2%;
   width: 77%;
   flex: 1;
+  transition: 10s;
 }
 
 .align-center {
@@ -95,7 +96,7 @@ onUnmounted(() => {
 }
 
 button {
-  display: none; /* 숨김 */
+  visibility: hidden; /* 숨김 */
   width: 50px;
   height: 50px;
   margin-right: 3px;
@@ -115,7 +116,12 @@ button {
   }
 
   button {
-    display: block; /* 숨김해제 */
+    visibility: visible; /* 숨김해제 */
+
+    &:active {
+      background-color: goldenrod;
+      transform: scale(1.4);
+    }
   }
 
   .content {
