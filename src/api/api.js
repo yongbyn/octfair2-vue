@@ -3,11 +3,10 @@
 
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
-    NoticeDetail: "/prx/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
+  NoticeDetail: "/prx/api/board/noticeDetailBody.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
-  FileNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
-  FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
+  InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
+  UpdateNoticeDetail: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
   };
   
