@@ -10,7 +10,6 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   cursor: pointer;
   transition: transform 0.1;
 
@@ -117,11 +116,7 @@
 
 label {
   flex: 0 1 clamp(2vw, 5vw, 8vw); /* 1번째인자: 비례증가x, 2번째인자: 비례감소o, 3번재인자: 기본크기, */
-  font-size: clamp(
-    0.8vw,
-    0.9vw,
-    1vw
-  ); /* clamp(최소크기, 기본크기, 최대크기), vw: 1vw당 뷰포트(기기or브라우저창)의 1% */
+  font-size: clamp(8px, 0.9vw, 13px);
   font-weight: bold; /* 굵은글씨 */
 }
 
@@ -129,7 +124,7 @@ input,
 textarea,
 select {
   flex: 1 0 clamp(2vw, 5vw, 8vw);
-  font-size: clamp(0.6vw, 0.7vw, 0.8vw);
+  font-size: clamp(7px, 0.7vw, 12px);
   min-width: 0; /* 최소 크기 제한 제거 */
   box-sizing: border-box; /* 경계 포함 크기 계산 */
   border: 1px solid rgb(0, 0, 0);
@@ -173,11 +168,12 @@ select {
 .add_btn {
   border-radius: 5px; /* 위 스타일에 add_btn만 아래 스타일 추가 첨가 */
   margin-bottom: 10px;
+  font-size: clamp(8px, 0.9vw, 17px);
 }
 
 .resumeDetail_header {
   margin-bottom: 1px;
-  font-size: clamp(1.3vw, 1.4vw, 1.5vw);
+  font-size: clamp(15px, 1.4vw, 19px);
   font-weight: bold;
 }
 
@@ -195,7 +191,7 @@ select {
   margin-bottom: 10px;
   padding: 10px;
   color: black;
-  font-size: clamp(0.8vw, 0.9vw, 1vw);
+  font-size: clamp(8px, 0.9vw, 17px);
 }
 
 .career_table {

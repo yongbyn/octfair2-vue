@@ -15,13 +15,19 @@
       />
     </li>
     <li class="content" v-show="!isMobile || !isBtnClicked">
-      <keep-alive><router-view></router-view></keep-alive>
+      <!-- <keep-alive><router-view></router-view></keep-alive> -->
+      <!-- 위 방식은  Vue Router v4 이상에서 <router-view>를 <transition> 또는 <keep-alive> 안에 직접 사용하는 것이 더 이상 지원되지 않아 아래와 같이 수정 -->
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </li>
   </ul>
 </template>
 
 <script setup>
-import happyjobLogo from "../../assets/logo.png";
+import happyjobLogo from "../../assets/utilcons/logo.png";
 import LeftManuBar from "../../components/layout/LeftManuBar.vue";
 import { useModalStore } from "../../stores/modalState";
 
@@ -80,6 +86,7 @@ onUnmounted(() => {
   padding-right: 2%;
   width: 77%;
   flex: 1;
+  transition: 10s;
 }
 
 .align-center {
@@ -89,13 +96,13 @@ onUnmounted(() => {
 }
 
 button {
-  display: none; /* 숨김 */
+  visibility: hidden; /* 숨김 */
   width: 50px;
   height: 50px;
   margin-right: 3px;
   margin-bottom: 10px;
   background-color: transparent; /* 투명배경, 즉 배경을 부모배경으로 */
-  background-image: url("@/assets/menu.png");
+  background-image: url("@/assets/utilcons/menu.png");
   background-size: cover;
   background-position: center;
   border: none;
@@ -109,7 +116,12 @@ button {
   }
 
   button {
-    display: block; /* 숨김해제 */
+    visibility: visible; /* 숨김해제 */
+
+    &:active {
+      background-color: goldenrod;
+      transform: scale(1.4);
+    }
   }
 
   .content {

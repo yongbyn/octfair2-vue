@@ -11,7 +11,6 @@ button {
   display: inline-block;
   border: none;
   color: white;
-  // width: 70px;
   padding-top: 8px;
   padding-bottom: 8px;
   font-size: 12px;

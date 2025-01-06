@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Login } from "../api";
+import { Login } from "../api"; 
 
 export const findIdApi = async (findIdUserInfo) => {
   const result = await axios.post(Login.FindId, findIdUserInfo.value);

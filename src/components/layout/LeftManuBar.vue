@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import vue_logo from "../../assets/vue_logo.png";
+import vue_logo from "../../assets/utilcons/vue_logo.png";
 import { useUserInfo } from "../../stores/userInfo";
 
 const userInfo = useUserInfo();
@@ -112,6 +112,7 @@ button:active {
 }
 
 .logo-box {
+  display: flex;
   background: #2676bf;
   border-radius: 10px;
 
@@ -124,10 +125,7 @@ button:active {
   }
 
   .user-info {
-    position: relative;
-    right: 150px;
-    top: 10px;
-    float: right;
+    margin-top: 7px;
   }
 }
 
@@ -214,8 +212,8 @@ ul {
     align-items: center;
 
     .user-info {
-      right: 0;
-      top: 0;
+      margin-top: 0;
+      margin-right: 0;
       font-size: clamp(12px, 2vw, 15px);
 
       button {

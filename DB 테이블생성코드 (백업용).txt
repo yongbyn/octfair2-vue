@@ -1,4 +1,4 @@
-use octfair3;
+use octfair2;
 
 CREATE TABLE tb_group_code (
 group_code varchar(20) NOT NULL,

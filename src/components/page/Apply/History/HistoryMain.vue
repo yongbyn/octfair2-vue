@@ -27,14 +27,7 @@
                 {{ history.applyDate }}
               </td>
               <td>
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    font-size: 0.9vw;
-                  "
-                >
+                <div class="title">
                   <div>
                     기업명:
                     <a
@@ -147,15 +140,14 @@ table {
   border-collapse: collapse;
   margin: 20px 0px 0px 0px;
   font-size: 18px;
-  text-align: left;
   background-color: #ffffff;
 
   th,
   td {
     padding: 8px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
     text-align: center;
+    font-size: clamp(7px, 2vw, 10px);
   }
 
   th {
@@ -182,5 +174,13 @@ span {
     color: rgb(0, 139, 49);
     transform: scale(1.2); // 확대효과
   }
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  font-size: clamp(7px, 2vw, 10px);
 }
 </style>

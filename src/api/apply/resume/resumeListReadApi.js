@@ -9,8 +9,8 @@ export const resumeListReadApi = async (itemPerPage, currentPage) => {
     loginId: userInfo.user.loginId,
     userNm: userInfo.user.userNm,
     userType: userInfo.user.userType,
-    currentPage: currentPage.value,
-    pageSize: itemPerPage.value,
+    currentPage: currentPage.value || 1,
+    pageSize: itemPerPage.value || 12,
   };
 
   const result = await axios.post(Resume.ReadResumeList, param);
