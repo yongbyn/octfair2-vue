@@ -1,76 +1,118 @@
 <template>
   <div>
-    <div v-if="isLoading">기다려주세요</div>
-    <div v-else>
-      <ContextBox>공지사항 상세조회</ContextBox>
-      <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
-      <label>
-        내용 :
-        <input type="text" v-model="detailValue.content" />
-      </label>
-      파일 :<input type="file" style="display: none" id="fileInput" />
-      <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-      <div>
-        <!-- <div v-if="imageUrl">
-          <label>미리보기</label>
-          <img :src="imageUrl" />
-        </div>
-        <div v-else>
-          <label>파일명</label>
-        </div> -->
-      </div>
-      <div class="button-box">
-        <button @click="params.idx ? handlerUpdateBtn() : handlerInsertBtn()">
-          {{ params.idx ? "수정" : "등록" }}
-        </button>
-        <button v-if="params.idx" @click="handlerDeleteBtn">삭제</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
-      </div>
+    <ContextBox>공지사항</ContextBox>
+  </div>
+  <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
+  <label>
+    내용 :
+    <input type="text" v-model="detailValue.content" />
+  </label>
+  파일 :<input
+    type="file"
+    style="display: none"
+    id="fileInput"
+    @change="handlerFile"
+  />
+  <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+  <div>
+    <div v-if="imageUrl">
+      <label>미리보기</label>
+      <img :src="imageUrl" />
     </div>
+    <div v-else>
+      <label>파일명</label>
+    </div>
+  </div>
+  <div class="button-box">
+    <button @click="actionHandler">
+      {{ actionLabel }}
+    </button>
+    <button v-if="params.idx" @click="handleDelete">삭제</button>
+    <button @click="$router.go(-1)">뒤로가기</button>
   </div>
 </template>
 
 <script setup>
-import axios from "axios";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useUserInfo } from "../../../../stores/userInfo";
-import { useNoticeDetailSearchQuery } from "../../../../hook/notice/useNoticeDetailSearchQuery";
+import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
+import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
-import { useNoticeDetailInsertMutation } from "../../../../hook/notice/useNoticeDetailInsertMutation";
-import { useNoticeDetailDeleteMutation } from "../../../../hook/notice/useNoticeDetailDeleteMutation";
+import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
+import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
 const detailValue = ref({});
+const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
 const userInfo = useUserInfo();
+const imageUrl = ref("");
+const fileData = ref("");
 
-const {
-  data: noticeDetail,
-  isLoading,
-  isSuccess,
-} = useNoticeDetailSearchQuery(params);
+const handlerFile = (e) => {
+  const fileInfo = e.target.files;
+  const fileInfoSplit = fileInfo[0].name.split(".");
+  const fileExtension = fileInfoSplit[1].toLowerCase();
+
+  if (
+    fileExtension === "jpg" ||
+    fileExtension === "gif" ||
+    fileExtension === "png" ||
+    fileExtension === "webp"
+  ) {
+    imageUrl.value = URL.createObjectURL(fileInfo[0]);
+  }
+  fileData.value = fileInfo[0];
+};
 
 watchEffect(() => {
-  if (isSuccess.value && noticeDetail.value) {
-    detailValue.value = toRaw(noticeDetail.value.detail);
-    // detailValue.value = {... noticeDetail.value.detail}; // 이거도 가능
+  if (isSuccess.value && NoticeDetail.value) {
+    detailValue.value = { ...NoticeDetail.value.detail };
   }
 });
 
-const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
-  detailValue,
-  params.idx,
-);
+const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
 
-const { mutate: handlerInsertBtn } = useNoticeDetailInsertMutation(
-  detailValue,
-  userInfo.user.loginId,
-);
-
-const deleteNoticeDetail = async () => {
-  await axios.post("/api/board/noticeDeleteBody.do", { noticeSeq: params.idx });
+const validateInputs = () => {
+  if (!detailValue.value.title) {
+    alert("제목을 입력해주세요.");
+    return false;
+  }
+  if (!detailValue.value.content) {
+    alert("내용을 입력해주세요.");
+    return false;
+  }
+  return true;
 };
 
-const { mutate: handlerDeleteBtn } = useNoticeDetailDeleteMutation(params);
+const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
+  detailValue,
+  params.idx
+);
+
+const { mutate: handlerInsertBtn } = useNoticeInsert(
+  detailValue,
+  userInfo.user.loginId
+);
+const actionHandler = () => {
+  if (!validateInputs()) return;
+
+  if (params.idx) {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
+    }
+  } else {
+    if (confirm("등록하시겠습니까?")) {
+      handlerInsertBtn();
+    }
+  }
+};
+
+const handleDelete = () => {
+  if (confirm("삭제하시겠습니까?")) {
+    handlerDeleteBtn();
+  }
+};
+const { mutate: handlerDeleteBtn } = useNoticeDelete(params);
 </script>
 
 <style lang="scss" scoped>

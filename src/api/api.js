@@ -1,9 +1,10 @@
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
-  SearchNoticeDetail: "/prx/api/board/noticeDetailBody.do",
+  NoticeDetail: "/prx/api/board/noticeDetailBody.do",
   UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
-  InsertNoticeDetail: "/prx/api/board/noticeSaveBody.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
+  InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
+  FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
 };
 
@@ -68,7 +69,7 @@ export const MyPage = {
   GetUserInfo: "/prx/api/mypage/userDetail.do",
   UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
   UpdatePwd: "/prx/api/mypage/updatePw.do",
-}
+};
 
 export const Applicant = {
   SearchApplicantList: "/prx/api/manage-user/applicantListBody.do",
@@ -77,6 +78,13 @@ export const Applicant = {
   UpdateApplicantDetail: "/prx/api/manage-user/applicantInfoUpdate.do",
 };
 
+export const Faq = {
+  SearchFaqList: "/prx/api/board/faqListJson.do",
+  SearchFaqDetail: "/prx/api/board/faqDetailBody.do",
+  UpdateFaqDetail: "/prx/api/board/faqUpdatePart.do",
+  InsertFaqDetail: "/prx/api/board/faqSavePart.do",
+  DeleteFaqDetail: "/prx/api/board/faqDeleteBody.do",
+};
 export const Biz = {
   SearchBizList: "/prx/api/manage-user/bizList.do",
   SearchBizDetail: "/prx/api/manage-user/bizManageDetail.do",

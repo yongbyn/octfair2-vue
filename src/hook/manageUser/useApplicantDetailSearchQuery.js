@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/vue-query";
-import { applcantDetailSearchApi } from "../../api/manageUser/applcantDetailSearchApi";
+import { applicantDetailSearchApi } from "../../api/manageUser/applicantDetailSearchApi";
 
 export const useApplicantDetailSearchQuery = (params) => {
   return useQuery({
     queryKey: ["applicantDetail"],
-    queryFn: () => applcantDetailSearchApi(params),
+    queryFn: () => applicantDetailSearchApi(params),
     enabled: !!params.loginId,
   });
 };

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
+import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
@@ -11,15 +12,16 @@ import ApprovalPost from "../views/Approval/ApprovalPost.vue";
 import ConfirmedPost from "../views/Approval/ConfirmedPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
+import FAQ from "../views/FAQ/FAQ.vue";
 import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
 import Scrap from "../views/Jobs/Scrap.vue";
 import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
-import Qna from "../views/Qna/QuesnAnsw.vue";
 import MyPage from "../views/MyPage/MyPage.vue";
 import Withdraw from "../views/MyPage/Withdraw.vue";
+import Qna from "../views/Qna/QuesnAnsw.vue";
 
 const routes = [
   {
@@ -54,14 +56,30 @@ const routes = [
 
           {
             path: "qna.do",
-            qna: "qna",
+            name: "qna",
             component: Qna,
           },
 
           {
             path: "qnaInsert.do/insert",
-            qna: "qnaInsert",
+            name: "qnaInsert",
             component: QnaDetailModal,
+          },
+          {
+            path: "faq.do",
+            name: "faq",
+            component: FAQ,
+          },
+          {
+            path: "faqDetailBody.do/:faq_idx",
+            name: "faqDetail",
+            component: FAQDetailModal,
+          },
+
+          {
+            path: "faqSavePart.do",
+            name: "faqInsert",
+            component: FAQDetailModal,
           },
         ],
       },
@@ -139,7 +157,7 @@ const routes = [
           },
           {
             path: "post.do",
-            name: "post",
+            name: "posts",
             component: ConfirmedPost,
           },
         ],

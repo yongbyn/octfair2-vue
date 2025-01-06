@@ -106,6 +106,7 @@
               v-if="isClicked.isScraped"
               variant="outline-secondary"
               class="btn-scrap"
+              @click="handlerUndoScrap(detailValue.postIdx)"
             >
               <i class="bi bi-star-fill"></i>
             </b-button>
@@ -230,7 +231,7 @@
               </b-button>
             </b-card-body>
           </b-card>
-          <b-list-group>
+          <b-list-group v-if="detailValue.fileName">
             <b-list-group-item @click="fileDownload" style="cursor: pointer">
               <i class="bi bi-download"></i>
               {{ detailValue.fileName }}
@@ -281,6 +282,14 @@ const handlerApplyModal = (idx) => {
 const handlerScrap = async (postIdx) => {
   await axios
     .post("/prx/api/jobs/saveScrap.do", { postIdx: postIdx })
+    .then((res) => {
+      refetch();
+    });
+};
+
+const handlerUndoScrap = async (postIdx) => {
+  await axios
+    .post("/prx/api/jobs/deleteScrap.do", { postIdx: postIdx })
     .then((res) => {
       refetch();
     });
@@ -456,5 +465,14 @@ h1 {
 .btn-edit,
 .btn-status {
   min-width: 80px;
+}
+.card {
+  &:hover {
+    filter: none;
+    opacity: none;
+    cursor: default;
+    transform: none;
+    transition: none;
+  }
 }
 </style>

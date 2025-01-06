@@ -24,7 +24,9 @@
 
         <tr>
           <th>
-            <label for="loginId">아이디 <span class="text-danger">*</span> </label>
+            <label for="loginId"
+              >아이디 <span class="text-danger">*</span>
+            </label>
           </th>
           <td>
             <div class="d-flex align-items-center">
@@ -72,7 +74,10 @@
                 ref="password"
               ></b-form-input>
             </b-col>
-            <div v-show="signUpUserInfo.password.state === false" class="statusPwd">
+            <div
+              v-show="signUpUserInfo.password.state === false"
+              class="statusPwd"
+            >
               숫자,영어 4~40자 입력
             </div>
           </td>
@@ -97,7 +102,10 @@
                 ref="passwordCk"
               ></b-form-input>
             </b-col>
-            <div v-show="signUpUserInfo.passwordCk.state === false" class="statusPwdCk">
+            <div
+              v-show="signUpUserInfo.passwordCk.state === false"
+              class="statusPwdCk"
+            >
               올바른 비밀번호를 입력해주세요.
             </div>
           </td>
@@ -162,7 +170,9 @@
 
         <tr>
           <th>
-            <label for="phone">전화번호 <span class="text-danger">*</span></label>
+            <label for="phone"
+              >전화번호 <span class="text-danger">*</span></label
+            >
           </th>
           <td>
             <input
@@ -177,7 +187,9 @@
 
         <tr>
           <th>
-            <label for="emailId">이메일 <span class="text-danger">*</span></label>
+            <label for="emailId"
+              >이메일 <span class="text-danger">*</span></label
+            >
           </th>
           <td>
             <div class="d-flex align-items-center">
@@ -329,7 +341,7 @@ const regExPatterns = {
   pwd: /^[a-zA-Z0-9]{4,40}$/,
   name: /^[가-힣]{2,}$/,
   domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
-}
+};
 
 // 1. 아이디 중복체크
 const idValid = () => {
@@ -363,7 +375,8 @@ const pwdValid = () => {
 };
 const pwdCkValid = () => {
   if (
-    signUpUserInfo.value.password.value === signUpUserInfo.value.passwordCk.value &&
+    signUpUserInfo.value.password.value ===
+      signUpUserInfo.value.passwordCk.value &&
     regExPatterns.pwd.test(signUpUserInfo.value.password.value) &&
     regExPatterns.pwd.test(signUpUserInfo.value.passwordCk.value)
   ) {
@@ -548,22 +561,24 @@ watch(
 
 // 6. 이메일 유효성 검사
 const emailValid = () => {
-  signUpUserInfo.value.email = 
-    signUpUserInfo.value.emailId.value + "@" + signUpUserInfo.value.emailDomain.value;
+  signUpUserInfo.value.email =
+    signUpUserInfo.value.emailId.value +
+    "@" +
+    signUpUserInfo.value.emailDomain.value;
 
-  if(signUpUserInfo.value.emailId.value.length >= 1){
+  if (signUpUserInfo.value.emailId.value.length >= 1) {
     signUpUserInfo.value.emailId.state = true;
   } else {
     signUpUserInfo.value.emailId.state = false;
     signUpUserInfo.value.emailDomain.state = false;
   }
 
-  if(regExPatterns.domain.test(signUpUserInfo.value.emailDomain.value)){
+  if (regExPatterns.domain.test(signUpUserInfo.value.emailDomain.value)) {
     signUpUserInfo.value.emailDomain.state = true;
   } else {
     signUpUserInfo.value.emailDomain.state = false;
   }
-}
+};
 
 // 7. 우편번호 찾기
 const handlerKakaoPost = () => {
@@ -574,30 +589,36 @@ const handlerKakaoPost = () => {
 };
 
 // 8. 회원가입 검증
-const signUpValid = () => {  
+const signUpValid = () => {
   const signUpFocus = ref({
     loginId: loginId,
     password: password,
     passwordCk: passwordCk,
-  })
+  });
   // 8.1 회원 유형
   if (!signUpUserInfo.value.userType) {
     toast.error("회원 유형을 선택하세요!");
     return;
 
-  // 8.2 아이디
+    // 8.2 아이디
   } else if (!signUpUserInfo.value.loginId.state) {
     if (!signUpUserInfo.value.loginId.value) {
       toast.error("아이디를 입력하세요!");
-    } else if (signUpUserInfo.value.loginId.value === null || signUpUserInfo.value.loginId.state === false) {
+    } else if (
+      signUpUserInfo.value.loginId.value === null ||
+      signUpUserInfo.value.loginId.state === false
+    ) {
       toast.error("아이디를 중복 검사를 하세요!");
     }
     signUpUserInfo.value.loginId.state = false;
     signUpFocus.value.loginId.focus();
     return;
 
-  // 8.3 비밀번호
-  } else if (!signUpUserInfo.value.password.value || !signUpUserInfo.value.passwordCk.value) {
+    // 8.3 비밀번호
+  } else if (
+    !signUpUserInfo.value.password.value ||
+    !signUpUserInfo.value.passwordCk.value
+  ) {
     if (!signUpUserInfo.value.password.state) {
       toast.error("비밀번호를 확인해 주세요!");
       signUpUserInfo.value.password.state = false;
@@ -608,7 +629,7 @@ const signUpValid = () => {
     }
     return;
 
-  // 8.4 이름
+    // 8.4 이름
   } else if (!signUpUserInfo.value.name.state) {
     if (signUpUserInfo.value.name.value === null) {
       toast.error("이름을 입력해주세요!");
@@ -618,12 +639,12 @@ const signUpValid = () => {
     document.getElementById("name").focus();
     return;
 
-  // 8.5 성별
+    // 8.5 성별
   } else if (!signUpUserInfo.value.sex) {
     toast.error("성별을 선택하세요!");
     return;
 
-  // 8.6 생년월일
+    // 8.6 생년월일
   } else if (!signUpUserInfo.value.birthday.state) {
     signUpUserInfo.value.birthday.state = false;
     if (signUpUserInfo.value.birthday.state === null) {
@@ -632,8 +653,8 @@ const signUpValid = () => {
       toast.error("올바른 생년월일을 선택하세요!");
     }
     return;
-  
-  // 8.7 전화번호
+
+    // 8.7 전화번호
   } else if (!phone.classList.contains("is-valid")) {
     if (!phone.classList.contains("is-invalid")) {
       toast.error("전화번호를 입력하세요!");
@@ -643,8 +664,8 @@ const signUpValid = () => {
     }
     phone.focus();
     return;
-  
-  // 8.8 이메일
+
+    // 8.8 이메일
   } else if (
     !signUpUserInfo.value.emailId.value ||
     !signUpUserInfo.value.emailDomain.value ||
@@ -662,14 +683,13 @@ const signUpValid = () => {
       emailDomain.focus();
     }
     return;
-  
-  // 8.9 우편번호
+
+    // 8.9 우편번호
   } else if (!signUpUserInfo.value.zipCode) {
     toast.error("우편번호를 입력하세요!");
     signUpUserInfo.value.zipCode.state = false;
     signUpUserInfo.value.zipCode.state = false;
     return;
-    
   } else {
     handlerSignUp();
     toast.success("회원 가입 완료!!!");
@@ -711,7 +731,7 @@ const signUpModalCloseBtn = () => {
   flex-direction: column;
   align-items: center;
 }
-.signUpTitle{
+.signUpTitle {
   margin-top: 10px;
 }
 
