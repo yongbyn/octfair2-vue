@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/vue-query";
 import { updatePwdApi } from "../../api/mypage/updatePwdApi";
 
-export const useUpdatePwd = (updatePwd) => {
-    return useMutation({
-        mutationFn: () => updatePwdApi(updatePwd),
-    });
+export const useUpdatePwd = (updatePwd, updateStatus) => {
+  return useMutation({
+    mutationFn: () => updatePwdApi(updatePwd, updateStatus),
+  });
 };

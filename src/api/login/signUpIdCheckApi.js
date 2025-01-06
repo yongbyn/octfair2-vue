@@ -9,7 +9,7 @@ export const signUpIdCheckApi = async (signUpUserInfo) => {
   if (result.data.result === "success") {
     toast.error("중복된 ID입니다.");
     signUpUserInfo.value.loginId.state = false;
-    document.getElementById('loginId').focus();  
+    document.getElementById("loginId").focus();
   } else {
     toast.success("사용 가능한 ID입니다.");
     signUpUserInfo.value.loginId.state = true;
