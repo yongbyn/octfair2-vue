@@ -56,7 +56,7 @@
               type="password"
               id="pwd"
               v-model="findPwdUserInfo.pw"
-              placeholder="비밀번호는 4~40자 이내로 입력하세요."
+              placeholder="비밀번호는 4~40자로 입력하세요."
             />
           </td>
         </tr>
