@@ -8,9 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddOn: typeof import('./src/components/layout/AddOn.vue')['default']
+    ApplicantBody: typeof import('./src/components/page/Applicant/ApplicantBody.vue')['default']
     ApplicantMain: typeof import('./src/components/page/ManageUser/Applicant/ApplicantMain.vue')['default']
     ApplicantModal: typeof import('./src/components/page/ManageUser/Applicant/ApplicantModal.vue')['default']
+    ApplicantResume: typeof import('./src/components/page/Applicant/ApplicantResume.vue')['default']
     ApplicantSearch: typeof import('./src/components/page/ManageUser/Applicant/ApplicantSearch.vue')['default']
+    ApplicantSearch2: typeof import('./src/components/page/Applicant/ApplicantSearch2.vue')['default']
     ApplyInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/ApplyInfo.vue')['default']
     ApprovalPostMain: typeof import('./src/components/page/Approval/ApprovalPostMain.vue')['default']
     ApprovalPostSearch: typeof import('./src/components/page/Approval/ApprovalPostSearch.vue')['default']
@@ -71,6 +74,7 @@ declare module 'vue' {
     SkinImage: typeof import('./src/components/layout/AddOnPack/SkinImage.vue')['default']
     SnowAni: typeof import('./src/components/layout/AddOnPack/SnowAni.vue')['default']
     UpdatePwdModal: typeof import('./src/components/page/MyPage/UpdatePwdModal.vue')['default']
+    WithdrawDetail: typeof import('./src/components/page/WithdrawDetail/WithdrawDetail.vue')['default']
     WithdrawMain: typeof import('./src/components/page/MyPage/WithdrawMain.vue')['default']
   }
 }
