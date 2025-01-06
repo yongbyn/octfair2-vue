@@ -1,9 +1,9 @@
 <template>
   <div class="searchwriteWrapper">
-    <div class="userTypeArea">
+    <!-- <div class="userTypeArea">
       <div v-if="type != 'M'">유저</div>
       <div v-else>관리자</div>
-    </div>
+    </div> -->
 
     <div class="functionArea">
       <div v-if="type === 'M'" class="search-box">
@@ -77,5 +77,10 @@ const questionModal = () => {
 
 .samebtncss {
   display: inline-block;
+  background-color: #34aadc;
+  color: white;
+  font-weight: 600;
+  border:none;
+  padding: 20px 20px;
 }
 </style>

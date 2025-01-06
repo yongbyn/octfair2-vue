@@ -11,8 +11,8 @@ export const qnaListSearchApi = async (cPage, injectedValue, type) => {
 
   const param = {
     currentPage: cPage.value.toString(),
-    pageSize: 5,
-    startSeq: 0,
+    pageSize: "5",
+    startSeq: "0",
     qna_type: type, //injectedValue.value.Type,
     requestType: injectedValue.value?.requestType || "",
     searchTitle: injectedValue.value?.searchTitle || "",

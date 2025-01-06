@@ -1,4 +1,5 @@
 <template>
+     <ContextBox>QNA</ContextBox>
   <QnaSerchWrite />
   <QnaMain />
 </template>

@@ -3,6 +3,7 @@
     v-if="injectedValue != null && injectedValue.count != 0"
     class="applicantFullInfoWrapper"
   >
+    {{ provideMDVal }}
     <div class="headLineInfo">
       <span>해당 공고건: {{ injectedValue.list[0].title }}의</span>
       <span>지원자 상태: {{ injectedValue.list[0].status }}의</span>
@@ -24,15 +25,87 @@
         <div class="smaseLineCss">지원자 최종학력{{ infoList.schoolName }}</div>
         <div class="smaseLineCss">지원자 이력서{{ infoList.resTitle }}</div>
         <div class="smaseLineCss">
-          지원자 지원일{{
-            infoList.applyDate == null ? "오늘" : infoList.applyDate
-          }}
+          지원자 지원일{{ infoList.applyDate == null ? "오늘" : infoList.applyDate }}
         </div>
       </div>
 
-      <!-- 합격을 보여줘야 할 탭은 서류심사중 / 면접진행중 탭이다.
-     그리고 지원자의 이력서는 그냥 다 띄우자.
- -->
+      <!-- 합격은 다음순위로 넘기고, 다음 스템에서만 보여주고
+           불합은 불합으로 싹다 보여준다.
+        -->
+
+      <!--  a ->b->d,.. -->
+<template v-if="infoList.status=='합격'">
+<h1>격을 포함</h1>
+    <div class="confrimInfo">
+        <button class="resumebtn" @click="resumeFnc(infoList.resIdx)">
+            지원자이력서보기
+          </button>        
+      </div>
+</template>
+
+      <!--  a ->b->d,.. -->
+      <template v-else>
+ 
+            <div class="confrimInfo">
+                <button
+                  class="successSameCss"
+                  @click="
+                    statusToBeChangeFnc(
+                      infoList.loginId,
+                      infoList.postIdx,
+                      infoList.status,
+                      'success'
+                    )
+                  "
+                >
+                  합격
+                </button>
+        
+                <button
+                  id="fail-btn"
+                  class="faileSameCss"
+                  @mouseover="handleMouseOver"
+                  @mouseleave="handleMouseLeave"
+                  @click="
+                  statusToBeChangeFnc(infoList.loginId, infoList.postIdx, infoList.status, 'faile')
+                  "
+                >
+                  불합격
+                </button>
+              </div>
+        </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- 여기 밑으로는 AsIs -->
       <div class="sameInfocss">
         <div class="choiceArea">
           <button class="resumebtn" @click="resumeFnc(infoList.resIdx)">
@@ -122,22 +195,65 @@ import noSearchImage from "../../../ImageApplicant/noSearch.png";
 import sadd from "../../../ImageApplicant/saddfrog.jpg";
 import Pagination from "../../common/Pagination.vue";
 const injectedValue = inject("provideVal");
-
+const provideMDVal = inject("provideMDVal");
 const keyword = ref(null);
 const choicePostIdx = ref(null);
 const choiceLoginId = ref(null);
 
 const cPage = ref(1);
 
-const { data: paginList, refetch } = useApplicantPaginQuery(
-  injectedValue,
-  cPage
-);
+const { data: paginList, refetch } = useApplicantPaginQuery(injectedValue, cPage);
 const router = useRouter();
 
 const clickFnc = () => {
   console.log(`현재페이지 ${cPage.value}`);
   refetch();
+};
+
+const statusToBeChangeFnc = (loginId, postIdx, status,message) => {
+
+    console.log(`loginId, postIdx, status   ${loginId} ${postIdx}  ${status} `)
+
+    let proccessArr=provideMDVal.value;
+    let processStatus;
+    let i=0;
+    for(let key in  proccessArr){
+
+    if( proccessArr[key] == status){
+console.log("똩같음"+key)
+        i=key;
+        break;
+    }
+
+    }
+   
+console.log(proccessArr)
+console.log(`i ->> ${i}  배열길이->>>>>${proccessArr.length}  다음 포인터 값 ${proccessArr.value[i+1]} `)
+
+
+  if(i==(proccessArr.length-3)){      
+      keyword.value="합격"
+   }
+  else{
+    i=i+1;
+    keyword.value=proccessArr[i]
+    console.log(proccessArr[i])
+  }
+    console.log(keyword.value)
+if(message==='faile'){
+    keyword.value="불합격"
+}
+
+  choicePostIdx.value = postIdx;
+  choiceLoginId.value = loginId;
+
+console.log(`keyword.value:    ${keyword.value}`)
+
+  //statusUpdat(keyword, postIdx, choiceLoginId);
+
+
+
+
 };
 
 const statusChangeFnc = (loginId, postIdx, status, message) => {
@@ -304,9 +420,7 @@ const handleMouseLeave = (e) => {
   border: none;
   opacity: 0; /* 완전히 투명하게 설정 */
   visibility: hidden; /* 요소를 숨김 */
-  transition:
-    opacity 1s ease,
-    visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
+  transition: opacity 1s ease, visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
 }
 
 /* 이미지 크기 및 위치 설정 */
