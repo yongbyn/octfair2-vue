@@ -8,9 +8,15 @@
         <tr>
           <td>유형</td>
           <td>
-            <input id="individual" value="1" v-model="detailValue.faq_type" />
+            <input
+              type="radio"
+              id="individual"
+              value="1"
+              v-model="detailValue.faq_type"
+            />
             <label for="individual">개인회원</label>
-
+          </td>
+          <td>
             <input
               type="radio"
               id="company"
@@ -89,19 +95,19 @@ const validateInputs = () => {
   return true;
 };
 
-// FAQ 수정 처리
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
   params.faq_idx
 );
 
-// FAQ 등록 처리
 const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
+
   userInfo.user.loginId
 );
 
-// 처리 핸들러
+const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
+
 const actionHandler = () => {
   if (!validateInputs()) return;
 
@@ -110,7 +116,9 @@ const actionHandler = () => {
       handlerUpdateBtn();
     }
   } else {
-    handlerInsertBtn();
+    if (confirm("등록하시겠습니까?")) {
+      handlerInsertBtn();
+    }
   }
 };
 
@@ -119,8 +127,6 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
-
-const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ResumeFrame from "../components/page/Apply/Resume/ResumeFrame.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
@@ -89,11 +88,7 @@ const routes = [
             name: "resume",
             component: Resume,
           },
-          {
-            path: "resume-detail.do",
-            name: "resumeDetail",
-            component: ResumeFrame,
-          },
+         
           {
             path: "history.do",
             name: "history",
