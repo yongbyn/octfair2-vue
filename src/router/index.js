@@ -88,7 +88,6 @@ const routes = [
             name: "resume",
             component: Resume,
           },
-         
           {
             path: "history.do",
             name: "history",
