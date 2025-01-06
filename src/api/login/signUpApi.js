@@ -21,7 +21,7 @@ export const signUpApi = async (signUpUserInfo) => {
     zipCode: value.zipCode,
     address: value.address,
     detailAddress: value.detailAddress,
-  }
+  };
   const result = await axios.post(Login.SignUp, newSignUpUserInfo);
 
   modalStore.setModalState();
