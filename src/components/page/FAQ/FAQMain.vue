@@ -77,10 +77,8 @@ import { useUserInfo } from "../../../stores/userInfo";
 import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
-//const faqType = ref("1");
 const injectedValue = inject("providedValue");
-//const type = ref();
-const type = ref();
+const type = ref("1");
 const style = ref(null);
 const userInfo = useUserInfo();
 const userType = computed(() => userInfo.user.userType);
@@ -106,8 +104,6 @@ const updateFaqType = (newType) => {
 const handlerShowContent = (faq_idx) => {
   style.value = style.value === faq_idx ? null : faq_idx;
 };
-
-//watch([faqType, cPage], () => {});
 </script>
 
 <style lang="scss" scoped>

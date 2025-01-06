@@ -15,7 +15,8 @@
               v-model="detailValue.faq_type"
             />
             <label for="individual">개인회원</label>
-
+          </td>
+          <td>
             <input
               type="radio"
               id="company"
@@ -43,13 +44,14 @@
           {{ actionLabel }}
         </button>
         <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
-        <button @click="$router.go(-1)">닫기</button>
+        <button @click="$router.go(-1)">뒤로가기</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useQueryClient } from "@tanstack/vue-query";
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
@@ -59,6 +61,7 @@ import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
+const queryClient = useQueryClient();
 
 const detailValue = ref({
   faq_type: "1",
@@ -68,7 +71,7 @@ const detailValue = ref({
 
 const userInfo = useUserInfo();
 
-const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
+const { data: FAQDetail, isSuccess, refetch } = useFAQDetailSearch(params);
 
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {
@@ -101,6 +104,7 @@ const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
 
 const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
+
   userInfo.user.loginId
 );
 
@@ -118,12 +122,12 @@ const actionHandler = () => {
       handlerInsertBtn();
     }
   }
+};
 
-  const handleDelete = () => {
-    if (confirm("삭제하시겠습니까?")) {
-      handlerDeleteBtn();
-    }
-  };
+const handleDelete = () => {
+  if (confirm("삭제하시겠습니까?")) {
+    handlerDeleteBtn();
+  }
 };
 </script>
 
