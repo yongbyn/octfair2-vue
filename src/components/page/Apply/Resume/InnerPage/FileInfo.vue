@@ -1,20 +1,20 @@
 <template>
-  <p class="resumeDetail_guidetext" v-if="props.isEditable">
-    • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요. <br />
+  <p v-if="props.isShow" class="resumeDetail_guidetext">
+    • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요.<br />
   </p>
   <div>
-    <div v-if="!props.fileData && !props.resume.logicalPath && props.isEditable">
+    <div v-if="(isEditor && isPreview && isPrint && !fileData && !resume.logicalPath">
       <label htmlFor="fileInput" style="flex: 0 0 30px">파일 첨부</label>
       <input id="fileInput" type="file" @change="handlerSelectFileBtn" style="margin-bottom: 20px; border: 0px;"></input>
     </div>
-    <div v-if="(props.fileData || props.resume.logicalPath) && props.isEditable" class="garo_wrapper_lr">
-      <label style="flex: 1">파일명: {{ props.fileData?.name || props.resume.fileName }}</label>
-      <CommonButton @click="{ handlerDeleteFileBtn(); props.fileData=null; fileImgSrc=null; props.resume.logicalPath=''; }">파일 삭제</CommonButton>
+    <div v-if="(fileData || resume.logicalPath)" class="garo_wrapper_lr">
+      <label style="flex: 1">파일명: {{ fileData?.name || resume.fileName }}</label>
+      <CommonButton v-if="props.isShow" @click="{ handlerDeleteFileBtn(); fileData=null; fileImgSrc=null; resume.logicalPath=''; }">파일 삭제</CommonButton>
     </div>
     <p style="margin: 5px" />
-    <div v-if="fileImgSrc || ['jpg', 'jpeg', 'png', 'bmp', 'webp', 'gif'].includes(props.resume.fileExt?.toLowerCase())">
-      <a :href="fileImgSrc || props.resume.logicalPath" :download="props.fileData?.name || props.resume.fileName">
-        <img :src="fileImgSrc || props.resume.logicalPath" class="resume_img" style="width: 100%"/>
+    <div v-if="fileImgSrc || ['jpg', 'jpeg', 'png', 'bmp', 'webp', 'gif'].includes(resume.fileExt?.toLowerCase())">
+      <a :href="fileImgSrc || resume.logicalPath" :download="fileData?.name || resume.fileName">
+        <img :src="fileImgSrc || resume.logicalPath" class="resume_img" style="width: 100%"/>
       </a>
     </div>
   </div>
@@ -25,7 +25,7 @@ import "@/components/page/Apply/Resume/ResumeStyle.css";
 import { useResumeFileDeleteMutation } from "../../../../../hook/apply/resume/useResumeFileDeleteMutation";
 import { useResumeFileSelectMutation } from "../../../../../hook/apply/resume/useResumeFileSelectMutation";
 
-const props = defineProps(["resume", "isEditable"]);
+const props = defineProps(["resume", "isShow"]);
 const emits = defineEmits(["fileChange"]);
 const resIdx = ref("");
 const fileData = ref("");

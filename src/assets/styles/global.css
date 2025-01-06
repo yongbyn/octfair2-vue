@@ -16,3 +16,8 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* 배경이미지 지정시에도 테이블이 잘 보이도록 테이블 색칠을 전역 적용 */
+table {
+  background-color: #ffffff;
+}

@@ -1,39 +1,40 @@
 <template>
-  <div class="container">
+  <div class="align-center">
     <div
+      v-show="props.addonShow"
+      :style="{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 75px)',
+        gap: '10px',
+        width: width,
+      }"
       class="wrapper"
-      style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px"
     >
-      <div v-for="(item, key) in items" :key="key">
+      <template v-for="(item, key) in items" :key="key">
         <CommonOnOff
           :isActive="item.isActive"
           @changeActive="item.onChangeActive()"
-          >{{ item.name }}</CommonOnOff
-        >
-      </div>
+          >{{ item.name }}
+        </CommonOnOff>
+      </template>
     </div>
-    <div style="position: relative">
-      <SnowAni v-if="items.snow.isActive" :snowConfig="snowConfig" />
-      <SkinImage v-if="items.skin.isActive" :url="skinUrl" />
-    </div>
-    <div>
-      <MusicBox
-        v-if="items.music.isActive"
-        :url="musicUrl"
-        :width="width"
-        class="wrapper"
-      />
-      <LunchMenu
-        v-show="items.lunch.isActive"
-        :url="lunchUrl"
-        :width="width"
-        class="wrapper"
-      />
-    </div>
+    <SnowAni v-if="items.snow.isActive" :snowConfig="snowConfig" />
+    <SkinImage v-if="items.skin.isActive" :url="skinUrl" />
+    <MusicBox
+      v-if="items.music.isActive"
+      v-show="props.addonShow"
+      :url="musicUrl"
+      :width="width"
+      class="wrapper"
+    />
+    <LunchMenu
+      v-show="items.lunch.isActive && props.addonShow"
+      :url="lunchUrl"
+      :width="width"
+      class="wrapper"
+    />
   </div>
 </template>
-/* lunch는 생성(웹 크롤링)때가 유지(이미지 게시)때보다 리소스가 많이 들기에 v-if
-대신 v-show 사용 */
 
 <script setup>
 import { reactive, watch } from "vue";
@@ -42,6 +43,8 @@ import LunchMenu from "./AddOnPack/LunchMenu.vue";
 import MusicBox from "./AddOnPack/MusicBox.vue";
 import SkinImage from "./AddOnPack/SkinImage.vue";
 import SnowAni from "./AddOnPack/SnowAni.vue";
+
+const props = defineProps(["addonShow"]);
 
 const items = reactive({
   snow: {
@@ -76,22 +79,21 @@ const items = reactive({
 
 const skinUrlList = [
   // ON/OFF버튼 껐다켤때마다 watch()에서 List목록 중 랜덤하게 뽑힘
-  ...Array(4).fill("@/assets/christmas.gif"), // Array().fill: 해당함목 뽑힐 확률 4배 증가
-  "@/assets/bg.jpg",
-  "@/assets/alone.png",
+  ...Array(4).fill("@/assets/newyear.gif"), // Array().fill: 해당함목 뽑힐 확률 4배 증가
+  "@/assets/christmas.gif",
   "@/assets/harry.jpg",
   "@/assets/seol.jpg",
 ];
-const skinUrl = ref("");
+const skinUrl = ref(skinUrlList[0]);
 const musicUrlList = [
   "https://www.youtube.com/watch?v=tEm9EyEPMYM",
   "https://www.youtube.com/watch?v=a_80o2lDYec",
   "https://www.youtube.com/watch?v=EvWo0xDpQGU",
   "https://www.youtube.com/watch?v=6o_6PmjkoCM",
 ];
-const musicUrl = ref("");
+const musicUrl = ref(musicUrlList[0]);
 const lunchUrl = ref("https://pf.kakao.com/_QLvRn"); // 이츠푸드='https://pf.kakao.com/_QLvRn', 벽산더이룸푸드='https://pf.kakao.com/_xdLzxgG'
-const width = ref(200);
+const width = ref("clamp(50px, 280px, 280px)");
 const snowConfig = ref({
   numSnow: 100,
   minRadius: 1,
@@ -118,27 +120,27 @@ watch(
 </script>
 
 <style scoped>
-.container {
+.align-center {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-align: center;
-  margin: 20px;
-  font-family: "Arial", sans-serif;
+  align-items: center;
 }
 
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  position: relative;
+  margin-top: 20px;
+  padding: 5px;
+  max-width: 100%;
   background-color: #f4f0e1;
   border: 5px solid gold;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin-top: 20px;
-  position: relative;
+  text-align: center;
+  font-family: "Arial", sans-serif;
 }
 </style>
