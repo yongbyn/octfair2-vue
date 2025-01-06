@@ -2,7 +2,7 @@
   현재 페이지: {{ currentPage }} 총 개수: {{ resumeList?.resumeCnt || 0 }}
   <div class="gallery-container" v-if="resumeList?.resumeCnt > 0">
     <div
-      class="card"
+      class="img-card"
       v-for="resume in resumeList.payload"
       :key="resume.resIdx"
       @click="handlerGetResumeBtn(resume.resIdx)"
@@ -99,7 +99,7 @@ const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
 // 화면크기 변경시 반응형으로, itemPerRow의 배수이면서 12(itemPerPageDefault)이상인 값을 itemPerPage로 정하는 계산함수
 const calculateItemPerPage = () => {
   const gridContainer = document.querySelector(".gallery-container");
-  const gridItems = document.querySelectorAll(".card");
+  const gridItems = document.querySelectorAll(".img-card");
 
   if (gridContainer && gridItems.length > 0) {
     const containerWidth = gridContainer.offsetWidth;

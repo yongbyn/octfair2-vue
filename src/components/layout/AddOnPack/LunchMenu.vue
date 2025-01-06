@@ -17,14 +17,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
 import axios from "axios";
+import { onMounted, ref } from "vue";
 
 const props = defineProps(["url", "width"]);
 const imageUrl = ref("loading");
 
 onMounted(async () => {
-  const proxyURL = "/vue";
+  const proxyURL = "/prx";
   const apiURL = "/dashboard/menu.do";
   const menuURL = props.url;
   const queryParam = `?menuURL=${menuURL}`;
