@@ -80,8 +80,8 @@
             <b-form-input
               type="date"
               ref="birthday"
-              v-model="updateUserInfo.birthday.value"
               :state="updateUserInfo.birthday.state"
+              v-model="updateUserInfo.birthday.value"
               @input="birthdayValid"
             ></b-form-input>
           </td>
@@ -222,9 +222,9 @@ const router = useRouter();
 const { user } = useUserInfo();
 const modalStore = useModalStore();
 
-const phone = ref(null);
-const emailId = ref(null);
-const emailDomain = ref(null);
+const phone = ref("");
+const emailId = ref("");
+const emailDomain = ref("");
 
 const updateUserInfo = ref({
   loginId: "",
@@ -498,18 +498,14 @@ const updateValid = () => {
   // 6.4 이메일
   else if (
     !updateUserInfo.value.emailId.value ||
-    !updateUserInfo.value.emailDomain.value ||
-    !emailDomain.value.classList.contains("is-valid")
+    !updateUserInfo.value.emailDomain.value
   ) {
     if (!updateUserInfo.value.emailId.value) {
       toast.error("이메일을 입력하세요!");
       emailId.value.focus();
       emailId.value.classList.add("is-invalid");
-    } else if (!updateUserInfo.value.emailDomain) {
-      toast.error("이메일 도메인을 입력하세요!");
-      emailDomain.value.focus();
     } else {
-      toast.error("올바른 이메일 도메인을 입력하세요!");
+      toast.error("이메일 도메인을 입력하세요!");
       emailDomain.value.focus();
     }
     return;
