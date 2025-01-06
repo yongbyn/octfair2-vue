@@ -2,13 +2,13 @@
   <div :style="{ width: props.width }">
     <img
       v-if="imageUrl === 'loading'"
-      src="../../../assets/loading_circle.gif"
+      src="../../../assets/utilcons/loading_circle.gif"
       alt="로딩 이미지"
       class="styled-image"
     />
     <img
       v-else-if="imageUrl === 'error'"
-      src="../../../assets/noImage.jpg"
+      src="../../../assets/utilcons/noImage.jpg"
       alt="빈 이미지"
       class="styled-image"
     />
