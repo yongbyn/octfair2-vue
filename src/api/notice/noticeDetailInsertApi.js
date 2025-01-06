@@ -17,6 +17,5 @@ export const noticeDetailInsertApi = async (detailValue, loginId) => {
       type: "application/json",
     })
   );
-
   await axios.post(Notice.InsertNoticeDetail, formData);
 };

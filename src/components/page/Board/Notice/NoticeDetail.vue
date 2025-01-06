@@ -1,37 +1,35 @@
 <template>
   <div>
-    
-      <ContextBox>공지사항</ContextBox>
-      </div>
-      <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
-      <label>
-        내용 :
-        <input type="text" v-model="detailValue.content" />
-      </label>
-      파일 :<input
-        type="file"
-        style="display: none"
-        id="fileInput"
-        @change="handlerFile"
-      />
-      <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-      <div>
-        <div v-if="imageUrl">
-          <label>미리보기</label>
-          <img :src="imageUrl" />
-        </div>
-        <div v-else>
-          <label>파일명</label>
-        </div>
-      </div>
-      <div class="button-box">
-        <button @click="actionHandler">
-          {{ actionLabel }}
-        </button>
-        <button v-if="params.idx" @click="handleDelete">삭제</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
-      </div>
-    
+    <ContextBox>공지사항</ContextBox>
+  </div>
+  <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
+  <label>
+    내용 :
+    <input type="text" v-model="detailValue.content" />
+  </label>
+  파일 :<input
+    type="file"
+    style="display: none"
+    id="fileInput"
+    @change="handlerFile"
+  />
+  <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+  <div>
+    <div v-if="imageUrl">
+      <label>미리보기</label>
+      <img :src="imageUrl" />
+    </div>
+    <div v-else>
+      <label>파일명</label>
+    </div>
+  </div>
+  <div class="button-box">
+    <button @click="actionHandler">
+      {{ actionLabel }}
+    </button>
+    <button v-if="params.idx" @click="handleDelete">삭제</button>
+    <button @click="$router.go(-1)">뒤로가기</button>
+  </div>
 </template>
 
 <script setup>
@@ -44,11 +42,7 @@ import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
 import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
-const detailValue = ref({
-   
-  title: "",
-  content: "",
-});
+const detailValue = ref({});
 const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
 const userInfo = useUserInfo();
 const imageUrl = ref("");
@@ -75,7 +69,6 @@ watchEffect(() => {
     detailValue.value = { ...NoticeDetail.value.detail };
   }
 });
-
 
 const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
 
@@ -109,9 +102,9 @@ const actionHandler = () => {
     }
   } else {
     if (confirm("등록하시겠습니까?")) {
-    handlerInsertBtn();
+      handlerInsertBtn();
+    }
   }
-}
 };
 
 const handleDelete = () => {

@@ -15,7 +15,8 @@
               v-model="detailValue.faq_type"
             />
             <label for="individual">개인회원</label>
-
+          </td>
+          <td>
             <input
               type="radio"
               id="company"
@@ -50,41 +51,34 @@
 </template>
 
 <script setup>
+import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
 import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
 import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
 import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
-import { ref, computed, watchEffect } from "vue";
 import { useUserInfo } from "../../../stores/userInfo";
 
-// 라우트 파라미터
 const { params } = useRoute();
 
-// FAQ 세부 데이터
 const detailValue = ref({
-  faq_type: "1", 
+  faq_type: "1",
   title: "",
   content: "",
 });
 
-// 유저 정보
 const userInfo = useUserInfo();
 
-// FAQ 세부 정보 조회
 const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
 
-// 상태 변경에 따른 내용 업데이트
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {
     detailValue.value = { ...FAQDetail.value.detail };
   }
 });
 
-// 버튼 라벨: 수정 또는 등록
 const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
 
-// 입력 유효성 검사
 const validateInputs = () => {
   if (!detailValue.value.faq_type) {
     alert("회원유형을 선택해주세요.");
@@ -101,22 +95,19 @@ const validateInputs = () => {
   return true;
 };
 
-// FAQ 수정 처리
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
   params.faq_idx
 );
 
-// FAQ 등록 처리
 const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
+
   userInfo.user.loginId
 );
 
-// FAQ 삭제 처리
 const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
 
-// 처리 핸들러
 const actionHandler = () => {
   if (!validateInputs()) return;
 
@@ -125,18 +116,18 @@ const actionHandler = () => {
       handlerUpdateBtn();
     }
   } else {
-    handlerInsertBtn();
+    if (confirm("등록하시겠습니까?")) {
+      handlerInsertBtn();
+    }
   }
 };
 
-// 삭제 처리
 const handleDelete = () => {
   if (confirm("삭제하시겠습니까?")) {
     handlerDeleteBtn();
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .backdrop {

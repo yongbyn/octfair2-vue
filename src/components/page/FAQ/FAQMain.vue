@@ -42,14 +42,13 @@
                 </button>
               </td>
             </tr>
-              <tr
-                v-for="faq in faqList.faq"
-                :key="faq.faq_idx"
-                :class="style === faq.faq_idx ? 'show' : 'hide'"
-              >
-                <td colspan="5">{{ faq.content }}</td>
+            <tr
+              v-for="faq in faqList.faq"
+              :key="faq.faq_idx"
+              :class="style === faq.faq_idx ? 'show' : 'hide'"
+            >
+              <td colspan="5">{{ faq.content }}</td>
             </tr>
-           
           </template>
           <template v-else>
             <tr>
@@ -64,7 +63,6 @@
       :totalItems="faqList?.faqCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
-      :onClick="searchList"
       v-model="cPage"
     />
   </div>
