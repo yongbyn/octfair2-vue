@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useRouter } from "vue-router";
-import { noticeDetailUpdateApi } from "../../api/notice/noticeDetailUpdateApi";
+import { faqDetailUpdateApi } from "../../api/faq/faqDetailUpdateApi";
 
-export const useNoticeDetailUpdateMutation = (detailValue, idx) => {
+export const useFAQDetailUpdate = (detailValue, faq_idx, faq_type) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
-    mutationKey: ["noticeUpdate"],
-    mutationFn: () => noticeDetailUpdateApi(detailValue.value, idx),
+    mutationKey: ["faqUpdate"],
+    mutationFn: () => faqDetailUpdateApi(detailValue.value, faq_idx, faq_type),
     onSuccess: () => {
       router.go(-1);
       queryClient.invalidateQueries({
-        queryKey: ["noticeList"],
+        queryKey: ["faqList"],
       });
     },
   });

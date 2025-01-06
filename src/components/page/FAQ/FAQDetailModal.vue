@@ -1,85 +1,95 @@
 <template>
   <div>
-    
-      <ContextBox>공지사항</ContextBox>
-      </div>
-      <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
-      <label>
-        내용 :
-        <input type="text" v-model="detailValue.content" />
-      </label>
-      파일 :<input
-        type="file"
-        style="display: none"
-        id="fileInput"
-        @change="handlerFile"
-      />
-      <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+    <ContextBox>FAQ 등록</ContextBox>
+  </div>
+  <div class="board-detail">
+    <div class="board-contents">
+      <table>
+        <tr>
+          <td>유형</td>
+          <td>
+            <input
+              type="radio"
+              id="individual"
+              value="1"
+              v-model="detailValue.faq_type"
+            />
+            <label for="individual">개인회원</label>
+
+            <input
+              type="radio"
+              id="company"
+              value="2"
+              v-model="detailValue.faq_type"
+            />
+            <label for="company">기업회원</label>
+          </td>
+        </tr>
+        <tr>
+          <td>제목</td>
+          <td>
+            <input type="text" v-model="detailValue.title" />
+          </td>
+        </tr>
+        <tr>
+          <td>내용</td>
+          <td>
+            <input type="text" v-model="detailValue.content" />
+          </td>
+        </tr>
+      </table>
       <div>
-        <div v-if="imageUrl">
-          <label>미리보기</label>
-          <img :src="imageUrl" />
-        </div>
-        <div v-else>
-          <label>파일명</label>
-        </div>
-      </div>
-      <div class="button-box">
         <button @click="actionHandler">
           {{ actionLabel }}
         </button>
-        <button v-if="params.idx" @click="handleDelete">삭제</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
+        <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
+        <button @click="$router.go(-1)">닫기</button>
       </div>
-    
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
-import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
-import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
-import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
-import { useUserInfo } from "../../../../stores/userInfo";
+import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
+import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
+import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
+import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
+import { ref, computed, watchEffect } from "vue";
+import { useUserInfo } from "../../../stores/userInfo";
 
+// 라우트 파라미터
 const { params } = useRoute();
+
+// FAQ 세부 데이터
 const detailValue = ref({
-   
+  faq_type: "1", 
   title: "",
   content: "",
 });
-const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
+
+// 유저 정보
 const userInfo = useUserInfo();
-const imageUrl = ref("");
-const fileData = ref("");
 
-const handlerFile = (e) => {
-  const fileInfo = e.target.files;
-  const fileInfoSplit = fileInfo[0].name.split(".");
-  const fileExtension = fileInfoSplit[1].toLowerCase();
+// FAQ 세부 정보 조회
+const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
 
-  if (
-    fileExtension === "jpg" ||
-    fileExtension === "gif" ||
-    fileExtension === "png" ||
-    fileExtension === "webp"
-  ) {
-    imageUrl.value = URL.createObjectURL(fileInfo[0]);
-  }
-  fileData.value = fileInfo[0];
-};
-
+// 상태 변경에 따른 내용 업데이트
 watchEffect(() => {
-  if (isSuccess.value && NoticeDetail.value) {
-    detailValue.value = { ...NoticeDetail.value.detail };
+  if (isSuccess && FAQDetail.value) {
+    detailValue.value = { ...FAQDetail.value.detail };
   }
 });
 
+// 버튼 라벨: 수정 또는 등록
+const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
 
-const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
-
+// 입력 유효성 검사
 const validateInputs = () => {
+  if (!detailValue.value.faq_type) {
+    alert("회원유형을 선택해주세요.");
+    return false;
+  }
   if (!detailValue.value.title) {
     alert("제목을 입력해주세요.");
     return false;
@@ -91,36 +101,42 @@ const validateInputs = () => {
   return true;
 };
 
-const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
+// FAQ 수정 처리
+const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
   detailValue,
-  params.idx
+  params.faq_idx
 );
 
-const { mutate: handlerInsertBtn } = useNoticeInsert(
+// FAQ 등록 처리
+const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
   userInfo.user.loginId
 );
+
+// FAQ 삭제 처리
+const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
+
+// 처리 핸들러
 const actionHandler = () => {
   if (!validateInputs()) return;
 
-  if (params.idx) {
+  if (params.faq_idx) {
     if (confirm("수정하시겠습니까?")) {
       handlerUpdateBtn();
     }
   } else {
-    if (confirm("등록하시겠습니까?")) {
     handlerInsertBtn();
   }
-}
 };
 
+// 삭제 처리
 const handleDelete = () => {
   if (confirm("삭제하시겠습니까?")) {
     handlerDeleteBtn();
   }
 };
-const { mutate: handlerDeleteBtn } = useNoticeDelete(params);
 </script>
+
 
 <style lang="scss" scoped>
 .backdrop {
