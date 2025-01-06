@@ -5,7 +5,7 @@
   padding: 16px;
 }
 
-.img-card {
+.image-cardbox {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -32,7 +32,7 @@
   overflow: hidden;
 }
 
-.image-wrapper img {
+.image-wrapper .image-one {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -124,7 +124,7 @@ input,
 textarea,
 select {
   flex: 1 0 clamp(2vw, 5vw, 8vw);
-  font-size: clamp(7px, 0.7vw, 12px);
+  font-size: clamp(7px, 0.8vw, 12px);
   min-width: 0; /* 최소 크기 제한 제거 */
   box-sizing: border-box; /* 경계 포함 크기 계산 */
   border: 1px solid rgb(0, 0, 0);

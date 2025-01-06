@@ -2,20 +2,25 @@
   현재 페이지: {{ currentPage }} 총 개수: {{ resumeList?.resumeCnt || 0 }}
   <div class="gallery-container" v-if="resumeList?.resumeCnt > 0">
     <div
-      class="img-card"
+      class="image-cardbox"
       v-for="resume in resumeList.payload"
       :key="resume.resIdx"
       @click="handlerGetResumeBtn(resume.resIdx)"
     >
       <div class="image-wrapper">
         <img
+          class="image-one"
           v-if="
             resume.logicalPath &&
             /\.(jpg|jpeg|png|bmp|webp|gif)$/i.test(resume.logicalPath)
           "
           :src="`/prx${resume.logicalPath}`"
         />
-        <img v-else src="../../../../assets/utilcons/logo.png" />
+        <img
+          class="image-one"
+          v-else
+          src="../../../../assets/utilcons/logo.png"
+        />
       </div>
       <div class="title_and_file">
         <div>
@@ -99,7 +104,7 @@ const { mutate: handlerDeleteResumeBtn } = useResumeOneDeleteMutation();
 // 화면크기 변경시 반응형으로, itemPerRow의 배수이면서 12(itemPerPageDefault)이상인 값을 itemPerPage로 정하는 계산함수
 const calculateItemPerPage = () => {
   const gridContainer = document.querySelector(".gallery-container");
-  const gridItems = document.querySelectorAll(".img-card");
+  const gridItems = document.querySelectorAll(".image-cardbox");
 
   if (gridContainer && gridItems.length > 0) {
     const containerWidth = gridContainer.offsetWidth;
