@@ -1,6 +1,12 @@
 <template>
   <div class="divPostList">
-    현재 페이지: {{ cPage }} 총 개수: {{ postList?.approvalPostCnt }}
+    <b-button variant="light">
+      총
+      <b-badge pill variant="primary">
+        {{ postList?.approvalPostCnt }}
+      </b-badge>
+      개의 글
+    </b-button>
     <table>
       <colgroup>
         <col width="10%" />
