@@ -1,7 +1,8 @@
 <template>
   <teleport to="body">
     <div class="backdrop">
-      <div class="container">
+      <div v-if="isLoading">로딩 중...</div>
+      <div v-else class="container">
         <table class="form-table">
           <caption>
             개인회원정보
@@ -154,6 +155,8 @@ const {
 watchEffect(() => {
   if (isSuccess.value && applicantDetail.value) {
     detailValue.value = toRaw(applicantDetail.value.detail);
+  } else {
+    detailValue.value = {};
   }
 });
 
