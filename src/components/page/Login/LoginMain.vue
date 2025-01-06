@@ -187,7 +187,7 @@ button {
   color: #ffffff;
 }
 .login-button {
-  width: 110%;
+  width: 100%;
   background-color: #2676bf;
   color: #ffffff;
 }

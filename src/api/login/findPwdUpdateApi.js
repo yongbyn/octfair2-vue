@@ -8,7 +8,7 @@ export const findPwdUpdateApi = async (findPwdUserInfo) => {
   const modalStore = useModalStore();
 
   if (result.data.result === "SUCCESS") {
-    toast.success("비밀번호를 바꿨습니다.");
+    toast.success("비밀번호를 변경하였습니다.");
     modalStore.setModalState();
   } else {
     toast.error("오류가 났습니다.");
