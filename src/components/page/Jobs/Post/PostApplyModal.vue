@@ -157,4 +157,13 @@ button {
   text-align: right;
   margin-top: 10px;
 }
+.card {
+  &:hover {
+    filter: none;
+    opacity: none;
+    cursor: default;
+    transform: none;
+    transition: none;
+  }
+}
 </style>

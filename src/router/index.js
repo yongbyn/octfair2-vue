@@ -157,7 +157,7 @@ const routes = [
           },
           {
             path: "post.do",
-            name: "post",
+            name: "posts",
             component: ConfirmedPost,
           },
         ],
