@@ -1,7 +1,4 @@
 <template>
-  <div class="align-center">
-    <img :src="logo" alt="happyjob" @click="router.push({ name: 'vue' })" />
-  </div>
   <div class="logo-box">
     <img :src="vue_logo" alt="logoImage" />
     <div class="user-info">
@@ -38,14 +35,12 @@
 </template>
 
 <script setup>
-import logo from "../../assets/logo.png";
-import vue_logo from "../../assets/vue_logo.png";
-import { useModalStore } from "../../stores/modalState";
+import vue_logo from "../../assets/utilcons/vue_logo.png";
 import { useUserInfo } from "../../stores/userInfo";
 
 const userInfo = useUserInfo();
 const router = useRouter();
-const modalStore = useModalStore();
+const emits = defineEmits(["clickPageLink"]);
 
 const handlerClick = (menuId, e) => {
   const childMenuId = document.getElementById(menuId);
@@ -75,26 +70,14 @@ const handlerMenuLinkClick = (menuId, e) => {
   } else {
     childLinkId?.classList.remove();
   }
+
+  emits("clickPageLink"); // 모바일 크기일때 메뉴링크 이동 동시에 메뉴가 숨겨지도록 처리
 };
 
 const handlerLogout = () => {
   sessionStorage.setItem("userInfo", "");
   router.push("/");
 };
-
-// 대부분의 페이지와 함께 랜더링되는 LeftManuBar.vue 여기에 작성되는 이벤트들은, 즉 일괄적용 효과
-const handlerKeyEvent = (event) => {
-  // ESC 누를시 모달닫기 작동
-  if (event.key === "Escape") modalStore.modalState = false;
-};
-
-onMounted(() => {
-  document.addEventListener("keyup", handlerKeyEvent);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("keyup", handlerKeyEvent);
-});
 </script>
 
 <style lang="scss" scoped>
@@ -129,6 +112,7 @@ button:active {
 }
 
 .logo-box {
+  display: flex;
   background: #2676bf;
   border-radius: 10px;
 
@@ -141,10 +125,7 @@ button:active {
   }
 
   .user-info {
-    position: relative;
-    right: 150px;
-    top: 10px;
-    float: right;
+    margin-top: 7px;
   }
 }
 
@@ -178,7 +159,7 @@ ul {
     transition:
       opacity 0.2s,
       visibility 0s;
-    background: #2e9acc;
+    background: #2eccba45;
     height: 0;
     padding-left: 20px;
     padding-top: 10px;
@@ -224,12 +205,6 @@ ul {
   }
 }
 
-.align-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @media (max-width: 900px) {
   .logo-box {
     display: flex;
@@ -237,8 +212,8 @@ ul {
     align-items: center;
 
     .user-info {
-      right: 0;
-      top: 0;
+      margin-top: 0;
+      margin-right: 0;
       font-size: clamp(12px, 2vw, 15px);
 
       button {
@@ -247,13 +222,24 @@ ul {
     }
   }
 
-  .parent-menu {
-    text-align: center;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  .child-menu-box {
+  .parent-menu {
     text-align: center;
-    padding-right: 20px;
+    overflow: hidden;
+
+    &:hover {
+      .child-menu-box {
+        margin-top: 0;
+      }
+    }
+
+    .child-menu-box {
+      padding-right: 20px;
+    }
   }
 }
 </style>

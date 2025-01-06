@@ -10,16 +10,16 @@
       <ShortintroInfo :resume="resume" :isShow="isShow" />
     </InnerFrame>
     <InnerFrame :title="'경력'" v-show="isShow || isExistCareer">
-      <CareerList :resume="resume" :isShow="isShow" @isExistCareer="(value) => {console.log(value); isExistCareer=value.value;}" />
+      <CareerList :resume="resume" :isShow="isShow" @isExistCareer="(value) => isExistCareer=value.value" />
     </InnerFrame>
     <InnerFrame :title="'학력'" v-show="isShow || isExistEdu">
-      <EduList :resume="resume" :isShow="isShow" :isExistEdu="isExistEdu" />
+      <EduList :resume="resume" :isShow="isShow" @isExistEdu="(value) => isExistEdu=value.value" />
     </InnerFrame>
     <InnerFrame :title="'스킬'" v-show="isShow || isExistSkill">
-      <SkillList :resume="resume" :isShow="isShow" :isExistSkill="isExistSkill" />
+      <SkillList :resume="resume" :isShow="isShow" @isExistSkill="(value) => isExistSkill=value.value" />
     </InnerFrame>
     <InnerFrame :title="'자격증 및 외국어'" v-show="isShow || isExistCert">
-      <CertList :resume="resume" :isShow="isShow" :isExistCert="isExistCert" />
+      <CertList :resume="resume" :isShow="isShow" @isExistCert="(value) => isExistCert=value.value" />
     </InnerFrame>
     <InnerFrame :title="'링크'" v-show="isShow || resume.pfoLink">
       <LinkInfo :resume="resume" :isShow="isShow" />
@@ -28,7 +28,7 @@
       <SelfintroInfo :resume="resume" :isShow="isShow" />
     </InnerFrame>
 
-    <InnerFrame :title="'첨부파일'">
+    <InnerFrame v-if="isShow" :title="'첨부파일'">
       <p v-if="isShow" class="resumeDetail_guidetext">
         • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요.<br />
       </p>

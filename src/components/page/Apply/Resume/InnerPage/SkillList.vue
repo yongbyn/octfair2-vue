@@ -23,14 +23,14 @@
     <div class="skill_table" v-if="isAddSkill && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: skillName">
         <label class="garo_wrapper_lr_l">스킬명:</label>
-        <input class="garo_wrapper_lr_r" v-model=skill.skillName placeholder="스킬명"></input>
+        <input class="garo_wrapper_lr_r" v-model=skill.skillName id="skillName" placeholder="스킬명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: skillDetail">
         <label class="garo_wrapper_lr_l">스킬상세:</label>
-        <input class="garo_wrapper_lr_r" v-model=skill.skillDetail placeholder="스킬상세"></input>
+        <input class="garo_wrapper_lr_r" v-model=skill.skillDetail id="skillDetail" placeholder="스킬상세"></input>
       </div>
       <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
-        <CommonButton @click="{ handlerCreateSkillBtn({ resIdx: props.resume.resIdx, skill: skill }); skill={ ...skillDefault } }">저장</CommonButton>
+        <CommonButton @click="handlerCreateSkillBtn({ resIdx: props.resume.resIdx, skill: skill })">저장</CommonButton>
         <CommonButton @click="isAddSkill = false">취소</CommonButton>
       </div>
     </div>
@@ -49,15 +49,15 @@ const resIdx = ref("");
 const skillDefault = { skillName: '', skillDetail: ''};
 const skill = ref({ ...skillDefault });
 const isAddSkill = ref(false);
+const isExistSkill = computed(() => skillList?.payload?.length >= 1 || false);
 
 const { data: skillList } = useSkillListReadQuery(resIdx);
 const { mutate: handlerCreateSkillBtn } = useSkillNewCreateMutation();
 const { mutate: handlerDeleteSkillBtn } = useSkillNewDeleteMutation();
 
-watch(() => [props.resume.resIdx, skillList], () => {
+watch(() => [props.resume.resIdx, skillList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-  if (skillList.payload && skillList.payload.length >= 1) emits("isExistCareer", true);
-  else                                                    emits("isExistCareer", false);
+  emits("isExistSkill", isExistSkill.value);
 })
 </script>
 

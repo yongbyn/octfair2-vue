@@ -45,34 +45,34 @@
     <div class="career_table" v-if="isAddCareer && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: startDate">
         <label class="garo_wrapper_lr_l">입사일:</label>
-        <input class="garo_wrapper_lr_r" v-model=career.startDate placeholder="입사일" type="month"></input>
+        <input class="garo_wrapper_lr_r" v-model=career.startDate id="startDate" placeholder="입사일" type="month"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: company">
         <label class="garo_wrapper_lr_l">회사명:</label>
-        <input class="garo_wrapper_lr_r" v-model=career.company placeholder="회사명"></input>
+        <input class="garo_wrapper_lr_r" v-model=career.company id="company" placeholder="회사명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: dept">
         <label class="garo_wrapper_lr_l">부서명:</label>
-        <input class="garo_wrapper_lr_r" v-model=career.dept placeholder="부서명"></input>
+        <input class="garo_wrapper_lr_r" v-model=career.dept id="dept" placeholder="부서명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: endDate">
         <label class="garo_wrapper_lr_l">퇴사일:</label>
-        <input class="garo_wrapper_lr_r" v-model=career.endDate placeholder="퇴사일" type="month"></input>
+        <input class="garo_wrapper_lr_r" v-model=career.endDate id="endDate" placeholder="퇴사일" type="month"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: position">
         <label class="garo_wrapper_lr_l">직급/직책:</label>
-        <input class="garo_wrapper_lr_r" v-model=career.position placeholder="직급/직책"></input>
+        <input class="garo_wrapper_lr_r" v-model=career.position id="position" placeholder="직급/직책"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: reason">
         <label class="garo_wrapper_lr_l">퇴사사유:</label>
-        <input class="garo_wrapper_lr_r" v-model=career.reason placeholder="퇴사사유"></input>
+        <input class="garo_wrapper_lr_r" v-model=career.reason id="reason" placeholder="퇴사사유"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: crrDesc">
         <label class="garo_wrapper_lr_l">담당업무:</label>
-        <textarea class="garo_wrapper_lr_r" v-model=career.crrDesc placeholder="담당업무"></textarea>
+        <textarea class="garo_wrapper_lr_r" v-model=career.crrDesc id="crrDesc" placeholder="담당업무"></textarea>
       </div>
       <div class="garo_wrapper_r" style="grid-area: button">
-        <CommonButton @click="{ handlerCreateCareerBtn({ resIdx: props.resume.resIdx, career: career }); career={ ...careerDefault } }">저장</CommonButton>
+        <CommonButton @click="handlerCreateCareerBtn({ resIdx: props.resume.resIdx, career: career })">저장</CommonButton>
         <CommonButton @click="isAddCareer = false">취소</CommonButton>
       </div>
     </div>
@@ -99,9 +99,7 @@ const { mutate: handlerDeleteCareerBtn } = useCareerNewDeleteMutation();
 
 watch(() => [props.resume.resIdx, careerList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-
-  console.log('isExistCareer:', isExistCareer.value); // .value로 접근
-  emits("isExistCareer", isExistCareer.value); // .value로 emit
+  emits("isExistCareer", isExistCareer.value);
 });
 </script>
 

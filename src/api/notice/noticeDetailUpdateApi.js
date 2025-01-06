@@ -8,5 +8,15 @@ export const noticeDetailUpdateApi = async (detailValue, idx) => {
     context: detailValue.content,
   };
 
-  await axios.post(Notice.UpdateNoticeDetail, textData);
+  const formData = new FormData();
+  const fileData = ref("");
+  if (fileData.value) formData.append("file", fileData.value);
+  formData.append(
+    "text",
+    new Blob([JSON.stringify(textData)], {
+      type: "application/json",
+    })
+  );
+
+  await axios.post(Notice.FileNoticeUpdate, formData);
 };

@@ -31,22 +31,22 @@
     <div class="cert_table" v-if="isAddCert && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: acqDate">
         <label class="garo_wrapper_lr_l">취득일:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.acqDate placeholder="취득일" type="month"></input>
+        <input class="garo_wrapper_lr_r" v-model=cert.acqDate id="acqDate" placeholder="취득일" type="month"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: certName">
         <label class="garo_wrapper_lr_l">자격증명:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.certName placeholder="자격증명"></input>
+        <input class="garo_wrapper_lr_r" v-model=cert.certName id="certName" placeholder="자격증명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grade">
         <label class="garo_wrapper_lr_l">등급:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.grade placeholder="등급"></input>
+        <input class="garo_wrapper_lr_r" v-model=cert.grade id="grade" placeholder="등급"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: issuer">
         <label class="garo_wrapper_lr_l">발행처:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.issuer placeholder="발행처"></input>
+        <input class="garo_wrapper_lr_r" v-model=cert.issuer id="issuer" placeholder="발행처"></input>
       </div>
       <div class="garo_wrapper_r" style="grid-area: button">
-        <CommonButton @click="{ handlerCreateCertBtn({ resIdx: props.resume.resIdx, cert: cert }); cert={ ...certDefault } }">저장</CommonButton>
+        <CommonButton @click="handlerCreateCertBtn({ resIdx: props.resume.resIdx, cert: cert })">저장</CommonButton>
         <CommonButton @click="isAddCert = false">취소</CommonButton>
       </div>
     </div>
@@ -69,12 +69,12 @@ const isAddCert = ref(false);
 const { data: certList } = useCertListReadQuery(resIdx);
 const { mutate: handlerCreateCertBtn } = useCertNewCreateMutation();
 const { mutate: handlerDeleteCertBtn } = useCertNewDeleteMutation();
+const isExistCert = computed(() => certList?.payload?.length >= 1 || false);
 
-watch(() => [props.resume.resIdx, certList], () => {
+watch(() => [props.resume.resIdx, certList?.payload], () => {
   resIdx.value = props.resume.resIdx;
-  if (certList.payload && certList.payload.length >= 1) emits("isExistCareer", true);
-  else                                                  emits("isExistCareer", false);
-})
+  emits("isExistCert", isExistCert.value);
+});
 </script>
 
 <style></style>
