@@ -2,12 +2,13 @@
   <div class="findIdModal">
     <div class="findIdModalContent">
       <div class="findIdModalTitle">
-        <h1>아이디 찾기</h1>
+        <h2>아이디 찾기</h2>
         <span>
           <img
             src="../../../../public/icon_close.png"
             class="closeModalBtn"
             @click="findUserIdModalCloseBtn"
+            alt="close"
           />
         </span>
       </div>
@@ -24,9 +25,9 @@
           </th>
           <td>
             <input
-              type="text"
               id="name"
               v-model="findIdUserInfo.name"
+              ref="name"
               placeholder="가입하신 이름을 입력하세요."
             />
           </td>
@@ -38,9 +39,9 @@
           </th>
           <td>
             <input
-              type="text"
               id="email"
               v-model="findIdUserInfo.email"
+              ref="email"
               placeholder="가입하신 이메일을 입력하세요."
             />
           </td>
@@ -52,7 +53,6 @@
           </th>
           <td>
             <input
-              type="text"
               id="userId"
               v-model="findIdUserInfo.foundId"
               readonly
@@ -61,20 +61,19 @@
         </tr>
       </table>
       <button
-        class="handlerFindIdBtn"
-        @click="handlerFindId"
-        v-if="!findIdUserInfo.foundId"
+        @click="findIdUserInfo.foundId ? findUserIdModalCloseBtn() : findIdValid()"
       >
-        확인
+        {{ findIdUserInfo.foundId ? "닫기" : "확인"}}
       </button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref } from "vue";
-import { findId } from "../../../hook/Login/findId";
+import { useFindId } from "../../../hook/Login/usefindId";
 
 const modalStore = useModalStore();
 const findIdUserInfo = ref({
@@ -83,10 +82,29 @@ const findIdUserInfo = ref({
   foundId: "",
 });
 
-// 1. 아이디 찾기 버튼
-const { mutate: handlerFindId } = findId(findIdUserInfo);
+// 1. 아이디 찾기 유효성 검사
+const findIdValid = async () => {
+  if (!findIdUserInfo.value.name) {
+    toast.error("이름을 입력하세요!");
+    document.getElementById("name").focus();
+  } else if (!findIdUserInfo.value.email) {
+    toast.error("이메일을 입력하세요!");
+    document.getElementById("email").focus();
+  } else {
+    await handlerFindId();
 
-// 모달창 닫기 버튼
+    if (findIdUserInfo.value.foundId) {
+      toast.success("아이디를 찾았습니다.");
+    } else {
+      toast.error("잘못 입력하였습니다.\n다시 입력해주세요.");
+    }
+  }
+};
+
+// 2. 아이디 찾기
+const { mutateAsync: handlerFindId } = useFindId(findIdUserInfo);
+
+// 모달창 닫기 버튼(ESC도 가능)
 const findUserIdModalCloseBtn = () => {
   modalStore.setModalState();
 };
@@ -113,7 +131,7 @@ const findUserIdModalCloseBtn = () => {
   padding: 20px;
   border-radius: 10px;
   width: 480px;
-  height: 240px;
+  height: 260px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -156,6 +174,7 @@ table {
 th {
   background-color: rgb(220, 220, 220);
   width: 30%;
+  text-align: center;
 }
 
 input {

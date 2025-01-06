@@ -9,6 +9,14 @@ export const Notice = {
 
 export const Post = {
   SearchPostList: "/prx/api/jobs/readPostList.do",
+  SearchPostDetail: "/prx/api/jobs/readPostDetailBody.do",
+  DeletePostDetail: "/prx/api/manage-hire/deleteHirePost.do",
+};
+
+export const Scrap = {
+  SearchScrapList: "/prx/api/jobs/readScrapList.do",
+  UpdateScrap: "/prx/api/jobs/saveScrap.do",
+  DeleteScrap: "/prx/api/jobs/deleteScrap.do",
 };
 
 export const Resume = {
@@ -54,4 +62,23 @@ export const Login = {
   FindId: "/prx/api/selectFindInfoId.do",
   FindPwd: "/prx/api/selectFindInfoPw.do",
   FindPwdUpdate: "/prx/api/updateFindPw.do",
+};
+
+export const MyPage = {
+  GetUserInfo: "/prx/api/mypage/userDetail.do",
+  UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
+  UpdatePwd: "/prx/api/mypage/updatePw.do",
+}
+
+export const Applicant = {
+  SearchApplicantList: "/prx/api/manage-user/applicantListBody.do",
+  SearchApplicantDetail: "/prx/api/manage-user/applicantManageDetail.do",
+  ResetApplicantPw: "/prx/api/manage-user/applicantPwReset.do",
+  UpdateApplicantDetail: "/prx/api/manage-user/applicantInfoUpdate.do",
+};
+
+export const Biz = {
+  SearchBizList: "/prx/api/manage-user/bizList.do",
+  SearchBizDetail: "/prx/api/manage-user/bizManageDetail.do",
+  UpdateBizDetail: "/prx/api/manage-user/bizInfoUpdate.do",
 };
