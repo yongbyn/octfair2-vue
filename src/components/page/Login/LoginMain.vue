@@ -58,7 +58,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/utilcons/logo.png";
 import { nullCheck } from "../../../common/nullCheck";
 import { useUserInfo } from "../../../stores/userInfo";
 

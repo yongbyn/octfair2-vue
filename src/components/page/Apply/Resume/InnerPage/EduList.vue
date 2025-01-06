@@ -38,11 +38,11 @@
     <div class="edu_table" v-if="isAddEdu && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: admDate">
         <label class="garo_wrapper_lr_l">입학연도:</label>
-        <input class="garo_wrapper_lr_r" v-model=edu.admDate placeholder="입학연도" type="month"></input>
+        <input class="garo_wrapper_lr_r" v-model=edu.admDate id="admDate" placeholder="입학연도" type="month"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: eduLevel">
         <label class="garo_wrapper_lr_l">학력구분:</label>
-        <select class="garo_wrapper_lr_r" v-model=edu.eduLevel placeholder="학력구분">
+        <select class="garo_wrapper_lr_r" v-model=edu.eduLevel id="eduLevel" placeholder="학력구분">
           <option value="고등학교">고등학교</option>
           <option value="대학교">대학교</option>
           <option value="대학원(석사)">대학원(석사)</option>
@@ -51,7 +51,7 @@
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grdStatus">
         <label class="garo_wrapper_lr_l">졸업여부:</label>
-        <select class="garo_wrapper_lr_r" v-model=edu.grdStatus placeholder="졸업여부">
+        <select class="garo_wrapper_lr_r" v-model=edu.grdStatus id="grdStatus" placeholder="졸업여부">
           <option value="졸업">졸업</option>
           <option value="재학">재학</option>
           <option value="휴학">휴학</option>
@@ -60,18 +60,18 @@
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grdDate">
         <label class="garo_wrapper_lr_l">졸업연도:</label>
-        <input class="garo_wrapper_lr_r" v-model=edu.grdDate placeholder="졸업연도" type="month"></input>
+        <input class="garo_wrapper_lr_r" v-model=edu.grdDate id="grdDate" placeholder="졸업연도" type="month"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: schoolName">
         <label class="garo_wrapper_lr_l">학교명:</label>
-        <input class="garo_wrapper_lr_r" v-model=edu.schoolName placeholder="학교명"></input>
+        <input class="garo_wrapper_lr_r" v-model=edu.schoolName id="schoolName" placeholder="학교명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: major">
         <label class="garo_wrapper_lr_l">전공명:</label>
-        <input class="garo_wrapper_lr_r" v-model=edu.major placeholder="전공명"></input>
+        <input class="garo_wrapper_lr_r" v-model=edu.major id="major" placeholder="전공명"></input>
       </div>
       <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
-        <CommonButton @click="{ handlerCreateEduBtn({ resIdx: props.resume.resIdx, edu: edu }); edu={ ...eduDefault } }">저장</CommonButton>
+        <CommonButton @click="handlerCreateEduBtn({ resIdx: props.resume.resIdx, edu: edu })">저장</CommonButton>
         <CommonButton @click="isAddEdu = false">취소</CommonButton>
       </div>
     </div>
