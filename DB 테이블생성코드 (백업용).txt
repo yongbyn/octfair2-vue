@@ -1,0 +1,293 @@
+use octfair3;
+
+CREATE TABLE tb_group_code (
+group_code varchar(20) NOT NULL,
+group_name varchar(200) DEFAULT NULL,
+note varchar(2000) DEFAULT NULL,
+use_yn varchar(10) DEFAULT NULL,
+regId varchar(20) DEFAULT NULL,
+reg_date datetime DEFAULT NULL,
+updateId varchar(20) DEFAULT NULL,
+update_date datetime DEFAULT NULL,
+g_temp_field1 varchar(20) DEFAULT NULL,
+g_temp_field2 varchar(20) DEFAULT NULL,
+g_temp_field3 varchar(20) DEFAULT NULL,
+PRIMARY KEY (group_code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_userinfo (
+user_idx int(11) NOT NULL AUTO_INCREMENT,
+login_id varchar(50) NOT NULL,
+user_type varchar(1) NOT NULL,
+name varchar(20) NOT NULL,
+password varchar(100) NOT NULL,
+sex varchar(10) NOT NULL,
+phone varchar(15) NOT NULL,
+email varchar(100) NOT NULL,
+regdate varchar(30) NOT NULL,
+birthday varchar(15) NOT NULL,
+status_yn tinyint(1) NOT NULL,
+zip_code int(5) NOT NULL,
+address varchar(200) NOT NULL,
+detail_address varchar(300) DEFAULT NULL,
+PRIMARY KEY (user_idx)
+) ENGINE=InnoDB AUTO_INCREMENT=1007 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_mnu_mst (
+MNU_ID varchar(5) NOT NULL,
+HIR_MNU_ID varchar(5) DEFAULT NULL,
+MNU_NM varchar(100) DEFAULT NULL,
+MNU_URL varchar(500) DEFAULT NULL,
+MNU_DVS_COD varchar(1) DEFAULT NULL,
+GRP_NUM int(11) DEFAULT NULL,
+ODR int(11) DEFAULT NULL,
+LVL smallint(6) DEFAULT NULL,
+MNU_ICO_COD varchar(7) DEFAULT NULL,
+USE_POA varchar(1) DEFAULT NULL,
+DLT_POA varchar(1) DEFAULT NULL,
+PRIMARY KEY (MNU_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE tb_detail_code (
+detail_code varchar(20) NOT NULL,
+group_code varchar(20) NOT NULL,
+detail_name varchar(200) DEFAULT NULL,
+note varchar(2000) DEFAULT NULL,
+use_yn varchar(10) DEFAULT NULL,
+regId varchar(20) DEFAULT NULL,
+reg_date datetime DEFAULT NULL,
+updateId varchar(20) DEFAULT NULL,
+update_date datetime DEFAULT NULL,
+sequence int(3) DEFAULT NULL,
+d_temp_field1 varchar(20) DEFAULT NULL,
+d_temp_field2 varchar(20) DEFAULT NULL,
+d_temp_field3 varchar(20) DEFAULT NULL,
+d_temp_field4 varchar(20) DEFAULT NULL,
+PRIMARY KEY (detail_code,group_code),
+KEY FK_tb_group_code_TO_tb_detail_code (group_code),
+CONSTRAINT FK_tb_group_code_TO_tb_detail_code FOREIGN KEY (group_code) REFERENCES tb_group_code (group_code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_biz (
+biz_idx int(11) NOT NULL,
+biz_name varchar(200) DEFAULT NULL,
+biz_addr varchar(500) DEFAULT NULL,
+biz_contact varchar(200) DEFAULT NULL,
+biz_web_url varchar(200) DEFAULT NULL,
+biz_ceo_name varchar(200) DEFAULT NULL,
+biz_found_date date DEFAULT NULL,
+biz_emp_count varchar(200) DEFAULT NULL,
+biz_intro varchar(2000) DEFAULT NULL,
+biz_revenue varchar(200) DEFAULT NULL,
+biz_logo text,
+user_idx int(11) DEFAULT NULL,
+login_id varchar(50) DEFAULT NULL,
+phsycal_path varchar(100) DEFAULT NULL,
+logical_path varchar(100) DEFAULT NULL,
+file_size int(11) DEFAULT NULL,
+file_ext varchar(10) DEFAULT NULL,
+PRIMARY KEY (biz_idx),
+KEY FK_tb_userinfo_TO_tb_biz (user_idx),
+CONSTRAINT FK_tb_userinfo_TO_tb_biz FOREIGN KEY (user_idx) REFERENCES tb_userinfo (user_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_resume (
+res_idx int(11) NOT NULL AUTO_INCREMENT,
+user_idx int(11) DEFAULT NULL,
+emp_status enum('신입','경력','무관') DEFAULT NULL,
+res_title varchar(200) DEFAULT NULL,
+short_intro text,
+pfo_link text,
+per_statement text,
+updated_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+file_name varchar(100) DEFAULT NULL,
+phsycal_path varchar(100) DEFAULT NULL,
+logical_path varchar(100) DEFAULT NULL,
+file_size int(11) DEFAULT NULL,
+file_ext varchar(10) DEFAULT NULL,
+PRIMARY KEY (res_idx),
+KEY FK_tb_userinfo_TO_tb_resume (user_idx),
+CONSTRAINT FK_tb_userinfo_TO_tb_resume FOREIGN KEY (user_idx) REFERENCES tb_userinfo (user_idx)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_hiring_post (
+posting_id int(11) NOT NULL,
+biz_idx int(11) NOT NULL,
+title varchar(200) DEFAULT NULL,
+exp_req varchar(200) DEFAULT NULL,
+exp_years varchar(200) DEFAULT NULL,
+salary varchar(200) DEFAULT NULL,
+work_loc varchar(200) DEFAULT NULL,
+openings varchar(200) DEFAULT NULL,
+pos_desc text,
+duties text,
+req_qual text,
+pref_qual text,
+benefits text,
+post_date date DEFAULT NULL,
+end_date varchar(200) DEFAULT NULL,
+hiring_proc text,
+file_name varchar(100) DEFAULT NULL COMMENT '= notice의 file_name',
+app_status enum('대기중','승인','불허') DEFAULT NULL COMMENT '승인여부',
+phsycal_path varchar(100) DEFAULT NULL,
+logical_path varchar(100) DEFAULT NULL,
+file_size int(11) DEFAULT NULL,
+file_ext varchar(10) DEFAULT NULL,
+PRIMARY KEY (posting_id),
+KEY FK_tb_biz_TO_tb_hiring_post (biz_idx),
+CONSTRAINT FK_tb_biz_TO_tb_hiring_post FOREIGN KEY (biz_idx) REFERENCES tb_biz (biz_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE tb_scrap (
+scrap_idx int(11) NOT NULL,
+posting_id int(11) DEFAULT NULL,
+user_idx int(11) DEFAULT NULL,
+scrap_date timestamp NULL DEFAULT NULL,
+login_id varchar(50) DEFAULT NULL,
+PRIMARY KEY (scrap_idx),
+KEY FK_tb_hiring_post_TO_tb_scrap (posting_id),
+KEY FK_tb_userinfo_TO_tb_scrap (user_idx),
+CONSTRAINT FK_tb_hiring_post_TO_tb_scrap FOREIGN KEY (posting_id) REFERENCES tb_hiring_post (posting_id),
+CONSTRAINT FK_tb_userinfo_TO_tb_scrap FOREIGN KEY (user_idx) REFERENCES tb_userinfo (user_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_apply (
+app_id int(11) NOT NULL,
+user_idx int(11) DEFAULT NULL,
+posting_id int(11) DEFAULT NULL,
+apply_date timestamp NULL DEFAULT NULL,
+viewed tinyint(1) DEFAULT NULL,
+status enum('지원완료','서류심사중','서류탈락','면접진행중','면접탈락','최종합격') DEFAULT '지원완료',
+res_idx int(11) DEFAULT NULL,
+login_id varchar(50) DEFAULT NULL,
+PRIMARY KEY (app_id),
+KEY FK_tb_hiring_post_TO_tb_apply (posting_id),
+KEY FK_tb_userinfo_TO_tb_apply (user_idx),
+CONSTRAINT FK_tb_hiring_post_TO_tb_apply FOREIGN KEY (posting_id) REFERENCES tb_hiring_post (posting_id),
+CONSTRAINT FK_tb_userinfo_TO_tb_apply FOREIGN KEY (user_idx) REFERENCES tb_userinfo (user_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE tb_skill (
+skill_idx int(11) NOT NULL AUTO_INCREMENT,
+skill_name varchar(100) NOT NULL,
+skill_detail text NOT NULL,
+res_idx int(11) NOT NULL,
+PRIMARY KEY (skill_idx),
+KEY res_idx (res_idx),
+CONSTRAINT tb_skill_ibfk_1 FOREIGN KEY (res_idx) REFERENCES tb_resume (res_idx) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_career (
+crr_idx int(11) NOT NULL AUTO_INCREMENT,
+company varchar(20) DEFAULT NULL,
+dept varchar(20) DEFAULT NULL,
+position varchar(20) DEFAULT NULL,
+start_date date DEFAULT NULL,
+end_date date DEFAULT NULL,
+reason varchar(200) DEFAULT NULL,
+crr_desc text,
+res_idx int(11) DEFAULT NULL,
+PRIMARY KEY (crr_idx),
+KEY FK_tb_resume_TO_tb_experience (res_idx),
+CONSTRAINT FK_tb_resume_TO_tb_experience FOREIGN KEY (res_idx) REFERENCES tb_resume (res_idx)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_certification (
+cert_idx int(11) NOT NULL AUTO_INCREMENT,
+cert_name varchar(200) DEFAULT NULL,
+grade varchar(200) DEFAULT NULL,
+issuer varchar(200) DEFAULT NULL,
+acq_date date DEFAULT NULL,
+res_idx int(11) DEFAULT NULL,
+PRIMARY KEY (cert_idx),
+KEY FK_tb_resume_TO_tb_certification (res_idx),
+CONSTRAINT FK_tb_resume_TO_tb_certification FOREIGN KEY (res_idx) REFERENCES tb_resume (res_idx)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_education (
+edu_idx int(11) NOT NULL AUTO_INCREMENT,
+res_idx int(11) DEFAULT NULL,
+edu_level enum('고등학교','대학교','대학원(석사)','대학원(박사)') DEFAULT NULL,
+school_name varchar(20) DEFAULT NULL,
+major varchar(20) DEFAULT NULL,
+adm_date date DEFAULT NULL,
+grd_date date DEFAULT NULL,
+grd_status enum('졸업','재학','중퇴','휴학') DEFAULT NULL,
+PRIMARY KEY (edu_idx),
+KEY FK_tb_resume_TO_tb_education (res_idx),
+CONSTRAINT FK_tb_resume_TO_tb_education FOREIGN KEY (res_idx) REFERENCES tb_resume (res_idx)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_faq (
+faq_idx int(11) NOT NULL,
+title varchar(200) DEFAULT NULL,
+content text,
+created_date datetime DEFAULT NULL,
+updated_date datetime DEFAULT NULL,
+author varchar(200) DEFAULT NULL,
+faq_type varchar(1) DEFAULT NULL,
+PRIMARY KEY (faq_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_notice (
+notice_idx int(11) NOT NULL,
+title varchar(50) DEFAULT NULL,
+content varchar(200) DEFAULT NULL,
+author varchar(200) DEFAULT NULL,
+created_date datetime DEFAULT NULL,
+updated_date datetime DEFAULT NULL,
+pinned tinyint(1) DEFAULT '0',
+file_name varchar(100) DEFAULT NULL,
+phsycal_path varchar(100) DEFAULT NULL,
+logical_path varchar(100) DEFAULT NULL,
+file_size int(11) DEFAULT NULL,
+file_ext varchar(10) DEFAULT NULL,
+PRIMARY KEY (notice_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_qna (
+qna_idx int(11) NOT NULL,
+title varchar(200) DEFAULT NULL,
+content text,
+author varchar(200) DEFAULT NULL,
+created_date timestamp NULL DEFAULT NULL,
+password varchar(200) DEFAULT NULL,
+ans_content text,
+ans_date timestamp NULL DEFAULT NULL,
+updated_date datetime DEFAULT NULL,
+file_name varchar(100) DEFAULT NULL,
+phsycal_path varchar(100) DEFAULT NULL,
+logical_path varchar(100) DEFAULT NULL,
+file_size int(11) DEFAULT NULL,
+file_ext varchar(10) DEFAULT NULL,
+qna_type varchar(1) DEFAULT NULL,
+PRIMARY KEY (qna_idx)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_usr_mnu_atrt (
+user_type varchar(1) NOT NULL,
+MNU_ID varchar(5) NOT NULL,
+PRIMARY KEY (user_type,MNU_ID),
+KEY FK_tb_mnu_mst_TO_tb_usr_mnu_atrt (MNU_ID),
+CONSTRAINT FK_tb_mnu_mst_TO_tb_usr_mnu_atrt FOREIGN KEY (MNU_ID) REFERENCES tb_mnu_mst (MNU_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_attachment` (
+  `att_idx` int(11) NOT NULL AUTO_INCREMENT,
+  `attachment_category` varchar(100) DEFAULT NULL,
+  `attachment_content` text,
+  `file_name` varchar(100) DEFAULT NULL,
+  `file_size` varchar(100) DEFAULT NULL,
+  `file_ext` varchar(100) DEFAULT NULL,
+  `physical_path` varchar(200) DEFAULT NULL,
+  `logical_path` varchar(200) DEFAULT NULL,
+  `res_idx` int(11) DEFAULT NULL,
+  PRIMARY KEY (`att_idx`),
+  KEY `tb_attachment_tb_resume_FK` (`res_idx`),
+  CONSTRAINT `tb_attachment_tb_resume_FK` FOREIGN KEY (`res_idx`) REFERENCES `tb_resume` (`res_idx`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+SHOW TABLES;

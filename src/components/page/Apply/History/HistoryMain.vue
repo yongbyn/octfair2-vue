@@ -1,7 +1,6 @@
 <template>
   <div class="divHistoryList">
-    현재 페이지: {{ currentPage }} 총 개수:
-    {{ historyList?.result?.length || 0 }}
+    현재 페이지: {{ currentPage }} 총 개수: {{ historyList?.historyCnt || 0 }}
     <table>
       <colgroup>
         <col width="15%" />
@@ -27,39 +26,40 @@
               <td>
                 {{ history.applyDate }}
               </td>
-              <td
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  align-items: flex-start;
-                  font-size: 0.9vw;
-                "
-              >
-                <div>
-                  기업명:
-                  <a
-                    :href="`/vue/company/companyDetailPage.do/${history.postingId}/${history.bizIdx}`"
-                    >{{ history.bizName }}</a
-                  >
-                </div>
-                <div>
-                  공고명:
-                  <a
-                    :href="`/vue/manage-post/${history.postingId}/${history.bizIdx}`"
-                    >{{ history.postTitle }}</a
-                  >
-                </div>
-                <div>
-                  이력서:
-                  <span
-                    @click="
-                      {
-                        modalStore.modalState = true;
-                        resIdx = history.resIdx;
-                      }
-                    "
-                    >{{ history.resTitle }}</span
-                  >
+              <td>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    font-size: 0.9vw;
+                  "
+                >
+                  <div>
+                    기업명:
+                    <a
+                      :href="`/vue/company/companyDetail.do/${history.bizIdx}`"
+                      >{{ history.bizName }}</a
+                    >
+                  </div>
+                  <div>
+                    공고명:
+                    <a :href="`/vue/jobs/posts.do/${history.postingId}`">{{
+                      history.postTitle
+                    }}</a>
+                  </div>
+                  <div>
+                    이력서:
+                    <span
+                      @click="
+                        {
+                          modalStore.modalState = true;
+                          resIdx = history.resIdx;
+                        }
+                      "
+                      >{{ history.resTitle }}</span
+                    >
+                  </div>
                 </div>
               </td>
               <td>
@@ -95,7 +95,7 @@
 
   <!-- 페이지네이션 -->
   <Pagination
-    :totalItems="historyList?.result?.length || 0"
+    :totalItems="historyList?.historyCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
     :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
@@ -116,7 +116,7 @@ import { useHistoryOneCancleMutation } from "../../../../hook/apply/history/useH
 import Pagination from "../../../common/Pagination.vue";
 
 const injectedHistorySearchValue = inject("providedHistorySearchValue");
-const itemPerPage = ref(24);
+const itemPerPage = ref(5);
 const currentPage = ref(1);
 const queryClient = useQueryClient();
 const resIdx = ref(0);
@@ -135,6 +135,10 @@ const {
   injectedHistorySearchValue
 );
 const { mutate: handlerCancleHistoryBtn } = useHistoryOneCancleMutation();
+
+watch(injectedHistorySearchValue, () => {
+  currentPage.value = injectedHistorySearchValue.value.currentPage;
+});
 </script>
 
 <style lang="scss" scoped>
