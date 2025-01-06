@@ -51,7 +51,6 @@
 </template>
 
 <script setup>
-import { useQueryClient } from "@tanstack/vue-query";
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
@@ -61,7 +60,6 @@ import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
-const queryClient = useQueryClient();
 
 const detailValue = ref({
   faq_type: "1",

@@ -1,6 +1,13 @@
 <template>
   <div class="divFAQList">
-    현재 페이지:{{ cPage }} 총 개수:{{ faqList?.faqCnt }} 유저타입: {{ type }}
+    <b-button variant="light">
+      총
+      <b-badge pill variant="primary">
+        {{ faqList?.faqCnt }}
+      </b-badge>
+      개의 글
+    </b-button>
+
     <div class="button-box">
       <button :class="{ active: type === '1' }" @click="updateFaqType('1')">
         개인회원
@@ -29,26 +36,26 @@
       <tbody>
         <template v-if="isLoading">로딩중...</template>
         <template v-else-if="isSuccess">
-          <template v-if="faqList.faqCnt > 0">
-            <tr v-for="faq in faqList.faq" :key="faq.faq_idx">
-              <td>{{ faq.faq_idx }}</td>
-              <td @click="handlerShowContent(faq.faq_idx)">{{ faq.title }}</td>
-              <td>{{ faq.author }}</td>
-              <td>{{ faq.created_date.substring(0, 10) }}</td>
+          <template v-if="faqList.faqCnt">
+            <template v-for="faq in faqList.faq" :key="faq.faq_idx">
+              <tr>
+                <td>{{ faq.faq_idx }}</td>
+                <td @click="handlerShowContent(faq.faq_idx)">
+                  {{ faq.title }}
+                </td>
+                <td>{{ faq.author }}</td>
+                <td>{{ faq.created_date.substring(0, 10) }}</td>
 
-              <td v-if="userType === 'M'">
-                <button type="button" @click="faqDetail(faq.faq_idx)">
-                  관리
-                </button>
-              </td>
-            </tr>
-            <tr
-              v-for="faq in faqList.faq"
-              :key="faq.faq_idx"
-              :class="style === faq.faq_idx ? 'show' : 'hide'"
-            >
-              <td colspan="5">{{ faq.content }}</td>
-            </tr>
+                <td v-if="userType === 'M'">
+                  <button type="button" @click="faqDetail(faq.faq_idx)">
+                    관리
+                  </button>
+                </td>
+              </tr>
+              <tr :class="style === faq.faq_idx ? 'show' : 'hide'">
+                <td colspan="5">{{ faq.content }}</td>
+              </tr>
+            </template>
           </template>
           <template v-else>
             <tr>
@@ -74,7 +81,6 @@ import { computed, inject, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useFAQListQuery } from "../../../hook/faq/useFAQListQuery";
 import { useUserInfo } from "../../../stores/userInfo";
-import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
@@ -86,11 +92,13 @@ const router = useRouter();
 const {
   data: faqList,
   isLoading,
+  refetch,
   isSuccess,
   isError,
 } = useFAQListQuery(injectedValue, cPage, type);
 
 const faqDetail = (faq_idx) => {
+  refetch();
   router.push({
     name: "faqDetail",
     params: { faq_idx },
@@ -119,7 +127,7 @@ table {
   border-collapse: collapse;
   margin: 20px 0px 0px 0px;
   font-size: 18px;
-  text-align: left;
+  text-align: center;
 
   th,
   td {
@@ -132,6 +140,16 @@ table {
   th {
     background-color: #2676bf;
     color: #ddd;
+  }
+
+  button {
+    padding: 6px 12px;
+    margin: 5px;
+    border-radius: 4px;
+    border: none;
+    background-color: #1378e4;
+    color: white;
+    cursor: pointer;
   }
 
   /* 테이블 올렸을 때 */

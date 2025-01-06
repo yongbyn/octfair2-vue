@@ -1,6 +1,13 @@
 <template>
   <div class="divNoticeList">
-    현재 페이지: {{ cPage }} 총 개수: {{ noticeList?.noticeCnt || 0 }}
+    <b-button variant="light">
+      총
+      <b-badge pill variant="primary">
+        {{ noticeList?.noticeCnt }}
+      </b-badge>
+      개의 글
+    </b-button>
+
     <table>
       <colgroup>
         <col width="10%" />
@@ -15,7 +22,6 @@
           <th scope="col">제목</th>
           <th scope="col">작성일</th>
           <th scope="col">작성자</th>
-          
         </tr>
       </thead>
       <tbody>
