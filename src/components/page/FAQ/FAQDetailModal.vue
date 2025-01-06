@@ -15,8 +15,7 @@
               v-model="detailValue.faq_type"
             />
             <label for="individual">개인회원</label>
-          </td>
-          <td>
+
             <input
               type="radio"
               id="company"
@@ -102,7 +101,6 @@ const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
 
 const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   detailValue,
-
   userInfo.user.loginId
 );
 
@@ -120,12 +118,12 @@ const actionHandler = () => {
       handlerInsertBtn();
     }
   }
-};
 
-const handleDelete = () => {
-  if (confirm("삭제하시겠습니까?")) {
-    handlerDeleteBtn();
-  }
+  const handleDelete = () => {
+    if (confirm("삭제하시겠습니까?")) {
+      handlerDeleteBtn();
+    }
+  };
 };
 </script>
 
