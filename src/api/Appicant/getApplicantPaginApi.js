@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Applicant } from "../api"
 
 export const getApplicantPaginApi= async (injectedValue,cPage)=>{
 //console.log(injectedValue.value.list[0])
@@ -14,9 +15,9 @@ export const getApplicantPaginApi= async (injectedValue,cPage)=>{
     if(bodyData.keyword.indexOf("탈락")!=-1){
         bodyData.keyword="탈락";
     }
-   // console.log(pageSetting.value)  
-     //console.log(bodyData)
-    let res = await axios.post("/prx/api/manage-hire/applicantList.do", bodyData);
+
+     ///prx/api/manage-hire/applicantList.do
+    let res = await axios.post(Applicant.ApllicantList, bodyData);
     injectedValue.value={
         list:res.data.list,
         count:res.data.count

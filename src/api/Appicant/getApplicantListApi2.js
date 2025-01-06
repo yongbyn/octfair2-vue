@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Applicant } from "../api";
 
 export const getApplicantListApi2= async (postIdx,pageSetting,choiceStatus,injectedValue)=>{
 
@@ -19,7 +20,7 @@ console.log(injectedValue)
   
   
     console.log(bodyData)
-    let res = await axios.post("/prx/api/manage-hire/applicantList.do", bodyData);
+    let res = await axios.post(Applicant.ApllicantList, bodyData);
    console.log(res.data.list);
   
     // applicant.value = [...res.data.ApplicantList];

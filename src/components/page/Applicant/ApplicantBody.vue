@@ -3,7 +3,13 @@
     v-if="injectedValue != null && injectedValue.count != 0"
     class="applicantFullInfoWrapper"
   >
-    <!-- <h6>{{ injectedValue.list }}</h6> -->
+   <div
+   class="headLineInfo"
+   >
+   <span>해당 공고건: {{ injectedValue.list[0].title }}의</span>
+   <span>지원자 상태: {{ injectedValue.list[0].status }}의</span>
+   <span>총수: {{ injectedValue.count }}</span>
+   </div>
     <div v-for="infoList in injectedValue.list" class="applicantFullInfoArea">
       <!-- 지원자의 상태: {{ infoList.status }} 지원가 지원한 포스팅아이디:
       {{ infoList.postIdx }}
@@ -29,7 +35,7 @@
  -->
       <div class="sameInfocss">
         <div class="choiceArea">
-          <button class="resumebtn">지원자이력서보기</button>
+          <button class="resumebtn" @click="resumeFnc(infoList.resIdx)">지원자이력서보기</button>
 
           <div v-if="infoList.status.indexOf('중') != -1" class="confrimInfo">
             <button
@@ -107,6 +113,7 @@
 </template>
 <script setup>
 import { ref, inject } from "vue";
+import { useRouter } from "vue-router";
 import { useApllicantStatusUpdateMutation } from "../../../hook/Applicant/useApllicantStatusUpdateMutation";
 import { useApplicantPaginQuery} from "../../../hook/Applicant/useApplicantPaginQuery" 
 import Pagination from '../../common/Pagination.vue'
@@ -121,12 +128,12 @@ const choiceLoginId = ref(null);
 const cPage = ref(1);
 
 const { data: paginList, refetch } = useApplicantPaginQuery(injectedValue, cPage);
-
+const router=useRouter()
 
 
 
 const clickFnc = () => {
-  // console.log(`현재페이지 ${cPage.value}`)
+   console.log(`현재페이지 ${cPage.value}`)
   refetch();
 };
 
@@ -152,6 +159,10 @@ const statusChangeFnc = (loginId, postIdx, status, message) => {
     }
   }
 
+
+
+
+
   keyword.value = status;
   choicePostIdx.value = postIdx;
   choiceLoginId.value = loginId;
@@ -163,7 +174,17 @@ const { mutate: statusUpdat } = useApllicantStatusUpdateMutation(
   choicePostIdx,
   choiceLoginId
 );
+const resumeFnc=(resIdx)=>{
+    // path:'applicantresume.do?:resIdx',
+    //         name:"volunteerresume",
+    //         component: ApplicantResume,
 
+    router.push({
+        name:"volunteerresume",
+        params:{resIdx}
+    })
+
+}
 
 
 const handleMouseOver = (e) => {
@@ -201,12 +222,14 @@ saddfrogImage.style.cssText=""
 .applicantFullInfoWrapper {
   display: flex;
   flex-direction: column;
+  padding-left: 10px;
+  
 }
 
 .applicantFullInfoArea {
   display: flex;
   width: 100%;
-  gap: 5px;
+  gap: 20px;
 }
 
 .sameInfocss {
@@ -302,8 +325,8 @@ button {
   opacity: 0; /* 완전히 투명하게 설정 */
   visibility: hidden; /* 요소를 숨김 */
   transition: opacity 1s ease, visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
-  /* 화면에 꽉 차게 하는 코드(여기서는 너비를 꽉 채우는 용도) */
-  /* background: rgba(0, 0, 0, 0.35); */
+  
+
 }
 
 /* 이미지 크기 및 위치 설정 */
@@ -377,7 +400,20 @@ text-align: center;
     border-left-color: transparent;
   }
 }
+.headLineInfo{
+    background-color: #f2f2f2;
+    font-weight: bold;
+    padding: 10px;
+    border: 0px solid;
+    border-top: 0.5px solid #ddd;
+    border-bottom: 0.5px solid #ddd;
+    text-align: left;
+}
 
+.headLineInfo span{
+    display: inline-block;
+    padding: 10px 10px;
+}
 
 
 </style>

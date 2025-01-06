@@ -1,10 +1,11 @@
 import axios from "axios";
+import { Applicant } from "../api";
 
 export const getMDetailApi= async (postIdx,MDetail)=>{
     // {loginId:"biz01"}
     //comp11 
     //biz01
-    let res = await axios.post("/prx/api/manage-hire/applicant.do");
+    let res = await axios.post(Applicant.ApplicantManagerGetId);
  
     MDetail.value = [...res.data.MDetail];
 

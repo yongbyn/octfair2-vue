@@ -22,11 +22,9 @@ import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import MyPage from "../views/MyPage/MyPage.vue";
 import Withdraw from "../views/MyPage/Withdraw.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
-import Applicant from "../views/Applicant/Applicant.vue";
 import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue"
-
 import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
-import Withdraw from "../views/Withdraw/Withdraw.vue";
+
 const routes = [
   {
     path: "/",
@@ -144,13 +142,6 @@ const routes = [
             name: "hire-post-create",
             component: HirePostEditor,
           },
-
-
-        //   {
-        //     path:'applicant.do',
-        //     name:"volunteer",
-        //     component: Applicant,
-        //   }
 
           { path:'applicant.do',
             name:"volunteer",

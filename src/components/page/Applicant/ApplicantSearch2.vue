@@ -1,6 +1,6 @@
 <template>
      <h2>지원자 관리</h2>
-  <h3 @click="howToUseFnc">사용설명클릭</h3>
+
   <template v-if="isSuccess">
     <div class="searchWrapper">
     <div class="searchBox">
@@ -21,6 +21,7 @@
       </div>
     </div>
     </div>
+
   </template>
 </template>
 
@@ -67,31 +68,9 @@ watch(postIdx, () => {
   }
 });
 
-const howToUseFnc=()=>{
-  const body = document.body;
-  const postingArea = document.querySelectorAll('.searchArea');
-  console.log(postingArea)
-  body.classList.toggle('grayscale');
-  body.classList.toggle('normal');
-  postingArea.forEach(button => {
-  //  button.classList.toggle('white-text');
-    button.classList.toggle('show-hint'); // 버튼에 설명 보이기 또는 숨기기
-  });
-
-}
-
 </script>
 <style>
 
-body.grayscale {
-  background-color: #333;
-  filter: #333;
-  
-}
-
-body.normal {
-  /* background-color: #fff; */
-}
 
 
 .searchWrapper,
@@ -100,13 +79,14 @@ body.normal {
   
 }
 .searchWrapper {
-  justify-content: start;
+  justify-content: end;
   padding: 20px 20px;
 }
 
 .searchBox{
   width: 50%;
   justify-content: space-around;
+  gap: 20px;
 }
 
 .searchArea{
@@ -114,32 +94,13 @@ body.normal {
   justify-content:space-around;
   font-size: 20px;
   font-weight: 600;
+  align-items: center;
 }
 .postingArea,
 .statusArea {
   display: inline-block;
   font-size: 20px;
-  font-weight: 600;
- 
+  font-weight: 600; 
 }
 
-.searchArea::after {
-  content: "attr(data-hint)";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: white;
-  background-color: #333;
-  padding: 5px 10000000000000000px;
-  border-radius: 5px;
-  display: none; /* 초기에는 숨김 */
-  white-space: nowrap;
-  margin-top: 5px;
-}
-
-.searchArea.show-hint::after {
-  display: block;
-}
 </style>
