@@ -3,7 +3,11 @@
     <li class="menu-bar">
       <div class="align-center">
         <button @click.stop="isBtnClicked = !isBtnClicked"></button>
-        <img :src="happyjobLogo" @click="$router.push('/vue')" />
+        <img
+          class="happyjob-logo"
+          :src="happyjobLogo"
+          @click="$router.push('/vue')"
+        />
       </div>
       <LeftManuBar
         v-if="!isMobile || isBtnClicked"
@@ -78,6 +82,10 @@ onUnmounted(() => {
 
 .menu-bar {
   float: left;
+}
+
+.happyjob-logo {
+  cursor: pointer;
 }
 
 .content {
