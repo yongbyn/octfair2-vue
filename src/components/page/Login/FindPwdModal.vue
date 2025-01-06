@@ -56,7 +56,7 @@
               type="password"
               id="pwd"
               v-model="findPwdUserInfo.pw"
-              placeholder="숫자, 영문, 특수문자 조합(4~20자)"
+              placeholder="비밀번호는 4~40자 이내로 입력하세요."
             />
           </td>
         </tr>
@@ -106,7 +106,7 @@ const findPwdVaild = () => {
   if (!findPwdUserInfo.value.id || !findPwdUserInfo.value.email) {
     toast.error("아이디와 이메일을 모두 입력해주세요.");
     return;
-  } else{
+  } else {
     handlerFindPwd();
   }
 };
@@ -122,7 +122,7 @@ const pwdValid = () => {
     toast.error("비밀번호를 모두 입력해주세요.");
     return;
   } else if (!regExPwd.test(findPwdUserInfo.value.pw)) {
-    toast.error("비밀번호는 영문, 숫자 4~40자리여야 합니다.");
+    toast.error("비밀번호는 4~40자리여야 합니다.");
     return;
   } else if (findPwdUserInfo.value.pw !== findPwdUserInfo.value.pwCk) {
     toast.error("비밀번호가 일치하지 않습니다.");
