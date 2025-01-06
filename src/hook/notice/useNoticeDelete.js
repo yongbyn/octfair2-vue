@@ -1,8 +1,8 @@
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useRouter } from "vue-router";
 import { noticeDetailDeleteApi } from "../../api/notice/noticeDetailDeleteApi";
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
 
-export const useNoticeDetailDeleteMutation = (params) => {
+export const useNoticeDelete = (params) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 

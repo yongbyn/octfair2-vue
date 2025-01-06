@@ -1,22 +1,22 @@
 import axios from "axios";
-import { Notice } from "../api";
+import { Faq } from "../api";
 
-export const noticeDetailInsertApi = async (detailValue, loginId) => {
+export const faqDetailInsertApi = async (detailValue, faq_type, loginId) => {
   const textData = {
     title: detailValue.title,
     context: detailValue.content,
+    author: detailValue.author,
     loginId: loginId,
+    faq_type: faq_type.value,
   };
 
-  const fileData = ref("");
   const formData = new FormData();
-  if (fileData.value) formData.append("file", fileData.value);
+
   formData.append(
     "text",
     new Blob([JSON.stringify(textData)], {
       type: "application/json",
     })
   );
-
-  await axios.post(Notice.InsertNoticeDetail, formData);
+  await axios.post(Faq.InsertFaqDetail, formData);
 };

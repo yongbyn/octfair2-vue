@@ -1,28 +1,32 @@
 <template>
   <div class="search-box">
-    제목<input v-model="searchKey.searchTitle" />
+    제목<input v-model.lazy="searchKey.searchTitle" />
     <input type="date" v-model="searchKey.searchStartDate" />
     <input type="date" v-model="searchKey.searchEndDate" />
-    <button @click="handlerSearch">검색</button>
-    <button
-      v-if="userType === 'M'"
-      @click="() => $router.push('notice.do/insert')"
-    >
-      신규등록
-    </button>
+    <button @click="FAQSearch">검색</button>
+    <button v-if="userType === 'M'" @click="FAQInsert()">신규등록</button>
   </div>
 </template>
+
 <script setup>
-import { computed } from "vue";
-import { useUserInfo } from "../../../../stores/userInfo";
+import { useQueryClient } from "@tanstack/vue-query";
+import { useRouter } from "vue-router";
+import { useUserInfo } from "../../../stores/userInfo";
 
 const injectedValue = inject("providedValue");
 const searchKey = ref({});
+const router = useRouter();
+const queryClient = useQueryClient();
 const userInfo = useUserInfo();
 const userType = computed(() => userInfo.user.userType);
 
-const handlerSearch = () => {
+const FAQSearch = () => {
   injectedValue.value = { ...searchKey.value };
+};
+
+const FAQInsert = () => {
+  queryClient.removeQueries({ queryKey: ["FAQDetailModal"] });
+  router.push("faqSavePart.do");
 };
 </script>
 
