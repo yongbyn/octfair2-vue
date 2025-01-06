@@ -3,17 +3,25 @@
     <PostApplyModal
       v-if="modalState.modalState"
       @modalClose="refetch()"
-      :postIdx="scrapList.postIdx"
+      :postIdx="detailValue.postIdx"
+      :title="detailValue.postTitle"
+      :bizName="detailValue.postBizName"
     />
-    현재 페이지: {{ cPage }} 총 개수: {{ postList?.approvalPostCnt }}
+    <b-button variant="light">
+      총
+      <b-badge pill variant="primary">
+        {{ scrapList?.scrapCnt }}
+      </b-badge>
+      개의 글
+    </b-button>
     <table>
       <colgroup>
+        <col width="5%" />
+        <col width="15%" />
+        <col width="25%" />
         <col width="10%" />
-        <col width="30%" />
+        <col width="10%" />
         <col width="20%" />
-        <col width="10%" />
-        <col width="15%" />
-        <col width="15%" />
         <col width="15%" />
       </colgroup>
       <thead>
@@ -32,16 +40,29 @@
         <template v-else-if="isSuccess">
           <template v-if="scrapList.scrapCnt > 0">
             <tr v-for="scrap in scrapList.scrapList" :key="scrap.scrapIdx">
-              <td>체크박스</td>
+              <td>
+                <b-form-radio
+                  v-model="selectedScrapIdx"
+                  name="btn-radios"
+                  :value="scrap.postIdx"
+                ></b-form-radio>
+              </td>
               <td>{{ scrap.postBizName }}</td>
               <td @click="handlerDetail(scrap.postIdx)">
                 {{ scrap.postTitle }}
               </td>
               <td>{{ scrap.postStatus }}</td>
               <td>{{ scrap.postWorkLocation }}</td>
-              <td>{{ scrap.postExpRequired }}</td>
+              <td>{{ scrap.postEndDate }}</td>
               <td>
-                <b-button @click="handlerApply(scrap.postIdx)"
+                <b-button
+                  @click="
+                    handlerApply(
+                      scrap.postIdx,
+                      scrap.postBizName,
+                      scrap.postTitle
+                    )
+                  "
                   >입사지원</b-button
                 >
               </td>
@@ -73,8 +94,10 @@ import { useModalStore } from "../../../../stores/modalState";
 import Pagination from "../../../common/Pagination.vue";
 
 const router = useRouter();
+const detailValue = ref({});
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
+const selectedScrapIdx = inject("selectedScrapIdx");
 const modalState = useModalStore();
 
 const {
@@ -85,6 +108,8 @@ const {
   refetch,
 } = useScrapListSearchQuery(injectedValue, cPage);
 
+provide("refetch", refetch);
+
 const handlerDetail = (idx) => {
   router.push({
     name: "postDetail",
@@ -92,9 +117,22 @@ const handlerDetail = (idx) => {
   });
 };
 
-const handlerApply = (idx) => {
+const handlerApply = (idx, bizName, title) => {
+  detailValue.value.postIdx = idx;
+  detailValue.value.postBizName = bizName;
+  detailValue.value.postTitle = title;
+
   modalState.setModalState();
 };
+watchEffect(() => {
+  if (isSuccess.value && scrapList.value) {
+    detailValue.value = toRaw(scrapList.value.scrapList);
+  }
+});
+
+onMounted(() => {
+  refetch();
+});
 </script>
 
 <style lang="scss" scoped>
