@@ -1,37 +1,34 @@
 <template>
   <div>
-    <div v-if="isLoading">기다려주세요</div>
-    <div v-else>
-      <ContextBox>공지사항</ContextBox>
-      <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
-      <label>
-        내용 :
-        <input type="text" v-model="detailValue.content" />
-      </label>
-      파일 :<input
-        type="file"
-        style="display: none"
-        id="fileInput"
-        @change="handlerFile"
-      />
-      <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-      <div>
-        <div v-if="imageUrl">
-          <label>미리보기</label>
-          <img :src="imageUrl" />
-        </div>
-        <div v-else>
-          <label>파일명</label>
-        </div>
-      </div>
-      <div class="button-box">
-        <button @click="actionHandler">
-          {{ actionLabel }}
-        </button>
-        <button v-if="params.idx" @click="handleDelete">삭제</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
-      </div>
+    <ContextBox>공지사항</ContextBox>
+  </div>
+  <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
+  <label>
+    내용 :
+    <input type="text" v-model="detailValue.content" />
+  </label>
+  파일 :<input
+    type="file"
+    style="display: none"
+    id="fileInput"
+    @change="handlerFile"
+  />
+  <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+  <div>
+    <div v-if="imageUrl">
+      <label>미리보기</label>
+      <img :src="imageUrl" />
     </div>
+    <div v-else>
+      <label>파일명</label>
+    </div>
+  </div>
+  <div class="button-box">
+    <button @click="actionHandler">
+      {{ actionLabel }}
+    </button>
+    <button v-if="params.idx" @click="handleDelete">삭제</button>
+    <button @click="$router.go(-1)">뒤로가기</button>
   </div>
 </template>
 
@@ -73,6 +70,8 @@ watchEffect(() => {
   }
 });
 
+const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
+
 const validateInputs = () => {
   if (!detailValue.value.title) {
     alert("제목을 입력해주세요.");
@@ -94,10 +93,18 @@ const { mutate: handlerInsertBtn } = useNoticeInsert(
   detailValue,
   userInfo.user.loginId
 );
-const actionLabel = computed(() => (params.idx ? "수정" : "등록"));
 const actionHandler = () => {
   if (!validateInputs()) return;
-  params.idx ? handlerUpdateBtn() : handlerInsertBtn();
+
+  if (params.idx) {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
+    }
+  } else {
+    if (confirm("등록하시겠습니까?")) {
+      handlerInsertBtn();
+    }
+  }
 };
 
 const handleDelete = () => {

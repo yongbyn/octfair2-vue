@@ -1,11 +1,9 @@
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
   NoticeDetail: "/prx/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
-  //InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
-  FileNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
-  FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
+  InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
+  UpdateNoticeDetail: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
 };
 
@@ -50,10 +48,36 @@ export const Approval = {
   SearchApprovalList: "/prx/api/manage-post/readPostList.do",
 };
 
+export const Login = {
+  SignUpIdCheck: "/prx/api/check_loginId.do",
+  SignUp: "/prx/api/register.do",
+  FindId: "/prx/api/selectFindInfoId.do",
+  FindPwd: "/prx/api/selectFindInfoPw.do",
+  FindPwdUpdate: "/prx/api/updateFindPw.do",
+};
+
+export const MyPage = {
+  GetUserInfo: "/prx/api/mypage/userDetail.do",
+  UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
+  UpdatePwd: "/prx/api/mypage/updatePw.do",
+};
+
+export const Applicant = {
+  SearchApplicantList: "/prx/api/manage-user/applicantListBody.do",
+  SearchApplicantDetail: "/prx/api/manage-user/applicantManageDetail.do",
+  ResetApplicantPw: "/prx/api/manage-user/applicantPwReset.do",
+  UpdateApplicantDetail: "/prx/api/manage-user/applicantInfoUpdate.do",
+};
+
 export const Faq = {
   SearchFaqList: "/prx/api/board/faqListJson.do",
   SearchFaqDetail: "/prx/api/board/faqDetailBody.do",
   UpdateFaqDetail: "/prx/api/board/faqUpdatePart.do",
   InsertFaqDetail: "/prx/api/board/faqSavePart.do",
   DeleteFaqDetail: "/prx/api/board/faqDeleteBody.do",
+};
+export const Biz = {
+  SearchBizList: "/prx/api/manage-user/bizList.do",
+  SearchBizDetail: "/prx/api/manage-user/bizManageDetail.do",
+  UpdateBizDetail: "/prx/api/manage-user/bizInfoUpdate.do",
 };

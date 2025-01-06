@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ width: props.width + 'px' }">
+  <div :style="{ width: props.width }">
     <img
       v-if="imageUrl === 'loading'"
       src="../../../assets/loading_circle.gif"
