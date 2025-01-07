@@ -50,7 +50,7 @@
             <tr v-for="scrap in scrapList.scrapList" :key="scrap.scrapIdx">
               <td>
                 <b-form-checkbox
-                  :checked="selectedScrapIdx.includes(scrap.scrapIdx)"
+                  :checked="selectedScrapIdxList.includes(scrap.scrapIdx)"
                   @change="toggleSingle(scrap.scrapIdx)"
                   style="resize: none"
                 ></b-form-checkbox>
@@ -63,7 +63,7 @@
               <td>{{ scrap.postWorkLocation }}</td>
               <td>{{ scrap.postEndDate }}</td>
               <td>
-                <b-button v-if="scrap.isApplyed" disabled> 지원완료 </b-button>
+                <b-button v-if="scrap.isApplyed" disabled>지원완료</b-button>
                 <b-button
                   v-if="!scrap.isApplyed"
                   variant="primary"
@@ -99,18 +99,17 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watchEffect } from "vue";
-import { useRouter } from "vue-router";
+import { ref, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useScrapListSearchQuery } from "../../../../hook/jobs/useScrapListSearchQuery";
 import { useModalStore } from "../../../../stores/modalState";
 import Pagination from "../../../common/Pagination.vue";
-
 const router = useRouter();
+const route = useRoute();
 const modalState = useModalStore();
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
-
-const selectedScrapIdx = inject("selectedScrapIdx");
+const selectedScrapIdxList = inject("selectedScrapIdxList");
 const allSelected = ref(false);
 const indeterminate = ref(false);
 
@@ -130,28 +129,28 @@ const {
 
 const toggleAll = () => {
   if (allSelected.value) {
-    selectedScrapIdx.value = scrapList.value.scrapList.map(
+    selectedScrapIdxList.value = scrapList.value.scrapList.map(
       (scrap) => scrap.scrapIdx
     );
   } else {
-    selectedScrapIdx.value = [];
+    selectedScrapIdxList.value = [];
   }
-  updateIndeterminate();
+  updatePart();
 };
 
 const toggleSingle = (scrapIdx) => {
-  const index = selectedScrapIdx.value.indexOf(scrapIdx);
+  const index = selectedScrapIdxList.value.indexOf(scrapIdx);
   if (index === -1) {
-    selectedScrapIdx.value.push(scrapIdx);
+    selectedScrapIdxList.value.push(scrapIdx);
   } else {
-    selectedScrapIdx.value.splice(index, 1);
+    selectedScrapIdxList.value.splice(index, 1);
   }
-  updateIndeterminate();
+  updatePart();
 };
 
-const updateIndeterminate = () => {
+const updatePart = () => {
   const total = scrapList.value?.scrapList.map((scrap) => scrap.scrapIdx) || [];
-  const checked = selectedScrapIdx.value.length;
+  const checked = selectedScrapIdxList.value.length;
 
   allSelected.value = checked > 0 && checked === total.length;
   indeterminate.value = checked > 0 && checked < total.length;
@@ -170,24 +169,28 @@ const handlerApply = (idx, bizName, title) => {
   modalState.setModalState();
 };
 
-// 데이터 로딩 후 동기화 처리
 watchEffect(() => {
   if (isSuccess.value && scrapList.value) {
     const total = scrapList.value.scrapList.map((scrap) => scrap.scrapIdx);
 
     if (allSelected.value) {
-      selectedScrapIdx.value = total;
+      selectedScrapIdxList.value = total;
     } else if (!indeterminate.value) {
-      selectedScrapIdx.value = [];
+      selectedScrapIdxList.value = [];
     }
 
-    updateIndeterminate();
+    updatePart();
   }
 });
 
-onMounted(() => {
-  refetch();
-});
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "scrap") {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

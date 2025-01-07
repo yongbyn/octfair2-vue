@@ -308,7 +308,7 @@ const handlerUpdateStatus = async (postIdx, status) => {
     .post("/prx/api/manage-post/statusUpdate.do", params)
     .then((res) => {
       alert("처리되었습니다.");
-      refetch();
+      router.push({ name: status === "승인" ? "posts" : "approval-post" });
     });
 };
 

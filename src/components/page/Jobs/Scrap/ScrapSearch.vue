@@ -30,7 +30,7 @@
 import axios from "axios";
 
 const injectedValue = inject("providedValue");
-const selectedScrapIdx = inject("selectedScrapIdx", []);
+const selectedScrapIdxList = inject("selectedScrapIdxList", []);
 const searchKey = ref({});
 
 const handlerSearch = () => {
@@ -38,13 +38,13 @@ const handlerSearch = () => {
 };
 
 const handlerDelete = () => {
-  if (selectedScrapIdx.value.length === 0) {
+  if (selectedScrapIdxList.value.length === 0) {
     alert("삭제할 항목을 선택하세요.");
     return;
   }
 
   const params = {
-    scrapIdxList: selectedScrapIdx.value,
+    scrapIdxList: selectedScrapIdxList.value,
     sortDelete: "delete",
   };
 
