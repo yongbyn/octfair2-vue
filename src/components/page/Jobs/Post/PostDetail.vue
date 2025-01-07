@@ -366,7 +366,9 @@ watch(
   () => route.params.idx,
   (newId, oldId) => {
     params.idx = newId;
-    refetch();
+    if (params.idx && route.name == "postDetail") {
+      refetch();
+    }
   }
 );
 </script>
