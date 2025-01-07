@@ -11,21 +11,11 @@ export const useCareerNewCreateMutation = () => {
       if (isValidCareer(career)) return careerNewCreateApi(resIdx, career);
     },
     onSuccess: (response) => {
-      console.log(response);
       if ("SUCCESS".toUpperCase() === response.result.toUpperCase()) {
-        career.value = {
-          ...{
-            startDate: "",
-            company: "",
-            dept: "",
-            endDate: "",
-            position: "",
-            reason: "",
-            crrDesc: "",
-          },
-        };
+        Object.keys(response.career).forEach((key) => {
+          response.career[key] = "";
+        });
       }
-
       queryClient.invalidateQueries({
         queryKey: ["careerList"],
       });

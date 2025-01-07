@@ -1,13 +1,11 @@
 <!-- 일반페이지도 모달로 만들어주는 간편양식 -->
 <template>
   <template v-if="modalStore.modalState">
-    <teleport to="body">
-      <div class="modal_overlay" @mousedown="modalStore.modalState = false">
-        <div class="modal_content" @mousedown.stop="">
-          <slot></slot>
-        </div>
+    <div class="modal_overlay" @mousedown="modalStore.modalState = false">
+      <div class="modal_content" @mousedown.stop="">
+        <slot></slot>
       </div>
-    </teleport>
+    </div>
   </template>
 </template>
 
@@ -25,7 +23,7 @@ const modalStore = useModalStore();
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1000;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;

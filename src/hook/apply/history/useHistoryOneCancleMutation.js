@@ -8,7 +8,7 @@ export const useHistoryOneCancleMutation = () => {
     mutationKey: ["historyCancle"],
     mutationFn: (appId) => {
       const isYes = window.confirm("정말 지원을 취소하시겠습니까?");
-      if (isYes) historyOneCancleApi(appId);
+      if (isYes) return historyOneCancleApi(appId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

@@ -1,9 +1,5 @@
 <template>
-  <CommonButton
-    @click="handlerNewResumeBtn"
-    style="float: inline-end; margin: 13.5px"
-    >새 이력서 작성</CommonButton
-  >
+  <CommonButton @click="handlerNewResumeBtn">새 이력서 작성</CommonButton>
 </template>
 
 <script setup>

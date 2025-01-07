@@ -147,7 +147,7 @@ table {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: center;
-    font-size: clamp(7px, 2vw, 10px);
+    font-size: clamp(9px, 2vw, 15px);
   }
 
   th {
@@ -181,6 +181,6 @@ span {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  font-size: clamp(7px, 2vw, 10px);
+  font-size: clamp(9px, 2vw, 15px);
 }
 </style>
