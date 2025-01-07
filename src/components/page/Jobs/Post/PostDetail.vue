@@ -46,7 +46,7 @@
             <div>
               <div class="detail-item">ㆍ 급여</div>
               <span class="detail-describe">
-                연봉 {{ detailValue.salary }}만원
+                {{ detailValue.salary }}만원
               </span>
 
               <div class="detail-item">ㆍ 근무 지역</div>
@@ -254,6 +254,7 @@ import PostApplyModal from "./PostApplyModal.vue";
 
 const { params } = useRoute();
 const router = useRouter();
+const route = useRoute();
 const detailValue = ref({});
 const bizDetail = ref({});
 const isClicked = ref({});
@@ -288,11 +289,13 @@ const handlerScrap = async (postIdx) => {
 };
 
 const handlerUndoScrap = async (postIdx) => {
-  await axios
-    .post("/prx/api/jobs/deleteScrap.do", { postIdx: postIdx })
-    .then((res) => {
-      refetch();
-    });
+  const params = {
+    postIdx: postIdx,
+    sortDelete: "undo",
+  };
+  await axios.post("/prx/api/jobs/deleteScrap.do", params).then((res) => {
+    refetch();
+  });
 };
 
 const handlerUpdateStatus = async (postIdx, status) => {
@@ -305,7 +308,7 @@ const handlerUpdateStatus = async (postIdx, status) => {
     .post("/prx/api/manage-post/statusUpdate.do", params)
     .then((res) => {
       alert("처리되었습니다.");
-      refetch();
+      router.push({ name: status === "승인" ? "posts" : "approval-post" });
     });
 };
 
@@ -358,6 +361,18 @@ watchEffect(() => {
     isClicked.value = toRaw(postDetail.value.isClicked);
   }
 });
+
+watch(
+  () => route.params.idx,
+  (newId, oldId) => {
+    if (newId && route.name == "postDetail") {
+      if (newId !== oldId) {
+        params.idx = newId;
+        refetch();
+      }
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

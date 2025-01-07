@@ -66,18 +66,21 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import { useApprovalListSearchQuery } from "../../../hook/approval/useApprovalListSearchQuery";
 import router from "../../../router";
 import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
+const route = useRoute();
 
 const {
   data: approvalList,
   isLoading,
   isSuccess,
   isError,
+  refetch,
 } = useApprovalListSearchQuery(injectedValue, cPage);
 
 const handlerDetail = (idx) => {
@@ -86,6 +89,15 @@ const handlerDetail = (idx) => {
     params: { idx },
   });
 };
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "approval-post") {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

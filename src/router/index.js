@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
 import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
@@ -6,6 +7,7 @@ import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
+import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
@@ -53,13 +55,11 @@ const routes = [
             name: "noticeInsert",
             component: NoticeDetail,
           },
-
           {
             path: "qna.do",
             name: "qna",
             component: Qna,
           },
-
           {
             path: "qnaInsert.do/insert",
             name: "qnaInsert",
@@ -75,7 +75,6 @@ const routes = [
             name: "faqDetail",
             component: FAQDetailModal,
           },
-
           {
             path: "faqSavePart.do",
             name: "faqInsert",
@@ -138,6 +137,16 @@ const routes = [
             path: "editor.do",
             name: "hire-post-create",
             component: HirePostEditor,
+          },
+          {
+            path: "applicant.do",
+            name: "volunteer",
+            component: ApplicantViewMain,
+          },
+          {
+            path: "applicantresume.do?:resIdx",
+            name: "volunteerresume",
+            component: ApplicantResume,
           },
           {
             path: "editor.do/:idx",

@@ -68,7 +68,7 @@
                 id="password"
                 type="password"
                 :state="signUpUserInfo.password.state"
-                placeholder="비밀번호는 숫자,영어 4~40자 입력"
+                placeholder="비밀번호는 4~40자 입력"
                 v-model="signUpUserInfo.password.value"
                 @input="pwdValid"
                 ref="password"
@@ -342,6 +342,17 @@ const regExPatterns = {
   name: /^[가-힣]{2,}$/,
   domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
 };
+
+// 포커스용 변수
+const loginId = ref("");
+const password = ref("");
+const passwordCk = ref("");
+const name = ref("");
+const birthday = ref("");
+const phone = ref("");
+const emailId = ref("");
+const emailDomain = ref("");
+const detailAdress = ref("");
 
 // 1. 아이디 중복체크
 const idValid = () => {
@@ -631,8 +642,9 @@ const signUpValid = () => {
 
     // 8.4 이름
   } else if (!signUpUserInfo.value.name.state) {
-    if (signUpUserInfo.value.name.value === null) {
+    if (signUpUserInfo.value.name.state === null) {
       toast.error("이름을 입력해주세요!");
+      name.value.focus();
     } else {
       toast.error("올바른 이름을 입력해주세요!");
     }
@@ -655,32 +667,32 @@ const signUpValid = () => {
     return;
 
     // 8.7 전화번호
-  } else if (!phone.classList.contains("is-valid")) {
-    if (!phone.classList.contains("is-invalid")) {
+  } else if (!phone.value.classList.contains("is-valid")) {
+    if (!phone.value.classList.contains("is-invalid")) {
       toast.error("전화번호를 입력하세요!");
-      phone.classList.add("is-invalid");
+      phone.value.classList.add("is-invalid");
     } else {
       toast.error("올바른 전화번호를 입력하세요!");
     }
-    phone.focus();
+    phone.value.focus();
     return;
 
     // 8.8 이메일
   } else if (
     !signUpUserInfo.value.emailId.value ||
     !signUpUserInfo.value.emailDomain.value ||
-    !emailDomain.classList.contains("is-valid")
+    !emailDomain.value.classList.contains("is-valid")
   ) {
     if (!signUpUserInfo.value.emailId.value) {
       toast.error("이메일을 입력하세요!");
-      emailId.focus();
-      emailId.classList.add("is-invalid");
+      emailId.value.focus();
+      emailId.value.classList.add("is-invalid");
     } else if (!signUpUserInfo.value.emailDomain) {
       toast.error("이메일 도메인을 입력하세요!");
-      emailDomain.focus();
+      emailDomain.value.focus();
     } else {
       toast.error("올바른 이메일 도메인을 입력하세요!");
-      emailDomain.focus();
+      emailDomain.value.focus();
     }
     return;
 

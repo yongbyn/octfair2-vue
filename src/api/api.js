@@ -14,6 +14,10 @@ export const Post = {
   DeletePostDetail: "/prx/api/manage-hire/deleteHirePost.do",
 };
 
+export const Withdraw = {
+  WithdrawConfirm: "/prx/api/mypage/deleteUser.do",
+};
+
 export const Scrap = {
   SearchScrapList: "/prx/api/jobs/readScrapList.do",
   UpdateScrap: "/prx/api/jobs/saveScrap.do",
@@ -69,6 +73,8 @@ export const MyPage = {
   GetUserInfo: "/prx/api/mypage/userDetail.do",
   UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
   UpdatePwd: "/prx/api/mypage/updatePw.do",
+  DeleteUser: "/prx/mypage/deleteUser.do",
+  DeleteUserBcrypt: "/prx/api/mypage/deleteUser.do",
 };
 
 export const Applicant = {
@@ -76,6 +82,13 @@ export const Applicant = {
   SearchApplicantDetail: "/prx/api/manage-user/applicantManageDetail.do",
   ResetApplicantPw: "/prx/api/manage-user/applicantPwReset.do",
   UpdateApplicantDetail: "/prx/api/manage-user/applicantInfoUpdate.do",
+  ApplicantManagerGetId: "/prx/api/manage-hire/applicant.do",
+  ApllicantList: "/prx/api/manage-hire/applicantList.do",
+  ApplicantStatusUpdate: "/prx/api/manage-hire/statusUpdate.do",
+  ApplicantResumeIndependent: "prx/api/apply/resumeDetail",
+  ApplicantcareerListIndependent: "/prx/api/apply/careerList",
+  ApplicantEducationListtIndependent: "/prx/api/apply/educationListt",
+  ApplicantskillListIndependent: "/prx/api/apply/skillList",
 };
 
 export const Faq = {
