@@ -26,10 +26,11 @@
         <div>
           {{ resume.resTitle }}
         </div>
-        <div v-if="resume.fileName">
+        <div>
           <span class="title_above_file">첨부파일: </span>
           <span
             class="file_below_title"
+            v-if="resume.fileName"
             @click.stop="
               handlerDownImageBtn({
                 resIdx: resume.resIdx,
@@ -38,6 +39,7 @@
             "
             >{{ resume.fileName }}</span
           >
+          <span v-else> - </span>
         </div>
       </div>
       <div style="margin-left: 5px; font-size: clamp(8px, 2vw, 11px)">

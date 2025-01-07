@@ -208,7 +208,7 @@ select {
     "startDate company dept dept "
     "endDate position reason reason "
     "crrDesc crrDesc crrDesc crrDesc "
-    "empty empty empty button ";
+    ". . . button ";
   gap: 16px;
 }
 
@@ -220,7 +220,7 @@ select {
       "company dept "
       "position reason "
       "crrDesc crrDesc "
-      "empty button ";
+      ". button ";
   }
 }
 
@@ -252,7 +252,7 @@ select {
   grid-template-areas:
     "admDate eduLevel grdStatus grdStatus "
     "grdDate schoolName major major "
-    "empty empty empty button ";
+    ". . . button ";
   gap: 16px;
 }
 
@@ -263,7 +263,7 @@ select {
       "admDate grdDate "
       "eduLevel grdStatus "
       "schoolName major "
-      "empty button ";
+      ". button ";
   }
 }
 
@@ -293,7 +293,7 @@ select {
   grid-template-columns: 4fr 6fr 2fr;
   grid-template-areas:
     "skillName skillDetail skillDetail "
-    "empty empty button ";
+    ". . button ";
   gap: 16px;
 }
 
@@ -320,7 +320,7 @@ select {
   grid-template-areas:
     "acqDate certName certName "
     "grade issuer issuer "
-    "empty empty button ";
+    ". . button ";
   gap: 16px;
 }
 
