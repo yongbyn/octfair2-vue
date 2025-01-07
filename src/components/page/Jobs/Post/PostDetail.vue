@@ -365,9 +365,11 @@ watchEffect(() => {
 watch(
   () => route.params.idx,
   (newId, oldId) => {
-    params.idx = newId;
-    if (params.idx && route.name == "postDetail") {
-      refetch();
+    if (newId && route.name == "postDetail") {
+      if (newId !== oldId) {
+        params.idx = newId;
+        refetch();
+      }
     }
   }
 );
