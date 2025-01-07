@@ -76,5 +76,6 @@ declare module 'vue' {
     UpdatePwdModal: typeof import('./src/components/page/MyPage/UpdatePwdModal.vue')['default']
     WithdrawDetail: typeof import('./src/components/page/WithdrawDetail/WithdrawDetail.vue')['default']
     WithdrawMain: typeof import('./src/components/page/MyPage/WithdrawMain.vue')['default']
+    WithdrawModal: typeof import('./src/components/page/MyPage/WithdrawModal.vue')['default']
   }
 }
