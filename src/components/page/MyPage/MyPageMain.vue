@@ -45,7 +45,7 @@
                 v-model="updateUserInfo.name.value"
                 :state="updateUserInfo.name.state"
                 placeholder="이름을 입력하세요.(한글2자 이상)"
-                @input="nameValid"
+                @blur="nameValid"
               ></b-form-input>
             </b-col>
             <div v-show="updateUserInfo.name.state === false" class="name">
@@ -208,6 +208,9 @@
       >
       <b-button variant="primary" @click="updateValid()">정보수정</b-button>
     </div>
+    <div class="text-danger mt-2" v-if="originUserInfo !== updateUserInfo">
+      * 정보가 수정되었습니다. 정보수정 버튼을 눌러서 저장하세요!
+    </div>
   </div>
 
   <!-- 모달 -->
@@ -262,6 +265,11 @@ const updateUserInfo = ref({
   address: "",
   detailAddress: "",
 });
+
+// 수정을 감지
+const originUserInfo = updateUserInfo;
+console.log("originUserInfo : ", originUserInfo);
+console.log("updateUserInfo : ", updateUserInfo);
 
 // 정규식
 const regExPatterns = {

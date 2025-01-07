@@ -22,7 +22,6 @@ declare module 'vue' {
     AsIsQnaSerchWrite: typeof import('./src/components/page/Qna/AsIsQnaSerchWrite.vue')['default']
     BizMain: typeof import('./src/components/page/ManageUser/Biz/BizMain.vue')['default']
     BizModal: typeof import('./src/components/page/ManageUser/Biz/BizModal.vue')['default']
-    BizRegister: typeof import('./src/components/page/MyPage/BizRegister.vue')['default']
     BizSearch: typeof import('./src/components/page/ManageUser/Biz/BizSearch.vue')['default']
     CareerList: typeof import('./src/components/page/Apply/Resume/InnerPage/CareerList.vue')['default']
     CertList: typeof import('./src/components/page/Apply/Resume/InnerPage/CertList.vue')['default']

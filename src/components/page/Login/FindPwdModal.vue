@@ -86,6 +86,7 @@
 </template>
 
 <script setup>
+import { handlerEnterKey } from "@/common/handler/handlerEnterKey";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref } from "vue";
@@ -138,6 +139,11 @@ const { mutate: handlerFindPwdUpdate } = useFindPwdUpdate(findPwdUserInfo);
 const findUserPwdModalCloseBtn = () => {
   modalStore.setModalState();
 };
+
+// enter 키로 버튼 작동
+handlerEnterKey(() => {
+  findPwdCheck.value ? pwdValid() : findPwdVaild();
+});
 </script>
 
 <style scoped>

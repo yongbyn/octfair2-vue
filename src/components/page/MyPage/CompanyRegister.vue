@@ -2,34 +2,65 @@
   <div class="align-items-center companyRegisterContent">
     <table class="table-striped table-hover text-center align-middle">
       <tr>
-        <th>사업자명<span class="text-danger">*</span></th>
+        <th>사업자명 <span class="text-danger">*</span></th>
         <td>
-          <b-form-input class="form-control" :state="false" />
+          <b-form-input
+            class="form-control"
+            ref="bizName"
+            v-model="companyRegister.bizName.value"
+            :state="companyRegister.bizName.state"
+            placeholder="사업자명을 입력하세요."
+          />
         </td>
-        <th>사업자 대표<span class="text-danger">*</span></th>
+        <th>사업자 대표 <span class="text-danger">*</span></th>
         <td>
-          <b-form-input class="form-control" :state="false" />
+          <b-form-input
+            class="form-control"
+            ref="bizCeoName"
+            v-model="companyRegister.bizCeoName.value"
+            :state="companyRegister.bizCeoName.state"
+            placeholder="사업자 대표명 입력하세요."
+          />
         </td>
       </tr>
 
       <tr>
-        <th>연락처<span class="text-danger">*</span></th>
+        <th>연락처 <span class="text-danger">*</span></th>
         <td>
-          <b-form-input class="form-control" :state="false" />
+          <input
+            class="form-control"
+            ref="bizContact"
+            v-model="companyRegister.bizContact.value"
+            :state="companyRegister.bizContact.state"
+            placeholder="연락처를 입력하세요.(숫자만 입력)"
+          />
         </td>
-        <th>사업자주소<span class="text-danger">*</span></th>
+        <th>사업자 주소 <span class="text-danger">*</span></th>
         <td>
-          <b-form-input class="form-control" :state="false" />
+          <div class="d-flex">
+            <b-form-input
+              class="form-control"
+              ref="bizAddr"
+              v-model="companyRegister.bizAddr.value"
+              :state="companyRegister.bizAddr.state"
+              placeholder="사업자 주소를 입력하세요."
+            />
+            <b-button variant="warning" class="ms-2" @click="handlerKakaoPost"
+              >주소 검색</b-button
+            >
+          </div>
         </td>
       </tr>
 
       <tr>
-        <th>사원수<span class="text-danger">*</span></th>
+        <th>사원수 <span class="text-danger">*</span></th>
         <td>
           <b-form-select
-            class="mb-3"
-            v-model="companyRegister.empCount"
-            :state="companyRegister.empCount ? true : false"
+            class="input_gray mb-3"
+            ref="bizEmpCount"
+            v-model="companyRegister.bizEmpCount.value"
+            :state="companyRegister.bizEmpCount.state"
+            @input="bizEmpCountValid"
           >
             <b-form-select-option value="" hidden
               >선택하세요</b-form-select-option
@@ -51,23 +82,35 @@
             >
           </b-form-select>
         </td>
-        <th>홈페이지 주소<span class="text-danger">*</span></th>
+        <th>홈페이지 주소 <span class="text-danger">*</span></th>
         <td>
-          <b-form-input class="form-control" :state="false" />
+          <b-form-input
+            class="form-control"
+            ref="bizWebUrl"
+            v-model="companyRegister.bizWebUrl.value"
+            :state="companyRegister.bizWebUrl.state"
+            placeholder="홈페이지 주소를 입력하세요."
+          />
         </td>
       </tr>
 
       <tr>
-        <th>설립일<span class="text-danger">*</span></th>
+        <th>설립일 <span class="text-danger">*</span></th>
         <td>
-          <b-form-input type="date" class="form-control" :state="false" />
+          <b-form-input
+            type="date"
+            class="form-control"
+            ref="bizFoundDate"
+            v-model="companyRegister.bizFoundDate.value"
+            :state="companyRegister.bizFoundDate.state"
+          />
         </td>
-        <th>매출액<span class="text-danger">*</span></th>
+        <th>매출액 <span class="text-danger">*</span></th>
         <td>
           <b-form-select
             class="mb-3"
-            v-model="companyRegister.revenue"
-            :state="companyRegister.revenue ? true : false"
+            ref="bizRevenue"
+            v-model="companyRegister.bizRevenue.value"
           >
             <b-form-select-option hidden value=""
               >선택하세요</b-form-select-option
@@ -89,25 +132,25 @@
       </tr>
 
       <tr>
-        <th>기업소개<span class="text-danger">*</span></th>
+        <th>기업소개 <span class="text-danger">*</span></th>
         <td colspan="3">
           <b-form-textarea
             class="form-textarea"
-            v-model="companyRegister.comapanyIntro"
+            v-model="companyRegister.companyIntro"
+            :state="null"
             placeholder="2000자 이내로 입력하세요."
-            rows="10"
-            max-rows="10"
+            maxlength="2000"
           ></b-form-textarea>
         </td>
       </tr>
 
       <tr>
-        <th>기업로고<span class="text-danger">*</span></th>
+        <th>기업로고 <span class="text-danger">*</span></th>
         <td colspan="3">
           <input
             type="file"
             id="fileInput"
-            class="form-control is-invalid"
+            class="form-control"
             @change="updateFile"
           />
           <div class="text-start">
@@ -127,30 +170,93 @@
         </td>
       </tr>
     </table>
-    <div class="d-flex align-items-center">
-      <b-button variant="outline-danger" @click="router.go(-1)"
+    <div class="d-flex justify-content-center align-items-center mt-4">
+      <b-button variant="outline-danger" @click="router.go(-1)" class="me-3"
         >뒤로가기</b-button
       >
-      <b-button variant="info">등록하기</b-button>
+      <b-button variant="primary">등록하기</b-button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const companyRegister = ref({
-  foundDate: "",
-  empCount: "",
-  revenue: "",
-  comapanyIntro: "",
-  file: "",
+  bizName: {
+    value: "",
+    state: null,
+  },
+  bizAddr: {
+    value: "",
+    state: null,
+  },
+  bizContact: {
+    value: "",
+    state: null,
+  },
+  bizWebUrl: {
+    value: "",
+    state: null,
+  },
+  bizCeoName: {
+    value: "",
+    state: null,
+  },
+  bizFoundDate: {
+    value: "",
+    state: null,
+  },
+  bizEmpCount: {
+    value: "",
+    state: null,
+  },
+  bizRevenue: {
+    value: "",
+    state: null,
+  },
+  bizIntro: "",
+  loginId: "",
+  userIdx: "",
   logo: "",
+  fileInfo: {
+    fileName: "", // 이름
+    fileLoc: "", // 일반 경로
+    vrfileLoc: "", // 가상 경로
+    fileSize: "", // 크기
+    fileExtension: "", // 확장자
+  },
 });
+
+// 포커스용 변수
+const bizName = ref("");
+const bizAddr = ref("");
+const bizContact = ref("");
+const bizWebUrl = ref("");
+const bizCeoName = ref("");
+const bizFoundDate = ref("");
+const bizEmpCount = ref("");
+const bizRevenue = ref("");
 
 const fileName = ref("");
 const logoPreview = ref("");
+
+// 5. 사원수 확인
+const bizEmpCountValid = () => {
+  if (companyRegister.value.bizEmpCount.value) {
+    companyRegister.value.bizEmpCount.state = true;
+  }
+};
+
+const handlerKakaoPost = () => {
+  kakaoPostcode((data) => {
+    companyRegister.value.bizAddr.value = data.address;
+  });
+};
 
 const updateFile = (event) => {
   const file = event.target.files[0];
@@ -169,14 +275,8 @@ const updateFile = (event) => {
       fileName.value = "";
       return;
     }
-
     fileName.value = file.name;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      logoPreview.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    logoPreview.value = URL.createObjectURL(file);
   }
 };
 </script>
@@ -208,9 +308,12 @@ textarea {
 }
 
 .form-textarea {
-  height: 100px;
+  height: 150px;
 }
 .text-danger {
   background-color: transparent;
+}
+.input_gray {
+  border: 1px solid #d3d3d3;
 }
 </style>
