@@ -254,6 +254,7 @@ import PostApplyModal from "./PostApplyModal.vue";
 
 const { params } = useRoute();
 const router = useRouter();
+const route = useRoute();
 const detailValue = ref({});
 const bizDetail = ref({});
 const isClicked = ref({});
@@ -288,11 +289,13 @@ const handlerScrap = async (postIdx) => {
 };
 
 const handlerUndoScrap = async (postIdx) => {
-  await axios
-    .post("/prx/api/jobs/deleteScrap.do", { postIdx: postIdx })
-    .then((res) => {
-      refetch();
-    });
+  const params = {
+    postIdx: postIdx,
+    sortDelete: "undo",
+  };
+  await axios.post("/prx/api/jobs/deleteScrap.do", params).then((res) => {
+    refetch();
+  });
 };
 
 const handlerUpdateStatus = async (postIdx, status) => {
@@ -358,6 +361,14 @@ watchEffect(() => {
     isClicked.value = toRaw(postDetail.value.isClicked);
   }
 });
+
+watch(
+  () => route.params.idx,
+  (newId, oldId) => {
+    params.idx = newId;
+    refetch();
+  }
+);
 </script>
 
 <style lang="scss" scoped>

@@ -1,15 +1,13 @@
 <template>
-    <div
+  <div
     v-if="injectedValue != null && injectedValue.count != 0"
     class="applicantFullInfoWrapper"
   >
-   <div
-   class="headLineInfo"
-   >
-   <span>해당 공고건: {{ injectedValue.list[0].title }}의</span>
-   <span>지원자 상태: {{ injectedValue.list[0].status }}의</span>
-   <span>총수: {{ injectedValue.count }}</span>
-   </div>
+    <div class="headLineInfo">
+      <span>해당 공고건: {{ injectedValue.list[0].title }}의</span>
+      <span>지원자 상태: {{ injectedValue.list[0].status }}의</span>
+      <span>총수: {{ injectedValue.count }}</span>
+    </div>
     <div v-for="infoList in injectedValue.list" class="applicantFullInfoArea">
       <!-- 지원자의 상태: {{ infoList.status }} 지원가 지원한 포스팅아이디:
       {{ infoList.postIdx }}
@@ -26,7 +24,9 @@
         <div class="smaseLineCss">지원자 최종학력{{ infoList.schoolName }}</div>
         <div class="smaseLineCss">지원자 이력서{{ infoList.resTitle }}</div>
         <div class="smaseLineCss">
-          지원자 지원일{{ infoList.applyDate == null ? "오늘" : infoList.applyDate }}
+          지원자 지원일{{
+            infoList.applyDate == null ? "오늘" : infoList.applyDate
+          }}
         </div>
       </div>
 
@@ -35,7 +35,9 @@
  -->
       <div class="sameInfocss">
         <div class="choiceArea">
-          <button class="resumebtn" @click="resumeFnc(infoList.resIdx)">지원자이력서보기</button>
+          <button class="resumebtn" @click="resumeFnc(infoList.resIdx)">
+            지원자이력서보기
+          </button>
 
           <div v-if="infoList.status.indexOf('중') != -1" class="confrimInfo">
             <button
@@ -105,20 +107,20 @@
   </div>
 
   <div v-else>
-  <div class="noSearchArea">
-  <img :src="noSearchImage" class="noSearchImage"/>
-</div>
+    <div class="noSearchArea">
+      <img :src="noSearchImage" class="noSearchImage" />
+    </div>
   </div>
   <div></div>
 </template>
 <script setup>
-import { ref, inject } from "vue";
+import { inject, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useApllicantStatusUpdateMutation } from "../../../hook/Applicant/useApllicantStatusUpdateMutation";
-import { useApplicantPaginQuery} from "../../../hook/Applicant/useApplicantPaginQuery" 
-import Pagination from '../../common/Pagination.vue'
-import sadd from "../../../ImageApplicant/saddfrog.jpg";
+import { useApplicantPaginQuery } from "../../../hook/Applicant/useApplicantPaginQuery";
 import noSearchImage from "../../../ImageApplicant/noSearch.png";
+import sadd from "../../../ImageApplicant/saddfrog.jpg";
+import Pagination from "../../common/Pagination.vue";
 const injectedValue = inject("provideVal");
 
 const keyword = ref(null);
@@ -127,13 +129,14 @@ const choiceLoginId = ref(null);
 
 const cPage = ref(1);
 
-const { data: paginList, refetch } = useApplicantPaginQuery(injectedValue, cPage);
-const router=useRouter()
-
-
+const { data: paginList, refetch } = useApplicantPaginQuery(
+  injectedValue,
+  cPage
+);
+const router = useRouter();
 
 const clickFnc = () => {
-   console.log(`현재페이지 ${cPage.value}`)
+  console.log(`현재페이지 ${cPage.value}`);
   refetch();
 };
 
@@ -159,10 +162,6 @@ const statusChangeFnc = (loginId, postIdx, status, message) => {
     }
   }
 
-
-
-
-
   keyword.value = status;
   choicePostIdx.value = postIdx;
   choiceLoginId.value = loginId;
@@ -174,47 +173,39 @@ const { mutate: statusUpdat } = useApllicantStatusUpdateMutation(
   choicePostIdx,
   choiceLoginId
 );
-const resumeFnc=(resIdx)=>{
-    // path:'applicantresume.do?:resIdx',
-    //         name:"volunteerresume",
-    //         component: ApplicantResume,
+const resumeFnc = (resIdx) => {
+  // path:'applicantresume.do?:resIdx',
+  //         name:"volunteerresume",
+  //         component: ApplicantResume,
 
-    router.push({
-        name:"volunteerresume",
-        params:{resIdx}
-    })
-
-}
-
+  router.push({
+    name: "volunteerresume",
+    params: { resIdx },
+  });
+};
 
 const handleMouseOver = (e) => {
+  let sameInfocss = e.target.closest(".sameInfocss");
 
+  const hiddenBox = sameInfocss.nextElementSibling;
+  const saddfrogImage = sameInfocss.nextElementSibling.children[0];
 
-let sameInfocss= e.target.closest('.sameInfocss'); 
+  hiddenBox.style.cssText =
+    "opacity: 1; visibility: visible;   transition: opacity 1s ease, visibility 0s linear 0s; height:100%  ";
 
-const hiddenBox = sameInfocss.nextElementSibling;
-const saddfrogImage = sameInfocss.nextElementSibling.children[0];
-
-
-hiddenBox.style.cssText = "opacity: 1; visibility: visible;   transition: opacity 1s ease, visibility 0s linear 0s; height:100%  ";
-
-saddfrogImage.style.cssText="transform: rotate(180deg) scale(0.5); transition-property: all;  transition-duration: 3s;"
-
-
-
+  saddfrogImage.style.cssText =
+    "transform: rotate(180deg) scale(0.5); transition-property: all;  transition-duration: 3s;";
 };
 
 const handleMouseLeave = (e) => {
-    let sameInfocss= e.target.closest('.sameInfocss'); 
+  let sameInfocss = e.target.closest(".sameInfocss");
 
-const hiddenBox = sameInfocss.nextElementSibling;
-const saddfrogImage = sameInfocss.nextElementSibling.children[0];
+  const hiddenBox = sameInfocss.nextElementSibling;
+  const saddfrogImage = sameInfocss.nextElementSibling.children[0];
 
-hiddenBox.style.cssText = "";
+  hiddenBox.style.cssText = "";
 
-saddfrogImage.style.cssText=""
-
-
+  saddfrogImage.style.cssText = "";
 };
 </script>
 
@@ -223,7 +214,6 @@ saddfrogImage.style.cssText=""
   display: flex;
   flex-direction: column;
   padding-left: 10px;
-  
 }
 
 .applicantFullInfoArea {
@@ -240,16 +230,6 @@ saddfrogImage.style.cssText=""
   flex-direction: column;
   border: 1px solid #e6e6e6;
   width: 300px;
-}
-
-button {
-  display: inline-block;
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
-
-  padding-left: 0px !important;
-
-  padding-right: 0px !important;
 }
 
 .successSameCss {
@@ -321,12 +301,12 @@ button {
 
 /* 초기 상태에서 이미지 숨기기 */
 .image-container {
-    border:none !important;
+  border: none;
   opacity: 0; /* 완전히 투명하게 설정 */
   visibility: hidden; /* 요소를 숨김 */
-  transition: opacity 1s ease, visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
-  
-
+  transition:
+    opacity 1s ease,
+    visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
 }
 
 /* 이미지 크기 및 위치 설정 */
@@ -334,41 +314,35 @@ button {
   display: inline-block;
   width: 100%;
   height: 100%;
-
 }
 
-.sadfrog{
-border:none !important;
-
+.sadfrog {
+  border: none;
 }
-.noSearchWrapper{
-display: flex;
-justify-content: center;
-align-items: center;
-height: 960px;
+.noSearchWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 960px;
 }
 
-.noSearchArea{
-width: 100%;
-text-align: center;
-
+.noSearchArea {
+  width: 100%;
+  text-align: center;
 }
-.noSearchImage{
-  width: 50%!important;
+.noSearchImage {
+  width: 50%;
   height: 50%;
   max-width: none;
 }
 
-
-.noSearchImage{
+.noSearchImage {
   border: 2px solid transparent; /* 초기 상태에서 투명한 테두리 설정 */
   animation: borderAnimation 4s forwards; /* 애니메이션을 4초 동안 실행 */
   animation: borderAnimation 4s infinite; /* 애니메이션을 무한 반복 */
 }
 
 @keyframes borderAnimation {
-
- 
   0% {
     border-top-color: red;
     border-right-color: transparent;
@@ -382,7 +356,7 @@ text-align: center;
     border-left-color: transparent;
   }
   50% {
-    border-top-color:  transparent;
+    border-top-color: transparent;
     border-right-color: transparent;
     border-bottom-color: red;
     border-left-color: transparent;
@@ -390,7 +364,7 @@ text-align: center;
   75% {
     border-top-color: transparent;
     border-right-color: transparent;
-    border-bottom-color:  transparent;
+    border-bottom-color: transparent;
     border-left-color: red;
   }
   100% {
@@ -400,20 +374,18 @@ text-align: center;
     border-left-color: transparent;
   }
 }
-.headLineInfo{
-    background-color: #f2f2f2;
-    font-weight: bold;
-    padding: 10px;
-    border: 0px solid;
-    border-top: 0.5px solid #ddd;
-    border-bottom: 0.5px solid #ddd;
-    text-align: left;
+.headLineInfo {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 10px;
+  border: 0px solid;
+  border-top: 0.5px solid #ddd;
+  border-bottom: 0.5px solid #ddd;
+  text-align: left;
 }
 
-.headLineInfo span{
-    display: inline-block;
-    padding: 10px 10px;
+.headLineInfo span {
+  display: inline-block;
+  padding: 10px 10px;
 }
-
-
 </style>

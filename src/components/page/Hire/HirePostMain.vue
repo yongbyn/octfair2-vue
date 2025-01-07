@@ -99,7 +99,7 @@ const handlerDetail = (idx) => {
   });
 };
 
-onMounted(() => {
+onActivated(() => {
   searchList();
 });
 </script>
