@@ -46,7 +46,7 @@
             <div>
               <div class="detail-item">ㆍ 급여</div>
               <span class="detail-describe">
-                연봉 {{ detailValue.salary }}만원
+                {{ detailValue.salary }}만원
               </span>
 
               <div class="detail-item">ㆍ 근무 지역</div>
