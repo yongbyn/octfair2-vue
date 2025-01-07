@@ -51,7 +51,7 @@ const updateMenuVisibility = () => {
   } else if (previousWidth >= 900 && currentWidth < 900) {
     // 900px 이하로 작아질때
     isMobile.value = true;
-    isBtnClicked.value = true;
+    isBtnClicked.value = false;
   }
   previousWidth = currentWidth;
 };
