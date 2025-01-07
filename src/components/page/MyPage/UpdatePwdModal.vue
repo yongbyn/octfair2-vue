@@ -94,8 +94,8 @@ const updatePwd = ref({
 });
 const updateStatus = ref("");
 
-// 비밀번호 정규식(4~20자리)
-const regExPwd = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/;
+// 비밀번호 정규식(4~40자리)
+const regExPwd = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,40}$/;
 
 // 비밀번호 수정 유효성 검사
 const handlerUpdatePwdValid = async () => {
@@ -110,7 +110,7 @@ const handlerUpdatePwdValid = async () => {
     return;
   }
   if (!regExPwd.test(newPasswd)) {
-    toast.error("비밀번호는 4~20자로 작성해주세요.");
+    toast.error("비밀번호는 4~40자로 작성해주세요.");
     return;
   }
   console.log("초기값 : ", updateStatus.value);

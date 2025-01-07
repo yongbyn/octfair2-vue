@@ -137,6 +137,8 @@
                 <option value="gmail.com"></option>
                 <option value="naver.com"></option>
                 <option value="daum.net"></option>
+                <option value="nate.com"></option>
+                <option value="hotmail.com"></option>
               </datalist>
             </div>
           </td>
@@ -145,7 +147,12 @@
         <tr v-if="updateUserInfo.userType === 'B'" class="height">
           <th>기업정보</th>
           <td>
-            <b-button variant="info" class="bizInsertBtn">기업등록</b-button>
+            <b-button
+              variant="info"
+              class="bizInsertBtn"
+              @click="router.push('/vue/mypage/companyWritePage.do')"
+              >기업등록</b-button
+            >
           </td>
         </tr>
 
@@ -259,7 +266,7 @@ const updateUserInfo = ref({
 // 정규식
 const regExPatterns = {
   id: /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/,
-  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/,
+  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,40}$/,
   name: /^[가-힣]{2,}$/,
   domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
 };
