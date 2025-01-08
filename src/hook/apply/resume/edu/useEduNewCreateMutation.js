@@ -10,7 +10,12 @@ export const useEduNewCreateMutation = () => {
     mutationFn: ({ resIdx, edu }) => {
       if (isValidEdu(edu)) return eduNewCreateApi(resIdx, edu);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if ("SUCCESS".toUpperCase() === response.result.toUpperCase()) {
+        Object.keys(response.edu).forEach((key) => {
+          response.edu[key] = "";
+        });
+      }
       queryClient.invalidateQueries({
         queryKey: ["eduList"],
       });

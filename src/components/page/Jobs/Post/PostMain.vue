@@ -63,19 +63,21 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { usePostListSearchQuery } from "../../../../hook/jobs/usePostListSearchQuery";
 import Pagination from "../../../common/Pagination.vue";
 
 const router = useRouter();
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
+const route = useRoute();
 
 const {
   data: postList,
   isLoading,
   isSuccess,
   isError,
+  refetch,
 } = usePostListSearchQuery(injectedValue, cPage);
 
 const handlerDetail = (idx) => {
@@ -84,6 +86,15 @@ const handlerDetail = (idx) => {
     params: { idx },
   });
 };
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "post") {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

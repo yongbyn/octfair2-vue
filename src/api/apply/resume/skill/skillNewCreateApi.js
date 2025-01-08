@@ -8,5 +8,5 @@ export const skillNewCreateApi = async (resIdx, skill) => {
   };
 
   const result = await axios.post(Resume.CreateSkillNew, param);
-  return result.data;
+  return { result: result.data.result, skill: skill };
 };

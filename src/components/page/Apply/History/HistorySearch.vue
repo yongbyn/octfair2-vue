@@ -1,6 +1,6 @@
 <template>
   <div class="search-box">
-    <select v-model="searchKey.period">
+    <select class="resume_select" v-model="searchKey.period">
       <option value="all" selected>조회기간 전체</option>
       <option value="1week">지난 1주일</option>
       <option value="1month">지난 1개월</option>
@@ -9,16 +9,17 @@
       <option value="6month">지난 6개월</option>
       <option value="1year">지난 1년</option>
     </select>
-    <select v-model="searchKey.viewStatus">
+    <select class="resume_select" v-model="searchKey.viewStatus">
       <option value="all" selected>열람여부 전체</option>
       <option value="1">열람</option>
       <option value="0">미열람</option>
     </select>
-    <select v-model="searchKey.sortOrder">
+    <select class="resume_select" v-model="searchKey.sortOrder">
       <option value="desc" selected>최근지원순</option>
       <option value="asc">과거지원순</option>
     </select>
     <input
+      class="resume_input"
       v-model.lazy="searchKey.keyWord"
       placeholder="공고/기업/이력서 명 통합 검색"
       @keyup.enter="handlerSearchKewordBtn('search')"

@@ -4,6 +4,7 @@
     • 3~5줄로 요약하여 작성하는 것을 추천합니다!
   </p>
   <textarea
+    class="resume_textarea"
     v-if="props.isShow || props.resume.shortIntro"
     :disabled="!props.isShow"
     placeholder="간단소개글을 입력해 주세요."

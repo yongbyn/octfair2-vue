@@ -71,7 +71,7 @@ const handlerMenuLinkClick = (menuId, e) => {
     childLinkId?.classList.remove();
   }
 
-  emits("clickPageLink"); // 모바일 크기일때 메뉴링크 이동 동시에 메뉴가 숨겨지도록 처리
+  emits("clickPageLink"); // 모바일 크기일때 메뉴링크 이동 동시에 메뉴가 숨겨지도록 처리하기 위한 값을 전송
 };
 
 const handlerLogout = () => {

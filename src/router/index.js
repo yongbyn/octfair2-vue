@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
 import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
@@ -7,6 +8,7 @@ import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import QnaPasswordCheckModal from "../components/page/Qna/QnaPasswordCheckModal.vue";
+import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
@@ -23,8 +25,6 @@ import ManageBiz from "../views/ManageUser/ManageBiz.vue";
 import MyPage from "../views/MyPage/MyPage.vue";
 import Withdraw from "../views/MyPage/Withdraw.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
-import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue"
-import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
 
 const routes = [
   {
@@ -56,13 +56,11 @@ const routes = [
             name: "noticeInsert",
             component: NoticeDetail,
           },
-
           {
             path: "qna.do",
             name: "qna",
             component: Qna,
           },
-
           {
             path: "qnaInsert.do/insert",
             name: "qnaInsert",
@@ -86,7 +84,6 @@ const routes = [
             name: "faqDetail",
             component: FAQDetailModal,
           },
-
           {
             path: "faqSavePart.do",
             name: "faqInsert",
@@ -145,33 +142,26 @@ const routes = [
             name: "hire-post",
             component: HirePost,
           },
-
           {
             path: "editor.do",
             name: "hire-post-create",
             component: HirePostEditor,
           },
-
-          { path:'applicant.do',
-            name:"volunteer",
-            component: ApplicantViewMain
-          }
-
-
-          ,
           {
-            path:'applicantresume.do?:resIdx',
-            name:"volunteerresume",
+            path: "applicant.do",
+            name: "volunteer",
+            component: ApplicantViewMain,
+          },
+          {
+            path: "applicantresume.do?:resIdx",
+            name: "volunteerresume",
             component: ApplicantResume,
-          }
-,
-
+          },
           {
             path: "editor.do/:idx",
             name: "hire-post-update",
             component: HirePostEditor,
           },
-
         ],
       },
       {

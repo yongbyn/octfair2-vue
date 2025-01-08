@@ -10,5 +10,5 @@ export const careerNewCreateApi = async (resIdx, career) => {
   };
 
   const result = await axios.post(Resume.CreateCareerNew, param);
-  return result.data;
+  return { result: result.data.result, career: career };
 };

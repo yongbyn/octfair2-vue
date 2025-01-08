@@ -13,7 +13,6 @@ declare module 'vue' {
     ApplicantModal: typeof import('./src/components/page/ManageUser/Applicant/ApplicantModal.vue')['default']
     ApplicantResume: typeof import('./src/components/page/Applicant/ApplicantResume.vue')['default']
     ApplicantSearch: typeof import('./src/components/page/ManageUser/Applicant/ApplicantSearch.vue')['default']
-    ApplicantSearch2: typeof import('./src/components/page/Applicant/ApplicantSearch2.vue')['default']
     ApplicantStatusSearch: typeof import('./src/components/page/Applicant/ApplicantStatusSearch.vue')['default']
     ApplyInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/ApplyInfo.vue')['default']
     ApprovalPostMain: typeof import('./src/components/page/Approval/ApprovalPostMain.vue')['default']
@@ -77,7 +76,7 @@ declare module 'vue' {
     SkinImage: typeof import('./src/components/layout/AddOnPack/SkinImage.vue')['default']
     SnowAni: typeof import('./src/components/layout/AddOnPack/SnowAni.vue')['default']
     UpdatePwdModal: typeof import('./src/components/page/MyPage/UpdatePwdModal.vue')['default']
-    WithdrawDetail: typeof import('./src/components/page/WithdrawDetail/WithdrawDetail.vue')['default']
     WithdrawMain: typeof import('./src/components/page/MyPage/WithdrawMain.vue')['default']
+    WithdrawModal: typeof import('./src/components/page/MyPage/WithdrawModal.vue')['default']
   }
 }

@@ -12,7 +12,7 @@
   >
     {{ props.resume.pfoLink }}
   </a>
-  <input
+  <input class="resume_input"
     v-if="props.isShow || props.resume.pfoLink"
     :disabled="!props.isShow"
     placeholder="링크를 입력해 주세요." 

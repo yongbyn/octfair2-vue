@@ -10,8 +10,8 @@ export const useApplicantDetailUpdateMutation = (
 
   return useMutation({
     mutationKey: ["applicantUpdate"],
-    mutationFn: () => {
-      applicantDetailUpdateApi(detailValue, loginId);
+    mutationFn: async () => {
+      await applicantDetailUpdateApi(detailValue, loginId);
     },
     onSuccess: () => {
       alert("수정이 완료되었습니다.");
@@ -19,6 +19,10 @@ export const useApplicantDetailUpdateMutation = (
       queryClient.invalidateQueries({
         queryKey: ["applicantList"],
       });
+    },
+    onError: () => {
+      alert("데이터를 불러오는 중입니다. 다시 시도해주세요.");
+      modalState.setModalState();
     },
   });
 };

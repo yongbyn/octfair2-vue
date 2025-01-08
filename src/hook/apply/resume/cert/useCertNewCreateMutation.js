@@ -10,7 +10,12 @@ export const useCertNewCreateMutation = () => {
     mutationFn: ({ resIdx, cert }) => {
       if (isValidCert(cert)) return certNewCreateApi(resIdx, cert);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if ("SUCCESS".toUpperCase() === response.result.toUpperCase()) {
+        Object.keys(response.cert).forEach((key) => {
+          response.cert[key] = "";
+        });
+      }
       queryClient.invalidateQueries({
         queryKey: ["certList"],
       });
