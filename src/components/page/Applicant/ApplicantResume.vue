@@ -117,7 +117,7 @@ const getResumeFnc = async () => {
 };
 </script>
 
-<style>
+<style scoped>
 .resumeWrapper {
   max-width: 986px;
   height: 100vh;

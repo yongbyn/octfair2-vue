@@ -1,5 +1,5 @@
 <template>
-     <h2>지원자 관리</h2>
+    
 
   <template v-if="isSuccess">
 
@@ -7,7 +7,7 @@
     <div class="searchBox">
       <div class="searchArea">
       <div>포스팅내역조회</div>
-      {{ MDetail.hirProcess }}
+      <!-- {{ MDetail.hirProcess }} -->
         <select @click="postIdxChangeFnc" v-model="postIdx" class="postingArea">
             <option v-for="m in MDetail.Md" :value="m.postIdx">{{ m.title }}</option>
         </select>
@@ -26,7 +26,7 @@
 /
 <script setup>
 import { useGetMDetailQuery } from "../../../hook/Applicant/useGetMDetailQuery";
- import { useGetApplicantListQUery2 } from "../../../hook/Applicant/useGetApplicantListQUery2";
+ import { useGetApplicantListQUery } from "../../../hook/Applicant/useGetApplicantListQUery";
 import { ref, inject } from "vue";
 import { watch } from "vue";
 
@@ -48,7 +48,7 @@ const injectedValue = inject("provideVal");
 
 const { data: Mdetail, isSuccess } = useGetMDetailQuery(postIdx, MDetail,choiceStatus,provideMDVal);
 
-const { data: applicantlist, refetch } = useGetApplicantListQUery2(
+const { data: applicantlist, refetch } = useGetApplicantListQUery(
   postIdx,
   pageSetting,
   choiceStatus,
@@ -63,11 +63,8 @@ const choiceStatusFnc = () => {
   refetch();
 };
 
-watch(postIdx, () => {
-  if (postIdx.value != null) {
-    refetch(); // postIdx가 null이면 refetch를 수동으로 호출
-  }
-});
+
+
 
 </script>
 <style>

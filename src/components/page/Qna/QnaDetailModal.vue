@@ -1,16 +1,6 @@
 <template>
+    <!-- 게시글 보기 모달이랑 유사하나 조건문으로 도배되니 그냥 따로 하다 더 만들자. -->
   <div class="modalWrapper">
-    <!-- //newQnaValue
-//qnaFileSave.do 해당 백엔드 주소
-//        #{seq}     name seq로 널로 보낸다.
-// 			, #{qnaTit}  name 값으로  =>함
-// 			, #{qnaCon}  name 값으로  =>  함
-
-// 			, #{loginId} 유저스토어에서 빼와라
-// 			, now()  필요 없음
-// 			, #{password}  name으로 빼온다.
-// 			, #{qna_type}  name  그리고 히든으로 스토어에서 애초에 값을 설정해둔다. -->
-
     <div v-if="isLoading">기다려주세요</div>
     <div v-else>
       <ContextBox>Qna등록</ContextBox>
@@ -53,11 +43,16 @@
 import axios from "axios";
 import { useRoute } from "vue-router";
 import { useUserInfo } from "../../../stores/userInfo";
+import { useMyqQnaSaveDetailMutation } from "../../../hook/qna/useMyqQnaSaveDetailMutation";
 
 const { params } = useRoute();
 const newQnaValue = ref({});
 const fileData = ref("");
 const userInfo = useUserInfo();
+
+const fullSaveData=ref({})
+
+
 
 const fileChange = (e) => {
   const fileInfo = e.target.files;
@@ -80,13 +75,6 @@ const fileChange = (e) => {
 };
 
 const qnaApplication = async () => {
-  // 			, #{qnaCon}  name 값으로  =>  함
-  //, #{loginId} 유저스토어에서 빼와라
-  // 			, now()  필요 없음
-  // 			, #{password}  name으로 빼온다.
-  // 			, #{qna_type}  name  그리고 히든으로 스토어
-
-  //console.log(userInfo.user);
 
   const textData = {
     loginId: userInfo.user.loginId,
@@ -104,8 +92,15 @@ const qnaApplication = async () => {
     })
   );
 
-  await axios.post("/prx/api/board/qnaSaveFileForm.do", formData);
+  fullSaveData.value=formData;
+
+  console.log(fullSaveData.value)
+  //await axios.post("/prx/api/board/qnaSaveFileForm.do", formData);
+  myQnaSave(fullSaveData)
 };
+
+
+const {mutate:myQnaSave}=useMyqQnaSaveDetailMutation(fullSaveData);
 </script>
 
 <style lang="scss" scoped>
@@ -158,7 +153,7 @@ img {
 .img-label {
   margin-top: 10px;
   padding: 6px 25px;
-  background-color: #ccc;
+  background-color: #3bb2ea;
   border-radius: 4px;
   color: rgba(0, 0, 0, 0.9);
   cursor: pointer;

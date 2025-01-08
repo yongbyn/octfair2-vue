@@ -2,15 +2,14 @@ import axios from "axios";
 import { Applicant } from "../api";
 
 export const getMDetailApi= async (postIdx,MDetail,choiceStatus,provideMDVal)=>{
-    // {loginId:"biz01"}
-    //comp11 
-    //biz01
+
+    console.log("Md테일 최초 호출")
     let res = await axios.post(Applicant.ApplicantManagerGetId);
  
     MDetail.value.Md = [...res.data.MDetail];
 
     // postIdx.value = res.data.MDetail[0].postIdx;
-    console.log(res.data.MDetail)
+
 
     let hirProcessArr=new Array();
     let temporayryArr=new Array();
@@ -25,7 +24,7 @@ export const getMDetailApi= async (postIdx,MDetail,choiceStatus,provideMDVal)=>{
            choiceStatus.value=hirProcessArr[0]
            console.log(choiceStatus.value)
            hirProcessArr.push("합격")
-            hirProcessArr.push("불합격")
+            hirProcessArr.push("탈락")
 
 
 
