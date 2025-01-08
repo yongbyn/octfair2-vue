@@ -46,7 +46,7 @@
             <div>
               <div class="detail-item">ㆍ 급여</div>
               <span class="detail-describe">
-                연봉 {{ detailValue.salary }}만원
+                {{ detailValue.salary }}만원
               </span>
 
               <div class="detail-item">ㆍ 근무 지역</div>
@@ -308,7 +308,7 @@ const handlerUpdateStatus = async (postIdx, status) => {
     .post("/prx/api/manage-post/statusUpdate.do", params)
     .then((res) => {
       alert("처리되었습니다.");
-      refetch();
+      router.push({ name: status === "승인" ? "posts" : "approval-post" });
     });
 };
 
@@ -365,8 +365,12 @@ watchEffect(() => {
 watch(
   () => route.params.idx,
   (newId, oldId) => {
-    params.idx = newId;
-    refetch();
+    if (newId && route.name == "postDetail") {
+      if (newId !== oldId) {
+        params.idx = newId;
+        refetch();
+      }
+    }
   }
 );
 </script>

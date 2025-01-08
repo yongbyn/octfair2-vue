@@ -9,5 +9,5 @@ export const certNewCreateApi = async (resIdx, cert) => {
   };
 
   const result = await axios.post(Resume.CreateCertNew, param);
-  return result.data;
+  return { result: result.data.result, cert: cert };
 };

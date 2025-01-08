@@ -10,5 +10,5 @@ export const eduNewCreateApi = async (resIdx, edu) => {
   };
 
   const result = await axios.post(Resume.CreateEduNew, param);
-  return result.data;
+  return { result: result.data.result, edu: edu };
 };

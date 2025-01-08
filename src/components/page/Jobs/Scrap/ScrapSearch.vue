@@ -30,29 +30,28 @@
 import axios from "axios";
 
 const injectedValue = inject("providedValue");
-const selectedScrapIdx = inject("selectedScrapIdx");
+const selectedScrapIdxList = inject("selectedScrapIdxList", []);
 const searchKey = ref({});
-const refetch = inject("refetch");
 
 const handlerSearch = () => {
   injectedValue.value = { ...searchKey.value };
 };
 
 const handlerDelete = () => {
-  if (!selectedScrapIdx.value) {
+  if (selectedScrapIdxList.value.length === 0) {
     alert("삭제할 항목을 선택하세요.");
     return;
   }
 
-  alert(`삭제할 postIdx: ${selectedScrapIdx.value}`);
+  const params = {
+    scrapIdxList: selectedScrapIdxList.value,
+    sortDelete: "delete",
+  };
 
-  axios
-    .post("/prx/api/jobs/deleteScrap.do", { postIdx: selectedScrapIdx.value })
-    .then((res) => {
-      console.log(res);
-      alert("삭제되었습니다.");
-      refetch();
-    });
+  axios.post("/prx/api/jobs/deleteScrap.do", params).then((res) => {
+    alert("삭제되었습니다.");
+    handlerSearch();
+  });
 };
 </script>
 

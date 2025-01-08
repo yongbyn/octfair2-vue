@@ -4,23 +4,26 @@
       <div class="align-center">
         <button @click.stop="isBtnClicked = !isBtnClicked"></button>
         <img
-          class="happyjob-logo"
           :src="happyjobLogo"
           @click="$router.push('/vue')"
+          class="happyjoblogo"
         />
       </div>
-      <LeftManuBar
-        v-if="!isMobile || isBtnClicked"
-        @clickPageLink="isBtnClicked = false"
-      />
+      <transition name="dropdown">
+        <div
+          v-show="!isMobile || isBtnClicked"
+          @clickPageLink="isBtnClicked = false"
+          class="leftmenu"
+        >
+          <LeftManuBar />
+        </div>
+      </transition>
       <AddOn
-        class="add-on"
         :addonShow="!isMobile || (!isBtnClicked && $route.path == '/vue')"
+        class="add-on"
       />
     </li>
-    <li class="content" v-show="!isMobile || !isBtnClicked">
-      <!-- <keep-alive><router-view></router-view></keep-alive> -->
-      <!-- 위 방식은  Vue Router v4 이상에서 <router-view>를 <transition> 또는 <keep-alive> 안에 직접 사용하는 것이 더 이상 지원되지 않아 아래와 같이 수정 -->
+    <li v-show="!isMobile || !isBtnClicked" class="content">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />
@@ -51,7 +54,7 @@ const updateMenuVisibility = () => {
   } else if (previousWidth >= 900 && currentWidth < 900) {
     // 900px 이하로 작아질때
     isMobile.value = true;
-    isBtnClicked.value = true;
+    isBtnClicked.value = false;
   }
   previousWidth = currentWidth;
 };
@@ -84,7 +87,7 @@ onUnmounted(() => {
   float: left;
 }
 
-.happyjob-logo {
+.happyjoblogo {
   cursor: pointer;
 }
 
@@ -130,6 +133,26 @@ button {
       background-color: goldenrod;
       transform: scale(1.4);
     }
+  }
+
+  /* 시작상태, 아래 trasition애니메이션이 시작하기 전 상태를 의미 */
+  .leftmenu.dropdown-enter-active {
+    opacity: 0.1;
+    transform: translateY(-100px);
+  }
+
+  /* 애니메이션상태, 애니메이션과 도달목표상태를 의미, but 도달목표달성 후 유지상태는 아래 기본상태가 된다. */
+  .leftmenu.dropdown-enter-to {
+    opacity: 1;
+    transform: translateY(0px);
+    transition:
+      transform 0.5s ease,
+      opacity 1s ease;
+  }
+
+  /* 기본상태, 위 transition애니메이션이 끝나고 유지되는 상태를 의미 */
+  .leftmenu {
+    opacity: 1;
   }
 
   .content {

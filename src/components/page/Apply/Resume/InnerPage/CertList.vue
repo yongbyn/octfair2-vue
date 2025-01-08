@@ -6,20 +6,20 @@
   <template v-for="(item, key) in certList?.payload" :key="key">
     <div class="cert_table">
       <div class="garo_wrapper_lr" style="grid-area: acqDate">
-        <label class="garo_wrapper_lr_l">취득일:</label>
-        <textarea class="garo_wrapper_lr_r" :value="item.acqDate.slice(0, 7)" placeholder="취득일" type="month" disabled />
+        <label class="resume_label">취득일:</label>
+        <textarea class="resume_textarea" :value="item.acqDate.slice(0, 7)" placeholder="취득일" type="month" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: certName">
-        <label class="garo_wrapper_lr_l">자격증명:</label>
-        <textarea class="garo_wrapper_lr_r" :value="item.certName" placeholder="자격증명" disabled />
+        <label class="resume_label">자격증명:</label>
+        <textarea class="resume_textarea" :value="item.certName" placeholder="자격증명" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grade">
-        <label class="garo_wrapper_lr_l">등급:</label>
-        <textarea class="garo_wrapper_lr_r" :value="item.grade" placeholder="등급" disabled />
+        <label class="resume_label">등급:</label>
+        <textarea class="resume_textarea" :value="item.grade" placeholder="등급" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: issuer">
-        <label class="garo_wrapper_lr_l">발행처:</label>
-        <textarea class="garo_wrapper_lr_r" :value="item.issuer" placeholder="발행처" disabled />
+        <label class="resume_label">발행처:</label>
+        <textarea class="resume_textarea" :value="item.issuer" placeholder="발행처" disabled />
       </div>
       <div class="garo_wrapper_r" style="grid-area: button">
         <CommonButton @click="handlerDeleteCertBtn({ resIdx: props.resume.resIdx, certIdx: item.certIdx })" v-if="props.isShow">삭제</CommonButton>
@@ -30,20 +30,20 @@
   <div>
     <div class="cert_table" v-if="isAddCert && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: acqDate">
-        <label class="garo_wrapper_lr_l">취득일:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.acqDate id="acqDate" placeholder="취득일" type="month"></input>
+        <label class="resume_label">취득일:</label>
+        <input class="resume_input" v-model=cert.acqDate id="acqDate" placeholder="취득일" type="month"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: certName">
-        <label class="garo_wrapper_lr_l">자격증명:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.certName id="certName" placeholder="자격증명"></input>
+        <label class="resume_label">자격증명:</label>
+        <input class="resume_input" v-model=cert.certName id="certName" placeholder="자격증명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: grade">
-        <label class="garo_wrapper_lr_l">등급:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.grade id="grade" placeholder="등급"></input>
+        <label class="resume_label">등급:</label>
+        <input class="resume_input" v-model=cert.grade id="grade" placeholder="등급"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: issuer">
-        <label class="garo_wrapper_lr_l">발행처:</label>
-        <input class="garo_wrapper_lr_r" v-model=cert.issuer id="issuer" placeholder="발행처"></input>
+        <label class="resume_label">발행처:</label>
+        <input class="resume_input" v-model=cert.issuer id="issuer" placeholder="발행처"></input>
       </div>
       <div class="garo_wrapper_r" style="grid-area: button">
         <CommonButton @click="handlerCreateCertBtn({ resIdx: props.resume.resIdx, cert: cert })">저장</CommonButton>
