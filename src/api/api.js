@@ -6,6 +6,10 @@ export const Notice = {
   InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
   FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
+  SearchMyQnaDetail:"/prx/api/board/qnaDetailFileBody.do",
+  UpdateMyQnaDetail:"/prx/api/board/qnaUpdateFileForm.do",
+  DeleteMyQnaDetail:"/prx/api/board/qnaDeleteBody.do",
+  InsertMyQnaDetail:"/prx/api/board/qnaSaveFileForm.do"
 };
 
 export const Post = {

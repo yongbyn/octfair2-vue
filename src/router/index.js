@@ -7,6 +7,7 @@ import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
+import QnaPasswordCheckModal from "../components/page/Qna/QnaPasswordCheckModal.vue";
 import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
@@ -65,6 +66,12 @@ const routes = [
             name: "qnaInsert",
             component: QnaDetailModal,
           },
+          {
+            path: "qnaInsert.do/pwdcheckModal/:qnaIdx",
+            name: "pwdcheckModal",
+            component: QnaPasswordCheckModal,
+          },
+
           {
             path: "faq.do",
             name: "faq",
