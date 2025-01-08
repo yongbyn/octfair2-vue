@@ -69,10 +69,8 @@ const routes = [
           {
             path: "qnaInsert.do/pwdcheckModal/:qnaIdx",
             name: "pwdcheckModal",
-            component:QnaPasswordCheckModal
+            component: QnaPasswordCheckModal,
           },
-
-
 
           {
             path: "faq.do",

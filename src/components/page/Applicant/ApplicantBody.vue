@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="injectedValue != null && injectedValue.count != 0"
-    class="applicantFullInfoWrapper"
-  >
+  <div v-if="injectedValue != null && injectedValue.count != 0" class="applicantFullInfoWrapper">
     {{ provideMDVal }}
     <div class="headLineInfo">
       <span>해당 공고건: {{ injectedValue.list[0].title }}</span>
@@ -50,34 +47,29 @@
            또한 모든 불합에서의 합격은 처음 스텝으로 넘긴다.
         -->
 
-      
-
       <template v-if="infoList.status == '합격'">
         <div class="sameInfocss chanceCss">
-         
-         <div class="hiringInfo">채용절차</div>
+          <div class="hiringInfo">채용절차</div>
           <div class="finalchance">
-            <div class="resumebtn" @click="{
-                          modalStore.modalState = true;
-                          resIdx = infoList.resIdx;
-                        }">
-            지원자이력서보기
+            <div
+              class="resumebtn"
+              @click="
+                {
+                  modalStore.modalState = true;
+                  resIdx = infoList.resIdx;
+                }
+              "
+            >
+              지원자이력서보기
+            </div>
           </div>
-          </div>
-
-
         </div>
       </template>
       <template v-else-if="infoList.status == '탈락'">
         <div class="sameInfocss chanceCss">
-            <div class="hiringInfo">채용절차</div>
+          <div class="hiringInfo">채용절차</div>
           <div class="finalchance">
-            <div
-              class="finallbtn"
-              @click="chanceFnc(infoList.loginId, infoList.postIdx)"
-            >
-              합격
-            </div>
+            <div class="finallbtn" @click="chanceFnc(infoList.loginId, infoList.postIdx)">합격</div>
           </div>
         </div>
       </template>
@@ -87,9 +79,7 @@
         <div class="sameInfocss">
           <div class="hiringInfo">채용절차</div>
           <div class="threeButtonWrapper">
-            <div class="resumebtn" @click="resumeFnc(infoList.resIdx)">
-              지원자이력서보기
-            </div>
+            <div class="resumebtn" @click="resumeFnc(infoList.resIdx)">지원자이력서보기</div>
 
             <div class="confrimInfo">
               <div
@@ -128,11 +118,10 @@
         </div>
       </template>
       <div class="sameInfocss image-container">
-    
         <img :src="sadd" alt="불합격 이미지" class="result-image" />
-      </div> 
+      </div>
     </div>
-    <br/><br/><br/><br/>
+    <br /><br /><br /><br />
     <Pagination
       v-if="injectedValue.count != 0"
       :totalItems="injectedValue.count"
@@ -221,8 +210,6 @@ const statusToBeChangeFnc = (loginId, postIdx, status, message) => {
 
   statusUpdat(keyword, postIdx, choiceLoginId);
 };
-
-
 
 const { mutate: statusUpdat } = useApllicantStatusUpdateMutation(
   keyword,
@@ -326,33 +313,29 @@ const handleMouseLeave = (e) => {
 }
 
 .sameInfocss.chanceCss {
-  height: 230px; 
+  height: 230px;
 }
-
 
 .finallbtn {
-    background-color: rgba(106, 130, 236, 0.8);
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    width: 100%;
-    /* height: 80%; */
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 56px;
-    border-radius: 10px;
+  background-color: rgba(106, 130, 236, 0.8);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  width: 100%;
+  /* height: 80%; */
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 56px;
+  border-radius: 10px;
 }
 
-
-
-.finalchance{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
+.finalchance {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .headerline {
   background-color: #6d9cfa;
@@ -412,7 +395,9 @@ const handleMouseLeave = (e) => {
   border: none;
   opacity: 0; /* 완전히 투명하게 설정 */
   visibility: hidden; /* 요소를 숨김 */
-  transition: opacity 1s ease, visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
+  transition:
+    opacity 1s ease,
+    visibility 0s linear 1s; /* 1초 동안 opacity를 변경하고, 숨겨질 때 1초 딜레이 */
 }
 
 /* 이미지 크기 및 위치 설정 */
