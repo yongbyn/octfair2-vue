@@ -70,7 +70,7 @@
 
             <div class="detail-item">ㆍ 우대 사항</div>
             <span class="detail-describe">
-              {{ detailValue.prefQualifications }}
+              {{ detailValue.prefQualifications.replace("\n", "<br />") }}
             </span>
 
             <div class="detail-item">ㆍ 모집 인원</div>
@@ -148,7 +148,7 @@
               id="btnManagehireDelete"
               class="btn-edit"
               variant="outline-danger"
-              @click="handlerDeleteBtn"
+              @click="handlerDeleteBtnBefore"
             >
               삭제
             </b-button>
@@ -313,16 +313,27 @@ const handlerUpdateStatus = async (postIdx, status) => {
 };
 
 const handlerUpdateBtn = (idx) => {
-  router.push({
-    name: "hire-post-update",
-    params: { idx },
+  if (
+    detailValue.value.appStatus === "대기중" ||
+    detailValue.value.appStatus === "불허"
+  ) {
+    router.push({
+      name: "hire-post-update",
+      params: { idx },
+    });
+  } else if (detailValue.value.appStatus === "승인") {
+    alert("승인된 공고는 수정이 불가능합니다.");
+  }
+};
+
+const handlerDeleteBtnBefore = () => {
+  handlerDeleteBtn({
+    bizIdx: bizDetail.value.bizIdx,
+    postIdx: detailValue.value.postIdx,
   });
 };
 
-const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation(
-  bizDetail.value.bizIdx,
-  detailValue.value.postIdx
-);
+const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation();
 
 const fileDownload = () => {
   const param = {

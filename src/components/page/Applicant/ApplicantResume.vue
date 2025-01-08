@@ -1,50 +1,36 @@
 <template>
   <button @click="getResumeFnc">이력서정보 내놔</button>
   <template v-if="isSuccess">
-    {{ fullInfo.careerList}}
+    {{ fullInfo.careerList }}
     <div class="resumeWrapper">
       <div class="resumeArea">
         <div class="resumeAreaGrid1">
           <div class="sameLeftCss">
             <h3>Experience</h3>
             <div class="sectionArea">
-              <template v-if="fullInfo.careerList==0">
-                   <div class="defaultList" v-for="idx in 3" :key="idx">
-                    비고:{{idx}}
-                   </div>
+              <template v-if="fullInfo.careerList == 0">
+                <div class="defaultList" v-for="idx in 3" :key="idx">비고:{{ idx }}</div>
               </template>
-
             </div>
           </div>
 
           <div class="sameLeftCss">
             <h3>Education</h3>
             <div class="sectionArea">
-              <template v-if="fullInfo.educationList==0">
-                   <div class="defaultList" v-for="idx in 3" :key="idx">
-                    비고:{{idx}}
-                   </div>
+              <template v-if="fullInfo.educationList == 0">
+                <div class="defaultList" v-for="idx in 3" :key="idx">비고:{{ idx }}</div>
               </template>
-
             </div>
           </div>
-
 
           <div class="sameLeftCss">
             <h3>Skill</h3>
             <div class="sectionArea">
-              <template v-if="fullInfo.skillList==0">
-                   <div class="defaultList" v-for="idx in 3" :key="idx">
-                    비고:{{idx}}
-                   </div>
+              <template v-if="fullInfo.skillList == 0">
+                <div class="defaultList" v-for="idx in 3" :key="idx">비고:{{ idx }}</div>
               </template>
-
             </div>
           </div>
-
-
-
-
 
           <div class="sameLeftCss"></div>
 
@@ -117,7 +103,7 @@ const getResumeFnc = async () => {
 };
 </script>
 
-<style>
+<style scoped>
 .resumeWrapper {
   max-width: 986px;
   height: 100vh;
@@ -168,28 +154,22 @@ img {
   flex-direction: column;
 }
 
-.sectionAreaa{
-
-    padding-left: 20px;
-
+.sectionAreaa {
+  padding-left: 20px;
 }
 
-.defaultList{
-    padding: 20px 20px;
-    font-size: 20px;
-    font-weight: 500;
+.defaultList {
+  padding: 20px 20px;
+  font-size: 20px;
+  font-weight: 500;
 }
-
 
 .ex01 {
   box-shadow: 5px 5px gray;
 }
 
 .resumeWrapper {
-    box-shadow: 5px 5px 5px gray;
-    box-shadow: inset 5px 5px 5px gray;
+  box-shadow: 5px 5px 5px gray;
+  box-shadow: inset 5px 5px 5px gray;
 }
-
-
-
 </style>
