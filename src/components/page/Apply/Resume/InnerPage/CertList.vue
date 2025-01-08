@@ -55,6 +55,7 @@
 
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
+import { onActivated } from "vue";
 import { useCertListReadQuery } from "../../../../../hook/apply/resume/cert/useCertListReadQuery";
 import { useCertNewCreateMutation } from "../../../../../hook/apply/resume/cert/useCertNewCreateMutation";
 import { useCertNewDeleteMutation } from "../../../../../hook/apply/resume/cert/useCertNewDeleteMutation";
@@ -74,6 +75,10 @@ const isExistCert = computed(() => certList?.payload?.length >= 1 || false);
 watch(() => [props.resume.resIdx, certList?.payload], () => {
   resIdx.value = props.resume.resIdx;
   emits("isExistCert", isExistCert.value);
+});
+
+onActivated(() => {
+  isAddCert.value = false;
 });
 </script>
 

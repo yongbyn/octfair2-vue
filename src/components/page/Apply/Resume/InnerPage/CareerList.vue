@@ -81,6 +81,7 @@
 
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
+import { onActivated } from "vue";
 import { useCareerListReadQuery } from "../../../../../hook/apply/resume/career/useCareerListReadQuery";
 import { useCareerNewCreateMutation } from "../../../../../hook/apply/resume/career/useCareerNewCreateMutation";
 import { useCareerNewDeleteMutation } from "../../../../../hook/apply/resume/career/useCareerNewDeleteMutation";
@@ -100,6 +101,10 @@ const { mutate: handlerDeleteCareerBtn } = useCareerNewDeleteMutation();
 watch(() => [props.resume.resIdx, careerList?.payload], () => {
   resIdx.value = props.resume.resIdx;
   emits("isExistCareer", isExistCareer.value);
+});
+
+onActivated(() => {
+  isAddCareer.value = false;
 });
 </script>
 

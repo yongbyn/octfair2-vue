@@ -80,6 +80,7 @@
 
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
+import { onActivated } from "vue";
 import { useEduListReadQuery } from "../../../../../hook/apply/resume/edu/useEduListReadQuery";
 import { useEduNewCreateMutation } from "../../../../../hook/apply/resume/edu/useEduNewCreateMutation";
 import { useEduNewDeleteMutation } from "../../../../../hook/apply/resume/edu/useEduNewDeleteMutation";
@@ -99,6 +100,10 @@ const { mutate: handlerDeleteEduBtn } = useEduNewDeleteMutation();
 watch(() => [props.resume.resIdx, eduList?.payload], () => {
   resIdx.value = props.resume.resIdx;
   emits("isExistEdu", isExistEdu.value);
+});
+
+onActivated(() => {
+  isAddEdu.value = false;
 });
 </script>
 
