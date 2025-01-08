@@ -1,246 +1,238 @@
 <template>
-  <ContextBox>{{ !params.idx ? "공고 등록" : "공고 수정" }}</ContextBox>
+  <ContextBox>{{ !route.params.idx ? "공고 등록" : "공고 수정" }}</ContextBox>
   <div class="form-container">
-    <Form>
-      <table class="form-table">
-        <tbody>
-          <tr>
-            <th>채용 제목<span class="font-red">*</span></th>
-            <td colspan="3">
-              <input
-                type="text"
-                id="title"
-                placeholder="채용 제목을 입력하세요"
-                v-model="postData.title"
-              />
-            </td>
-          </tr>
+    <table class="form-table">
+      <tbody>
+        <tr>
+          <th>채용 제목<span class="font-red">*</span></th>
+          <td colspan="3">
+            <input
+              type="text"
+              id="title"
+              placeholder="채용 제목을 입력하세요"
+              v-model="postData.title"
+            />
+          </td>
+        </tr>
 
-          <tr>
-            <th>경력 여부<span class="font-red">*</span></th>
-            <td>
-              <div class="checkbox-group-horizontal">
-                <label>
-                  <input
-                    type="checkbox"
-                    value="신입"
-                    :checked="postData.expRequired.includes('신입')"
-                    @change="updateExpRequired('신입', $event)"
-                  />
-                  신입
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="경력"
-                    :checked="postData.expRequired.includes('경력')"
-                    @change="updateExpRequired('경력', $event)"
-                  />
-                  경력
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="경력무관"
-                    :checked="postData.expRequired.includes('경력무관')"
-                    @change="updateExpRequired('경력무관', $event)"
-                  />
-                  경력무관
-                </label>
-              </div>
-            </td>
-            <th>경력<span class="font-red">*</span></th>
-            <td>
-              <select
-                id="expYears"
-                v-model="postData.expYears"
-                :disabled="!postData.expRequired.includes('경력')"
-              >
-                <option selected disabled>선택</option>
-                <option value="1년이상">1년 이상</option>
-                <option value="2년이상">2년 이상</option>
-                <option value="3년이상">3년 이상</option>
-                <option value="4년이상">4년 이상</option>
-              </select>
-            </td>
-          </tr>
-
-          <tr>
-            <th>급여<span class="font-red">*</span></th>
-            <td>
-              <input
-                type="text"
-                id="salary"
-                placeholder="급여를 입력하세요"
-                v-model="postData.salary"
-              />
-            </td>
-            <th>모집 인원<span class="font-red">*</span></th>
-            <td>
-              <input
-                type="text"
-                id="openings"
-                placeholder="모집 인원을 입력하세요"
-                v-model="postData.openings"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>근무 지역<span class="font-red">*</span></th>
-            <td>
-              <input
-                type="text"
-                id="workLocation"
-                placeholder="근무 지역을 입력하세요"
-                v-model="postData.workLocation"
-              />
-            </td>
-            <th>포지션 설명<span class="font-red">*</span></th>
-            <td>
-              <input
-                type="text"
-                id="posDescription"
-                placeholder="포지션 설명을 입력하세요"
-                v-model="postData.posDescription"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>채용 기간<span class="font-red">*</span></th>
-            <td colspan="3">
-              <div class="hireDateGroup">
-                <label>시작</label>
+        <tr>
+          <th>경력 여부<span class="font-red">*</span></th>
+          <td>
+            <div class="checkbox-group-horizontal">
+              <label>
                 <input
-                  type="date"
-                  id="startDate"
-                  v-model="postData.startDate"
+                  type="checkbox"
+                  value="신입"
+                  :checked="postData.expRequired.includes('신입')"
+                  @change="updateExpRequired('신입', $event)"
                 />
-                <label>~ 종료</label>
-                <input type="date" id="endDate" v-model="postData.endDate" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>채용 절차<span class="font-red">*</span></th>
-            <td colspan="3">
-              <div class="hiringProcText">
+                신입
+              </label>
+              <label>
                 <input
-                  type="text"
-                  id="hirProcess"
-                  placeholder="채용 절차를 입력 후 등록하세요"
-                  v-model="currentProc"
-                  @focus="clearCurrentProc"
+                  type="checkbox"
+                  value="경력"
+                  :checked="postData.expRequired.includes('경력')"
+                  @change="updateExpRequired('경력', $event)"
                 />
-                <button id="btnHirProcess" @click="handlerHiringProc">
-                  절차등록
-                </button>
-                <button id="btnHirInit" @click="resetHiringProc">
-                  절차초기화
-                </button>
-              </div>
-              <div>
-                <p v-if="postData.hirProcess.length" class="postedHirProc">
-                  {{ postData.hirProcess }}
-                </p>
-                <p v-else class="textDanger">
-                  채용 절차에 대해 자세히 입력해주세요.
-                </p>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>자격 조건<span class="font-red">*</span></th>
-            <td colspan="3">
-              <textarea
-                id="reqQualifications"
-                placeholder="자격 조건을 입력하세요"
-                @input="autoHeight"
-                v-model="postData.reqQualifications"
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th>우대 사항</th>
-            <td colspan="3">
-              <textarea
-                id="prefQualifications"
-                placeholder="우대 사항을 입력하세요"
-                @input="autoHeight"
-                v-model="postData.prefQualifications"
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th>업무</th>
-            <td colspan="3">
-              <textarea
-                id="duties"
-                placeholder="업무 내용을 입력하세요"
-                @input="autoHeight"
-                v-model="postData.duties"
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th>혜택 & 복지</th>
-            <td colspan="3">
-              <textarea
-                id="benefits"
-                placeholder="혜택 및 복지 내용을 입력하세요"
-                @input="autoHeight"
-                v-model="postData.benefits"
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th>첨부파일</th>
-            <td colspan="3">
-              <label class="fileLabel" for="fileInput"
-                >파일 첨부하기(클릭)</label
-              >
-              <input
-                type="file"
-                id="fileInput"
-                ref="fileInput"
-                style="display: none"
-                @change="handlerFileUpload"
-              />
+                경력
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  value="경력무관"
+                  :checked="postData.expRequired.includes('경력무관')"
+                  @change="updateExpRequired('경력무관', $event)"
+                />
+                경력무관
+              </label>
+            </div>
+          </td>
+          <th>경력<span class="font-red">*</span></th>
+          <td>
+            <select
+              id="expYears"
+              v-model="postData.expYears"
+              :disabled="!postData.expRequired.includes('경력')"
+            >
+              <option selected disabled>선택</option>
+              <option value="1년이상">1년 이상</option>
+              <option value="2년이상">2년 이상</option>
+              <option value="3년이상">3년 이상</option>
+              <option value="4년이상">4년 이상</option>
+            </select>
+          </td>
+        </tr>
 
-              <div class="fileInfo">
-                <div v-if="postData.fileName">
-                  <label>{{ postData.fileName }}</label>
-                </div>
-                <div v-else>
-                  <label>{{
-                    fileData ? fileData.name : "첨부된 파일 없음"
-                  }}</label>
-                </div>
+        <tr>
+          <th>급여<span class="font-red">*</span></th>
+          <td>
+            <input
+              type="text"
+              id="salary"
+              placeholder="급여를 입력하세요"
+              v-model="postData.salary"
+            />
+          </td>
+          <th>모집 인원<span class="font-red">*</span></th>
+          <td>
+            <input
+              type="text"
+              id="openings"
+              placeholder="모집 인원을 입력하세요"
+              v-model="postData.openings"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>근무 지역<span class="font-red">*</span></th>
+          <td>
+            <input
+              type="text"
+              id="workLocation"
+              placeholder="근무 지역을 입력하세요"
+              v-model="postData.workLocation"
+            />
+          </td>
+          <th>포지션 설명<span class="font-red">*</span></th>
+          <td>
+            <input
+              type="text"
+              id="posDescription"
+              placeholder="포지션 설명을 입력하세요"
+              v-model="postData.posDescription"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>채용 기간<span class="font-red">*</span></th>
+          <td colspan="3">
+            <div class="hireDateGroup">
+              <label>시작</label>
+              <input type="date" id="startDate" v-model="postData.startDate" />
+              <label>~ 종료</label>
+              <input type="date" id="endDate" v-model="postData.endDate" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>채용 절차<span class="font-red">*</span></th>
+          <td colspan="3">
+            <div class="hiringProcText">
+              <input
+                type="text"
+                id="hirProcess"
+                placeholder="채용 절차를 입력 후 등록하세요"
+                v-model="currentProc"
+                @focus="clearCurrentProc"
+              />
+              <button id="btnHirProcess" @click="handlerHiringProc">
+                절차등록
+              </button>
+              <button id="btnHirInit" @click="resetHiringProc">
+                절차초기화
+              </button>
+            </div>
+            <div>
+              <p v-if="postData.hirProcess.length" class="postedHirProc">
+                {{ postData.hirProcess }}
+              </p>
+              <p v-else class="textDanger">
+                채용 절차에 대해 자세히 입력해주세요.
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>자격 조건<span class="font-red">*</span></th>
+          <td colspan="3">
+            <textarea
+              id="reqQualifications"
+              placeholder="자격 조건을 입력하세요"
+              @input="autoHeight"
+              v-model="postData.reqQualifications"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>우대 사항</th>
+          <td colspan="3">
+            <textarea
+              id="prefQualifications"
+              placeholder="우대 사항을 입력하세요"
+              @input="autoHeight"
+              v-model="postData.prefQualifications"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>업무</th>
+          <td colspan="3">
+            <textarea
+              id="duties"
+              placeholder="업무 내용을 입력하세요"
+              @input="autoHeight"
+              v-model="postData.duties"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>혜택 & 복지</th>
+          <td colspan="3">
+            <textarea
+              id="benefits"
+              placeholder="혜택 및 복지 내용을 입력하세요"
+              @input="autoHeight"
+              v-model="postData.benefits"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td colspan="3">
+            <label class="fileLabel" for="fileInput">파일 첨부하기(클릭)</label>
+            <input
+              type="file"
+              id="fileInput"
+              ref="fileInput"
+              style="display: none"
+              @change="handlerFileUpload"
+            />
+
+            <div class="fileInfo">
+              <div v-if="postData.fileName">
+                <label>{{ postData.fileName }}</label>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="button-area">
-        <button
-          class="btn btn-primary"
-          @click="!params.idx ? handlerPostCreate() : handlerPostUpdate()"
-        >
-          {{ !params.idx ? "등록" : "수정" }}
-        </button>
-        <button class="btn btn-secondary" @click="$router.go(-1)">
-          돌아가기
-        </button>
-      </div>
-    </Form>
+              <div v-else>
+                <label>{{
+                  fileData ? fileData.name : "첨부된 파일 없음"
+                }}</label>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="button-area">
+      <button
+        class="btn btn-primary"
+        @click="!route.params.idx ? handlerPostCreate() : handlerPostUpdate()"
+      >
+        {{ !route.params.idx ? "등록" : "수정" }}
+      </button>
+      <button class="btn btn-secondary" @click="$router.go(-1)">
+        돌아가기
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
 import axios from "axios";
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 
 const router = useRouter();
-const { params } = useRoute();
+const route = useRoute();
 const postData = ref({ expRequired: [], expYears: "", hirProcess: [] });
 const currentProc = ref("");
 const fileData = ref("");
@@ -295,9 +287,9 @@ const handlerHiringProc = () => {
   }
 };
 
-const hirePostSearchApi = async (params) => {
+const hirePostSearchApi = async (idx) => {
   await axios
-    .post("/prx/api/manage-hire/post-detail", { postIdx: params.idx })
+    .post("/prx/api/manage-hire/post-detail", { postIdx: idx })
     .then((res) => {
       postData.value = res.data.payload;
 
@@ -345,7 +337,7 @@ const handlerPostUpdate = async () => {
     expRequired: Array.isArray(postData.value.expRequired)
       ? postData.value.expRequired.join(",")
       : "",
-    postIdx: params.idx,
+    postIdx: route.params.idx,
   };
 
   const formData = new FormData();
@@ -383,8 +375,18 @@ const autoHeight = (e) => {
 };
 
 onMounted(() => {
-  params.idx && hirePostSearchApi(params);
+  console.log("Initial params.idx:", route.params.idx);
+  route.params.idx && hirePostSearchApi(route.params.idx);
 });
+
+watch(
+  () => route.params.idx,
+  (newIdx) => {
+    if (newIdx) {
+      hirePostSearchApi(newIdx);
+    }
+  }
+);
 </script>
 
 <style scoped>
