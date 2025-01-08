@@ -97,7 +97,7 @@ onUnmounted(() => {
   padding-right: 2%;
   width: 77%;
   flex: 1;
-  transition: 10s;
+  transition: 1s;
 }
 
 .align-center {

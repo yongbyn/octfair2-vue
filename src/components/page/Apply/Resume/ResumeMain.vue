@@ -93,11 +93,6 @@ const modalStore = useModalStore();
 
 const {
   data: resumeList, // useQuery(useResumeListSearchQuery) 내 callback함수 return값이 입력된다
-  isLoading,
-  isSuccess,
-  isError,
-  isStale, // 캐시유지 주기
-  refetch, // 자동갱신 주기
 } = useResumeListReadQuery(itemPerPage, currentPage);
 const { mutate: handlerDownImageBtn } = useResumeFileDownMutation();
 const { mutate: handlerCopyResumeBtn } = useResumeOneCopyMutation();
@@ -121,7 +116,7 @@ const calculateItemPerPage = () => {
 onMounted(() => {
   setTimeout(() => {
     calculateItemPerPage();
-  }, 1000); // mount가 완료될때쯤 까지 delay건 후 calculateItemPerPage 함수 실행
+  }, 500); // mount가 완료될때쯤 까지 delay건 후 calculateItemPerPage 함수 실행
   window.addEventListener("resize", calculateItemPerPage); // 리사이즈 이벤트 리스너 등록
 });
 

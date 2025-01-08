@@ -1,3 +1,4 @@
+<!-- AddOn컴포넌트에서 설정한 Snow속성(갯수/지름/속도)를 기반으로 눈내림을 Canvas로 구현하는 코드 -->
 <template>
   <div class="night-container"></div>
   <div class="snow-container">
