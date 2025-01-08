@@ -1,10 +1,10 @@
 <template>
   <ContextBox>기업등록</ContextBox>
-  <CompanyRegisterMain />
+  <CompanySaveMain />
 </template>
 
 <script setup>
-import CompanyRegisterMain from "../../components/page/MyPage/CompanyRegister.vue";
+import CompanySaveMain from "../../components/page/MyPage/CompanySave.vue";
 const providedValue = ref();
 provide("providedValue", providedValue);
 </script>

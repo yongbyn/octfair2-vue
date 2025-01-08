@@ -21,7 +21,7 @@ import Scrap from "../views/Jobs/Scrap.vue";
 import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
-import CompanyRegister from "../views/MyPage/CompanyRegister.vue";
+import CompanySave from "../views/MyPage/CompanySave.vue";
 import MyPage from "../views/MyPage/MyPage.vue";
 import Withdraw from "../views/MyPage/Withdraw.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
@@ -222,7 +222,7 @@ const routes = [
           {
             path: "companyWritePage.do",
             name: "companyWritePage",
-            component: CompanyRegister,
+            component: CompanySave,
           },
         ],
       },

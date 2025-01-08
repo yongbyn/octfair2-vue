@@ -151,7 +151,9 @@
               variant="info"
               class="bizInsertBtn"
               @click="router.push('/vue/mypage/companyWritePage.do')"
-              >기업등록</b-button
+              >{{
+                updateUserInfo.bizIdx === 0 ? "기업 등록" : "기업 수정"
+              }}</b-button
             >
           </td>
         </tr>
@@ -264,12 +266,8 @@ const updateUserInfo = ref({
   zipCode: "",
   address: "",
   detailAddress: "",
+  bizIdx: "",
 });
-
-// 수정을 감지
-const originUserInfo = updateUserInfo;
-console.log("originUserInfo : ", originUserInfo);
-console.log("updateUserInfo : ", updateUserInfo);
 
 // 정규식
 const regExPatterns = {
