@@ -5,6 +5,6 @@ export const useFAQDetailSearch = (params) => {
   return useQuery({
     queryKey: ["faqDetail"],
     queryFn: () => faqDetailSearchApi(params),
-    enabled: !!params.faq_idx, // !!(undefine) => false
+    // enabled: !!params.faq_idx, // !!(undefine) => false
   });
 };

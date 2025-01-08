@@ -14,13 +14,19 @@
     @change="handlerFile"
   />
   <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-  <div>
+  <div @click="fileDownload">
+    <div>
+      <div>
+        <label>파일명:</label>
+        <input type="text" :value="fileData.name" readonly />
+        <!--  <div>
+          {{ fileData?.name || NoticeDetail?.file_name }}
+        </div> -->
+      </div>
+    </div>
     <div v-if="imageUrl">
       <label>미리보기</label>
       <img :src="imageUrl" />
-    </div>
-    <div v-else>
-      <label>파일명</label>
     </div>
   </div>
   <div class="button-box">
@@ -42,11 +48,14 @@ import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
 import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
-const detailValue = ref({});
+const detailValue = ref({
+  title: "",
+  content: "",
+});
 const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
 const userInfo = useUserInfo();
 const imageUrl = ref("");
-const fileData = ref("");
+const fileData = ref({ name: "" });
 
 const handlerFile = (e) => {
   const fileInfo = e.target.files;
@@ -61,12 +70,14 @@ const handlerFile = (e) => {
   ) {
     imageUrl.value = URL.createObjectURL(fileInfo[0]);
   }
-  fileData.value = fileInfo[0];
+  fileData.value = { name: fileInfo[0].name };
 };
 
 watchEffect(() => {
   if (isSuccess.value && NoticeDetail.value) {
     detailValue.value = { ...NoticeDetail.value.detail };
+    imageUrl.value = NoticeDetail.value.imageUrl || "";
+    fileData.value.name = NoticeDetail.value.file_name || "";
   }
 });
 
@@ -93,6 +104,7 @@ const { mutate: handlerInsertBtn } = useNoticeInsert(
   detailValue,
   userInfo.user.loginId
 );
+
 const actionHandler = () => {
   if (!validateInputs()) return;
 

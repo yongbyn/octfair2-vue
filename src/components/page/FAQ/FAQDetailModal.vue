@@ -60,6 +60,7 @@ import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
+const route = useRoute();
 
 const detailValue = ref({
   faq_type: "1",
@@ -128,6 +129,27 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
+
+watch(
+  () => route.params.faq_idx,
+  (newId, oldId) => {
+    if (newId && route.name == "faqDetail") {
+      if (newId !== oldId) {
+        params.faq_idx = newId;
+        refetch();
+      }
+    }
+  }
+);
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "faqInsert") {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

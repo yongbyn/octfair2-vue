@@ -89,13 +89,13 @@ const style = ref(null);
 const userInfo = useUserInfo();
 const userType = computed(() => userInfo.user.userType);
 const router = useRouter();
+
 const {
   data: faqList,
   isLoading,
-  isStale,
-  refetch,
   isSuccess,
   isError,
+  refetch,
 } = useFAQListQuery(injectedValue, cPage, type);
 
 const faqDetail = (faq_idx) => {
