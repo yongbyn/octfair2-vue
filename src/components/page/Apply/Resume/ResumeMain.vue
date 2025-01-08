@@ -5,7 +5,12 @@
       class="image-cardbox"
       v-for="resume in resumeList.payload"
       :key="resume.resIdx"
-      @click="handlerGetResumeBtn(resume.resIdx)"
+      @click="
+        {
+          modalStore.modalState = true;
+          resIdx = resume.resIdx;
+        }
+      "
     >
       <div class="image-wrapper">
         <img
@@ -85,11 +90,6 @@ const currentPage = ref(1);
 const queryClient = useQueryClient();
 const resIdx = ref("");
 const modalStore = useModalStore();
-
-const handlerGetResumeBtn = (idx) => {
-  modalStore.modalState = true;
-  resIdx.value = idx;
-};
 
 const {
   data: resumeList, // useQuery(useResumeListSearchQuery) 내 callback함수 return값이 입력된다

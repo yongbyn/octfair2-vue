@@ -86,6 +86,19 @@
   margin-bottom: 15px;
 }
 
+.garo_wrapper_lr {
+  display: flex; /* 가로 나열 */
+  justify-content: space-between; /* 가로 양끝 나열 */
+  align-items: center;
+  overflow: hidden; /* 이 요소(부모) 밖을 넘으려는 자식의 넘은부분을 히든 */
+}
+
+.garo_wrapper_r {
+  display: flex;
+  justify-content: right; /* 가로 우측부터 나열 */
+  align-items: center;
+}
+
 .align-center {
   display: flex;
   justify-content: center;
