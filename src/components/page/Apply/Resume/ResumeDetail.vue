@@ -63,7 +63,7 @@
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
 import printJS from "print-js";
-import { onMounted } from "vue";
+import { onActivated, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useResumeDetailReadQuery } from "../../../../hook/apply/resume/useResumeDetailReadQuery";
 import { useResumeDetailUpdateMutation } from "../../../../hook/apply/resume/useResumeDetailUpdateMutation";
@@ -121,6 +121,10 @@ const handlerBackBtn = () => {
 };
 
 onMounted(() => {
+  resIdx.value = props.resIdx || route.query.resIdx;
+});
+
+onActivated(() => {
   resIdx.value = props.resIdx || route.query.resIdx;
 });
 </script>

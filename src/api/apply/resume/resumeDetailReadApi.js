@@ -1,4 +1,3 @@
-import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { useUserInfo } from "../../../stores/userInfo";
 import { Resume } from "../../api";
@@ -16,12 +15,6 @@ export const resumeDetailReadApi = async (resIdx, resume, isEditor) => {
     // 로그인유저정보와 작성자정보의 일치판단
     if (userInfo.user.userIdx != result.data.payload.userIdx)
       isEditor.value = false;
-    else if (result.data.payload.viewed === 1) {
-      isEditor.value = false;
-      toast.info(
-        "열람되어 수정할 수 없는 이력서입니다, 원하시면 복사를 해주세요!"
-      );
-    }
   }
   return result.data;
 };
