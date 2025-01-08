@@ -1,3 +1,4 @@
+<!-- 점심메뉴/배경음악/배경화면/눈내림 의 설정을 하고 On/Off토글로 켜고끄고 할 수 있는 코드 -->
 <template>
   <div class="align-center">
     <div

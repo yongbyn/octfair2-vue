@@ -1,3 +1,4 @@
+<!-- AddOn컴포넌트에서 설정된 주소를 Spring서버에 보내 점심메뉴를 웹크롤링해오는 코드 -->
 <template>
   <div :style="{ width: props.width }">
     <img

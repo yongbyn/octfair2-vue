@@ -9,7 +9,7 @@
         <tr>
           <td colspan="4">
             <img
-              v-if="bizDetail.logicalPath"
+              v-if="bizDetail?.logicalPath"
               :src="bizDetail.logicalPath"
               style="width: 50%"
               alt="biz logo"
@@ -24,10 +24,10 @@
           <th>사업자주소</th>
         </tr>
         <tr>
-          <td>{{ bizDetail.bizName }}</td>
-          <td>{{ bizDetail.bizCeoName }}</td>
-          <td>{{ bizDetail.bizContact }}</td>
-          <td>{{ bizDetail.bizAddr }}</td>
+          <td>{{ bizDetail?.bizName }}</td>
+          <td>{{ bizDetail?.bizCeoName }}</td>
+          <td>{{ bizDetail?.bizContact }}</td>
+          <td>{{ bizDetail?.bizAddr }}</td>
         </tr>
 
         <tr>
@@ -37,17 +37,17 @@
           <th>매출액</th>
         </tr>
         <tr>
-          <td>{{ bizDetail.bizEmpCount }}</td>
-          <td>{{ bizDetail.bizWebUrl }}</td>
-          <td>{{ bizDetail.bizFoundDate }}</td>
-          <td>{{ bizDetail.bizRevenue }}</td>
+          <td>{{ bizDetail?.bizEmpCount }}</td>
+          <td>{{ bizDetail?.bizWebUrl }}</td>
+          <td>{{ bizDetail?.bizFoundDate }}</td>
+          <td>{{ bizDetail?.bizRevenue }}</td>
         </tr>
 
         <tr>
           <th colspan="4">기업 소개</th>
         </tr>
         <tr>
-          <td colspan="4">{{ bizDetail.bizIntro }}</td>
+          <td colspan="4">{{ bizDetail?.bizIntro }}</td>
         </tr>
       </tbody>
     </table>
@@ -60,24 +60,16 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { useRoute } from "vue-router";
+import { useCompanyDetailSearchQuery } from "../../../hook/company/useCompanyDetailSearchQuery";
 
 const { params } = useRoute();
-const bizDetail = ref({ logicalPath: "" });
 
-const searchDetail = async () => {
-  await axios
-    .post("/prx/api//company/companyDetailPage.do", { bizIdx: params.bizIdx })
-    // .post("/prx/api//company/companyDetailPage.do", { bizIdx: 3 })
-    .then((res) => {
-      bizDetail.value = res.data.payload;
-    });
-};
-
-onMounted(() => {
-  searchDetail();
-});
+const {
+  data: bizDetail,
+  refetch,
+  isSuccess,
+} = useCompanyDetailSearchQuery(params.bizIdx);
 </script>
 
 <style lang="scss" scoped>

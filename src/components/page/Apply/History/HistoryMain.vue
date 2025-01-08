@@ -91,7 +91,9 @@
     :totalItems="historyList?.historyCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
-    :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
+    :onClick="
+      () => queryClient.invalidateQueries({ queryKey: ['historyList'] })
+    "
     v-model="currentPage"
   />
 
@@ -120,8 +122,6 @@ const {
   isLoading,
   isSuccess,
   isError,
-  isStale, // 캐시유지 주기
-  refetch, // 자동갱신 주기
 } = useHistoryListReadQuery(
   itemPerPage,
   currentPage,
