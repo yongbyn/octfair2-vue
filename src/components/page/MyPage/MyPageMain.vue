@@ -150,7 +150,7 @@
             <b-button
               variant="info"
               class="bizInsertBtn"
-              @click="router.push('/vue/mypage/companyWritePage.do')"
+              @click="goCompanyWritePage"
               >{{
                 updateUserInfo.bizIdx === 0 ? "기업 등록" : "기업 수정"
               }}</b-button
@@ -210,9 +210,6 @@
       >
       <b-button variant="primary" @click="updateValid()">정보수정</b-button>
     </div>
-    <div class="text-danger mt-2" v-if="originUserInfo !== updateUserInfo">
-      * 정보가 수정되었습니다. 정보수정 버튼을 눌러서 저장하세요!
-    </div>
   </div>
 
   <!-- 모달 -->
@@ -224,13 +221,14 @@ import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useGetUserInfo } from "../../../hook/mypage/useGetUserInfo";
 import { useUpdateUser } from "../../../hook/mypage/useUpdateUser";
 import { useUserInfo } from "../../../stores/userInfo";
 import UpdatePwdModal from "./UpdatePwdModal.vue";
 
 const router = useRouter();
+const route = useRouter();
 const { user } = useUserInfo();
 const modalStore = useModalStore();
 
@@ -266,6 +264,7 @@ const updateUserInfo = ref({
   zipCode: "",
   address: "",
   detailAddress: "",
+  userIdx: user.userIdx,
   bizIdx: "",
 });
 
@@ -535,6 +534,17 @@ const { mutate: handlerUpdate } = useUpdateUser(updateUserInfo);
 const updatePwdModalOpen = () => {
   modalStore.setModalState();
 };
+
+// 기업 등록, 수정 페이지
+const goCompanyWritePage = () => {
+  // console.log("biz값 잘나오는가? : ", updateUserInfo.value.bizIdx);
+
+  router.push({
+    path: '/vue/mypage/companyWritePage.do',
+    query: { bizIdx: updateUserInfo.value.bizIdx }
+  });
+}
+
 </script>
 
 <style scoped>

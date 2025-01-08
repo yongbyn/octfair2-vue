@@ -185,9 +185,10 @@
       </tr>
     </table>
     <div class="d-flex justify-content-center align-items-center mt-4">
-      <b-button @click="router.go(-1)" class="me-2">뒤로가기</b-button>
+      <b-button @click="goBack" class="me-2">뒤로가기</b-button>
       <b-button variant="danger" class="me-2">삭제하기</b-button>
-      <b-button variant="primary" @click="companySaveValid">등록하기</b-button>
+      <b-button variant="primary" @click="companySaveValid">{{companySave.bizIdx === 0 ? "등록하기" : "수정하기"}}</b-button>
+      
     </div>
   </div>
 </template>
@@ -196,21 +197,18 @@
 import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute ,useRouter } from "vue-router";
 import { useCompanySave } from "../../../hook/mypage/useCompanySave";
+import { useGetCompanyInfo } from "../../../hook/mypage/useGetCompanyInfo";
+import { useUserInfo } from "../../../stores/userInfo";
 
+const route = useRoute();
 const router = useRouter();
+const bizIdx = route.query.bizIdx;
+
+const { user } = useUserInfo();
 const companySave = ref({
   bizName: {
-    value: "",
-    state: false,
-  },
-  bizAddr: {
-    value: "",
-    state: false,
-  },
-  bizContact: "",
-  bizWebUrl: {
     value: "",
     state: false,
   },
@@ -218,11 +216,20 @@ const companySave = ref({
     value: "",
     state: false,
   },
-  bizFoundDate: {
+  bizContact: "",
+  bizAddr: {
     value: "",
     state: false,
   },
   bizEmpCount: {
+    value: "",
+    state: false,
+  },
+  bizWebUrl: {
+    value: "",
+    state: false,
+  },
+  bizFoundDate: {
     value: "",
     state: false,
   },
@@ -232,9 +239,14 @@ const companySave = ref({
     state: false,
   },
   bizIntro: "",
-  logo: "",
+  bizIdx: bizIdx,
+  userIdx: user.userIdx,
+  loginId: user.loginId,
+  userType: user.userType,
 });
 const fileData = ref("");
+
+console.log("가져온 bizIdx 값 : ", bizIdx);
 
 // 포커스용 변수
 const bizName = ref("");
@@ -471,36 +483,58 @@ const companySaveValid = () => {
   if (!companySave.value.bizName.state) {
     toast.error("사업자명을 입력하세요!");
     bizName.value.focus();
+    return;
   } else if (!companySave.value.bizCeoName.state) {
     toast.error("사업자 대표를 입력하세요!");
     bizCeoName.value.focus();
+    return;
   } else if (!bizContact.value.classList.contains("is-valid")) {
     toast.error("전화번호를 입력하세요!");
     bizContact.value.focus();
+    return;
   } else if (!companySave.value.bizAddr.state) {
     toast.error("사업자 주소를 입력하세요!");
     bizAddr.value.focus();
   } else if (!companySave.value.bizEmpCount.state) {
     toast.error("사원수를 선택하세요!");
     bizEmpCount.value.focus();
+    return;
   } else if (!companySave.value.bizWebUrl.state) {
     toast.error("홈페이지 주소를 입력하세요!");
     bizWebUrl.value.focus();
+    return;
   } else if (!companySave.value.bizFoundDate.state) {
     toast.error("설립일을 입력하세요!");
     bizFoundDate.value.focus();
+    return;
   } else if (!companySave.value.bizRevenue.state) {
     toast.error("매출액을 선택하세요!");
     bizRevenue.value.focus();
+    return;
   } else if (!fileInfo.value.classList.contains("is-valid")) {
     toast.error("기업로고를 첨부하세요!");
     fileInfo.value.focus();
+    return;
   } else {
     handlerCompanySave();
+    toast.success("기업을 등록하였습니다.")
   }
 };
 // 회사 등록
 const { mutate: handlerCompanySave } = useCompanySave(companySave, fileData);
+
+// 등록된 값 가져오기
+const { mutate: handlerGetCompanyInfo } = useGetCompanyInfo(companySave, fileData);
+onMounted(() => {
+    handlerGetCompanyInfo();
+});
+
+
+// 뒤로가기
+const goBack = () => {
+  companySave.value = { ...companySave };
+  router.go(-1);
+}
 </script>
 <style scoped>
 .companySaveContent {

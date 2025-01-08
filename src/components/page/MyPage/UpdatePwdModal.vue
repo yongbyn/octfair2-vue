@@ -42,7 +42,7 @@
               type="password"
               id="newPwd"
               v-model="updatePwd.newPasswd"
-              placeholder="숫자, 영문, 특수문자 조합(4~20자)"
+              placeholder="비밀번호는 4~40자로 입력하세요."
             />
           </td>
         </tr>

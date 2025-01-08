@@ -73,7 +73,8 @@ export const MyPage = {
   GetUserInfo: "/prx/api/mypage/userDetail.do",
   UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
   UpdatePwd: "/prx/api/mypage/updatePw.do",
-  CompanySave: "/prx/api/company/companyInsert.do",
+  CompanySave: "/prx/api/company/companyInsert",
+  GetCompanyInfo: "/prx/api/company/companyDetailPage",
 };
 
 export const Applicant = {
