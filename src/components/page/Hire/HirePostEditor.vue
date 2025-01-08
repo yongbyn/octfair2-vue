@@ -12,6 +12,9 @@
               placeholder="채용 제목을 입력하세요"
               v-model="postData.title"
             />
+            <p v-if="validationErrors.title" class="textDanger">
+              {{ validationErrors.title }}
+            </p>
           </td>
         </tr>
 
@@ -46,6 +49,9 @@
                 />
                 경력무관
               </label>
+              <p v-if="validationErrors.expRequired" class="textDanger">
+                {{ validationErrors.expRequired }}
+              </p>
             </div>
           </td>
           <th>경력<span class="font-red">*</span></th>
@@ -61,6 +67,9 @@
               <option value="3년이상">3년 이상</option>
               <option value="4년이상">4년 이상</option>
             </select>
+            <p v-if="validationErrors.expYears" class="textDanger">
+              {{ validationErrors.expYears }}
+            </p>
           </td>
         </tr>
 
@@ -73,6 +82,9 @@
               placeholder="급여를 입력하세요"
               v-model="postData.salary"
             />
+            <p v-if="validationErrors.salary" class="textDanger">
+              {{ validationErrors.salary }}
+            </p>
           </td>
           <th>모집 인원<span class="font-red">*</span></th>
           <td>
@@ -82,6 +94,9 @@
               placeholder="모집 인원을 입력하세요"
               v-model="postData.openings"
             />
+            <p v-if="validationErrors.openings" class="textDanger">
+              {{ validationErrors.openings }}
+            </p>
           </td>
         </tr>
         <tr>
@@ -93,6 +108,9 @@
               placeholder="근무 지역을 입력하세요"
               v-model="postData.workLocation"
             />
+            <p v-if="validationErrors.workLocation" class="textDanger">
+              {{ validationErrors.workLocation }}
+            </p>
           </td>
           <th>포지션 설명<span class="font-red">*</span></th>
           <td>
@@ -102,6 +120,9 @@
               placeholder="포지션 설명을 입력하세요"
               v-model="postData.posDescription"
             />
+            <p v-if="validationErrors.posDescription" class="textDanger">
+              {{ validationErrors.posDescription }}
+            </p>
           </td>
         </tr>
         <tr>
@@ -113,6 +134,9 @@
               <label>~ 종료</label>
               <input type="date" id="endDate" v-model="postData.endDate" />
             </div>
+            <p v-if="validationErrors.hirePeriod" class="textDanger">
+              {{ validationErrors.hirePeriod }}
+            </p>
           </td>
         </tr>
         <tr>
@@ -133,6 +157,9 @@
                 절차초기화
               </button>
             </div>
+            <p v-if="validationErrors.hirProcess" class="textDanger">
+              {{ validationErrors.hirProcess }}
+            </p>
             <div>
               <p v-if="postData.hirProcess.length" class="postedHirProc">
                 {{ postData.hirProcess }}
@@ -152,6 +179,9 @@
               @input="autoHeight"
               v-model="postData.reqQualifications"
             ></textarea>
+            <p v-if="validationErrors.reqQualifications" class="textDanger">
+              {{ validationErrors.reqQualifications }}
+            </p>
           </td>
         </tr>
         <tr>
@@ -233,9 +263,104 @@ import { onMounted, watch } from "vue";
 
 const router = useRouter();
 const route = useRoute();
-const postData = ref({ expRequired: [], expYears: "", hirProcess: [] });
+const postData = ref({ expRequired: [], expYears: "", hirProcess: "" });
 const currentProc = ref("");
 const fileData = ref("");
+const validationErrors = ref({});
+
+const validateField = (field, value) => {
+  switch (field) {
+    case "title":
+      return value && typeof value === "string" && value.trim()
+        ? ""
+        : "채용 제목을 입력하세요.";
+    case "expRequired":
+      return value && Array.isArray(value) && value.length
+        ? ""
+        : "경력 여부를 선택하세요.";
+    case "expYears":
+      return postData.value.expRequired.includes("경력") &&
+        (!value || !value.trim())
+        ? "경력 연수를 선택하세요."
+        : "";
+    case "salary":
+      return value && typeof value === "string" && !isNaN(Number(value.trim()))
+        ? ""
+        : "급여를 숫자로 입력하세요.";
+    case "openings":
+      return value && typeof value === "string" && Number(value.trim()) > 0
+        ? ""
+        : "모집 인원을 숫자로 입력하세요.";
+    case "workLocation":
+      return value && typeof value === "string" && value.trim()
+        ? ""
+        : "근무 지역을 입력하세요.";
+    case "posDescription":
+      return value && typeof value === "string" && value.trim()
+        ? ""
+        : "포지션 설명을 입력하세요.";
+    case "hirePeriod":
+      return postData.value.startDate && postData.value.endDate
+        ? ""
+        : "채용 기간을 설정하세요.";
+    case "hirProcess":
+      return postData.value.hirProcess && postData.value.hirProcess.trim()
+        ? ""
+        : "채용 절차를 등록하세요.";
+    case "reqQualifications":
+      return value && typeof value === "string" && value.trim()
+        ? ""
+        : "자격 조건을 입력하세요.";
+    default:
+      return "";
+  }
+};
+
+const validateForm = () => {
+  const errors = {};
+
+  const fields = [
+    "title",
+    "expRequired",
+    "expYears",
+    "salary",
+    "openings",
+    "workLocation",
+    "posDescription",
+    "hirePeriod",
+    "hirProcess",
+    "reqQualifications",
+  ];
+
+  fields.forEach((field) => {
+    errors[field] = validateField(field, postData.value[field]);
+  });
+
+  validationErrors.value = errors;
+
+  // 유효하지 않은 필드가 있으면 false 반환
+  return Object.values(errors).every((error) => !error);
+};
+
+const resetPostData = () => {
+  postData.value = {
+    expRequired: [],
+    expYears: "",
+    hirProcess: "",
+    title: "",
+    salary: "",
+    openings: "",
+    workLocation: "",
+    posDescription: "",
+    startDate: "",
+    endDate: "",
+    reqQualifications: "",
+    prefQualifications: "",
+    duties: "",
+    benefits: "",
+    fileName: "",
+  };
+};
 
 const updateExpRequired = (value, event) => {
   const isChecked = event.target.checked;
@@ -304,6 +429,11 @@ const hirePostSearchApi = async (idx) => {
 };
 
 const handlerPostCreate = async () => {
+  if (!validateForm()) {
+    alert(Object.values(validationErrors.value).find((error) => error));
+    return;
+  }
+
   const textData = {
     ...postData.value,
     expRequired: Array.isArray(postData.value.expRequired)
@@ -324,6 +454,7 @@ const handlerPostCreate = async () => {
     .then(
       (res) => console.log(res),
       alert("공고가 등록되었습니다."),
+      resetPostData(),
       router.push({
         name: "hire-post",
       })
@@ -332,6 +463,11 @@ const handlerPostCreate = async () => {
 };
 
 const handlerPostUpdate = async () => {
+  if (!validateForm()) {
+    alert(Object.values(validationErrors.value).find((error) => error));
+    return;
+  }
+
   const textData = {
     ...postData.value,
     expRequired: Array.isArray(postData.value.expRequired)
@@ -376,13 +512,19 @@ const autoHeight = (e) => {
 };
 
 onMounted(() => {
-  route.params.idx && hirePostSearchApi(route.params.idx);
+  if (!route.params.idx) {
+    resetPostData();
+  } else {
+    hirePostSearchApi(route.params.idx);
+  }
 });
 
 watch(
   () => route.params.idx,
   (newIdx) => {
-    if (newIdx) {
+    if (!newIdx) {
+      resetPostData();
+    } else {
       hirePostSearchApi(newIdx);
     }
   }
