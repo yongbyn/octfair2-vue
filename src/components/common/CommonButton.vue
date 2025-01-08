@@ -1,3 +1,4 @@
+<!-- hover시 파스텔번짐효과가 있는 효과버튼 -->
 <template>
   <button><slot></slot></button>
 </template>

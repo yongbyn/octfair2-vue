@@ -122,8 +122,6 @@ const {
   isLoading,
   isSuccess,
   isError,
-  isStale, // 캐시유지 주기
-  refetch, // 자동갱신 주기
 } = useHistoryListReadQuery(
   itemPerPage,
   currentPage,
