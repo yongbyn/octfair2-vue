@@ -338,6 +338,7 @@ const handlerPostUpdate = async () => {
       ? postData.value.expRequired.join(",")
       : "",
     postIdx: route.params.idx,
+    appStatus: "대기중",
   };
 
   const formData = new FormData();
@@ -375,7 +376,6 @@ const autoHeight = (e) => {
 };
 
 onMounted(() => {
-  console.log("Initial params.idx:", route.params.idx);
   route.params.idx && hirePostSearchApi(route.params.idx);
 });
 
