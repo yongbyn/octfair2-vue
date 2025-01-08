@@ -19,9 +19,9 @@
     <table>
       <colgroup>
         <col width="10%" />
-        <col width="50%" />
         <col width="30%" />
-        <col width="10%" />
+        <col width="30%" />
+        <col width="20%" />
       </colgroup>
 
       <thead>
@@ -92,13 +92,13 @@ const router = useRouter();
 const {
   data: faqList,
   isLoading,
+  isStale,
   refetch,
   isSuccess,
   isError,
 } = useFAQListQuery(injectedValue, cPage, type);
 
 const faqDetail = (faq_idx) => {
-  refetch();
   router.push({
     name: "faqDetail",
     params: { faq_idx },
@@ -127,7 +127,7 @@ table {
   border-collapse: collapse;
   margin: 20px 0px 0px 0px;
   font-size: 18px;
-  text-align: center;
+  text-align: left;
 
   th,
   td {
@@ -141,22 +141,30 @@ table {
     background-color: #2676bf;
     color: #ddd;
   }
+}
 
-  button {
-    padding: 6px 12px;
-    margin: 5px;
-    border-radius: 4px;
-    border: none;
-    background-color: #1378e4;
-    color: white;
-    cursor: pointer;
-  }
+.not-info {
+  font-size: 36px;
+}
 
-  /* 테이블 올렸을 때 */
-  tbody tr:hover {
-    background-color: #d3d3d3;
-    opacity: 0.9;
-    cursor: pointer;
-  }
+button {
+  padding: 6px 12px;
+  margin: 5px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1378e4;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #003d7e;
+}
+
+/* 테이블 올렸을 때 */
+tbody tr:hover {
+  background-color: #d3d3d3;
+  opacity: 0.9;
+  cursor: pointer;
 }
 </style>

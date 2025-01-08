@@ -74,6 +74,7 @@ const { data: FAQDetail, isSuccess, refetch } = useFAQDetailSearch(params);
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {
     detailValue.value = { ...FAQDetail.value.detail };
+    detailValue.value.faq_type = FAQDetail.value.detail.faq_type;
   }
 });
 
