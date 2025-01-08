@@ -313,10 +313,17 @@ const handlerUpdateStatus = async (postIdx, status) => {
 };
 
 const handlerUpdateBtn = (idx) => {
-  router.push({
-    name: "hire-post-update",
-    params: { idx },
-  });
+  if (
+    detailValue.value.appStatus === "대기중" ||
+    detailValue.value.appStatus === "불허"
+  ) {
+    router.push({
+      name: "hire-post-update",
+      params: { idx },
+    });
+  } else if (detailValue.value.appStatus === "승인") {
+    alert("승인된 공고는 수정이 불가능합니다.");
+  }
 };
 
 const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation(
