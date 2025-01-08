@@ -70,7 +70,7 @@
 
             <div class="detail-item">ㆍ 우대 사항</div>
             <span class="detail-describe">
-              {{ detailValue.prefQualifications }}
+              {{ detailValue.prefQualifications.replace("\n", "<br />") }}
             </span>
 
             <div class="detail-item">ㆍ 모집 인원</div>
@@ -148,7 +148,7 @@
               id="btnManagehireDelete"
               class="btn-edit"
               variant="outline-danger"
-              @click="handlerDeleteBtn"
+              @click="handlerDeleteBtnBefore"
             >
               삭제
             </b-button>
@@ -326,10 +326,14 @@ const handlerUpdateBtn = (idx) => {
   }
 };
 
-const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation(
-  bizDetail.value.bizIdx,
-  detailValue.value.postIdx
-);
+const handlerDeleteBtnBefore = () => {
+  handlerDeleteBtn({
+    bizIdx: bizDetail.value.bizIdx,
+    postIdx: detailValue.value.postIdx,
+  });
+};
+
+const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation();
 
 const fileDownload = () => {
   const param = {
