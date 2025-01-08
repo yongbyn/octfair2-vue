@@ -69,6 +69,7 @@ const injectedValue = inject("providedValue");
 const {
   data: noticeList,
   isLoading,
+  isStale,
   refetch,
   isSuccess,
 } = useNoticeListSearchQuery(injectedValue, cPage);

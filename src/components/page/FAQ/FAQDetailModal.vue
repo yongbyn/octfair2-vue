@@ -150,6 +150,14 @@ watch(
     }
   }
 );
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "faqUpdate") {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

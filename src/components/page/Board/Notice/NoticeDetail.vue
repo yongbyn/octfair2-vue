@@ -11,20 +11,20 @@
     type="file"
     style="display: none"
     id="fileInput"
-    @change="handlerFile"
+    @change="handlerSelectFileBtn"
   />
   <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-  <div @click="fileDownload">
-    <div>
-      <div>
-        <label>파일명:</label>
-        <input type="text" :value="fileData.name" readonly />
-        <!--  <div>
+  <div @click="handlerDownloadFile">
+    <>
+    <div v-if="!imageUrl">
+      <label>파일명:</label>
+      <input type="text" :value="fileData.name" readonly />
+      <!--  <div>
           {{ fileData?.name || NoticeDetail?.file_name }}
         </div> -->
-      </div>
     </div>
-    <div v-if="imageUrl">
+
+    <div v-else>
       <label>미리보기</label>
       <img :src="imageUrl" />
     </div>
@@ -33,51 +33,38 @@
     <button @click="actionHandler">
       {{ actionLabel }}
     </button>
-    <button v-if="params.idx" @click="handleDelete">삭제</button>
+    <button v-if="detailValue.noticeIdx" @click="handleDelete">삭제</button>
     <button @click="$router.go(-1)">뒤로가기</button>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
 import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
+import { useNoticeImage } from "../../../../hook/notice/useNoticeImage";
 import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
-import { useUserInfo } from "../../../../stores/userInfo";
 
 const { params } = useRoute();
-const detailValue = ref({
-  title: "",
-  content: "",
-});
-const { data: NoticeDetail, isSuccess } = useNoticeDetail(params);
-const userInfo = useUserInfo();
+const detailValue = ref({});
+const { data: NoticeDetail, isSuccess } = useNoticeDetail(
+  detailValue,
+  params.idx,
+  fileData
+);
+//const userInfo = useUserInfo();
 const imageUrl = ref("");
 const fileData = ref({ name: "" });
 
-const handlerFile = (e) => {
-  const fileInfo = e.target.files;
-  const fileInfoSplit = fileInfo[0].name.split(".");
-  const fileExtension = fileInfoSplit[1].toLowerCase();
-
-  if (
-    fileExtension === "jpg" ||
-    fileExtension === "gif" ||
-    fileExtension === "png" ||
-    fileExtension === "webp"
-  ) {
-    imageUrl.value = URL.createObjectURL(fileInfo[0]);
-  }
-  fileData.value = { name: fileInfo[0].name };
-};
-
 watchEffect(() => {
-  if (isSuccess.value && NoticeDetail.value) {
+  if (isSuccess.value && NoticeDetail.value && params.idx) {
     detailValue.value = { ...NoticeDetail.value.detail };
-    imageUrl.value = NoticeDetail.value.imageUrl || "";
-    fileData.value.name = NoticeDetail.value.file_name || "";
+    if (["jpg", "gif", "png", "webp"].includes(detailValue.value.fileExt)) {
+      noticeImageGetApi(imageUrl, params.idx); // Blob방식URL: logicalPath와 달리 클라이언트에 미리 다운시킨 캐시이미지를 보게되는 방식
+      // imageUrl.value = '/api'+noticeDetail.value.detail.logicalPath;
+    }
   }
 });
 
@@ -97,12 +84,21 @@ const validateInputs = () => {
 
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   detailValue,
-  params.idx
+  params.idx,
+  fileData
 );
 
 const { mutate: handlerInsertBtn } = useNoticeInsert(
   detailValue,
-  userInfo.user.loginId
+  params.idx,
+  fileData
+);
+
+const { mutate: handlerSelectFileBtn } = useNoticeImage(
+  detailValue,
+  params.idx,
+  fileData,
+  imageUrl
 );
 
 const actionHandler = () => {
