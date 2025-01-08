@@ -91,7 +91,9 @@
     :totalItems="historyList?.historyCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
-    :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
+    :onClick="
+      () => queryClient.invalidateQueries({ queryKey: ['historyList'] })
+    "
     v-model="currentPage"
   />
 
