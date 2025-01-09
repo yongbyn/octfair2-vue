@@ -133,17 +133,6 @@ const handleDelete = () => {
   }
 };
 
-/* watch(
-  () => route.params.faq_idx,
-  (newId, oldId) => {
-    if (newId && route.name == "faqDetail") {
-      if (newId !== oldId) {
-        params.faq_idx = newId;
-        refetch();
-      }
-    }
-  }
-); */
 
 //신규등록 버튼을 눌렀을때
 onActivated(() => {
@@ -155,23 +144,7 @@ onActivated(() => {
   }
 });
 
-/* watch(
-  () => route.name,
-  (newRoute) => {
-    console.log(newRoute);
-    if (newRoute === "faqInsert") {
-      refetch();
-    }
-  }
-);
-watch(
-  () => route.name,
-  (newRoute) => {
-    if (newRoute === "faqUpdate") {
-      refetch();
-    }
-  }
-); */
+
 </script>
 
 <style lang="scss" scoped>

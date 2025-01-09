@@ -3,6 +3,8 @@ import { Faq } from "../api";
 
 export const faqDetailUpdateApi = async (detailValue, faq_idx) => {
   // textData 객체 생성
+
+
   const textData = {
     ...detailValue.value,
     faqSeq: faq_idx.value,
