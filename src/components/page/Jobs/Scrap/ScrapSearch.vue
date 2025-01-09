@@ -28,6 +28,7 @@
 
 <script setup>
 import axios from "axios";
+import { Scrap } from "../../../../api/api";
 
 const injectedValue = inject("providedValue");
 const selectedScrapIdxList = inject("selectedScrapIdxList", []);
@@ -48,7 +49,7 @@ const handlerDelete = () => {
     sortDelete: "delete",
   };
 
-  axios.post("/prx/api/jobs/deleteScrap.do", params).then((res) => {
+  axios.post(Scrap.DeleteScrap, params).then((res) => {
     alert("삭제되었습니다.");
     handlerSearch();
   });

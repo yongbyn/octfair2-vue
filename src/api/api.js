@@ -14,8 +14,13 @@ export const Notice = {
 
 export const Post = {
   SearchPostList: "/prx/api/jobs/readPostList.do",
+  SearchHirePostList: "/prx/api/manage-hire/post-list.do",
+  SearchPostResumeList: "/prx/api/jobs/applyUserResumeDetail.do",
   SearchPostDetail: "/prx/api/jobs/readPostDetailBody.do",
   DeletePostDetail: "/prx/api/manage-hire/deleteHirePost.do",
+  UpdatePostDetailStatus: "/prx/api/manage-post/statusUpdate.do",
+  UpdatePostApply: "/prx/api/jobs/saveApply.do",
+  DownloadPostDetail: "/prx/api/manage-hire/downloadAttachment.do",
 };
 
 export const Withdraw = {

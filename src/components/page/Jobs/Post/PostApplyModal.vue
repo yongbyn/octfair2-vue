@@ -3,7 +3,7 @@
     <div class="container">
       <div class="title-header">
         <span class="top-btn">
-          <b-button variant="primary" @click="handlerApply">
+          <b-button variant="primary" @click="handlerApplyBtn">
             입사지원
           </b-button>
           <b-button variant="secondary" @click="handlerModal">
@@ -53,47 +53,44 @@
 
 <script setup>
 import axios from "axios";
+import { Post } from "../../../../api/api";
+import { usePostDetailApplyMutation } from "../../../../hook/jobs/usePostDetailApplyMutation";
 import { useModalStore } from "../../../../stores/modalState";
-const resumeList = ref();
 
-const emit = defineEmits(["postSuccess", "modalClose"]);
 const props = defineProps(["postIdx", "title", "bizName"]);
 const modalState = useModalStore();
+const resumeList = ref();
 const selected = ref();
 
 const selectOption = (option) => {
   selected.value = option;
 };
 
-const handlerApply = async () => {
+const searchResumeList = async () => {
+  await axios.post(Post.SearchPostResumeList, {}).then((res) => {
+    resumeList.value = res.data.userResumeList;
+  });
+};
+
+const handlerApplyBtn = async () => {
   if (!selected.value) {
     alert("이력서를 선택하세요.");
     return;
   }
 
-  const params = {
+  handlerApply({
     resumeIdx: selected.value,
     postIdx: props.postIdx,
-  };
-  await axios.post("/prx/api/jobs/saveApply.do", params).then((res) => {
-    if (res.data.result === "fail") {
-      alert(res.data.message);
-    } else {
-      alert("지원 완료되었습니다.");
+    onSuccess: () => {
       modalState.setModalState();
-      emit("applySuccess");
-    }
+    },
   });
 };
+
+const { mutate: handlerApply } = usePostDetailApplyMutation();
 
 const handlerModal = () => {
   modalState.setModalState();
-};
-
-const searchResumeList = async () => {
-  await axios.post("/prx/api/jobs/applyUserResumeDetail.do", {}).then((res) => {
-    resumeList.value = res.data.userResumeList;
-  });
 };
 
 onMounted(() => {
