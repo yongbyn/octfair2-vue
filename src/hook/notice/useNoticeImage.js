@@ -1,10 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { useRouter } from "vue-router";
+import { useMutation } from "@tanstack/vue-query";
 
 export const useNoticeImage = (detailValue, idx, fileData, imageUrl) => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
   const selectNoticeFile = async (e) => {
     const fileInfo = e.target.files;
     const fileInfoSplit = fileInfo[0].name.split(".");

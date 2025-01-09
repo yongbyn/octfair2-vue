@@ -1,21 +1,18 @@
 import axios from "axios";
 import { Notice } from "../api";
 
-export const noticeDetailUpdateApi = async (detailValue, idx) => {
+export const noticeDetailUpdateApi = async (detailValue, idx, fileData) => {
   const textData = {
-    ...detailValue,
+    ...detailValue.value,
     noticeSeq: idx,
-    context: detailValue.content,
+    context: detailValue.value.content,
   };
 
   const formData = new FormData();
-  const fileData = ref("");
   if (fileData.value) formData.append("file", fileData.value);
   formData.append(
     "text",
-    new Blob([JSON.stringify(textData)], {
-      type: "application/json",
-    })
+    new Blob([JSON.stringify(textData)], { type: "application/json" })
   );
 
   await axios.post(Notice.FileNoticeUpdate, formData);

@@ -11,24 +11,20 @@
     type="file"
     style="display: none"
     id="fileInput"
-    @change="handlerSelectFileBtn"
+    @change="handlerFile"
   />
   <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-  <div @click="handlerDownloadFile">
-    <>
-    <div v-if="!imageUrl">
-      <label>파일명:</label>
-      <input type="text" :value="fileData.name" readonly />
-      <!--  <div>
-          {{ fileData?.name || NoticeDetail?.file_name }}
-        </div> -->
-    </div>
 
-    <div v-else>
-      <label>미리보기</label>
-      <img :src="imageUrl" />
-    </div>
+  <div v-if="imageUrl">
+    <label>파일명:</label>
+    <input type="text" :value="fileData.name" readonly />
+    <label>미리보기</label>
+    <img :src="imageUrl" />
   </div>
+  <div v-else>
+    <input type="text" :value="fileData.name" readonly />
+  </div>
+
   <div class="button-box">
     <button @click="actionHandler">
       {{ actionLabel }}
@@ -41,6 +37,7 @@
 <script setup>
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import { noticeImageGetApi } from "../../../../api/notice/noticeImageGetApi";
 import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
 import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
@@ -49,14 +46,36 @@ import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
 
 const { params } = useRoute();
 const detailValue = ref({});
+//const userInfo = useUserInfo();
+const imageUrl = ref("");
+const fileData = ref("");
+
 const { data: NoticeDetail, isSuccess } = useNoticeDetail(
   detailValue,
   params.idx,
   fileData
 );
-//const userInfo = useUserInfo();
-const imageUrl = ref("");
-const fileData = ref({ name: "" });
+
+const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
+  detailValue,
+  params.idx,
+  fileData
+);
+
+const { mutate: handlerInsertBtn } = useNoticeInsert(
+  detailValue,
+  params.idx,
+  fileData
+);
+
+const { mutate: handlerFile } = useNoticeImage(
+  detailValue,
+  params.idx,
+  fileData,
+  imageUrl
+);
+
+const { mutate: handlerDeleteBtn } = useNoticeDelete(params);
 
 watchEffect(() => {
   if (isSuccess.value && NoticeDetail.value && params.idx) {
@@ -82,25 +101,6 @@ const validateInputs = () => {
   return true;
 };
 
-const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
-  detailValue,
-  params.idx,
-  fileData
-);
-
-const { mutate: handlerInsertBtn } = useNoticeInsert(
-  detailValue,
-  params.idx,
-  fileData
-);
-
-const { mutate: handlerSelectFileBtn } = useNoticeImage(
-  detailValue,
-  params.idx,
-  fileData,
-  imageUrl
-);
-
 const actionHandler = () => {
   if (!validateInputs()) return;
 
@@ -120,7 +120,6 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
-const { mutate: handlerDeleteBtn } = useNoticeDelete(params);
 </script>
 
 <style lang="scss" scoped>

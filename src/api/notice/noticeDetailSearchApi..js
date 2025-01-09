@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Notice } from "../api";
 
-export const noticeDetailSearchApi = async (params) => {
+export const noticeDetailSearchApi = async (detailValue, idx, fileData) => {
   const result = await axios.post(Notice.NoticeDetail, {
-    noticeSeq: params.idx,
+    noticeSeq: idx,
   });
   return result.data;
 };

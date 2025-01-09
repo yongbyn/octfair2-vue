@@ -1,15 +1,16 @@
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
   NoticeDetail: "/prx/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
+  GetNoticeImage: "/prx/api/board/noticeDownload.do",
+  UpdateNoticeDetail: "/prx/api/board/noticeUpdateFileForm.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
   InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
-  FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
+  //FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
-  SearchMyQnaDetail:"/prx/api/board/qnaDetailFileBody.do",
-  UpdateMyQnaDetail:"/prx/api/board/qnaUpdateFileForm.do",
-  DeleteMyQnaDetail:"/prx/api/board/qnaDeleteBody.do",
-  InsertMyQnaDetail:"/prx/api/board/qnaSaveFileForm.do"
+  SearchMyQnaDetail: "/prx/api/board/qnaDetailFileBody.do",
+  UpdateMyQnaDetail: "/prx/api/board/qnaUpdateFileForm.do",
+  DeleteMyQnaDetail: "/prx/api/board/qnaDeleteBody.do",
+  InsertMyQnaDetail: "/prx/api/board/qnaSaveFileForm.do",
 };
 
 export const Post = {
