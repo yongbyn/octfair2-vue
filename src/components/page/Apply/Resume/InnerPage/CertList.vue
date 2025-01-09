@@ -79,6 +79,9 @@ watch(() => [props.resume.resIdx, certList?.payload], () => {
 
 onActivated(() => {
   isAddCert.value = false;
+  Object.keys(cert).forEach((key) => {
+    cert[key] = "";
+  });
 });
 </script>
 

@@ -63,6 +63,9 @@ watch(() => [props.resume.resIdx, skillList?.payload], () => {
 
 onActivated(() => {
   isAddSkill.value = false;
+  Object.keys(skill).forEach((key) => {
+    skill[key] = "";
+  });
 });
 </script>
 
