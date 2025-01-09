@@ -39,12 +39,12 @@
           </td>
         </tr>
       </table>
-      <div>
+      <div class="button-box" v-if="userType === 'M'">
         <button @click="actionHandler">
           {{ actionLabel }}
         </button>
-        <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
-        <button @click="$router.go(-1)">닫기</button>
+        <button v-if="detailValue.faq_idx" @click="handleDelete">삭제</button>
+        <button @click="$router.go(-1)">뒤로가기</button>
       </div>
     </div>
   </div>
@@ -60,24 +60,42 @@ import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
-
+const userInfo = useUserInfo();
+const userType = computed(() => userInfo.user.userType);
+const route = useRoute();
+const faq_idx = ref("");
 const detailValue = ref({
   faq_type: "1",
   title: "",
   content: "",
 });
 
-const userInfo = useUserInfo();
-
-const { data: FAQDetail, isSuccess } = useFAQDetailSearch(params);
+const {
+  data: FAQDetail,
+  isSuccess,
+  refetch,
+} = useFAQDetailSearch(detailValue, faq_idx);
 
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {
     detailValue.value = { ...FAQDetail.value.detail };
+    //detailValue.value.faq_type = FAQDetail.value.detail.faq_type;
   }
 });
 
-const actionLabel = computed(() => (params.faq_idx ? "수정" : "등록"));
+const actionLabel = computed(() =>
+  faq_idx.value === "insert" ? "수정" : "등록"
+);
+
+const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(detailValue, faq_idx);
+
+const { mutate: handlerInsertBtn } = useFAQDetailInsert(
+  detailValue,
+  faq_idx,
+  userInfo.user.loginId
+);
+
+const { mutate: handlerDeleteBtn } = useFAQDetailDelete(faq_idx);
 
 const validateInputs = () => {
   if (!detailValue.value.faq_type) {
@@ -95,23 +113,10 @@ const validateInputs = () => {
   return true;
 };
 
-const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(
-  detailValue,
-  params.faq_idx
-);
-
-const { mutate: handlerInsertBtn } = useFAQDetailInsert(
-  detailValue,
-
-  userInfo.user.loginId
-);
-
-const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params);
-
 const actionHandler = () => {
   if (!validateInputs()) return;
 
-  if (params.faq_idx) {
+  if (faq_idx.value === "insert") {
     if (confirm("수정하시겠습니까?")) {
       handlerUpdateBtn();
     }
@@ -127,6 +132,46 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
+
+/* watch(
+  () => route.params.faq_idx,
+  (newId, oldId) => {
+    if (newId && route.name == "faqDetail") {
+      if (newId !== oldId) {
+        params.faq_idx = newId;
+        refetch();
+      }
+    }
+  }
+); */
+
+//신규등록 버튼을 눌렀을때
+onActivated(() => {
+  let pathSegments = window.location.pathname.split("/"); // URL을 '/'로 분리
+  faq_idx.value = pathSegments[pathSegments.length - 1]; // 맨 끝 값 추출
+  if (faq_idx.value === "insert") {
+    detailValue.value.title = "";
+    detailValue.value.content = "";
+  }
+});
+
+/* watch(
+  () => route.name,
+  (newRoute) => {
+    console.log(newRoute);
+    if (newRoute === "faqInsert") {
+      refetch();
+    }
+  }
+);
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "faqUpdate") {
+      refetch();
+    }
+  }
+); */
 </script>
 
 <style lang="scss" scoped>

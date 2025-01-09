@@ -4,9 +4,9 @@ import { Faq } from "../api";
 export const faqDetailUpdateApi = async (detailValue, faq_idx) => {
   // textData 객체 생성
   const textData = {
-    ...detailValue,
-    faqSeq: faq_idx,
-    context: detailValue.content,
+    ...detailValue.value,
+    faqSeq: faq_idx.value,
+    context: detailValue.value.content,
     faq_type: detailValue.faq_type,
   };
 
