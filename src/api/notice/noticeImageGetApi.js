@@ -3,7 +3,7 @@ import { Notice } from "../api";
 
 export const noticeImageGetApi = async (imageUrl, idx) => {
   let param = new URLSearchParams();
-  param.append("noticeSeq", idx);
+  param.append("noticeSeq", idx.value);
   const postAction = {
     url: Notice.GetNoticeImage,
     method: "POST",

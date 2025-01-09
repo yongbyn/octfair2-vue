@@ -7,7 +7,7 @@ export const noticeDetailInsertApi = async (detailValue, idx, fileData) => {
 
   const textData = {
     title: detailValue.title,
-    context: detailValue.content,
+    context: detailValue.value.content,
     loginId: userInfo.user.loginId,
     ...detailValue.value,
   };

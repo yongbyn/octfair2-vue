@@ -4,7 +4,7 @@ import { Notice } from "../api";
 export const noticeDetailUpdateApi = async (detailValue, idx, fileData) => {
   const textData = {
     ...detailValue.value,
-    noticeSeq: idx,
+    noticeSeq: idx.value,
     context: detailValue.value.content,
   };
 
