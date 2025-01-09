@@ -73,13 +73,13 @@ const hirePostList = ref();
 const cPage = ref(1);
 const router = useRouter();
 
-const searchList = () => {
+const searchList = async () => {
   const param = new URLSearchParams({
     currentPage: cPage.value,
     pageSize: 5,
   });
 
-  axios.post(Post.SearchHirePostList, param).then((res) => {
+  await axios.post(Post.SearchHirePostList, param).then((res) => {
     hirePostList.value = res.data;
   });
 };
