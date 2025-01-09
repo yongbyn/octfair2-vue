@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
 import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
@@ -6,6 +7,7 @@ import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
+import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue";
 import QnaPasswordCheckModal from "../components/page/Qna/QnaPasswordCheckModal.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
@@ -21,6 +23,7 @@ import Scrap from "../views/Jobs/Scrap.vue";
 import Login from "../views/Login/Login.vue";
 import ManageApplicant from "../views/ManageUser/ManageApplicant.vue";
 import ManageBiz from "../views/ManageUser/ManageBiz.vue";
+import CompanySave from "../views/MyPage/CompanySave.vue";
 import MyPage from "../views/MyPage/MyPage.vue";
 import Withdraw from "../views/MyPage/Withdraw.vue";
 import Qna from "../views/Qna/QuesnAnsw.vue";
@@ -144,6 +147,18 @@ const routes = [
             name: "hire-post-create",
             component: HirePostEditor,
           },
+
+          {
+            path: "applicant.do",
+            name: "volunteer",
+            component: ApplicantViewMain,
+          },
+          {
+            path: "applicantresume.do?:resIdx",
+            name: "volunteerresume",
+            component: ApplicantResume,
+          },
+
           {
             path: "applicant.do",
             name: "hire-applicant",
@@ -212,6 +227,11 @@ const routes = [
             path: "withdraw.do",
             name: "withdraw",
             component: Withdraw,
+          },
+          {
+            path: "companyWritePage.do",
+            name: "companyWritePage",
+            component: CompanySave,
           },
         ],
       },

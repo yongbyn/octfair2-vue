@@ -83,6 +83,10 @@ export const MyPage = {
   GetUserInfo: "/prx/api/mypage/userDetail.do",
   UpdateUserInfo: "/prx/api/mypage/updateUserInfo.do",
   UpdatePwd: "/prx/api/mypage/updatePw.do",
+  CompanySave: "/prx/api/company/companyInsert",
+  CompanyUpdate: "/prx/api/company/companyUpdate",
+  GetCompanyInfo: "/prx/api/company/companyDetailPage",
+  DeleteCompany: "/prx/api/company/companyDelete",
   DeleteUser: "/prx/mypage/deleteUser.do",
   DeleteUserBcrypt: "/prx/api/mypage/deleteUser.do",
 };
