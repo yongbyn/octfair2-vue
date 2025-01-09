@@ -1,6 +1,6 @@
 <template>
-  <HistorySearch style="float: inline-end; margin: 10.5px" />
   <ContextBox>입사지원 내역</ContextBox>
+  <HistorySearch style="float: inline-end; margin: 10.5px" />
   <HistoryMain />
 </template>
 
