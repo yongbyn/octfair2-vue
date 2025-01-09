@@ -132,6 +132,8 @@ watch(
   @media (max-width: 900px) {
     justify-content: center;
     align-items: center;
+    margin-left: 0px;
+    width: auto;
   }
 }
 
