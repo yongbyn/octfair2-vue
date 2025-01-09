@@ -52,24 +52,23 @@
             <label for="userId">아이디</label>
           </th>
           <td>
-            <input
-              id="userId"
-              v-model="findIdUserInfo.foundId"
-              readonly
-            />
+            <input id="userId" v-model="findIdUserInfo.foundId" readonly />
           </td>
         </tr>
       </table>
       <button
-        @click="findIdUserInfo.foundId ? findUserIdModalCloseBtn() : findIdValid()"
+        @click="
+          findIdUserInfo.foundId ? findUserIdModalCloseBtn() : findIdValid()
+        "
       >
-        {{ findIdUserInfo.foundId ? "닫기" : "확인"}}
+        {{ findIdUserInfo.foundId ? "닫기" : "확인" }}
       </button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { handlerEnterKey } from "@/common/handler/handlerEnterKey";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref } from "vue";
@@ -108,6 +107,11 @@ const { mutateAsync: handlerFindId } = useFindId(findIdUserInfo);
 const findUserIdModalCloseBtn = () => {
   modalStore.setModalState();
 };
+
+// enter 키로 버튼 작동
+handlerEnterKey(() => {
+  findIdValid();
+});
 </script>
 
 <style scoped>

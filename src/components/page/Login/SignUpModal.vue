@@ -68,7 +68,7 @@
                 id="password"
                 type="password"
                 :state="signUpUserInfo.password.state"
-                placeholder="비밀번호는 4~40자 입력"
+                placeholder="비밀번호는 4~40자로 입력"
                 v-model="signUpUserInfo.password.value"
                 @input="pwdValid"
                 ref="password"
@@ -78,7 +78,7 @@
               v-show="signUpUserInfo.password.state === false"
               class="statusPwd"
             >
-              숫자,영어 4~40자 입력
+              비밀번호는 4~40자로 입력
             </div>
           </td>
         </tr>
@@ -218,6 +218,8 @@
                 <option value="gmail.com"></option>
                 <option value="naver.com"></option>
                 <option value="daum.net"></option>
+                <option value="nate.com"></option>
+                <option value="hotmail.com"></option>
               </datalist>
             </div>
           </td>
@@ -338,7 +340,7 @@ const signUpUserInfo = ref({
 // 정규식
 const regExPatterns = {
   id: /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/,
-  pwd: /^[a-zA-Z0-9]{4,40}$/,
+  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,40}$/,
   name: /^[가-힣]{2,}$/,
   domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
 };
