@@ -42,8 +42,9 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import { noticeDetailSearchApi } from "../../../../api/notice/noticeDetailSearchApi.";
 import { noticeImageGetApi } from "../../../../api/notice/noticeImageGetApi";
 import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
 import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
@@ -129,7 +130,7 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
-
+/* 
 onMounted(() => {
   if (params.idx) {
     refetch();
@@ -141,6 +142,15 @@ watch(
   (newIdx, oldIdx) => {
     if (newIdx !== oldIdx) {
       refetch();
+    }
+  }
+); */
+
+watch(
+  () => route.params.idx,
+  (newIdx) => {
+    if (newIdx) {
+      noticeDetailSearchApi(newIdx);
     }
   }
 );
