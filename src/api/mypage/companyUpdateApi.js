@@ -1,7 +1,7 @@
 import axios from "axios";
 import { MyPage } from "../api";
 
-export const companySaveApi = async (companySave, fileData) => {
+export const companyUpdateApi = async (companySave, fileData) => {
   const formData = new FormData();
 
   const textData = {
@@ -23,7 +23,7 @@ export const companySaveApi = async (companySave, fileData) => {
   if (fileData) {
     formData.append("fileInfo", fileData.value);
   }
-  const result = await axios.post(MyPage.CompanySave, formData, {
+  const result = await axios.post(MyPage.CompanyUpdate, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

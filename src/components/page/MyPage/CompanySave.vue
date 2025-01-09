@@ -163,7 +163,13 @@
           />
           <div class="d-flex justify-content-between">
             <span class="text-start">
-              {{ fileName ? `현재 파일 : ${fileName}` : "이전 파일 : 없음" }}
+              {{
+                fileName
+                  ? `현재 파일 : ${fileName}`
+                  : fileData.bizLogo
+                    ? `이전 파일 : ${fileData.bizLogo}`
+                    : "이전 파일 : 없음"
+              }}
             </span>
             <span class="text-end text-primary">
               10MB이하의 파일만 업로드 가능합니다.</span
@@ -176,7 +182,7 @@
         <th>로고 미리보기</th>
         <td colspan="3">
           <img
-            v-if="fileName"
+            id="logoPreview"
             :src="logoPreview"
             alt="미리보기 이미지"
             style="max-width: 300px"
@@ -186,9 +192,16 @@
     </table>
     <div class="d-flex justify-content-center align-items-center mt-4">
       <b-button @click="goBack" class="me-2">뒤로가기</b-button>
-      <b-button variant="danger" class="me-2">삭제하기</b-button>
-      <b-button variant="primary" @click="companySaveValid">{{companySave.bizIdx === 0 ? "등록하기" : "수정하기"}}</b-button>
-      
+      <b-button
+        variant="danger"
+        class="me-2"
+        @click="handlerCompanyDelete"
+        v-if="!companySave.bizIdx"
+        >삭제하기</b-button
+      >
+      <b-button variant="primary" @click="companySaveValid">{{
+        !companySave.bizIdx ? "수정하기" : "등록하기"
+      }}</b-button>
     </div>
   </div>
 </template>
@@ -196,9 +209,11 @@
 <script setup>
 import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
-import { ref } from "vue";
-import { useRoute ,useRouter } from "vue-router";
+import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useCompanyDelete } from "../../../hook/mypage/useCompanyDelete";
 import { useCompanySave } from "../../../hook/mypage/useCompanySave";
+import { useCompanyUpdate } from "../../../hook/mypage/useCompanyUpdate";
 import { useGetCompanyInfo } from "../../../hook/mypage/useGetCompanyInfo";
 import { useUserInfo } from "../../../stores/userInfo";
 
@@ -244,9 +259,19 @@ const companySave = ref({
   loginId: user.loginId,
   userType: user.userType,
 });
-const fileData = ref("");
+const fileData = ref({
+  bizLogo: "",
+  logicalPath: "",
+});
 
-console.log("가져온 bizIdx 값 : ", bizIdx);
+// 등록된 값 가져오기
+const { mutate: getCompanyInfo } = useGetCompanyInfo(companySave, fileData);
+onMounted(() => {
+  getCompanyInfo();
+});
+const logoPreview = ref("");
+
+const fileName = ref("");
 
 // 포커스용 변수
 const bizName = ref("");
@@ -258,8 +283,6 @@ const bizFoundDate = ref("");
 const bizEmpCount = ref("");
 const bizRevenue = ref("");
 const fileInfo = ref("");
-const fileName = ref("");
-const logoPreview = ref("");
 
 // 1. 사업자명, 사업자 대표, 주소, 홈페이지, 사원수, 매출액
 const inputValid = (validName) => {
@@ -468,6 +491,11 @@ const fileInput = () => {
 
     fileName.value = fileData.value.name;
     logoPreview.value = URL.createObjectURL(fileData.value);
+    console.log("==============");
+    console.log(fileData.value);
+    console.log(fileData.value.type);
+    console.log(logoPreview.value);
+    console.log("==============");
     fileInput.classList.add("is-valid");
     fileInput.classList.remove("is-invalid");
   } else {
@@ -516,25 +544,36 @@ const companySaveValid = () => {
     fileInfo.value.focus();
     return;
   } else {
-    handlerCompanySave();
-    toast.success("기업을 등록하였습니다.")
+    if (companySave.value.bizIdx) {
+      handlerCompanySave();
+      toast.success("기업을 등록하였습니다.");
+    } else {
+      handlerCompanyUpdate();
+      toast.success("기업을 수정하였습니다.");
+    }
   }
 };
 // 회사 등록
 const { mutate: handlerCompanySave } = useCompanySave(companySave, fileData);
 
-// 등록된 값 가져오기
-const { mutate: handlerGetCompanyInfo } = useGetCompanyInfo(companySave, fileData);
-onMounted(() => {
-    handlerGetCompanyInfo();
-});
+// 회사 수정
+const { mutate: handlerCompanyUpdate } = useCompanyUpdate(
+  companySave,
+  fileData
+);
 
+// 회사 삭제
+const handlerCompanyDelete = () => {
+  companyDelete();
+  companySave.value = { ...companySave.value, bizIdx: null };
+  toast.success("회사 정보가 삭제되었습니다.");
+};
+const { mutate: companyDelete } = useCompanyDelete(companySave);
 
 // 뒤로가기
 const goBack = () => {
-  companySave.value = { ...companySave };
   router.go(-1);
-}
+};
 </script>
 <style scoped>
 .companySaveContent {

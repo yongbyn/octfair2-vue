@@ -221,14 +221,13 @@ import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useGetUserInfo } from "../../../hook/mypage/useGetUserInfo";
 import { useUpdateUser } from "../../../hook/mypage/useUpdateUser";
 import { useUserInfo } from "../../../stores/userInfo";
 import UpdatePwdModal from "./UpdatePwdModal.vue";
 
 const router = useRouter();
-const route = useRouter();
 const { user } = useUserInfo();
 const modalStore = useModalStore();
 
@@ -248,10 +247,7 @@ const updateUserInfo = ref({
     value: "",
     state: "",
   },
-  phone: {
-    value: "",
-    state: "",
-  },
+  phone: "",
   email: "",
   emailId: {
     value: "",
@@ -537,14 +533,11 @@ const updatePwdModalOpen = () => {
 
 // 기업 등록, 수정 페이지
 const goCompanyWritePage = () => {
-  // console.log("biz값 잘나오는가? : ", updateUserInfo.value.bizIdx);
-
   router.push({
-    path: '/vue/mypage/companyWritePage.do',
-    query: { bizIdx: updateUserInfo.value.bizIdx }
+    path: "/vue/mypage/companyWritePage.do",
+    query: { bizIdx: updateUserInfo.value.bizIdx },
   });
-}
-
+};
 </script>
 
 <style scoped>

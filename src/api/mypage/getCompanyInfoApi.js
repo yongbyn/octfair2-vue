@@ -2,28 +2,48 @@ import axios from "axios";
 import { MyPage } from "../api";
 
 export const getCompanyInfoApi = async (companySave, fileData) => {
-    const result = await axios.post(MyPage.GetCompanyInfo, companySave.value);
+  const result = await axios.post(MyPage.GetCompanyInfo, companySave.value);
 
-    const data = result.data
+  const data = result.data.payload;
 
-    companySave.value = {
-        bizName: { value: data.bizName || "", state: !!data.bizName },
-        bizCeoName: { value: data.bizCeoName || "", state: !!data.bizCeoName },
-        bizContact: { value: data.bizContact || "", state: !!data.bizContact },
-        bizAddr: { value: data.bizAddr || "", state: !!data.bizAddr },
-        bizEmpCount: { value: data.bizEmpCount || "", state: !!data.bizEmpCount },
-        bizWebUrl: { value: data.bizWebUrl || "", state: !!data.bizWebUrl },
-        bizFoundDate: { value: data.bizFoundDate || "", state: !!data.bizFoundDate },
-        bizRevenue: { value: data.bizRevenue || "", state: !!data.bizRevenue },
-        bizIntro: { value: data.bizIntro || "", state: !!data.bizIntro },
-        userIdx: { value: user.userIdx, state: true },
-        bizLogo: { value: data.logoUrl || "", state: !!data.logoUrl },
-    };
-    
-    fileData.value = data.logoUrl || '';
-    logoPreview.value = data.logoUrl || '';
+  companySave.value = {
+    bizName: {
+      value: data.bizName,
+      state: true,
+    },
+    bizCeoName: {
+      value: data.bizCeoName,
+      state: true,
+    },
+    bizContact: data.bizContact,
+    bizAddr: {
+      value: data.bizAddr,
+      state: true,
+    },
+    bizEmpCount: {
+      value: data.bizEmpCount,
+      state: true,
+    },
+    bizWebUrl: {
+      value: data.bizWebUrl,
+      state: true,
+    },
+    bizFoundDate: {
+      value: data.bizFoundDate,
+      state: true,
+    },
+    bizRevenue: {
+      value: data.bizRevenue,
+      state: true,
+    },
+    bizIntro: data.bizIntro,
+    bizLogo: data.logoUrl,
+  };
 
-    console.log(companySave.value);
+  fileData.value = {
+    bizLogo: data.bizLogo,
+    logicalPath: data.logicalPath,
+  };
 
-    return result.data;
+  return result.data;
 };
