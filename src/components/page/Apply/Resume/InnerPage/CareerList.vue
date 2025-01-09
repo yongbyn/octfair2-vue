@@ -105,6 +105,9 @@ watch(() => [props.resume.resIdx, careerList?.payload], () => {
 
 onActivated(() => {
   isAddCareer.value = false;
+  Object.keys(career).forEach((key) => {
+    career[key] = "";
+  });
 });
 </script>
 

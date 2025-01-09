@@ -104,6 +104,9 @@ watch(() => [props.resume.resIdx, eduList?.payload], () => {
 
 onActivated(() => {
   isAddEdu.value = false;
+  Object.keys(edu).forEach((key) => {
+    edu[key] = "";
+  });
 });
 </script>
 
