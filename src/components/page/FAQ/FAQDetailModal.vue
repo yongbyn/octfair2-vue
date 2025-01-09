@@ -84,8 +84,9 @@ watchEffect(() => {
 });
 
 const actionLabel = computed(() =>
-  faq_idx.value === "insert" ? "등록" : "수정"
-);
+
+  faq_idx.value === "faqSavePart.do" ? "등록" : "수정");
+
 
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(detailValue, faq_idx);
 
@@ -116,7 +117,9 @@ const validateInputs = () => {
 const actionHandler = () => {
   if (!validateInputs()) return;
 
-  if (faq_idx.value === "insert") {
+
+  if (faq_idx.value === "faqSavePart.do") {
+
     if (confirm("등록하시겠습니까?")) {
       handlerInsertBtn();
     }
@@ -182,41 +185,32 @@ input[type="text"] {
   width: 400px;
 }
 
-img {
-  width: 100px;
-  height: 100px;
-}
-
-.img-label {
-  margin-top: 10px;
-  padding: 6px 25px;
-  background-color: #ccc;
-  border-radius: 4px;
-  color: rgba(0, 0, 0, 0.9);
-  cursor: pointer;
-
-  &:hover {
-    background-color: #45a049;
-    color: white;
+th,
+  td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
   }
 
-  &:active {
-    background-color: #3e8e41;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px);
+  th {
+    background-color: #2676bf;
+    color: #ddd;
   }
-}
+
 
 .button-box {
-  text-align: right;
-  margin-top: 10px;
+  text-align: center;
+  margin-top: 100px;
+  display: flex;
+  justify-content: left; 
+  align-items: left;     
+  
 }
 button {
   background-color: #3bb2ea;
   border: none;
   color: white;
   padding: 10px 22px;
-  text-align: right;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
@@ -225,6 +219,7 @@ button {
   border-radius: 12px;
   box-shadow: 0 4px #999;
   transition: 0.3s;
+  right
 
   &:hover {
     background-color: #45a049;

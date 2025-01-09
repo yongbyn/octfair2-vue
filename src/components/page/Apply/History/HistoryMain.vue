@@ -1,6 +1,14 @@
 <template>
   <div class="divHistoryList">
-    현재 페이지: {{ currentPage }} 총 개수: {{ historyList?.historyCnt || 0 }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ historyList?.historyCnt || 0 }}
+        </b-badge>
+        개의 글
+      </b-badge>
+    </h4>
     <table>
       <colgroup>
         <col width="15%" />
@@ -44,6 +52,7 @@
                   <div>
                     이력서:
                     <span
+                      class="resume-link"
                       @click="
                         {
                           modalStore.modalState = true;
@@ -165,7 +174,7 @@ table {
 }
 
 a,
-span {
+.resume-link {
   color: blue;
   text-decoration: underline;
   cursor: pointer;

@@ -56,7 +56,7 @@
               type="password"
               id="pwd"
               v-model="findPwdUserInfo.pw"
-              placeholder="비밀번호는 4~40자 이내로 입력하세요."
+              placeholder="비밀번호는 4~40자로 입력하세요."
             />
           </td>
         </tr>
@@ -86,6 +86,7 @@
 </template>
 
 <script setup>
+import { handlerEnterKey } from "@/common/handler/handlerEnterKey";
 import { toast } from "@/common/toastMessage";
 import { useModalStore } from "@/stores/modalState";
 import { ref } from "vue";
@@ -138,6 +139,11 @@ const { mutate: handlerFindPwdUpdate } = useFindPwdUpdate(findPwdUserInfo);
 const findUserPwdModalCloseBtn = () => {
   modalStore.setModalState();
 };
+
+// enter 키로 버튼 작동
+handlerEnterKey(() => {
+  findPwdCheck.value ? pwdValid() : findPwdVaild();
+});
 </script>
 
 <style scoped>

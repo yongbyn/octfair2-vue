@@ -109,7 +109,6 @@ table {
   th,
   td {
     padding: 8px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
     text-align: center;
   }

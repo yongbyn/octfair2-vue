@@ -19,8 +19,12 @@
   <div v-if="imageUrl">
     <label style="margin-top: 5px">파일명:</label>
     <label style="border: 2px solid grey; margin-top: 5px; margin-bottom: 5px">
+<<<<<<< HEAD
       {{ fileData.name || detailValue.fileName }}</label
     >
+=======
+      {{ fileData.name || detailValue.fileName }}</label>
+>>>>>>> 318471cf2f9b3920a387480e1d24b91fe9de085a
     <!-- <input type="text" :value="" readonly /> -->
     <label label style="margin-top: 5px">미리보기:</label>
     <img :src="imageUrl" />
@@ -28,8 +32,7 @@
   <div v-else>
     파일명:
     <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
-      {{ fileData.name || detailValue.fileName }}</label
-    >
+      {{ fileData.name || detailValue.fileName }}</label>
   </div>
 
   <div class="button-box" v-if="userType === 'M'">

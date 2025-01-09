@@ -100,10 +100,10 @@ const {
   refetch,
 } = useFAQListQuery(injectedValue, cPage, type);
 
-const faqDetail = (faq_idx) => {
+const faqDetail = (param) => {
   router.push({
     name: "faqDetail",
-    params: { faq_idx },
+    params: { faq_idx: param },
   });
 };
 
