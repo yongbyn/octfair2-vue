@@ -81,10 +81,15 @@ onUnmounted(() => {
   list-style-type: none;
   display: flex;
   overflow: hidden;
+  margin-top: 20px;
 }
 
 .menu-bar {
   float: left;
+}
+
+.leftmenu {
+  margin-left: 20px;
 }
 
 .happyjoblogo {

@@ -1,16 +1,18 @@
 <template>
   <div class="divPostList">
     <div class="topBtnArea">
-      <b-button variant="light">
-        총
-        <b-badge pill variant="primary">
-          {{ hirePostList?.hireCnt }}
+      <h4>
+        <b-badge variant="light">
+          총
+          <b-badge pill variant="primary">
+            {{ hirePostList?.hireCnt }}
+          </b-badge>
+          개의 글
         </b-badge>
-        개의 글
-      </b-button>
-      <span style="float: right">
+      </h4>
+      <div>
         <b-button variant="primary" @click="handlerEditor">공고 등록</b-button>
-      </span>
+      </div>
     </div>
     <table>
       <colgroup>
@@ -117,13 +119,13 @@ table {
   }
 
   th {
-    background-color: #2676bf;
-    color: #ddd;
+    background-color: #337fd1;
+    color: white;
   }
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: #f7f7f7;
     opacity: 0.9;
     cursor: pointer;
   }
@@ -132,6 +134,8 @@ table {
 .topBtnArea {
   width: 100%;
   margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 button {
