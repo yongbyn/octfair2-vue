@@ -34,11 +34,11 @@
       </p>
       <div>
         <div v-if="isShow && !fileData && !resume.logicalPath">
-          <label htmlFor="fileInput" style="flex: 0 0 30px">파일 첨부</label>
-          <input id="fileInput" type="file" @change="handlerSelectFileBtn" style="margin-bottom: 20px; border: 0px;"></input>
+          <label class="resume_label" htmlFor="fileInput" style="flex: 0 0 30px">파일 첨부</label>
+          <input class="resume_input" id="fileInput" type="file" @change="handlerSelectFileBtn" style="margin-bottom: 20px; border: 0px;"></input>
         </div>
         <div v-if="(fileData || resume.logicalPath)" class="garo_wrapper_lr">
-          <label style="flex: 1">파일명: {{ fileData?.name || resume.fileName }}</label>
+          <label class="resume_label" style="flex: 1">파일명: {{ fileData?.name || resume.fileName }}</label>
           <CommonButton v-if="isShow" @click="{ handlerDeleteFileBtn(); fileData=null; fileImgSrc=null; resume.logicalPath=''; }">파일 삭제</CommonButton>
         </div>
         <p style="margin: 5px" />
@@ -63,7 +63,7 @@
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
 import printJS from "print-js";
-import { onMounted } from "vue";
+import { onActivated, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useResumeDetailReadQuery } from "../../../../hook/apply/resume/useResumeDetailReadQuery";
 import { useResumeDetailUpdateMutation } from "../../../../hook/apply/resume/useResumeDetailUpdateMutation";
@@ -122,6 +122,12 @@ const handlerBackBtn = () => {
 
 onMounted(() => {
   resIdx.value = props.resIdx || route.query.resIdx;
+});
+
+onActivated(() => {
+  resIdx.value = props.resIdx || route.query.resIdx;
+  fileImgSrc.value = "";
+  fileData.value = "";
 });
 </script>
 

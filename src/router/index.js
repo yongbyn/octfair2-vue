@@ -8,6 +8,7 @@ import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue";
+import QnaPasswordCheckModal from "../components/page/Qna/QnaPasswordCheckModal.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
@@ -15,6 +16,7 @@ import ConfirmedPost from "../views/Approval/ConfirmedPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import FAQ from "../views/FAQ/FAQ.vue";
+import HireApplicant from "../views/Hire/HireApplicant.vue";
 import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
 import Scrap from "../views/Jobs/Scrap.vue";
@@ -56,18 +58,22 @@ const routes = [
             name: "noticeInsert",
             component: NoticeDetail,
           },
-
           {
             path: "qna.do",
             name: "qna",
             component: Qna,
           },
-
           {
             path: "qnaInsert.do/insert",
             name: "qnaInsert",
             component: QnaDetailModal,
           },
+          {
+            path: "qnaInsert.do/pwdcheckModal/:qnaIdx",
+            name: "pwdcheckModal",
+            component: QnaPasswordCheckModal,
+          },
+
           {
             path: "faq.do",
             name: "faq",
@@ -78,7 +84,6 @@ const routes = [
             name: "faqDetail",
             component: FAQDetailModal,
           },
-
           {
             path: "faqSavePart.do",
             name: "faqInsert",
@@ -137,7 +142,6 @@ const routes = [
             name: "hire-post",
             component: HirePost,
           },
-
           {
             path: "editor.do",
             name: "hire-post-create",
@@ -155,6 +159,11 @@ const routes = [
             component: ApplicantResume,
           },
 
+          {
+            path: "applicant.do",
+            name: "hire-applicant",
+            component: HireApplicant,
+          },
           {
             path: "editor.do/:idx",
             name: "hire-post-update",

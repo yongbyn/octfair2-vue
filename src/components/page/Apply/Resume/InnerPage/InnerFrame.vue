@@ -1,3 +1,4 @@
+<!-- InnerPage들의 공통 액자식 HTML/CSS요소를 모듈화한 코드 -->
 <template>
   <div class="sero_wrapper" style="box-shadow: 0 4px 8px skyblue">
     <div class="resumeDetail_header">{{ props.title }}</div>

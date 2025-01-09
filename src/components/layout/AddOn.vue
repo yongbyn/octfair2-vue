@@ -1,3 +1,4 @@
+<!-- 점심메뉴/배경음악/배경화면/눈내림 의 설정을 하고 On/Off토글로 켜고끄고 할 수 있는 코드 -->
 <template>
   <div class="align-center">
     <div
@@ -125,6 +126,7 @@ watch(
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 300px;
 }
 
 .wrapper {
@@ -137,7 +139,7 @@ watch(
   padding: 5px;
   max-width: 100%;
   background-color: #f4f0e1;
-  border: 5px solid gold;
+  border: 5px solid #5ea3eee0;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;

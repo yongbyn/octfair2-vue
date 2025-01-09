@@ -14,7 +14,11 @@ import { useRouter } from "vue-router";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const injectedValue = inject("providedValue");
-const searchKey = ref({});
+const searchKey = ref({
+  searchTitle: "",
+  searchStartDate: "",
+  searchEndDate: "",
+});
 const router = useRouter();
 const queryClient = useQueryClient();
 const userInfo = useUserInfo();
@@ -26,6 +30,12 @@ const FAQSearch = () => {
 
 const FAQInsert = () => {
   queryClient.removeQueries({ queryKey: ["FAQDetailModal"] });
+  searchKey.value = {
+    searchTitle: "",
+    searchStartDate: "",
+    searchEndDate: "",
+  };
+
   router.push("faqSavePart.do");
 };
 </script>

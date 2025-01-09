@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/vue-query";
 import { faqDetailSearchApi } from "../../api/faq/faqDetailSearchApi";
 
-export const useFAQDetailSearch = (params) => {
+export const useFAQDetailSearch = (detailValue, faq_idx) => {
   return useQuery({
-    queryKey: ["faqDetail"],
-    queryFn: () => faqDetailSearchApi(params),
-    enabled: !!params.faq_idx, // !!(undefine) => false
+    queryKey: ["faqDetail", faq_idx],
+    queryFn: () => faqDetailSearchApi(detailValue, faq_idx),
   });
 };

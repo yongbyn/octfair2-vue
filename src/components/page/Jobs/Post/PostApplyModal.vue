@@ -1,101 +1,96 @@
 <template>
-  <teleport to="body">
-    <div class="backdrop">
-      <div class="container">
-        <div class="title-header">
-          <span class="top-btn">
-            <b-button variant="primary" @click="handlerApply">
-              입사지원
-            </b-button>
-            <b-button variant="secondary" @click="handlerModal">
-              나가기
-            </b-button>
-          </span>
-          <h5>{{ props.bizName }}</h5>
-          <h1>{{ props.title }}</h1>
-          <br />
-          <hr />
-          지원 가능한 이력서
-        </div>
-
-        <b-form-group>
-          <template v-if="resumeList">
-            <div v-for="resume in resumeList" :key="resume.resumeIdx">
-              <div class="d-flex">
-                <b-card
-                  :class="{ 'selected-card': selected === resume.resumeIdx }"
-                  @click="selectOption(resume.resumeIdx)"
-                  class="m-2"
-                  style="cursor: pointer; width: 100%"
-                >
-                  <b-card-text>
-                    <h5>{{ resume.resumeTitle }}</h5>
-                  </b-card-text>
-                  <b-list-group flush style="font-weight: 400; font-size: 15px">
-                    <b-list-group-item>
-                      최근 업데이트:
-                      <b-badge variant="light" style="font-size: 13px">
-                        {{ resume.updatedDate }}
-                      </b-badge>
-                    </b-list-group-item>
-                    <b-list-group-item>
-                      {{ resume.userEmail }} <br />
-                      {{ resume.userPhone }}
-                    </b-list-group-item>
-                  </b-list-group>
-                </b-card>
-              </div>
-            </div>
-          </template>
-        </b-form-group>
+  <div class="backdrop">
+    <div class="container">
+      <div class="title-header">
+        <span class="top-btn">
+          <b-button variant="primary" @click="handlerApplyBtn">
+            입사지원
+          </b-button>
+          <b-button variant="secondary" @click="handlerModal">
+            나가기
+          </b-button>
+        </span>
+        <h5>{{ props.bizName }}</h5>
+        <h1>{{ props.title }}</h1>
+        <br />
+        <hr />
+        지원 가능한 이력서
       </div>
+
+      <b-form-group>
+        <template v-if="resumeList">
+          <div v-for="resume in resumeList" :key="resume.resumeIdx">
+            <div class="d-flex">
+              <b-card
+                :class="{ 'selected-card': selected === resume.resumeIdx }"
+                @click="selectOption(resume.resumeIdx)"
+                class="m-2"
+                style="cursor: pointer; width: 100%"
+              >
+                <b-card-text>
+                  <h5>{{ resume.resumeTitle }}</h5>
+                </b-card-text>
+                <b-list-group flush style="font-weight: 400; font-size: 15px">
+                  <b-list-group-item>
+                    최근 업데이트:
+                    <b-badge variant="light" style="font-size: 13px">
+                      {{ resume.updatedDate }}
+                    </b-badge>
+                  </b-list-group-item>
+                  <b-list-group-item>
+                    {{ resume.userEmail }} <br />
+                    {{ resume.userPhone }}
+                  </b-list-group-item>
+                </b-list-group>
+              </b-card>
+            </div>
+          </div>
+        </template>
+      </b-form-group>
     </div>
-  </teleport>
+  </div>
 </template>
 
 <script setup>
 import axios from "axios";
+import { Post } from "../../../../api/api";
+import { usePostDetailApplyMutation } from "../../../../hook/jobs/usePostDetailApplyMutation";
 import { useModalStore } from "../../../../stores/modalState";
-const resumeList = ref();
 
-const emit = defineEmits(["postSuccess", "modalClose"]);
 const props = defineProps(["postIdx", "title", "bizName"]);
 const modalState = useModalStore();
+const resumeList = ref();
 const selected = ref();
 
 const selectOption = (option) => {
   selected.value = option;
 };
 
-const handlerApply = async () => {
+const searchResumeList = async () => {
+  await axios.post(Post.SearchPostResumeList, {}).then((res) => {
+    resumeList.value = res.data.userResumeList;
+  });
+};
+
+const handlerApplyBtn = async () => {
   if (!selected.value) {
     alert("이력서를 선택하세요.");
     return;
   }
 
-  const params = {
+  handlerApply({
     resumeIdx: selected.value,
     postIdx: props.postIdx,
-  };
-  await axios.post("/prx/api/jobs/saveApply.do", params).then((res) => {
-    if (res.data.result === "fail") {
-      alert(res.data.message);
-    } else {
-      alert("지원 완료되었습니다.");
+    onSuccess: () => {
       modalState.setModalState();
-      emit("applySuccess");
-    }
+    },
   });
 };
+
+const { mutate: handlerApply } = usePostDetailApplyMutation();
 
 const handlerModal = () => {
   modalState.setModalState();
-};
-
-const searchResumeList = async () => {
-  await axios.post("/prx/api/jobs/applyUserResumeDetail.do", {}).then((res) => {
-    resumeList.value = res.data.userResumeList;
-  });
 };
 
 onMounted(() => {

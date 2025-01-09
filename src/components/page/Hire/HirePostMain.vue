@@ -1,16 +1,18 @@
 <template>
   <div class="divPostList">
     <div class="topBtnArea">
-      <b-button variant="light">
-        총
-        <b-badge pill variant="primary">
-          {{ hirePostList?.hireCnt }}
+      <h4>
+        <b-badge variant="light">
+          총
+          <b-badge pill variant="primary">
+            {{ hirePostList?.hireCnt }}
+          </b-badge>
+          개의 글
         </b-badge>
-        개의 글
-      </b-button>
-      <span style="float: right">
+      </h4>
+      <div>
         <b-button variant="primary" @click="handlerEditor">공고 등록</b-button>
-      </span>
+      </div>
     </div>
     <table>
       <colgroup>
@@ -66,22 +68,18 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-// import { useRoute } from "vue-router";
-
-// const route = useRoute();
+import { Post } from "../../../api/api";
 const hirePostList = ref();
 const cPage = ref(1);
-// const injectedValue = inject("providedValue");
-// const managePostIdx = ref(0);
 const router = useRouter();
 
-const searchList = () => {
+const searchList = async () => {
   const param = new URLSearchParams({
     currentPage: cPage.value,
     pageSize: 5,
   });
 
-  axios.post("/prx/api/manage-hire/post-list.do", param).then((res) => {
+  await axios.post(Post.SearchHirePostList, param).then((res) => {
     hirePostList.value = res.data;
   });
 };
@@ -121,13 +119,13 @@ table {
   }
 
   th {
-    background-color: #2676bf;
-    color: #ddd;
+    background-color: #337fd1;
+    color: white;
   }
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: #f7f7f7;
     opacity: 0.9;
     cursor: pointer;
   }
@@ -136,6 +134,8 @@ table {
 .topBtnArea {
   width: 100%;
   margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 button {

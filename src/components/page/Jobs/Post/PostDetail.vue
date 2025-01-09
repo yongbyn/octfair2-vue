@@ -13,8 +13,6 @@
 
       <div class="div-container">
         <div class="job-details">
-          <!-- 지원자 버튼 영역 -->
-
           <!-- 왼쪽: 채용 정보 -->
           <div class="title-container">
             <h5 id="bizName">
@@ -23,21 +21,21 @@
             <h1 id="postTitle">
               {{ detailValue.title }}
             </h1>
-            <hr style="width: 400px" />
+            <hr class="title-hr" />
           </div>
 
           <div class="detail-container">
             <div class="detail-header">이런 업무를 해요</div>
             <div>
               <div class="detail-item">ㆍ 업무</div>
-              <span id="postDuties" class="detail-describe">
+              <div id="postDuties" class="detail-describe">
                 {{ detailValue.duties }}
-              </span>
+              </div>
 
               <div class="detail-item">ㆍ 포지션 소개</div>
-              <span id="postDescription" class="detail-describe">
+              <div id="postDescription" class="detail-describe">
                 {{ detailValue.posDescription }}
-              </span>
+              </div>
             </div>
           </div>
 
@@ -45,44 +43,39 @@
             <div class="detail-header">이런 조건에서 근무할 예정이에요</div>
             <div>
               <div class="detail-item">ㆍ 급여</div>
-              <span class="detail-describe">
-                연봉 {{ detailValue.salary }}만원
-              </span>
+              <div class="detail-describe">{{ detailValue.salary }}만원</div>
 
               <div class="detail-item">ㆍ 근무 지역</div>
-              <span class="detail-describe">
+              <div class="detail-describe">
                 {{ detailValue.workLocation }}
-              </span>
+              </div>
             </div>
           </div>
 
           <div class="detail-container">
             <div class="detail-header">이런 분들을 찾고 있어요</div>
             <div class="detail-item">ㆍ 경력</div>
-            <span class="detail-describe">
+            <div class="detail-describe">
               {{ detailValue.expRequired }}
-            </span>
-
+            </div>
             <div class="detail-item">ㆍ 자격요건</div>
-            <span id="postreqQual" class="detail-describe">
+            <div id="postreqQual" class="detail-describe">
               {{ detailValue.reqQualifications }}
-            </span>
-
+            </div>
             <div class="detail-item">ㆍ 우대 사항</div>
-            <span class="detail-describe">
+            <div class="detail-describe">
               {{ detailValue.prefQualifications }}
-            </span>
-
+            </div>
             <div class="detail-item">ㆍ 모집 인원</div>
-            <span class="detail-describe"> {{ detailValue.openings }}명 </span>
+            <div class="detail-describe">{{ detailValue.openings }}명</div>
           </div>
 
           <div class="detail-container">
             <div class="detail-header">함께하면 이런 점들이 좋아요</div>
             <div class="detail-item">ㆍ 혜택 & 복지</div>
-            <span id="postBenefits" class="detail-describe">
+            <div id="postBenefits" class="detail-describe">
               {{ detailValue.benefits }}
-            </span>
+            </div>
           </div>
 
           <div class="detail-container">
@@ -98,7 +91,7 @@
               v-if="!isClicked.isScraped"
               variant="outline-secondary"
               class="btn-scrap"
-              @click="handlerScrap(detailValue.postIdx)"
+              @click="handlerDoScrapBtn({ postIdx: detailValue.postIdx })"
             >
               <i class="bi bi-star"></i>
             </b-button>
@@ -106,7 +99,12 @@
               v-if="isClicked.isScraped"
               variant="outline-secondary"
               class="btn-scrap"
-              @click="handlerUndoScrap(detailValue.postIdx)"
+              @click="
+                handlerUnScrapBtn({
+                  postIdx: detailValue.postIdx,
+                  sortDelete: 'undo',
+                })
+              "
             >
               <i class="bi bi-star-fill"></i>
             </b-button>
@@ -148,7 +146,12 @@
               id="btnManagehireDelete"
               class="btn-edit"
               variant="outline-danger"
-              @click="handlerDeleteBtn"
+              @click="
+                handlerDeleteBtn({
+                  bizIdx: bizDetail.bizIdx,
+                  postIdx: detailValue.postIdx,
+                })
+              "
             >
               삭제
             </b-button>
@@ -160,13 +163,23 @@
             <b-button
               class="btn-status"
               variant="primary"
-              @click="handlerUpdateStatus(detailValue.postIdx, '승인')"
+              @click="
+                handlerUpdateStatusBtn({
+                  postIdx: detailValue.postIdx,
+                  appStatus: '승인',
+                })
+              "
               >승인</b-button
             >
             <b-button
               class="btn-status"
               variant="danger"
-              @click="handlerUpdateStatus(detailValue.postIdx, '불허')"
+              @click="
+                handlerUpdateStatusBtn({
+                  postIdx: detailValue.postIdx,
+                  appStatus: '불허',
+                })
+              "
               >불허</b-button
             >
             <b-button variant="secondary" @click="() => $router.go(-1)">
@@ -246,20 +259,24 @@
 <script setup>
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import { Post } from "../../../../api/api";
 import { usePostDetailDeleteMutation } from "../../../../hook/jobs/usePostDetailDeleteMutation";
+import { usePostDetailDoScrapMutation } from "../../../../hook/jobs/usePostDetailDoScrapMutation";
 import { usePostDetailSearchQuery } from "../../../../hook/jobs/usePostDetailSearchQuery";
+import { usePostDetailUnScrapMutation } from "../../../../hook/jobs/usePostDetailUnScrapMutation";
+import { usePostUpdateStatusMutation } from "../../../../hook/jobs/usePostUpdateStatusMutation";
 import { useModalStore } from "../../../../stores/modalState";
 import { useUserInfo } from "../../../../stores/userInfo";
 import PostApplyModal from "./PostApplyModal.vue";
 
+const modalState = useModalStore();
 const { params } = useRoute();
 const router = useRouter();
 const route = useRoute();
-const detailValue = ref({});
+const userInfo = useUserInfo();
 const bizDetail = ref({});
 const isClicked = ref({});
-const userInfo = useUserInfo();
-const modalState = useModalStore();
+const detailValue = ref({});
 
 const {
   data: postDetail,
@@ -268,6 +285,11 @@ const {
   refetch,
 } = usePostDetailSearchQuery(params);
 
+const handlerApplyModal = (idx) => {
+  detailValue.value.postIdx = idx;
+  modalState.setModalState();
+};
+
 const companyDetail = (bizIdx) => {
   router.push({
     name: "companyDetail",
@@ -275,62 +297,30 @@ const companyDetail = (bizIdx) => {
   });
 };
 
-const handlerApplyModal = (idx) => {
-  detailValue.value.postIdx = idx;
-  modalState.setModalState();
-};
-
-const handlerScrap = async (postIdx) => {
-  await axios
-    .post("/prx/api/jobs/saveScrap.do", { postIdx: postIdx })
-    .then((res) => {
-      refetch();
-    });
-};
-
-const handlerUndoScrap = async (postIdx) => {
-  const params = {
-    postIdx: postIdx,
-    sortDelete: "undo",
-  };
-  await axios.post("/prx/api/jobs/deleteScrap.do", params).then((res) => {
-    refetch();
-  });
-};
-
-const handlerUpdateStatus = async (postIdx, status) => {
-  const params = {
-    postIdx: postIdx,
-    appStatus: status,
-  };
-
-  await axios
-    .post("/prx/api/manage-post/statusUpdate.do", params)
-    .then((res) => {
-      alert("처리되었습니다.");
-      refetch();
-    });
-};
-
 const handlerUpdateBtn = (idx) => {
-  router.push({
-    name: "hire-post-update",
-    params: { idx },
-  });
+  if (
+    detailValue.value.appStatus === "대기중" ||
+    detailValue.value.appStatus === "불허"
+  ) {
+    router.push({
+      name: "hire-post-update",
+      params: { idx },
+    });
+  } else if (detailValue.value.appStatus === "승인") {
+    alert("승인된 공고는 수정이 불가능합니다.");
+  } else {
+    alert("승인 여부가 올바르지 않습니다. 관리자에게 문의해주세요.");
+  }
 };
-
-const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation(
-  bizDetail.value.bizIdx,
-  detailValue.value.postIdx
-);
 
 const fileDownload = () => {
   const param = {
     postIdx: detailValue.value.postIdx,
     bizIdx: bizDetail.value.bizIdx,
   };
+
   const postAction = {
-    url: "/prx/api/manage-hire/downloadAttachment.do",
+    url: Post.DownloadPostDetail,
     method: "POST",
     data: param,
     headers: {
@@ -350,9 +340,14 @@ const fileDownload = () => {
       link.remove();
     })
     .catch((err) => {
-      alert("파일 다운로드 오류:", err);
+      alert("파일 다운로드 오류: ", err);
     });
 };
+
+const { mutate: handlerUpdateStatusBtn } = usePostUpdateStatusMutation();
+const { mutate: handlerDoScrapBtn } = usePostDetailDoScrapMutation();
+const { mutate: handlerUnScrapBtn } = usePostDetailUnScrapMutation();
+const { mutate: handlerDeleteBtn } = usePostDetailDeleteMutation();
 
 watchEffect(() => {
   if (isSuccess.value && postDetail.value) {
@@ -365,13 +360,21 @@ watchEffect(() => {
 watch(
   () => route.params.idx,
   (newId, oldId) => {
-    params.idx = newId;
-    refetch();
+    if (newId && route.name == "postDetail") {
+      if (newId !== oldId) {
+        params.idx = newId;
+        refetch();
+      }
+    }
   }
 );
 </script>
 
 <style lang="scss" scoped>
+.title-hr {
+  width: 500px;
+}
+
 .backdrop {
   top: 0%;
   left: 0%;
@@ -454,11 +457,14 @@ input[type="text"] {
 }
 .detail-item {
   margin: 18px 0px 5px;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 19px;
+  font-weight: 600;
 }
 .detail-describe {
   margin-left: 20px;
+  font-size: 18px;
+  white-space: pre-line;
+  line-height: 2;
 }
 .bi-star-fill {
   color: rgb(255, 204, 0);

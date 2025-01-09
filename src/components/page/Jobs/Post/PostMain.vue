@@ -1,12 +1,14 @@
 <template>
   <div class="divPostList">
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ postList?.approvalPostCnt }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ postList?.approvalPostCnt }}
+        </b-badge>
+        개의 글
       </b-badge>
-      개의 글
-    </b-button>
+    </h4>
     <table>
       <colgroup>
         <col width="10%" />
@@ -63,19 +65,21 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { usePostListSearchQuery } from "../../../../hook/jobs/usePostListSearchQuery";
 import Pagination from "../../../common/Pagination.vue";
 
 const router = useRouter();
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
+const route = useRoute();
 
 const {
   data: postList,
   isLoading,
   isSuccess,
   isError,
+  refetch,
 } = usePostListSearchQuery(injectedValue, cPage);
 
 const handlerDetail = (idx) => {
@@ -84,6 +88,15 @@ const handlerDetail = (idx) => {
     params: { idx },
   });
 };
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "post") {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -103,13 +116,13 @@ table {
   }
 
   th {
-    background-color: #2676bf;
-    color: #ddd;
+    background-color: #337fd1;
+    color: white;
   }
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: #f7f7f7;
     opacity: 0.9;
     cursor: pointer;
   }

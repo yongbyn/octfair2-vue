@@ -10,7 +10,12 @@ export const useSkillNewCreateMutation = () => {
     mutationFn: ({ resIdx, skill }) => {
       if (isValidSkill(skill)) return skillNewCreateApi(resIdx, skill);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if ("SUCCESS".toUpperCase() === response.result.toUpperCase()) {
+        Object.keys(response.skill).forEach((key) => {
+          response.skill[key] = "";
+        });
+      }
       queryClient.invalidateQueries({
         queryKey: ["skillList"],
       });

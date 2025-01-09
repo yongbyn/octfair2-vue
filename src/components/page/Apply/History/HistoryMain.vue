@@ -91,7 +91,9 @@
     :totalItems="historyList?.historyCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
-    :onClick="queryClient.invalidateQueries({ queryKey: ['historyList'] })"
+    :onClick="
+      () => queryClient.invalidateQueries({ queryKey: ['historyList'] })
+    "
     v-model="currentPage"
   />
 
@@ -120,8 +122,6 @@ const {
   isLoading,
   isSuccess,
   isError,
-  isStale, // 캐시유지 주기
-  refetch, // 자동갱신 주기
 } = useHistoryListReadQuery(
   itemPerPage,
   currentPage,
@@ -147,7 +147,7 @@ table {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: center;
-    font-size: clamp(7px, 2vw, 10px);
+    font-size: clamp(9px, 2vw, 15px);
   }
 
   th {
@@ -181,6 +181,6 @@ span {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  font-size: clamp(7px, 2vw, 10px);
+  font-size: clamp(9px, 2vw, 15px);
 }
 </style>

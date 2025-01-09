@@ -1,6 +1,13 @@
 <template>
   <div class="divFAQList">
-    현재 페이지:{{ cPage }} 총 개수:{{ faqList?.faqCnt }} 유저타입: {{ type }}
+    <b-button variant="light">
+      총
+      <b-badge pill variant="primary">
+        {{ faqList?.faqCnt }}
+      </b-badge>
+      개의 글
+    </b-button>
+
     <div class="button-box">
       <button :class="{ active: type === '1' }" @click="updateFaqType('1')">
         개인회원
@@ -12,9 +19,9 @@
     <table>
       <colgroup>
         <col width="10%" />
-        <col width="50%" />
         <col width="30%" />
-        <col width="10%" />
+        <col width="30%" />
+        <col width="20%" />
       </colgroup>
 
       <thead>
@@ -29,26 +36,26 @@
       <tbody>
         <template v-if="isLoading">로딩중...</template>
         <template v-else-if="isSuccess">
-          <template v-if="faqList.faqCnt > 0">
-            <tr v-for="faq in faqList.faq" :key="faq.faq_idx">
-              <td>{{ faq.faq_idx }}</td>
-              <td @click="handlerShowContent(faq.faq_idx)">{{ faq.title }}</td>
-              <td>{{ faq.author }}</td>
-              <td>{{ faq.created_date.substring(0, 10) }}</td>
+          <template v-if="faqList.faqCnt">
+            <template v-for="faq in faqList.faq" :key="faq.faq_idx">
+              <tr>
+                <td>{{ faq.faq_idx }}</td>
+                <td @click="handlerShowContent(faq.faq_idx)">
+                  {{ faq.title }}
+                </td>
+                <td>{{ faq.author }}</td>
+                <td>{{ faq.created_date.substring(0, 10) }}</td>
 
-              <td v-if="userType === 'M'">
-                <button type="button" @click="faqDetail(faq.faq_idx)">
-                  관리
-                </button>
-              </td>
-            </tr>
-            <tr
-              v-for="faq in faqList.faq"
-              :key="faq.faq_idx"
-              :class="style === faq.faq_idx ? 'show' : 'hide'"
-            >
-              <td colspan="5">{{ faq.content }}</td>
-            </tr>
+                <td v-if="userType === 'M'">
+                  <button type="button" @click="faqDetail(faq.faq_idx)">
+                    관리
+                  </button>
+                </td>
+              </tr>
+              <tr :class="style === faq.faq_idx ? 'show' : 'hide'">
+                <td colspan="5">{{ faq.content }}</td>
+              </tr>
+            </template>
           </template>
           <template v-else>
             <tr>
@@ -63,6 +70,7 @@
       :totalItems="faqList?.faqCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
+      :onClick="searchList"
       v-model="cPage"
     />
   </div>
@@ -73,22 +81,21 @@ import { computed, inject, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useFAQListQuery } from "../../../hook/faq/useFAQListQuery";
 import { useUserInfo } from "../../../stores/userInfo";
-import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
-//const faqType = ref("1");
 const injectedValue = inject("providedValue");
-//const type = ref();
-const type = ref();
+const type = ref("1");
 const style = ref(null);
 const userInfo = useUserInfo();
 const userType = computed(() => userInfo.user.userType);
 const router = useRouter();
+
 const {
   data: faqList,
   isLoading,
   isSuccess,
   isError,
+  refetch,
 } = useFAQListQuery(injectedValue, cPage, type);
 
 const faqDetail = (faq_idx) => {
@@ -105,8 +112,6 @@ const updateFaqType = (newType) => {
 const handlerShowContent = (faq_idx) => {
   style.value = style.value === faq_idx ? null : faq_idx;
 };
-
-//watch([faqType, cPage], () => {});
 </script>
 
 <style lang="scss" scoped>
@@ -136,12 +141,30 @@ table {
     background-color: #2676bf;
     color: #ddd;
   }
+}
 
-  /* 테이블 올렸을 때 */
-  tbody tr:hover {
-    background-color: #d3d3d3;
-    opacity: 0.9;
-    cursor: pointer;
-  }
+.not-info {
+  font-size: 36px;
+}
+
+button {
+  padding: 6px 12px;
+  margin: 5px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1378e4;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #003d7e;
+}
+
+/* 테이블 올렸을 때 */
+tbody tr:hover {
+  background-color: #d3d3d3;
+  opacity: 0.9;
+  cursor: pointer;
 }
 </style>

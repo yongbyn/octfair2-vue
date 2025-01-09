@@ -8,7 +8,7 @@ export const useResumeOneDeleteMutation = () => {
     mutationKey: ["resumeDelete"],
     mutationFn: (resIdx) => {
       const isYes = window.confirm("정말 이력서를 삭제하시겠습니까?");
-      if (!isYes) resumeOneDeleteApi(resIdx);
+      if (isYes) return resumeOneDeleteApi(resIdx);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

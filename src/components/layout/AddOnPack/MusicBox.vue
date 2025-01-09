@@ -1,3 +1,4 @@
+<!-- AddOn컴포넌트에서 설정된 YouTube주소를 틀어주는 코드 -->
 <template>
   <iframe
     :src="playUrl"

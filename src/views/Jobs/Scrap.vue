@@ -6,7 +6,7 @@
 
 <script setup>
 const providedValue = ref();
-const selectedScrapIdx = ref();
+const selectedScrapIdxList = ref();
 provide("providedValue", providedValue);
-provide("selectedScrapIdx", selectedScrapIdx);
+provide("selectedScrapIdxList", selectedScrapIdxList);
 </script>

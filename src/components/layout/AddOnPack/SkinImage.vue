@@ -1,3 +1,4 @@
+<!-- AddOn컴포넌트에서 설정된 폴더(@/assets/backgrounds) 내 이미지를 배경화면으로 깔아주는 코드 -->
 <template>
   <div class="skin-container" :style="{ backgroundImage: backgroundImage }" />
 </template>

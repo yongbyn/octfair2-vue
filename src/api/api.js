@@ -1,17 +1,27 @@
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
   NoticeDetail: "/prx/api/board/noticeDetailBody.do",
-  UpdateNoticeDetail: "/prx/api/board/noticeUpdateBody.do",
+  GetNoticeImage: "/prx/board/noticeDownload.do",
+  UpdateNoticeDetail: "/prx/api/board/noticeUpdateFileForm.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
   InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
-  FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
+  //FileNoticeUpdate: "/prx/api/board/noticeUpdateFileForm.do",
   SearchQnaBoardList: "/prx/api/board/qnaListBody.do",
+  SearchMyQnaDetail: "/prx/api/board/qnaDetailFileBody.do",
+  UpdateMyQnaDetail: "/prx/api/board/qnaUpdateFileForm.do",
+  DeleteMyQnaDetail: "/prx/api/board/qnaDeleteBody.do",
+  InsertMyQnaDetail: "/prx/api/board/qnaSaveFileForm.do",
 };
 
 export const Post = {
   SearchPostList: "/prx/api/jobs/readPostList.do",
+  SearchHirePostList: "/prx/api/manage-hire/post-list.do",
+  SearchPostResumeList: "/prx/api/jobs/applyUserResumeDetail.do",
   SearchPostDetail: "/prx/api/jobs/readPostDetailBody.do",
   DeletePostDetail: "/prx/api/manage-hire/deleteHirePost.do",
+  UpdatePostDetailStatus: "/prx/api/manage-post/statusUpdate.do",
+  UpdatePostApply: "/prx/api/jobs/saveApply.do",
+  DownloadPostDetail: "/prx/api/manage-hire/downloadAttachment.do",
 };
 
 export const Withdraw = {
@@ -77,6 +87,8 @@ export const MyPage = {
   CompanyUpdate: "/prx/api/company/companyUpdate",
   GetCompanyInfo: "/prx/api/company/companyDetailPage",
   DeleteCompany: "/prx/api/company/companyDelete",
+  DeleteUser: "/prx/mypage/deleteUser.do",
+  DeleteUserBcrypt: "/prx/api/mypage/deleteUser.do",
 };
 
 export const Applicant = {
@@ -104,4 +116,8 @@ export const Biz = {
   SearchBizList: "/prx/api/manage-user/bizList.do",
   SearchBizDetail: "/prx/api/manage-user/bizManageDetail.do",
   UpdateBizDetail: "/prx/api/manage-user/bizInfoUpdate.do",
+};
+
+export const Company = {
+  SearchCompanyDetail: "/prx/api//company/companyDetailPage.do",
 };

@@ -6,12 +6,12 @@
   <template v-for="(item, key) in skillList?.payload" :key="key">
     <div class="skill_table">
       <div class="garo_wrapper_lr" style="grid-area: skillName">
-        <label class="garo_wrapper_lr_l">스킬명:</label>
-        <textarea class="garo_wrapper_lr_r" :value="item.skillName" placeholder="스킬명" disabled />
+        <label class="resume_label">스킬명:</label>
+        <textarea class="resume_textarea" :value="item.skillName" placeholder="스킬명" disabled />
       </div>
       <div class="garo_wrapper_lr" style="grid-area: skillDetail">
-        <label class="garo_wrapper_lr_l">스킬상세:</label>
-        <textarea class="garo_wrapper_lr_r" :value="item.skillDetail" placeholder="스킬상세" disabled />
+        <label class="resume_label">스킬상세:</label>
+        <textarea class="resume_textarea" :value="item.skillDetail" placeholder="스킬상세" disabled />
       </div>
       <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
         <CommonButton @click="handlerDeleteSkillBtn({ resIdx: props.resume.resIdx, skillIdx: item.skillIdx })" v-if="props.isShow">삭제</CommonButton>
@@ -22,12 +22,12 @@
   <div>
     <div class="skill_table" v-if="isAddSkill && props.isShow">
       <div class="garo_wrapper_lr" style="grid-area: skillName">
-        <label class="garo_wrapper_lr_l">스킬명:</label>
-        <input class="garo_wrapper_lr_r" v-model=skill.skillName id="skillName" placeholder="스킬명"></input>
+        <label class="resume_label">스킬명:</label>
+        <input class="resume_input" v-model=skill.skillName id="skillName" placeholder="스킬명"></input>
       </div>
       <div class="garo_wrapper_lr" style="grid-area: skillDetail">
-        <label class="garo_wrapper_lr_l">스킬상세:</label>
-        <input class="garo_wrapper_lr_r" v-model=skill.skillDetail id="skillDetail" placeholder="스킬상세"></input>
+        <label class="resume_label">스킬상세:</label>
+        <input class="resume_input" v-model=skill.skillDetail id="skillDetail" placeholder="스킬상세"></input>
       </div>
       <div class="garo_wrapper_r" style="grid-area: button; display: flex; justify-content: right; align-items: center;">
         <CommonButton @click="handlerCreateSkillBtn({ resIdx: props.resume.resIdx, skill: skill })">저장</CommonButton>
@@ -39,6 +39,7 @@
 
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
+import { onActivated } from "vue";
 import { useSkillListReadQuery } from "../../../../../hook/apply/resume/skill/useSkillListReadQuery";
 import { useSkillNewCreateMutation } from "../../../../../hook/apply/resume/skill/useSkillNewCreateMutation";
 import { useSkillNewDeleteMutation } from "../../../../../hook/apply/resume/skill/useSkillNewDeleteMutation";
@@ -59,6 +60,13 @@ watch(() => [props.resume.resIdx, skillList?.payload], () => {
   resIdx.value = props.resume.resIdx;
   emits("isExistSkill", isExistSkill.value);
 })
+
+onActivated(() => {
+  isAddSkill.value = false;
+  Object.keys(skill).forEach((key) => {
+    skill[key] = "";
+  });
+});
 </script>
 
 <style></style>

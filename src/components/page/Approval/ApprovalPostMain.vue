@@ -1,12 +1,14 @@
 <template>
   <div class="divPostList">
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ approvalList?.pendingPostCnt }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ approvalList?.pendingPostCnt }}
+        </b-badge>
+        개의 글
       </b-badge>
-      개의 글
-    </b-button>
+    </h4>
     <table>
       <colgroup>
         <col width="10%" />
@@ -66,18 +68,21 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import { useApprovalListSearchQuery } from "../../../hook/approval/useApprovalListSearchQuery";
 import router from "../../../router";
 import Pagination from "../../common/Pagination.vue";
 
 const cPage = ref(1);
 const injectedValue = inject("providedValue");
+const route = useRoute();
 
 const {
   data: approvalList,
   isLoading,
   isSuccess,
   isError,
+  refetch,
 } = useApprovalListSearchQuery(injectedValue, cPage);
 
 const handlerDetail = (idx) => {
@@ -86,7 +91,31 @@ const handlerDetail = (idx) => {
     params: { idx },
   });
 };
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "approval-post") {
+      refetch();
+    }
+  }
+);
 </script>
+
+<style>
+.listCountBadge {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.listCountBadge:hover,
+.listCountBadge:active,
+.listCountBadge:visited {
+  cursor: default;
+  background-color: rgb(253, 253, 253);
+  border: 1px solid rgb(253, 253, 253);
+}
+</style>
 
 <style lang="scss" scoped>
 table {
@@ -105,13 +134,13 @@ table {
   }
 
   th {
-    background-color: #2676bf;
-    color: #ddd;
+    background-color: #337fd1;
+    color: white;
   }
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: #f5f5f5;
     opacity: 0.9;
     cursor: pointer;
   }

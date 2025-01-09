@@ -25,7 +25,7 @@ const { totalItems, itemsPerPage, maxPagesShown, onClick } = defineProps([
   column-gap: 10px;
   // padding-left: 35%; // 하드코딩된 좌패딩 제거
   padding-right: 32px; // 그럼에도 Pagination 내부의 건들 수 없는 좌패딩이 32px 남아서 부득이 우패딩 32px 설정
-  padding-top: 10px;
+  padding-top: 30px;
   list-style-type: none;
 }
 
@@ -34,13 +34,13 @@ const { totalItems, itemsPerPage, maxPagesShown, onClick } = defineProps([
   width: 40px;
   border-radius: 20px;
   cursor: pointer;
-  background-color: rgb(242, 242, 242);
+  background-color: white;
   border: 1px solid rgb(217, 217, 217);
   color: black;
 }
 
 .paginate-buttons:hover {
-  background-color: #d8d8d8;
+  background-color: #f3f3f3;
 }
 
 .active-page {
