@@ -1,76 +1,149 @@
 <template>
   <div>
-    <div v-if="isLoading">기다려주세요</div>
-    <div v-else>
-      <ContextBox>공지사항 상세조회</ContextBox>
-      <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
-      <label>
-        내용 :
-        <input type="text" v-model="detailValue.content" />
-      </label>
-      파일 :<input type="file" style="display: none" id="fileInput" />
-      <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-      <div>
-        <!-- <div v-if="imageUrl">
-          <label>미리보기</label>
-          <img :src="imageUrl" />
-        </div>
-        <div v-else>
-          <label>파일명</label>
-        </div> -->
-      </div>
-      <div class="button-box">
-        <button @click="params.idx ? handlerUpdateBtn() : handlerInsertBtn()">
-          {{ params.idx ? "수정" : "등록" }}
-        </button>
-        <button v-if="params.idx" @click="handlerDeleteBtn">삭제</button>
-        <button @click="$router.go(-1)">뒤로가기</button>
-      </div>
-    </div>
+    <ContextBox>공지사항</ContextBox>
+  </div>
+  <label> 제목 :<input type="text" v-model="detailValue.title" /> </label>
+  <label>
+    내용 :
+    <input type="text" v-model="detailValue.content" />
+  </label>
+  <div v-if="userType === 'M'">
+    파일 :<input
+      type="file"
+      style="display: none"
+      id="fileInput"
+      @change="handlerFile"
+    />
+    <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+  </div>
+  <div v-if="imageUrl">
+    파일명:
+    <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
+      {{ fileData.name || detailValue.fileName }}</label
+    >
+    <!-- <input type="text" :value="" readonly /> -->
+    <label>미리보기:</label>
+    <img :src="imageUrl" />
+  </div>
+  <div v-else>
+    파일명:
+    <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
+      {{ fileData.name || detailValue.fileName }}</label
+    >
+  </div>
+
+  <div class="button-box" v-if="userType === 'M'">
+    <button @click="actionHandler">
+      {{ actionLabel }}
+    </button>
+    <button v-if="detailValue.noticeIdx" @click="handleDelete">삭제</button>
+    <button @click="$router.go(-1)">뒤로가기</button>
   </div>
 </template>
 
 <script setup>
-import axios from "axios";
+import { computed, onActivated, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
-import { useUserInfo } from "../../../../stores/userInfo";
-import { useNoticeDetailSearchQuery } from "../../../../hook/notice/useNoticeDetailSearchQuery";
+import { noticeImageGetApi } from "../../../../api/notice/noticeImageGetApi";
+import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
+import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
-import { useNoticeDetailInsertMutation } from "../../../../hook/notice/useNoticeDetailInsertMutation";
-import { useNoticeDetailDeleteMutation } from "../../../../hook/notice/useNoticeDetailDeleteMutation";
-
+import { useNoticeImage } from "../../../../hook/notice/useNoticeImage";
+import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
+import { useUserInfo } from "../../../../stores/userInfo";
+const userInfo = useUserInfo();
+const userType = computed(() => userInfo.user.userType);
 const { params } = useRoute();
 const detailValue = ref({});
-const userInfo = useUserInfo();
+const imageUrl = ref("");
+const fileData = ref("");
+const route = useRoute();
+const noticeIdx = ref("");
 
 const {
-  data: noticeDetail,
-  isLoading,
+  data: NoticeDetail,
+  refetch,
   isSuccess,
-} = useNoticeDetailSearchQuery(params);
-
-watchEffect(() => {
-  if (isSuccess.value && noticeDetail.value) {
-    detailValue.value = toRaw(noticeDetail.value.detail);
-    // detailValue.value = {... noticeDetail.value.detail}; // 이거도 가능
-  }
-});
+} = useNoticeDetail(detailValue, noticeIdx, fileData);
 
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   detailValue,
-  params.idx
+  noticeIdx,
+  fileData
 );
 
-const { mutate: handlerInsertBtn } = useNoticeDetailInsertMutation(
+const { mutate: handlerInsertBtn } = useNoticeInsert(
   detailValue,
-  userInfo.user.loginId
+  noticeIdx,
+  fileData
 );
 
-const deleteNoticeDetail = async () => {
-  await axios.post("/api/board/noticeDeleteBody.do", { noticeSeq: params.idx });
+const { mutate: handlerFile } = useNoticeImage(
+  detailValue,
+  noticeIdx,
+  fileData,
+  imageUrl
+);
+
+const { mutate: handlerDeleteBtn } = useNoticeDelete(noticeIdx);
+
+watchEffect(() => {
+  if (isSuccess.value && NoticeDetail.value && noticeIdx) {
+    detailValue.value = { ...NoticeDetail.value.detail };
+    if (["jpg", "gif", "png", "webp"].includes(detailValue.value.fileExt)) {
+      noticeImageGetApi(imageUrl, noticeIdx); // Blob방식URL: logicalPath와 달리 클라이언트에 미리 다운시킨 캐시이미지를 보게되는 방식
+      // imageUrl.value = '/api'+noticeDetail.value.detail.logicalPath;
+    }
+  }
+});
+
+const actionLabel = computed(() =>
+  noticeIdx.value === "insert" ? "등록" : "수정"
+);
+
+const validateInputs = () => {
+  if (!detailValue.value.title) {
+    alert("제목을 입력해주세요.");
+    return false;
+  }
+  if (!detailValue.value.content) {
+    alert("내용을 입력해주세요.");
+    return false;
+  }
+  return true;
 };
 
-const { mutate: handlerDeleteBtn } = useNoticeDetailDeleteMutation(params);
+const actionHandler = () => {
+  if (!validateInputs()) return;
+
+  if (noticeIdx.value === "insert") {
+    if (confirm("등록하시겠습니까?")) {
+      handlerInsertBtn();
+    }
+  } else {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
+    }
+  }
+};
+
+const handleDelete = () => {
+  if (confirm("삭제하시겠습니까?")) {
+    handlerDeleteBtn();
+  }
+};
+
+//신규등록 버튼을 눌렀을때
+onActivated(() => {
+  let pathSegments = window.location.pathname.split("/"); // URL을 '/'로 분리
+  noticeIdx.value = pathSegments[pathSegments.length - 1]; // 맨 끝 값 추출
+  if (noticeIdx.value === "insert") {
+    detailValue.value.title = "";
+    detailValue.value.content = "";
+    fileData.value = "";
+    imageUrl.value = "";
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -112,8 +185,9 @@ input[type="text"] {
 }
 
 img {
-  width: 100px;
-  height: 100px;
+  margin-top: 10px;
+  width: 200px;
+  height: 200px;
 }
 
 .img-label {

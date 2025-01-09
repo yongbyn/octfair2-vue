@@ -1,6 +1,13 @@
 <template>
   <div class="divNoticeList">
-    현재 페이지: {{ cPage }} 총 개수: {{ noticeList?.noticeCnt }}
+    <b-button variant="light">
+      총
+      <b-badge pill variant="primary">
+        {{ noticeList?.noticeCnt }}
+      </b-badge>
+      개의 글
+    </b-button>
+
     <table>
       <colgroup>
         <col width="10%" />
@@ -18,8 +25,8 @@
         </tr>
       </thead>
       <tbody>
-        <template v-if="isLoading">로딩중...</template>
-        <template v-else-if="isSuccess">
+        <template v-if="isLoading">...로딩중</template>
+        <template v-if="isSuccess">
           <template v-if="noticeList.noticeCnt > 0">
             <tr
               v-for="notice in noticeList.notice"
@@ -38,13 +45,13 @@
             </tr>
           </template>
         </template>
-        <template v-else-if="isError">에러발생</template>
       </tbody>
     </table>
     <Pagination
       :totalItems="noticeList?.noticeCnt || 0"
       :items-per-page="5"
       :max-pages-shown="5"
+      :onClick="searchList"
       v-model="cPage"
     />
   </div>
@@ -52,8 +59,8 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import Pagination from "../../../common/Pagination.vue";
 import { useNoticeListSearchQuery } from "../../../../hook/notice/useNoticeListSearchQuery";
+import Pagination from "../../../common/Pagination.vue";
 
 const router = useRouter();
 const cPage = ref(1);
@@ -62,15 +69,15 @@ const injectedValue = inject("providedValue");
 const {
   data: noticeList,
   isLoading,
+  isStale,
   refetch,
   isSuccess,
-  isError,
 } = useNoticeListSearchQuery(injectedValue, cPage);
 
-const handlerDetail = (idx) => {
+const handlerDetail = (param) => {
   router.push({
     name: "noticeDetail",
-    params: { idx },
+    params: { idx: param },
   });
 };
 </script>

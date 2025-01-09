@@ -3,17 +3,21 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useUserInfo = defineStore(
-    "userInfo",
-    () => {
-        const user = ref();
-        async function setUserData(loginInfo) {
-            const param = new URLSearchParams(loginInfo);
-            const result = await axios.post("/api/loginProc.do", param);
-            user.value = result.data;
-            return result.data.result;
-        }
+  "userInfo",
+  () => {
+    const user = ref();
+    async function setUserData(loginInfo) {
+      const param = new URLSearchParams(loginInfo);
+      const resultPlain = await axios.post("/prx/loginProc.do", param); // 평문
+      const resultBcrypt = await axios.post("/prx/api/loginProc.do", param); // 암호
+      user.value =
+        resultPlain.data.result === "SUCCESS"
+          ? resultPlain.data
+          : resultBcrypt.data;
+      return user.value.result;
+    }
 
-        return { user, setUserData };
-    },
-    { persist: { storage: sessionStorage } }
+    return { user, setUserData };
+  },
+  { persist: { storage: sessionStorage } }
 );
