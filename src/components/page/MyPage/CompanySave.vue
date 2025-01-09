@@ -182,8 +182,9 @@
         <th>로고 미리보기</th>
         <td colspan="3">
           <img
+            v-if="logoPreview"
             id="logoPreview"
-            :src="logoPreview"
+            :src="logoPreview || fileData.logicalPath"
             alt="미리보기 이미지"
             style="max-width: 300px"
           />
@@ -196,11 +197,11 @@
         variant="danger"
         class="me-2"
         @click="handlerCompanyDelete"
-        v-if="!companySave.bizIdx"
+        v-if="companySave.bizIdx"
         >삭제하기</b-button
       >
       <b-button variant="primary" @click="companySaveValid">{{
-        !companySave.bizIdx ? "수정하기" : "등록하기"
+        companySave.bizIdx ? "수정하기" : "등록하기"
       }}</b-button>
     </div>
   </div>
@@ -210,16 +211,14 @@
 import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useCompanyDelete } from "../../../hook/mypage/useCompanyDelete";
 import { useCompanySave } from "../../../hook/mypage/useCompanySave";
 import { useCompanyUpdate } from "../../../hook/mypage/useCompanyUpdate";
 import { useGetCompanyInfo } from "../../../hook/mypage/useGetCompanyInfo";
 import { useUserInfo } from "../../../stores/userInfo";
 
-const route = useRoute();
 const router = useRouter();
-const bizIdx = route.query.bizIdx;
 
 const { user } = useUserInfo();
 const companySave = ref({
@@ -254,7 +253,7 @@ const companySave = ref({
     state: false,
   },
   bizIntro: "",
-  bizIdx: bizIdx,
+  bizIdx: router.currentRoute.value.state?.bizIdx,
   userIdx: user.userIdx,
   loginId: user.loginId,
   userType: user.userType,
@@ -270,8 +269,14 @@ onMounted(() => {
   getCompanyInfo();
 });
 const logoPreview = ref("");
-
 const fileName = ref("");
+
+// 파일 있으면 처리
+watch(fileData.value.logicalPath, () => {
+  const fileInput = document.getElementById("logoPreview");
+  fileInput.classList.add("is-valid");
+  fileInput.classList.remove("is-invalid");
+});
 
 // 포커스용 변수
 const bizName = ref("");
@@ -491,11 +496,6 @@ const fileInput = () => {
 
     fileName.value = fileData.value.name;
     logoPreview.value = URL.createObjectURL(fileData.value);
-    console.log("==============");
-    console.log(fileData.value);
-    console.log(fileData.value.type);
-    console.log(logoPreview.value);
-    console.log("==============");
     fileInput.classList.add("is-valid");
     fileInput.classList.remove("is-invalid");
   } else {
@@ -544,7 +544,7 @@ const companySaveValid = () => {
     fileInfo.value.focus();
     return;
   } else {
-    if (companySave.value.bizIdx) {
+    if (!companySave.value.bizIdx) {
       handlerCompanySave();
       toast.success("기업을 등록하였습니다.");
     } else {
@@ -568,7 +568,7 @@ const handlerCompanyDelete = () => {
   companySave.value = { ...companySave.value, bizIdx: null };
   toast.success("회사 정보가 삭제되었습니다.");
 };
-const { mutate: companyDelete } = useCompanyDelete(companySave);
+const { mutate: companyDelete } = useCompanyDelete(companySave, fileData);
 
 // 뒤로가기
 const goBack = () => {
