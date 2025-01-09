@@ -18,7 +18,7 @@ export const faqDetailUpdateApi = async (detailValue, faq_idx) => {
   formData.append(
     "text",
     new Blob([JSON.stringify(textData)], {
-      type: "application/json",
+      type: "application/json"
     })
   );
   await axios.post(Faq.UpdateFaqDetail, formData);
