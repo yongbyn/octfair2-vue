@@ -108,3 +108,7 @@ export const Biz = {
   SearchBizDetail: "/prx/api/manage-user/bizManageDetail.do",
   UpdateBizDetail: "/prx/api/manage-user/bizInfoUpdate.do",
 };
+
+export const Company = {
+  SearchCompanyDetail: "/prx/api//company/companyDetailPage.do",
+};

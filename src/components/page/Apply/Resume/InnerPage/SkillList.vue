@@ -39,6 +39,7 @@
 
 <script setup>
 import "@/components/page/Apply/Resume/ResumeStyle.css";
+import { onActivated } from "vue";
 import { useSkillListReadQuery } from "../../../../../hook/apply/resume/skill/useSkillListReadQuery";
 import { useSkillNewCreateMutation } from "../../../../../hook/apply/resume/skill/useSkillNewCreateMutation";
 import { useSkillNewDeleteMutation } from "../../../../../hook/apply/resume/skill/useSkillNewDeleteMutation";
@@ -59,6 +60,10 @@ watch(() => [props.resume.resIdx, skillList?.payload], () => {
   resIdx.value = props.resume.resIdx;
   emits("isExistSkill", isExistSkill.value);
 })
+
+onActivated(() => {
+  isAddSkill.value = false;
+});
 </script>
 
 <style></style>

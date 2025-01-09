@@ -126,6 +126,8 @@ onMounted(() => {
 
 onActivated(() => {
   resIdx.value = props.resIdx || route.query.resIdx;
+  fileImgSrc.value = "";
+  fileData.value = "";
 });
 </script>
 

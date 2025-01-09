@@ -1,3 +1,4 @@
+<!-- On/Off작동기능을 하는 토글버튼 -->
 <template>
   <div :class="['toggle-switch', { active: isActive }]" @click="toggleOnOff">
     <div :class="['toggle-label', { active: isActive }]"></div>
