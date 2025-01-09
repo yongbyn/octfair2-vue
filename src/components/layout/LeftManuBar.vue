@@ -1,10 +1,17 @@
 <template>
   <div class="profile-card">
     <div class="profile-header">
-      <img :src="vue_logo" alt="logoImage" />
+      <img
+        v-if="userInfo.user.userType === 'B' || userInfo.user.userType === 'M'"
+        :src="vue_logo"
+        alt="logoImage"
+      />
+      <img v-if="userInfo.user.userType === 'A'" :src="mang" alt="userImage" />
     </div>
     <div class="profile-body">
-      <h2 class="profile-name">{{ userInfo.user.loginId }}</h2>
+      <h2 class="profile-name">
+        {{ userInfo.user.loginId }}
+      </h2>
       <div class="profile-action">
         <button @click="handlerLogout" class="logout-btn">로그아웃</button>
       </div>
@@ -43,6 +50,7 @@
 </template>
 
 <script setup>
+import mang from "../../assets/utilcons/mang_gom.png";
 import vue_logo from "../../assets/utilcons/vue_logo.png";
 import { useUserInfo } from "../../stores/userInfo";
 
@@ -131,8 +139,8 @@ const handlerLogout = () => {
 }
 
 img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%; /* 원형 이미지 */
 }
 
