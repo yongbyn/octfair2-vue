@@ -66,13 +66,9 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-// import { useRoute } from "vue-router";
-
-// const route = useRoute();
+import { Post } from "../../../api/api";
 const hirePostList = ref();
 const cPage = ref(1);
-// const injectedValue = inject("providedValue");
-// const managePostIdx = ref(0);
 const router = useRouter();
 
 const searchList = () => {
@@ -81,7 +77,7 @@ const searchList = () => {
     pageSize: 5,
   });
 
-  axios.post("/prx/api/manage-hire/post-list.do", param).then((res) => {
+  axios.post(Post.SearchHirePostList, param).then((res) => {
     hirePostList.value = res.data;
   });
 };

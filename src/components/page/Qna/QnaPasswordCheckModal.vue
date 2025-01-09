@@ -1,14 +1,12 @@
 <template>
-
-    <!-- {{ checkSuccess }} -->
-    <template v-if="type=='M' && isSuccess">
-        <QnaMyDetailModal :myQnaDetail="myQnaDetail "/>
-    </template>
-  <template v-else-if="!checkSuccess">
+  <template v-if="type == 'M' && isSuccess">
+    <QnaMyDetailModal :myQnaDetail="myQnaDetail" />
+  </template>
+  <template v-else-if="type != 'M' && !checkSuccess">
     <div class="passwordCheckWrapper">
       <div class="checkArea">
         <h1>비밀번호확인</h1>
-        <input v-model="checkpwd" />{{ checkpwd }}
+        <input type="password" v-model="checkpwd" />
         <div class="btnArea">
           <div class="confrim" @click="checkPwdFnc">확인</div>
           <div class="discard" @click="discardFnc">취소</div>
@@ -17,54 +15,58 @@
     </div>
   </template>
   <template v-else>
-<h1>옛다 비번 성공</h1>
-<QnaMyDetailModal :myQnaDetail="myQnaDetail "/>
-
+    <h1>옛다 비번 성공</h1>
+    <QnaMyDetailModal :myQnaDetail="myQnaDetail" />
   </template>
 </template>
 <script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useRoute,useRouter } from "vue-router";
-import { MyQnaSearchDetailQuery } from "../../../hook/qna/MyQnaSearchDetailQuery";
+import axios from "axios";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
+import { Notice } from "../../../api/api";
 import { useUserInfo } from "../../../stores/userInfo";
 const type = useUserInfo().user.userType;
-const { params } = useRoute();
-const router=useRouter();
+const router = useRouter();
+const route = useRoute();
 const checkpwd = ref("");
 const checkSuccess = ref(false);
+const myQnaDetail = ref();
 
-const { data: myQnaDetail, isSuccess } = MyQnaSearchDetailQuery(params.qnaIdx);
-
-
-
-const checkPwdFnc=()=>{
-  
-    console.log(myQnaDetail.value.password)
-    console.log(checkpwd.value)
-
-if(checkpwd.value===myQnaDetail.value.password){
-    checkSuccess.value=true;
-}
-else{
-    alert("비밀번호가 틀렸습니다.")
-}
-
-}
-
-const discardFnc=()=>{
-    router.go(-1)
-}
-
-
-
-   // 
-   onBeforeRouteLeave(() => {
-    checkSuccess.value = false; 
-    checkpwd.value=null;
-      sessionStorage.removeItem('checkSuccess'); 
-      sessionStorage.removeItem('checkpwd');
+const searchDetail = async () => {
+  await axios
+    .post(Notice.SearchMyQnaDetail, { qnaSeq: route.params.qnaIdx })
+    .then((res) => {
+      myQnaDetail.value = res.data.detail;
     });
+};
 
+// const {
+//   data: myQnaDetail,
+//   isSuccess,
+//   refetch,
+
+const checkPwdFnc = () => {
+  if (checkpwd.value === myQnaDetail.value.password) {
+    checkSuccess.value = true;
+  } else {
+    alert("비밀번호가 틀렸습니다.");
+  }
+};
+
+const discardFnc = () => {
+  router.go(-1);
+};
+
+//
+onBeforeRouteLeave(() => {
+  checkSuccess.value = false;
+  checkpwd.value = "";
+  sessionStorage.removeItem("checkSuccess");
+  sessionStorage.removeItem("checkpwd");
+});
+
+onActivated(() => {
+  searchDetail();
+});
 </script>
 <style>
 .passwordCheckWrapper {
