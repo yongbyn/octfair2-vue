@@ -14,7 +14,7 @@
               value="1"
               v-model="detailValue.faq_type"
             />
-            <label for="individual">개인회원</label>
+            개인회원
           </td>
           <td>
             <input
@@ -23,7 +23,7 @@
               value="2"
               v-model="detailValue.faq_type"
             />
-            <label for="company">기업회원</label>
+            기업회원
           </td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@
         <button @click="actionHandler">
           {{ actionLabel }}
         </button>
-        <button v-if="detailValue.faq_idx" @click="handleDelete">삭제</button>
+        <button v-if="params.faq_idx" @click="handleDelete">삭제</button>
         <button @click="$router.go(-1)">뒤로가기</button>
       </div>
     </div>
@@ -77,14 +77,14 @@ const {
 } = useFAQDetailSearch(detailValue, faq_idx);
 
 watchEffect(() => {
-  if (isSuccess && FAQDetail.value) {
+  if (isSuccess && FAQDetail.value && faq_idx) {
     detailValue.value = { ...FAQDetail.value.detail };
     //detailValue.value.faq_type = FAQDetail.value.detail.faq_type;
   }
 });
 
 const actionLabel = computed(() =>
-  faq_idx.value === "insert" ? "수정" : "등록"
+  faq_idx.value === "insert" ? "등록" : "수정"
 );
 
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(detailValue, faq_idx);
@@ -95,7 +95,7 @@ const { mutate: handlerInsertBtn } = useFAQDetailInsert(
   userInfo.user.loginId
 );
 
-const { mutate: handlerDeleteBtn } = useFAQDetailDelete(faq_idx);
+const { mutate: handlerDeleteBtn } = useFAQDetailDelete(params.faq_idx);
 
 const validateInputs = () => {
   if (!detailValue.value.faq_type) {
@@ -117,12 +117,12 @@ const actionHandler = () => {
   if (!validateInputs()) return;
 
   if (faq_idx.value === "insert") {
-    if (confirm("수정하시겠습니까?")) {
-      handlerUpdateBtn();
-    }
-  } else {
     if (confirm("등록하시겠습니까?")) {
       handlerInsertBtn();
+    }
+  } else {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
     }
   }
 };
@@ -133,18 +133,6 @@ const handleDelete = () => {
   }
 };
 
-/* watch(
-  () => route.params.faq_idx,
-  (newId, oldId) => {
-    if (newId && route.name == "faqDetail") {
-      if (newId !== oldId) {
-        params.faq_idx = newId;
-        refetch();
-      }
-    }
-  }
-); */
-
 //신규등록 버튼을 눌렀을때
 onActivated(() => {
   let pathSegments = window.location.pathname.split("/"); // URL을 '/'로 분리
@@ -154,24 +142,6 @@ onActivated(() => {
     detailValue.value.content = "";
   }
 });
-
-/* watch(
-  () => route.name,
-  (newRoute) => {
-    console.log(newRoute);
-    if (newRoute === "faqInsert") {
-      refetch();
-    }
-  }
-);
-watch(
-  () => route.name,
-  (newRoute) => {
-    if (newRoute === "faqUpdate") {
-      refetch();
-    }
-  }
-); */
 </script>
 
 <style lang="scss" scoped>

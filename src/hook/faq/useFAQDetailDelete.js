@@ -8,7 +8,7 @@ export const useFAQDetailDelete = (params) => {
 
   return useMutation({
     mutationKey: ["faqDelete"],
-    mutationFn: () => faqDetailDeleteApi(params.faq_idx),
+    mutationFn: () => faqDetailDeleteApi(params),
     onSuccess: () => {
       router.go(-1);
       queryClient.invalidateQueries({

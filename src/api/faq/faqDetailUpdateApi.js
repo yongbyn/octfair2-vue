@@ -1,13 +1,13 @@
 import axios from "axios";
 import { Faq } from "../api";
 
-export const faqDetailUpdateApi = async (detailValue, faq_idx) => {
+export const faqDetailUpdateApi = async (detailValue, faq_idx, faq_type) => {
   // textData 객체 생성
   const textData = {
     ...detailValue.value,
     faqSeq: faq_idx.value,
     context: detailValue.value.content,
-    faq_type: detailValue.faq_type,
+    faq_type: faq_type.value,
   };
 
   const formData = new FormData();
