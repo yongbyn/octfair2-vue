@@ -135,6 +135,7 @@ const toggleAll = () => {
   } else {
     selectedScrapIdxList.value = [];
   }
+
   updatePart();
 };
 
@@ -166,6 +167,7 @@ const handlerApply = (idx, bizName, title) => {
     postBizName: bizName,
     postTitle: title,
   };
+
   modalState.setModalState();
 };
 
