@@ -1,14 +1,4 @@
 <template>
-  <!-- <div class="logo-box">
-    <img :src="vue_logo" alt="logoImage" />
-    <div class="user-info">
-      <span class="login-id">{{ userInfo.user.loginId }}</span>
-      <span class="logoutBtn">
-        <button @click="handlerLogout">로그아웃</button>
-      </span>
-    </div>
-  </div> -->
-
   <div class="profile-card">
     <div class="profile-header">
       <img :src="vue_logo" alt="logoImage" />
@@ -202,9 +192,6 @@ ul {
   background: rgb(255, 255, 255);
   list-style-type: none;
   padding: 0;
-  // border: solid 1px rgb(223, 223, 223);
-  // width: 200px;
-  // max-width: 250px;
 }
 
 .parent-menu {
@@ -254,8 +241,6 @@ ul {
       margin: 10px 0 10px 0;
 
       &:hover {
-        // text-decoration: underline;
-        // color: white;
         cursor: pointer;
 
         background-image: linear-gradient(120deg, #a8f2ffcb 0%, #d8f2ffec 100%);
@@ -275,11 +260,7 @@ ul {
   }
 
   .active-link {
-    // text-decoration: underline;
-    // color: white;
     color: black;
-
-    // -------------------------
     background-image: linear-gradient(120deg, #97c4ffc9 0%, #d1f0ffec 100%);
     background-repeat: no-repeat;
     background-size: 60% 40%;
