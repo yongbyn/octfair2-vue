@@ -1,12 +1,14 @@
 <template>
   <div class="divPostList">
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ approvalList?.pendingPostCnt }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ approvalList?.pendingPostCnt }}
+        </b-badge>
+        개의 글
       </b-badge>
-      개의 글
-    </b-button>
+    </h4>
     <table>
       <colgroup>
         <col width="10%" />
@@ -100,6 +102,21 @@ watch(
 );
 </script>
 
+<style>
+.listCountBadge {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.listCountBadge:hover,
+.listCountBadge:active,
+.listCountBadge:visited {
+  cursor: default;
+  background-color: rgb(253, 253, 253);
+  border: 1px solid rgb(253, 253, 253);
+}
+</style>
+
 <style lang="scss" scoped>
 table {
   width: 100%;
@@ -117,13 +134,13 @@ table {
   }
 
   th {
-    background-color: #2676bf;
-    color: #ddd;
+    background-color: #337fd1;
+    color: white;
   }
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: #f5f5f5;
     opacity: 0.9;
     cursor: pointer;
   }

@@ -7,13 +7,15 @@
       :title="detailValue.postTitle"
       :bizName="detailValue.postBizName"
     />
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ scrapList?.scrapCnt }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ scrapList?.scrapCnt }}
+        </b-badge>
+        개의 글
       </b-badge>
-      개의 글
-    </b-button>
+    </h4>
     <table>
       <colgroup>
         <col width="5%" />
@@ -212,13 +214,13 @@ table {
   }
 
   th {
-    background-color: #2676bf;
-    color: #ddd;
+    background-color: #337fd1;
+    color: white;
   }
 
   /* 테이블 올렸을 때 */
   tbody tr:hover {
-    background-color: #d3d3d3;
+    background-color: #f7f7f7;
     opacity: 0.9;
     cursor: pointer;
   }
