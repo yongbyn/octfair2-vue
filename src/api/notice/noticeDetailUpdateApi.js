@@ -15,5 +15,5 @@ export const noticeDetailUpdateApi = async (detailValue, idx, fileData) => {
     new Blob([JSON.stringify(textData)], { type: "application/json" })
   );
 
-  await axios.post(Notice.FileNoticeUpdate, formData);
+  await axios.post(Notice.UpdateNoticeDetail, formData);
 };

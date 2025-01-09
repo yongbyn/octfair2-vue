@@ -7,7 +7,7 @@ export const useNoticeDetailUpdateMutation = (detailValue, idx, fileData) => {
   const router = useRouter();
 
   return useMutation({
-    mutationKey: ["noticeUpdate"],
+    mutationKey: ["noticeUpdate", idx],
     mutationFn: () => noticeDetailUpdateApi(detailValue, idx, fileData),
     onSuccess: () => {
       router.go(-1);

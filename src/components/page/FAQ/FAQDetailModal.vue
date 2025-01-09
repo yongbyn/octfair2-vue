@@ -75,7 +75,7 @@ const { data: FAQDetail, isSuccess, refetch } = useFAQDetailSearch(params);
 watchEffect(() => {
   if (isSuccess && FAQDetail.value) {
     detailValue.value = { ...FAQDetail.value.detail };
-    detailValue.value.faq_type = FAQDetail.value.detail.faq_type;
+    //detailValue.value.faq_type = FAQDetail.value.detail.faq_type;
   }
 });
 
@@ -142,9 +142,10 @@ watch(
   }
 );
 
-watch(
+/* watch(
   () => route.name,
   (newRoute) => {
+    console.log(newRoute);
     if (newRoute === "faqInsert") {
       refetch();
     }
@@ -157,7 +158,7 @@ watch(
       refetch();
     }
   }
-);
+); */
 </script>
 
 <style lang="scss" scoped>

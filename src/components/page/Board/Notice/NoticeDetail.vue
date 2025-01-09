@@ -7,25 +7,32 @@
     내용 :
     <input type="text" v-model="detailValue.content" />
   </label>
-  파일 :<input
-    type="file"
-    style="display: none"
-    id="fileInput"
-    @change="handlerFile"
-  />
-  <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-
+  <div v-if="userType === 'M'">
+    파일 :<input
+      type="file"
+      style="display: none"
+      id="fileInput"
+      @change="handlerFile"
+    />
+    <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
+  </div>
   <div v-if="imageUrl">
-    <label>파일명:</label>
-    <input type="text" :value="fileData.name" readonly />
-    <label>미리보기</label>
+    파일명:
+    <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
+      {{ fileData.name || detailValue.fileName }}</label
+    >
+    <!-- <input type="text" :value="" readonly /> -->
+    <label>미리보기:</label>
     <img :src="imageUrl" />
   </div>
   <div v-else>
-    <input type="text" :value="fileData.name" readonly />
+    파일명:
+    <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
+      {{ fileData.name || detailValue.fileName }}</label
+    >
   </div>
 
-  <div class="button-box">
+  <div class="button-box" v-if="userType === 'M'">
     <button @click="actionHandler">
       {{ actionLabel }}
     </button>
@@ -35,7 +42,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { noticeImageGetApi } from "../../../../api/notice/noticeImageGetApi";
 import { useNoticeDelete } from "../../../../hook/notice/useNoticeDelete";
@@ -43,18 +50,20 @@ import { useNoticeDetail } from "../../../../hook/notice/useNoticeDetail";
 import { useNoticeDetailUpdateMutation } from "../../../../hook/notice/useNoticeDetailUpdateMutation";
 import { useNoticeImage } from "../../../../hook/notice/useNoticeImage";
 import { useNoticeInsert } from "../../../../hook/notice/useNoticeInsert";
-
+import { useUserInfo } from "../../../../stores/userInfo";
+const userInfo = useUserInfo();
+const userType = computed(() => userInfo.user.userType);
 const { params } = useRoute();
 const detailValue = ref({});
-//const userInfo = useUserInfo();
 const imageUrl = ref("");
 const fileData = ref("");
+const route = useRoute();
 
-const { data: NoticeDetail, isSuccess } = useNoticeDetail(
-  detailValue,
-  params.idx,
-  fileData
-);
+const {
+  data: NoticeDetail,
+  refetch,
+  isSuccess,
+} = useNoticeDetail(detailValue, params.idx, fileData);
 
 const { mutate: handlerUpdateBtn } = useNoticeDetailUpdateMutation(
   detailValue,
@@ -120,6 +129,21 @@ const handleDelete = () => {
     handlerDeleteBtn();
   }
 };
+
+onMounted(() => {
+  if (params.idx) {
+    refetch();
+  }
+});
+
+watch(
+  () => params.idx,
+  (newIdx, oldIdx) => {
+    if (newIdx !== oldIdx) {
+      refetch();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -161,8 +185,9 @@ input[type="text"] {
 }
 
 img {
-  width: 100px;
-  height: 100px;
+  margin-top: 10px;
+  width: 200px;
+  height: 200px;
 }
 
 .img-label {

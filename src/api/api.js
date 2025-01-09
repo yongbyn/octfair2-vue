@@ -1,7 +1,7 @@
 export const Notice = {
   SearchNoticeList: "/prx/api/board/noticeListJson.do",
   NoticeDetail: "/prx/api/board/noticeDetailBody.do",
-  GetNoticeImage: "/prx/api/board/noticeDownload.do",
+  GetNoticeImage: "/prx/board/noticeDownload.do",
   UpdateNoticeDetail: "/prx/api/board/noticeUpdateFileForm.do",
   DeleteNoticeDetail: "/prx/api/board/noticeDeleteBody.do",
   InsertNoticeDetail: "/prx/api/board/noticeSaveFileForm.do",
