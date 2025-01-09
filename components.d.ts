@@ -38,6 +38,7 @@ declare module 'vue' {
     FileInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/FileInfo.vue')['default']
     FindIdModal: typeof import('./src/components/page/Login/FindIdModal.vue')['default']
     FindPwdModal: typeof import('./src/components/page/Login/FindPwdModal.vue')['default']
+    HireApplicantMain: typeof import('./src/components/page/Hire/HireApplicantMain.vue')['default']
     HirePostEditor: typeof import('./src/components/page/Hire/HirePostEditor.vue')['default']
     HirePostMain: typeof import('./src/components/page/Hire/HirePostMain.vue')['default']
     HistoryMain: typeof import('./src/components/page/Apply/History/HistoryMain.vue')['default']

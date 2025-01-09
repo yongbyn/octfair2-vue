@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ApplicantResume from "../components/page/Applicant/ApplicantResume.vue";
 import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
@@ -8,7 +7,6 @@ import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
 import QnaPasswordCheckModal from "../components/page/Qna/QnaPasswordCheckModal.vue";
-import ApplicantViewMain from "../views/Applicant/ApplicantViewMain.vue";
 import History from "../views/Apply/History/History.vue";
 import Resume from "../views/Apply/Resume/Resume.vue";
 import ApprovalPost from "../views/Approval/ApprovalPost.vue";
@@ -16,6 +14,7 @@ import ConfirmedPost from "../views/Approval/ConfirmedPost.vue";
 import Notice from "../views/Board/Notice.vue";
 import DashBoard from "../views/DashBoard/DashBoard.vue";
 import FAQ from "../views/FAQ/FAQ.vue";
+import HireApplicant from "../views/Hire/HireApplicant.vue";
 import HirePost from "../views/Hire/HirePost.vue";
 import Post from "../views/Jobs/Post.vue";
 import Scrap from "../views/Jobs/Scrap.vue";
@@ -147,13 +146,8 @@ const routes = [
           },
           {
             path: "applicant.do",
-            name: "volunteer",
-            component: ApplicantViewMain,
-          },
-          {
-            path: "applicantresume.do?:resIdx",
-            name: "volunteerresume",
-            component: ApplicantResume,
+            name: "hire-applicant",
+            component: HireApplicant,
           },
           {
             path: "editor.do/:idx",

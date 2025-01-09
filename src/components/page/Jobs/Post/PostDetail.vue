@@ -308,6 +308,8 @@ const handlerUpdateBtn = (idx) => {
     });
   } else if (detailValue.value.appStatus === "승인") {
     alert("승인된 공고는 수정이 불가능합니다.");
+  } else {
+    alert("승인 여부가 올바르지 않습니다. 관리자에게 문의해주세요.");
   }
 };
 
