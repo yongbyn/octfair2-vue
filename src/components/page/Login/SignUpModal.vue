@@ -342,7 +342,7 @@ const regExPatterns = {
   id: /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/,
   pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,40}$/,
   name: /^[가-힣]{2,}$/,
-  domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
+  domain: /^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\.[a-zA-Z0-9-]{1,63})+$/,
 };
 
 // 포커스용 변수
@@ -683,17 +683,20 @@ const signUpValid = () => {
   } else if (
     !signUpUserInfo.value.emailId.value ||
     !signUpUserInfo.value.emailDomain.value ||
-    !emailDomain.value.classList.contains("is-valid")
+    !signUpUserInfo.value.emailDomain.state
   ) {
     if (!signUpUserInfo.value.emailId.value) {
       toast.error("이메일을 입력하세요!");
       emailId.value.focus();
-      emailId.value.classList.add("is-invalid");
+      signUpUserInfo.value.emailId.state = false;
     } else if (!signUpUserInfo.value.emailDomain) {
       toast.error("이메일 도메인을 입력하세요!");
       emailDomain.value.focus();
     } else {
       toast.error("올바른 이메일 도메인을 입력하세요!");
+      console.log(signUpUserInfo.value.email);
+      console.log(signUpUserInfo.value.emailId.value);
+      console.log(signUpUserInfo.value.emailDomain.value);
       emailDomain.value.focus();
     }
     return;
