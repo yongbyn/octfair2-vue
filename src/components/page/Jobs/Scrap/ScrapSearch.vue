@@ -27,6 +27,7 @@
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { Scrap } from "../../../../api/api";
 
@@ -40,7 +41,7 @@ const handlerSearch = () => {
 
 const handlerDelete = () => {
   if (selectedScrapIdxList.value.length === 0) {
-    alert("삭제할 항목을 선택하세요.");
+    toast.warning("삭제할 항목을 선택하세요.");
     return;
   }
 
@@ -50,7 +51,7 @@ const handlerDelete = () => {
   };
 
   axios.post(Scrap.DeleteScrap, params).then((res) => {
-    alert("삭제되었습니다.");
+    toast.info("삭제되었습니다.");
     handlerSearch();
   });
 };

@@ -124,29 +124,6 @@ const { mutate: myQnaUpdate } = useQnaMyUpdateMutation(
   QnaDetail
 );
 const { mutate: myQnaDelete } = useMyQnaDeleteMutation(qnaIdx);
-const qnaApplication = async () => {
-  //   console.log(QnaDetail.value);
-  //   const textData = {
-  //     loginId: userInfo.user.loginId,
-  //     qnaSeq: QnaDetail.value.qnaIdx,
-  //     qnaTit: QnaDetail.value.title,
-  //     qnaCon: QnaDetail.value.content,
-  //     password: QnaDetail.value.password,
-  //     ans_content: QnaDetail.value.ans_content
-  //   };
-  //   console.log(textData);
-  //   const formData = new FormData();
-  //   formData.append("file", fileData.value);
-  //   formData.append(
-  //     "text",
-  //     new Blob([JSON.stringify(textData)], {
-  //       type: "application/json",
-  //     })
-  //   );
-  //   fulldata.value=formData
-  //     update(fulldata);
-  //await axios.post("/prx/api/board/qnaUpdateFileForm.do", formData);
-};
 </script>
 
 <style lang="scss" scoped>

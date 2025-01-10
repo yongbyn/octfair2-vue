@@ -52,6 +52,7 @@
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { Post } from "../../../../api/api";
 import { usePostDetailApplyMutation } from "../../../../hook/jobs/usePostDetailApplyMutation";
@@ -75,7 +76,7 @@ const searchResumeList = async () => {
 
 const handlerApplyBtn = async () => {
   if (!selected.value) {
-    alert("이력서를 선택하세요.");
+    toast.warning("이력서를 선택하세요.");
     return;
   }
 

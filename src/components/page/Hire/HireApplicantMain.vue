@@ -107,6 +107,7 @@
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { useModalStore } from "../../../stores/modalState";
 import { useUserInfo } from "../../../stores/userInfo";
@@ -185,9 +186,7 @@ const viewUpdateApi = async (loginId) => {
   );
   const requestBody = { loginId: loginId, postIdx: selectedPost.postIdx };
 
-  await axios
-    .post("/prx/api/manage-hire/viewUpdate.do", requestBody)
-    .then((res) => console.log(res));
+  await axios.post("/prx/api/manage-hire/viewUpdate.do", requestBody);
 };
 
 const handlerModal = (idx, loginId) => {
@@ -208,7 +207,7 @@ const handlerPass = async (loginId) => {
       ? splitHirProcess.value[currentIndex + 1]
       : null;
 
-  if (!nextProcess) alert("다음 채용과정이 없습니다.");
+  if (!nextProcess) toast.error("다음 채용과정이 없습니다.");
 
   const requestBody = {
     loginId: loginId,
@@ -221,9 +220,9 @@ const handlerPass = async (loginId) => {
   );
   if (result.data.result === "success") {
     if (nextProcess === "최종합격") {
-      alert("합격 처리 되었습니다.");
+      toast.info("합격 처리 되었습니다.");
     } else {
-      alert("통과 처리 되었습니다.");
+      toast.info("통과 처리 되었습니다.");
     }
     searchList();
   }
@@ -244,7 +243,7 @@ const handlerFail = async (loginId) => {
     requestBody
   );
   if (result.data.result === "success") {
-    alert("불합격 처리 되었습니다.");
+    toast.info("불합격 처리 되었습니다.");
   }
   searchList();
 };
@@ -265,7 +264,7 @@ const handlerSuperPass = async (loginId) => {
     requestBody
   );
   if (result.data.result === "success") {
-    alert("재심사 처리 되었습니다.");
+    toast.info("재심사 처리 되었습니다.");
   }
   searchList();
 };
