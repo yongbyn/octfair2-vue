@@ -84,7 +84,7 @@ watchEffect(() => {
 });
 
 const actionLabel = computed(() =>
-  faq_idx.value === "insert" ? "등록" : "수정"
+  faq_idx.value === "faqSavePart.do" ? "등록" : "수정"
 );
 
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(detailValue, faq_idx);
@@ -116,7 +116,7 @@ const validateInputs = () => {
 const actionHandler = () => {
   if (!validateInputs()) return;
 
-  if (faq_idx.value === "insert") {
+  if (faq_idx.value === "faqSavePart.do") {
     if (confirm("등록하시겠습니까?")) {
       handlerInsertBtn();
     }
