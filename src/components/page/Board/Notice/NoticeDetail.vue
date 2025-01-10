@@ -28,7 +28,8 @@
   <div v-else>
     파일명:
     <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
-      {{ fileData.name || detailValue.fileName }}</label>
+      {{ fileData.name || detailValue.fileName }}</label
+    >
   </div>
 
   <div class="button-box" v-if="userType === 'M'">
@@ -208,10 +209,12 @@ img {
     transform: translateY(2px);
   }
 }
-
 .button-box {
   text-align: right;
   margin-top: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
 }
 button {
   background-color: #3bb2ea;
