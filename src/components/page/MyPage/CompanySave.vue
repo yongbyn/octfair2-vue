@@ -157,7 +157,8 @@
           <input
             type="file"
             id="fileInput"
-            class="form-control is-invalid"
+            class="form-control"
+            :class="(fileName || fileData.bizLogo) ? 'is-valid' : 'is-invalid'"
             ref="fileInfo"
             @change="fileInput"
           />
@@ -168,7 +169,7 @@
                   ? `현재 파일 : ${fileName}`
                   : fileData.bizLogo
                     ? `이전 파일 : ${fileData.bizLogo}`
-                    : "이전 파일 : 없음"
+                    : ""
               }}
             </span>
             <span class="text-end text-primary">
@@ -186,6 +187,10 @@
             id="logoPreview"
             :src="logoPreview || fileData.logicalPath"
             alt="미리보기 이미지"
+            :class="{
+              'is-valid': fileData.logicalPath,
+              'is-invalid': !fileData.logicalPath
+            }"
             style="max-width: 300px"
           />
         </td>
@@ -197,11 +202,11 @@
         variant="danger"
         class="me-2"
         @click="handlerCompanyDelete"
-        v-if="companySave.bizIdx"
+        v-if="companySave.bizIdx !== '0'"
         >삭제하기</b-button
       >
       <b-button variant="primary" @click="companySaveValid">{{
-        companySave.bizIdx ? "수정하기" : "등록하기"
+        companySave.bizIdx !== '0' ? "수정하기" : "등록하기"
       }}</b-button>
     </div>
   </div>
@@ -211,7 +216,7 @@
 import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
 import { ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useCompanyDelete } from "../../../hook/mypage/useCompanyDelete";
 import { useCompanySave } from "../../../hook/mypage/useCompanySave";
 import { useCompanyUpdate } from "../../../hook/mypage/useCompanyUpdate";
@@ -219,6 +224,7 @@ import { useGetCompanyInfo } from "../../../hook/mypage/useGetCompanyInfo";
 import { useUserInfo } from "../../../stores/userInfo";
 
 const router = useRouter();
+const route = useRoute();
 
 const { user } = useUserInfo();
 const companySave = ref({
@@ -253,7 +259,7 @@ const companySave = ref({
     state: false,
   },
   bizIntro: "",
-  bizIdx: router.currentRoute.value.state?.bizIdx,
+  bizIdx: sessionStorage.getItem('bizIdx'),
   userIdx: user.userIdx,
   loginId: user.loginId,
   userType: user.userType,
@@ -266,17 +272,23 @@ const fileData = ref({
 // 등록된 값 가져오기
 const { mutate: getCompanyInfo } = useGetCompanyInfo(companySave, fileData);
 onMounted(() => {
-  getCompanyInfo();
+  if(companySave.value.bizIdx !== 0){
+    getCompanyInfo();
+  }
 });
 const logoPreview = ref("");
 const fileName = ref("");
 
+const bizIdxSave = computed(() => ({
+  bizIdx: companyStore.bizIdx,
+}));
+
 // 파일 있으면 처리
-watch(fileData.value.logicalPath, () => {
-  const fileInput = document.getElementById("logoPreview");
-  fileInput.classList.add("is-valid");
-  fileInput.classList.remove("is-invalid");
-});
+// watch(fileData.value.logicalPath, () => {
+//   const fileInput = document.getElementById("logoPreview");
+//   fileInput.classList.add("is-valid");
+//   fileInput.classList.remove("is-invalid");
+// });
 
 // 포커스용 변수
 const bizName = ref("");
@@ -288,6 +300,11 @@ const bizFoundDate = ref("");
 const bizEmpCount = ref("");
 const bizRevenue = ref("");
 const fileInfo = ref("");
+
+watch(fileData.bizLogo, ()=> {
+
+})
+
 
 // 1. 사업자명, 사업자 대표, 주소, 홈페이지, 사원수, 매출액
 const inputValid = (validName) => {
@@ -544,7 +561,8 @@ const companySaveValid = () => {
     fileInfo.value.focus();
     return;
   } else {
-    if (!companySave.value.bizIdx) {
+    console.log("companySave.value.bizIdx : ", companySave.value.bizIdx);
+    if (companySave.value.bizIdx === '0') {
       handlerCompanySave();
       toast.success("기업을 등록하였습니다.");
     } else {
@@ -565,7 +583,8 @@ const { mutate: handlerCompanyUpdate } = useCompanyUpdate(
 // 회사 삭제
 const handlerCompanyDelete = () => {
   companyDelete();
-  companySave.value = { ...companySave.value, bizIdx: null };
+  companySave.value = { ...companySave.value, bizIdx: '0' };
+  sessionStorage.setItem('bizIdx', '0');
   toast.success("회사 정보가 삭제되었습니다.");
 };
 const { mutate: companyDelete } = useCompanyDelete(companySave, fileData);

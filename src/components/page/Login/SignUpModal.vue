@@ -694,9 +694,6 @@ const signUpValid = () => {
       emailDomain.value.focus();
     } else {
       toast.error("올바른 이메일 도메인을 입력하세요!");
-      console.log(signUpUserInfo.value.email);
-      console.log(signUpUserInfo.value.emailId.value);
-      console.log(signUpUserInfo.value.emailDomain.value);
       emailDomain.value.focus();
     }
     return;
