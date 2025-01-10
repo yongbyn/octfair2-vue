@@ -1,12 +1,14 @@
 <template>
   <div class="divNoticeList">
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ noticeList?.noticeCnt }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ noticeList?.noticeCnt }}
+        </b-badge>
+        개의 글
       </b-badge>
-      개의 글
-    </b-button>
+    </h4>
 
     <table>
       <colgroup>
@@ -86,14 +88,13 @@ const handlerDetail = (param) => {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0px 0px 0px;
+  margin: 80px 0px 0px 0px;
   font-size: 18px;
   text-align: left;
 
   th,
   td {
     padding: 8px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
     text-align: center;
   }
