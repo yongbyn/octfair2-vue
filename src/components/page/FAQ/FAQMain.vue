@@ -1,12 +1,14 @@
 <template>
   <div class="divFAQList">
-    <b-button variant="light">
-      총
-      <b-badge pill variant="primary">
-        {{ faqList?.faqCnt }}
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ faqList?.faqCnt }}
+        </b-badge>
+        개의 글
       </b-badge>
-      개의 글
-    </b-button>
+    </h4>
 
     <div class="button-box">
       <button :class="{ active: type === '1' }" @click="updateFaqType('1')">
@@ -98,10 +100,10 @@ const {
   refetch,
 } = useFAQListQuery(injectedValue, cPage, type);
 
-const faqDetail = (faq_idx) => {
+const faqDetail = (param) => {
   router.push({
     name: "faqDetail",
-    params: { faq_idx },
+    params: { faq_idx: param },
   });
 };
 

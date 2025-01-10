@@ -77,14 +77,14 @@ const {
 } = useFAQDetailSearch(detailValue, faq_idx);
 
 watchEffect(() => {
-  if (isSuccess && FAQDetail.value) {
+  if (isSuccess && FAQDetail.value && faq_idx) {
     detailValue.value = { ...FAQDetail.value.detail };
     //detailValue.value.faq_type = FAQDetail.value.detail.faq_type;
   }
 });
 
 const actionLabel = computed(() =>
-  faq_idx.value === "insert" ? "수정" : "등록"
+  faq_idx.value === "faqSavePart.do" ? "등록" : "수정"
 );
 
 const { mutate: handlerUpdateBtn } = useFAQDetailUpdate(detailValue, faq_idx);
@@ -116,13 +116,13 @@ const validateInputs = () => {
 const actionHandler = () => {
   if (!validateInputs()) return;
 
-  if (faq_idx.value === "insert") {
-    if (confirm("수정하시겠습니까?")) {
-      handlerUpdateBtn();
-    }
-  } else {
+  if (faq_idx.value === "faqSavePart.do") {
     if (confirm("등록하시겠습니까?")) {
       handlerInsertBtn();
+    }
+  } else {
+    if (confirm("수정하시겠습니까?")) {
+      handlerUpdateBtn();
     }
   }
 };
@@ -133,18 +133,6 @@ const handleDelete = () => {
   }
 };
 
-/* watch(
-  () => route.params.faq_idx,
-  (newId, oldId) => {
-    if (newId && route.name == "faqDetail") {
-      if (newId !== oldId) {
-        params.faq_idx = newId;
-        refetch();
-      }
-    }
-  }
-); */
-
 //신규등록 버튼을 눌렀을때
 onActivated(() => {
   let pathSegments = window.location.pathname.split("/"); // URL을 '/'로 분리
@@ -154,24 +142,6 @@ onActivated(() => {
     detailValue.value.content = "";
   }
 });
-
-/* watch(
-  () => route.name,
-  (newRoute) => {
-    console.log(newRoute);
-    if (newRoute === "faqInsert") {
-      refetch();
-    }
-  }
-);
-watch(
-  () => route.name,
-  (newRoute) => {
-    if (newRoute === "faqUpdate") {
-      refetch();
-    }
-  }
-); */
 </script>
 
 <style lang="scss" scoped>
@@ -246,7 +216,6 @@ button {
   border: none;
   color: white;
   padding: 10px 22px;
-  text-align: right;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;

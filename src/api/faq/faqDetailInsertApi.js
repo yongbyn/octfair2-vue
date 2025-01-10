@@ -5,7 +5,7 @@ export const faqDetailInsertApi = async (detailValue, faq_idx, loginId) => {
   const textData = {
     title: detailValue.value.title,
     context: detailValue.value.content,
-    author: detailValue.author,
+    author: detailValue.value.author,
     loginId: loginId,
     faq_type: detailValue.value.faq_type,
   };

@@ -17,8 +17,8 @@
     <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
   </div>
   <div v-if="imageUrl">
-    파일명:
-    <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
+    <label style="margin-top: 5px">파일명:</label>
+    <label style="border: 2px solid grey; margin-top: 5px; margin-bottom: 5px">
       {{ fileData.name || detailValue.fileName }}</label
     >
     <!-- <input type="text" :value="" readonly /> -->
@@ -28,8 +28,7 @@
   <div v-else>
     파일명:
     <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
-      {{ fileData.name || detailValue.fileName }}</label
-    >
+      {{ fileData.name || detailValue.fileName }}</label>
   </div>
 
   <div class="button-box" v-if="userType === 'M'">
