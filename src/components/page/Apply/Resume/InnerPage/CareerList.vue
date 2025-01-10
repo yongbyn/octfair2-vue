@@ -104,9 +104,7 @@ watch(() => [props.resume.resIdx], () => {
 
 onActivated(() => {
   isAddCareer.value = false;
-  Object.keys(career).forEach((key) => {
-    career[key] = "";
-  });
+  career.value = { ...careerDefault }
 });
 </script>
 
