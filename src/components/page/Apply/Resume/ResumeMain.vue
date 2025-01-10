@@ -1,5 +1,16 @@
 <template>
-  현재 페이지: {{ currentPage }} 총 개수: {{ resumeList?.resumeCnt || 0 }}
+  <div style="display: flex; justify-content: space-between">
+    <h4>
+      <b-badge variant="light">
+        총
+        <b-badge pill variant="primary">
+          {{ resumeList?.resumeCnt || 0 }}
+        </b-badge>
+        개의 글
+      </b-badge>
+    </h4>
+    <ResumeNewButton />
+  </div>
   <div class="gallery-container" v-if="resumeList?.resumeCnt > 0">
     <div
       class="image-cardbox"

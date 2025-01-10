@@ -1,5 +1,8 @@
 <template>
-  <div v-if="injectedValue != null && injectedValue.count != 0" class="applicantFullInfoWrapper">
+  <div
+    v-if="injectedValue != null && injectedValue.count != 0"
+    class="applicantFullInfoWrapper"
+  >
     {{ provideMDVal }}
     <div class="headLineInfo">
       <span>해당 공고건: {{ injectedValue.list[0].title }}</span>
@@ -69,7 +72,12 @@
         <div class="sameInfocss chanceCss">
           <div class="hiringInfo">채용절차</div>
           <div class="finalchance">
-            <div class="finallbtn" @click="chanceFnc(infoList.loginId, infoList.postIdx)">합격</div>
+            <div
+              class="finallbtn"
+              @click="chanceFnc(infoList.loginId, infoList.postIdx)"
+            >
+              합격
+            </div>
           </div>
         </div>
       </template>
@@ -79,7 +87,9 @@
         <div class="sameInfocss">
           <div class="hiringInfo">채용절차</div>
           <div class="threeButtonWrapper">
-            <div class="resumebtn" @click="resumeFnc(infoList.resIdx)">지원자이력서보기</div>
+            <div class="resumebtn" @click="resumeFnc(infoList.resIdx)">
+              지원자이력서보기
+            </div>
 
             <div class="confrimInfo">
               <div
@@ -144,6 +154,7 @@
   </CommonModalFrame>
 </template>
 <script setup>
+import { useModalStore } from "@/stores/modalState";
 import { inject, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useApllicantStatusUpdateMutation } from "../../../hook/Applicant/useApllicantStatusUpdateMutation";
@@ -151,7 +162,6 @@ import { useApplicantPaginQuery } from "../../../hook/Applicant/useApplicantPagi
 import noSearchImage from "../../../ImageApplicant/noSearch.png";
 import sadd from "../../../ImageApplicant/saddfrog.jpg";
 import Pagination from "../../common/Pagination.vue";
-import { useModalStore } from "@/stores/modalState";
 
 const modalStore = useModalStore();
 const injectedValue = inject("provideVal");
@@ -162,11 +172,13 @@ const choiceLoginId = ref(null);
 
 const cPage = ref(1);
 
-const { data: paginList, refetch } = useApplicantPaginQuery(injectedValue, cPage);
+const { data: paginList, refetch } = useApplicantPaginQuery(
+  injectedValue,
+  cPage
+);
 const router = useRouter();
 
 const clickFnc = () => {
-  console.log(`현재페이지 ${cPage.value}`);
   refetch();
 };
 
@@ -174,22 +186,16 @@ const chanceFnc = (loginId, postIdx) => {
   choicePostIdx.value = postIdx;
   choiceLoginId.value = loginId;
   keyword.value = provideMDVal.value[0];
-  console.log(provideMDVal.value[0] + "----" + keyword.value);
-  console.log(`loginId, postIdx, keyword   ${loginId} ${postIdx}  ${keyword.value} `);
 
   statusUpdat(keyword, postIdx, choiceLoginId);
 };
 
 const statusToBeChangeFnc = (loginId, postIdx, status, message) => {
-  console.log(`loginId, postIdx, status   ${loginId} ${postIdx}  ${status} `);
-
   let proccessArr = provideMDVal.value;
   let i = 0;
   for (let key in proccessArr) {
-    //console.log(`key ->> ${key }   배열인덱스 값 ${proccessArr[key]} `)
     if (proccessArr[key] == status) {
       i = key;
-      console.log("똩같음 i" + i);
       break;
     }
   }
@@ -197,7 +203,6 @@ const statusToBeChangeFnc = (loginId, postIdx, status, message) => {
   if (i <= proccessArr.length - 2) {
     i++;
     keyword.value = proccessArr[i];
-    console.log("다음단계 키워드" + keyword.value);
   }
   if (message === "faile") {
     keyword.value = "탈락";
@@ -205,8 +210,6 @@ const statusToBeChangeFnc = (loginId, postIdx, status, message) => {
 
   choicePostIdx.value = postIdx;
   choiceLoginId.value = loginId;
-
-  console.log(`keyword.value:    ${keyword.value}`);
 
   statusUpdat(keyword, postIdx, choiceLoginId);
 };

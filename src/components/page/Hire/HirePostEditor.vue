@@ -258,6 +258,7 @@
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { onMounted, watch } from "vue";
 
@@ -430,7 +431,7 @@ const hirePostSearchApi = async (idx) => {
 
 const handlerPostCreate = async () => {
   if (!validateForm()) {
-    alert(Object.values(validationErrors.value).find((error) => error));
+    toast.error(Object.values(validationErrors.value).find((error) => error));
     return;
   }
 
@@ -449,22 +450,18 @@ const handlerPostCreate = async () => {
       type: "application/json",
     })
   );
-  await axios
-    .post("/prx/api/manage-hire/post-new", formData)
-    .then(
-      (res) => console.log(res),
-      alert("공고가 등록되었습니다."),
+  await axios.post("/prx/api/manage-hire/post-new", formData).then((res) => {
+    toast.info("공고가 등록되었습니다."),
       resetPostData(),
       router.push({
         name: "hire-post",
-      })
-    )
-    .catch((err) => console.log("err : ", err));
+      });
+  });
 };
 
 const handlerPostUpdate = async () => {
   if (!validateForm()) {
-    alert(Object.values(validationErrors.value).find((error) => error));
+    toast.error(Object.values(validationErrors.value).find((error) => error));
     return;
   }
 
@@ -486,13 +483,12 @@ const handlerPostUpdate = async () => {
     })
   );
 
-  await axios
-    .post("/prx/api/manage-hire/post-update", formData)
-    .then((res) => console.log(res)),
-    alert("공고가 수정되었습니다."),
-    router.push({
-      name: "hire-post",
-    });
+  await axios.post("/prx/api/manage-hire/post-update", formData).then((res) => {
+    toast.info("공고가 수정되었습니다."),
+      router.push({
+        name: "hire-post",
+      });
+  });
 };
 
 const handlerFileUpload = (e) => {

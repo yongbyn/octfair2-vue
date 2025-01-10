@@ -1,5 +1,5 @@
 <template>
-    <!-- 게시글 보기 모달이랑 유사하나 조건문으로 도배되니 그냥 따로 하다 더 만들자. -->
+  <!-- 게시글 보기 모달이랑 유사하나 조건문으로 도배되니 그냥 따로 하다 더 만들자. -->
   <div class="modalWrapper">
     <div v-if="isLoading">기다려주세요</div>
     <div v-else>
@@ -40,19 +40,16 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { useRoute } from "vue-router";
-import { useUserInfo } from "../../../stores/userInfo";
 import { useMyqQnaSaveDetailMutation } from "../../../hook/qna/useMyqQnaSaveDetailMutation";
+import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
 const newQnaValue = ref({});
 const fileData = ref("");
 const userInfo = useUserInfo();
 
-const fullSaveData=ref({})
-
-
+const fullSaveData = ref({});
 
 const fileChange = (e) => {
   const fileInfo = e.target.files;
@@ -70,12 +67,9 @@ const fileChange = (e) => {
   }
 
   fileData.value = fileInfo[0];
-
-  console.log(fileData.value);
 };
 
 const qnaApplication = async () => {
-
   const textData = {
     loginId: userInfo.user.loginId,
     qna_type: userInfo.user.userType,
@@ -92,15 +86,13 @@ const qnaApplication = async () => {
     })
   );
 
-  fullSaveData.value=formData;
+  fullSaveData.value = formData;
 
-  console.log(fullSaveData.value)
   //await axios.post("/prx/api/board/qnaSaveFileForm.do", formData);
-  myQnaSave(fullSaveData)
+  myQnaSave(fullSaveData);
 };
 
-
-const {mutate:myQnaSave}=useMyqQnaSaveDetailMutation(fullSaveData);
+const { mutate: myQnaSave } = useMyqQnaSaveDetailMutation(fullSaveData);
 </script>
 
 <style lang="scss" scoped>

@@ -1,3 +1,4 @@
+import { toast } from "@/common/toastMessage";
 import { useMutation } from "@tanstack/vue-query";
 import { useRouter } from "vue-router";
 import { postDetailUpdateStatusApi } from "../../api/jobs/postDetailUpdateStatusApi";
@@ -13,7 +14,7 @@ export const usePostUpdateStatusMutation = () => {
       }));
     },
     onSuccess: (data) => {
-      alert("처리되었습니다.");
+      toast.info("처리되었습니다.");
       router.push({
         name: data.appStatus === "승인" ? "posts" : "approval-post",
       });
