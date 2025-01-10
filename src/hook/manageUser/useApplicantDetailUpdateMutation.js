@@ -1,3 +1,4 @@
+import { toast } from "@/common/toastMessage";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { applicantDetailUpdateApi } from "../../api/manageUser/applicantDetailUpdateApi";
 
@@ -14,14 +15,14 @@ export const useApplicantDetailUpdateMutation = (
       await applicantDetailUpdateApi(detailValue, loginId);
     },
     onSuccess: () => {
-      alert("수정이 완료되었습니다.");
+      toast.info("수정이 완료되었습니다.");
       modalState.setModalState();
       queryClient.invalidateQueries({
         queryKey: ["applicantList"],
       });
     },
     onError: () => {
-      alert("데이터를 불러오는 중입니다. 다시 시도해주세요.");
+      toast.error("데이터를 불러오는 중입니다. 다시 시도해주세요.");
       modalState.setModalState();
     },
   });

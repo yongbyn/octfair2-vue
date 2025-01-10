@@ -113,9 +113,7 @@ const handlerUpdatePwdValid = async () => {
     toast.error("비밀번호는 4~40자로 작성해주세요.");
     return;
   }
-  console.log("초기값 : ", updateStatus.value);
   await handlerUpdatePwd();
-  console.log("변경된값 : ", updateStatus.value);
   if (updateStatus.value === 1) {
     toast.success("비밀번호 변경 성공");
     modalStore.setModalState();

@@ -51,6 +51,7 @@
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
@@ -99,15 +100,15 @@ const { mutate: handlerDeleteBtn } = useFAQDetailDelete(faq_idx);
 
 const validateInputs = () => {
   if (!detailValue.value.faq_type) {
-    alert("회원유형을 선택해주세요.");
+    toast.error("회원유형을 선택해주세요.");
     return false;
   }
   if (!detailValue.value.title) {
-    alert("제목을 입력해주세요.");
+    toast.error("제목을 입력해주세요.");
     return false;
   }
   if (!detailValue.value.content) {
-    alert("내용을 입력해주세요.");
+    toast.error("내용을 입력해주세요.");
     return false;
   }
   return true;
