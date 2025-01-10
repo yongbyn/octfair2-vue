@@ -37,11 +37,12 @@
       {{ actionLabel }}
     </button>
     <button v-if="detailValue.noticeIdx" @click="handleDelete">삭제</button>
-    <button @click="$router.go(-1)">뒤로가기</button>
   </div>
+  <button @click="$router.go(-1)">뒤로가기</button>
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import { computed, onActivated, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { noticeImageGetApi } from "../../../../api/notice/noticeImageGetApi";
@@ -103,11 +104,11 @@ const actionLabel = computed(() =>
 
 const validateInputs = () => {
   if (!detailValue.value.title) {
-    alert("제목을 입력해주세요.");
+    toast.warning("제목을 입력해주세요.");
     return false;
   }
   if (!detailValue.value.content) {
-    alert("내용을 입력해주세요.");
+    toast.warning("내용을 입력해주세요.");
     return false;
   }
   return true;

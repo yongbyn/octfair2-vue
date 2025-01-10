@@ -1,7 +1,8 @@
+import { toast } from "@/common/toastMessage";
+
 export const nullCheck = (checklist) => {
   let coptlist = [...checklist];
   let checksize = coptlist.length;
-  console.log(coptlist);
   for (let i = 0; i < checksize; i++) {
     let item = coptlist[i];
 
@@ -17,7 +18,7 @@ export const nullCheck = (checklist) => {
     }
 
     if (!checkflag) {
-      alert(item.msg);
+      toast.error(item.msg);
       return false;
     }
   }
