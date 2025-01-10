@@ -1,130 +1,128 @@
 <template>
-  <teleport to="body">
-    <div class="backdrop">
-      <div class="container">
-        <table class="form-table">
-          <caption>
-            기업회원정보
-          </caption>
-          <colgroup>
-            <col with="25%" />
-            <col with="25%" />
-            <col with="25%" />
-            <col with="25%" />
-          </colgroup>
-          <tbody>
-            <tr>
-              <th>사업자번호</th>
-              <td colspan="3">
-                <input
-                  disabled
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizIdx"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>사업자명</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizName"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>대표자</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizCeoName"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>사원수</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizEmpCount"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>매출액</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizRevenue"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>연락처</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizContact"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>사업자 주소</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.bizAddr"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>홈페이지 주소</th>
-              <td colspan="3">
-                <input
-                  type="url"
-                  class="input-text"
-                  v-model="detailValue.bizWebUrl"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>설립일</th>
-              <td colspan="3">
-                <input
-                  type="date"
-                  class="input-text"
-                  v-model="detailValue.bizFoundDate"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>회사 소개</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  id="biz-intro"
-                  class="input-text"
-                  v-model="detailValue.bizIntro"
-                  rows="1"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="button-div">
-          <button id="update-button" @click="handlerUpdate">수정</button>
-          <button id="cancle-button" @click="handlerModal">취소</button>
-        </div>
+  <div class="backdrop">
+    <div class="container">
+      <table class="form-table">
+        <caption>
+          기업회원정보
+        </caption>
+        <colgroup>
+          <col with="25%" />
+          <col with="25%" />
+          <col with="25%" />
+          <col with="25%" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <th>사업자번호</th>
+            <td colspan="3">
+              <input
+                disabled
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizIdx"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>사업자명</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizName"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>대표자</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizCeoName"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>사원수</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizEmpCount"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>매출액</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizRevenue"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>연락처</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizContact"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>사업자 주소</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.bizAddr"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>홈페이지 주소</th>
+            <td colspan="3">
+              <input
+                type="url"
+                class="input-text"
+                v-model="detailValue.bizWebUrl"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>설립일</th>
+            <td colspan="3">
+              <input
+                type="date"
+                class="input-text"
+                v-model="detailValue.bizFoundDate"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>회사 소개</th>
+            <td colspan="3">
+              <input
+                type="text"
+                id="biz-intro"
+                class="input-text"
+                v-model="detailValue.bizIntro"
+                rows="1"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="button-div">
+        <button id="update-button" @click="handlerUpdate">수정</button>
+        <button id="cancle-button" @click="handlerModal">취소</button>
       </div>
     </div>
-  </teleport>
+  </div>
 </template>
 
 <script setup>
