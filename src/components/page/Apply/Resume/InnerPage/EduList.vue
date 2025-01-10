@@ -103,9 +103,7 @@ watch(() => [props.resume.resIdx], () => {
 
 onActivated(() => {
   isAddEdu.value = false;
-  Object.keys(edu).forEach((key) => {
-    edu[key] = "";
-  });
+  edu.value = { ...eduDefault }
 });
 </script>
 
