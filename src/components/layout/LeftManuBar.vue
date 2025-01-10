@@ -1,20 +1,17 @@
 <template>
-  <!-- <div class="logo-box">
-    <img :src="vue_logo" alt="logoImage" />
-    <div class="user-info">
-      <span class="login-id">{{ userInfo.user.loginId }}</span>
-      <span class="logoutBtn">
-        <button @click="handlerLogout">로그아웃</button>
-      </span>
-    </div>
-  </div> -->
-
   <div class="profile-card">
     <div class="profile-header">
-      <img :src="vue_logo" alt="logoImage" />
+      <img
+        v-if="userInfo.user.userType === 'B' || userInfo.user.userType === 'M'"
+        :src="vue_logo"
+        alt="logoImage"
+      />
+      <img v-if="userInfo.user.userType === 'A'" :src="mang" alt="userImage" />
     </div>
     <div class="profile-body">
-      <h2 class="profile-name">{{ userInfo.user.loginId }}</h2>
+      <h2 class="profile-name">
+        {{ userInfo.user.loginId }}
+      </h2>
       <div class="profile-action">
         <button @click="handlerLogout" class="logout-btn">로그아웃</button>
       </div>
@@ -53,6 +50,7 @@
 </template>
 
 <script setup>
+import mang from "../../assets/utilcons/mang_gom.png";
 import vue_logo from "../../assets/utilcons/vue_logo.png";
 import { useUserInfo } from "../../stores/userInfo";
 
@@ -141,8 +139,8 @@ const handlerLogout = () => {
 }
 
 img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%; /* 원형 이미지 */
 }
 
@@ -202,9 +200,6 @@ ul {
   background: rgb(255, 255, 255);
   list-style-type: none;
   padding: 0;
-  // border: solid 1px rgb(223, 223, 223);
-  // width: 200px;
-  // max-width: 250px;
 }
 
 .parent-menu {
@@ -219,6 +214,9 @@ ul {
 
   .parent-menu-text {
     margin-left: 20px;
+    @media (max-width: 900px) {
+      margin-left: 0px;
+    }
   }
 
   &:hover {
@@ -254,8 +252,6 @@ ul {
       margin: 10px 0 10px 0;
 
       &:hover {
-        // text-decoration: underline;
-        // color: white;
         cursor: pointer;
 
         background-image: linear-gradient(120deg, #a8f2ffcb 0%, #d8f2ffec 100%);
@@ -275,11 +271,7 @@ ul {
   }
 
   .active-link {
-    // text-decoration: underline;
-    // color: white;
     color: black;
-
-    // -------------------------
     background-image: linear-gradient(120deg, #97c4ffc9 0%, #d1f0ffec 100%);
     background-repeat: no-repeat;
     background-size: 60% 40%;

@@ -28,8 +28,7 @@
   <div v-else>
     파일명:
     <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
-      {{ fileData.name || detailValue.fileName }}</label
-    >
+      {{ fileData.name || detailValue.fileName }}</label>
   </div>
 
   <div class="button-box" v-if="userType === 'M'">

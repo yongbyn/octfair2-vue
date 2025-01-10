@@ -1,6 +1,6 @@
 <!-- 점심메뉴/배경음악/배경화면/눈내림 의 설정을 하고 On/Off토글로 켜고끄고 할 수 있는 코드 -->
 <template>
-  <div class="align-center">
+  <div class="margin-left-20">
     <div
       v-show="props.addonShow"
       :style="{
@@ -94,7 +94,7 @@ const musicUrlList = [
 ];
 const musicUrl = ref(musicUrlList[0]);
 const lunchUrl = ref("https://pf.kakao.com/_QLvRn"); // 이츠푸드='https://pf.kakao.com/_QLvRn', 벽산더이룸푸드='https://pf.kakao.com/_xdLzxgG'
-const width = ref("clamp(50px, 280px, 280px)");
+const width = ref("clamp(50px, 250px, 280px)");
 const snowConfig = ref({
   numSnow: 100,
   minRadius: 1,
@@ -121,12 +121,20 @@ watch(
 </script>
 
 <style scoped>
-.align-center {
+.margin-left-20 {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 20px;
   width: 300px;
+
+  @media (max-width: 900px) {
+    justify-content: center;
+    align-items: center;
+    margin-left: 0px;
+    width: auto;
+  }
 }
 
 .wrapper {

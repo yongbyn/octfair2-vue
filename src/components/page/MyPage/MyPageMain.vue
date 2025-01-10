@@ -45,7 +45,7 @@
                 v-model="updateUserInfo.name.value"
                 :state="updateUserInfo.name.state"
                 placeholder="이름을 입력하세요.(한글2자 이상)"
-                @input="nameValid"
+                @blur="nameValid"
               ></b-form-input>
             </b-col>
             <div v-show="updateUserInfo.name.state === false" class="name">
@@ -137,6 +137,8 @@
                 <option value="gmail.com"></option>
                 <option value="naver.com"></option>
                 <option value="daum.net"></option>
+                <option value="nate.com"></option>
+                <option value="hotmail.com"></option>
               </datalist>
             </div>
           </td>
@@ -145,7 +147,14 @@
         <tr v-if="updateUserInfo.userType === 'B'" class="height">
           <th>기업정보</th>
           <td>
-            <b-button variant="info" class="bizInsertBtn">기업등록</b-button>
+            <b-button
+              variant="info"
+              class="bizInsertBtn"
+              @click="goCompanyWritePage"
+              >{{
+                updateUserInfo.bizIdx === 0 ? "기업 등록" : "기업 수정"
+              }}</b-button
+            >
           </td>
         </tr>
 
@@ -238,10 +247,7 @@ const updateUserInfo = ref({
     value: "",
     state: "",
   },
-  phone: {
-    value: "",
-    state: "",
-  },
+  phone: "",
   email: "",
   emailId: {
     value: "",
@@ -254,14 +260,16 @@ const updateUserInfo = ref({
   zipCode: "",
   address: "",
   detailAddress: "",
+  userIdx: user.userIdx,
+  bizIdx: "",
 });
 
 // 정규식
 const regExPatterns = {
   id: /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]{4,20}$/,
-  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,20}$/,
+  pwd: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{4,40}$/,
   name: /^[가-힣]{2,}$/,
-  domain: /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z0-9-]{2,63}(?<!-)$/,
+  domain: /^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\.[a-zA-Z0-9-]{1,63})+$/,
 };
 
 // 사용자 정보 가져오기
@@ -521,6 +529,14 @@ const { mutate: handlerUpdate } = useUpdateUser(updateUserInfo);
 // 비밀번호변경 모달
 const updatePwdModalOpen = () => {
   modalStore.setModalState();
+};
+
+// 기업 등록, 수정 페이지(bizIdx값을 보냄)
+const goCompanyWritePage = () => {
+  router.push({
+    path: "/vue/mypage/companyWritePage.do",
+    state: { bizIdx: updateUserInfo.value.bizIdx },
+  });
 };
 </script>
 

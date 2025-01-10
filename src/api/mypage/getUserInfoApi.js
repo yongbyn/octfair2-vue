@@ -32,6 +32,7 @@ export const getUserInfoApi = async (user, updateUserInfo) => {
     zipCode: result.data.detail.zipCode,
     address: result.data.detail.address,
     detailAddress: result.data.detail.detailAddress,
+    bizIdx: result.data.chkRegBiz.bizIdx,
   };
 
   return result.data;

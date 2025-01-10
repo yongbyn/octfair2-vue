@@ -7,7 +7,7 @@ export const useFAQDetailUpdate = (detailValue, faq_idx) => {
   const router = useRouter();
 
   return useMutation({
-    mutationKey: ["faqUpdate"],
+    mutationKey: ["faqUpdate", faq_idx],
     mutationFn: () => faqDetailUpdateApi(detailValue, faq_idx),
     onSuccess: () => {
       router.go(-1);

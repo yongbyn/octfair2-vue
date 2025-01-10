@@ -3,37 +3,21 @@
   <br />
 
   <div id="print-area">
-    <InnerFrame :title="'인적사항'">
-      <ApplyInfo :resume="resume" :isShow="isShow" />
-    </InnerFrame>
-    <InnerFrame :title="'간단소개글'" v-show="isShow || resume.shortIntro">
-      <ShortintroInfo :resume="resume" :isShow="isShow" />
-    </InnerFrame>
-    <InnerFrame :title="'경력'" v-show="isShow || isExistCareer">
-      <CareerList :resume="resume" :isShow="isShow" @isExistCareer="(value) => isExistCareer=value.value" />
-    </InnerFrame>
-    <InnerFrame :title="'학력'" v-show="isShow || isExistEdu">
-      <EduList :resume="resume" :isShow="isShow" @isExistEdu="(value) => isExistEdu=value.value" />
-    </InnerFrame>
-    <InnerFrame :title="'스킬'" v-show="isShow || isExistSkill">
-      <SkillList :resume="resume" :isShow="isShow" @isExistSkill="(value) => isExistSkill=value.value" />
-    </InnerFrame>
-    <InnerFrame :title="'자격증 및 외국어'" v-show="isShow || isExistCert">
-      <CertList :resume="resume" :isShow="isShow" @isExistCert="(value) => isExistCert=value.value" />
-    </InnerFrame>
-    <InnerFrame :title="'링크'" v-show="isShow || resume.pfoLink">
-      <LinkInfo :resume="resume" :isShow="isShow" />
-    </InnerFrame>
-    <InnerFrame :title="'자기소개서'" v-show="isShow || resume.perStatement">
-      <SelfintroInfo :resume="resume" :isShow="isShow" />
-    </InnerFrame>
+    <ApplyInfo :resume="resume" :isShow="isShow" />
+    <ShortintroInfo :resume="resume" :isShow="isShow" />
+    <CareerList :resume="resume" :isShow="isShow" />
+    <EduList :resume="resume" :isShow="isShow" />
+    <SkillList :resume="resume" :isShow="isShow" />
+    <CertList :resume="resume" :isShow="isShow" />
+    <LinkInfo :resume="resume" :isShow="isShow" />
+    <SelfintroInfo :resume="resume" :isShow="isShow" />
 
-    <InnerFrame v-if="isShow" :title="'첨부파일'">
+    <InnerFrame v-if="isShow || (fileData || resume.logicalPath)" :title="'첨부파일'">
       <p v-if="isShow" class="resumeDetail_guidetext">
-        • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요.<br />
+        • 포트폴리오, 경력기술서 등 첨부파일이 있다면 등록해주세요. <br />
       </p>
       <div>
-        <div v-if="isShow && !fileData && !resume.logicalPath">
+        <div v-if="isShow && (!fileData && !resume.logicalPath)">
           <label class="resume_label" htmlFor="fileInput" style="flex: 0 0 30px">파일 첨부</label>
           <input class="resume_input" id="fileInput" type="file" @change="handlerSelectFileBtn" style="margin-bottom: 20px; border: 0px;"></input>
         </div>
