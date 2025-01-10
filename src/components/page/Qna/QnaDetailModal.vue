@@ -18,9 +18,13 @@
       />
       <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
       <div>
-        <div v-if="imageUrl">
+        <div v-if="imageURL || newQnaValue.logicalPath">
           <label>미리보기</label>
-          <img :src="imageUrl" />
+          <img
+            :src="imageURL || newQnaValue.logicalPath"
+            v-if="imageURL || newQnaValue.logicalPath"
+            alt="image preview"
+          />
         </div>
         <div v-else>
           <label>파일명</label>
@@ -45,28 +49,43 @@ import { useMyqQnaSaveDetailMutation } from "../../../hook/qna/useMyqQnaSaveDeta
 import { useUserInfo } from "../../../stores/userInfo";
 
 const { params } = useRoute();
+const route = useRoute();
 const newQnaValue = ref({});
+const imageURL = ref("");
+const fileInfo = ref(null);
+const fileName = ref("");
 const fileData = ref("");
 const userInfo = useUserInfo();
-
 const fullSaveData = ref({});
 
+const resetForm = () => {
+  newQnaValue.value = {
+    qnaTit: "",
+    qnaCon: "",
+    password: "",
+    logicalPath: "",
+  };
+  imageURL.value = "";
+  fileInfo.value = null;
+  fileName.value = "";
+  fileData.value = "";
+};
+
 const fileChange = (e) => {
-  const fileInfo = e.target.files;
-
-  const fileInfoSplit = fileInfo[0].name.split(".");
-
+  fileInfo.value = e.target.files;
+  fileName.value = fileInfo.value[0].name;
+  const fileInfoSplit = fileInfo.value[0].name.split(".");
   const fileExtension = fileInfoSplit[1].toLowerCase();
+
   if (
     fileExtension === "jpg" ||
     fileExtension === "gif" ||
     fileExtension === "png" ||
     fileExtension === "webp"
   ) {
-    // imageUrl.value = URL.createObjectURL(fileInfo[0]);
+    fileData.value = fileInfo.value[0];
+    imageURL.value = URL.createObjectURL(fileInfo.value[0]);
   }
-
-  fileData.value = fileInfo[0];
 };
 
 const qnaApplication = async () => {
@@ -87,12 +106,19 @@ const qnaApplication = async () => {
   );
 
   fullSaveData.value = formData;
-
-  //await axios.post("/prx/api/board/qnaSaveFileForm.do", formData);
   myQnaSave(fullSaveData);
 };
 
 const { mutate: myQnaSave } = useMyqQnaSaveDetailMutation(fullSaveData);
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute === "qnaInsert") {
+      resetForm();
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

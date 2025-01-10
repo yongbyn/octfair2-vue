@@ -1,6 +1,13 @@
 <template>
-  <template v-if="type == 'M' && isSuccess">
-    <QnaMyDetailModal :myQnaDetail="myQnaDetail" />
+  <template v-if="type == 'M'">
+    <!-- <h1></h1>
+    <QnaMyDetailModal :myQnaDetail="myQnaDetail" /> -->
+    <template v-if="myQnaDetail">
+      <QnaMyDetailModal :myQnaDetail="myQnaDetail" />
+    </template>
+    <template v-else>
+      <div>로딩 중...</div>
+    </template>
   </template>
   <template v-else-if="type != 'M' && !checkSuccess">
     <div class="passwordCheckWrapper">
@@ -9,7 +16,7 @@
         <input type="password" v-model="checkpwd" />
         <div class="btnArea">
           <div class="confrim" @click="checkPwdFnc">확인</div>
-          <div class="discard" @click="discardFnc">취소</div>
+          <div class="discard" @click="$router.go(-1)">취소</div>
         </div>
       </div>
     </div>
@@ -22,11 +29,10 @@
 <script setup>
 import { toast } from "@/common/toastMessage";
 import axios from "axios";
-import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { Notice } from "../../../api/api";
 import { useUserInfo } from "../../../stores/userInfo";
 const type = useUserInfo().user.userType;
-const router = useRouter();
 const route = useRoute();
 const checkpwd = ref("");
 const checkSuccess = ref(false);
@@ -53,20 +59,11 @@ const checkPwdFnc = () => {
   }
 };
 
-const discardFnc = () => {
-  router.go(-1);
-};
-
-//
-onBeforeRouteLeave(() => {
-  checkSuccess.value = false;
-  checkpwd.value = "";
-  sessionStorage.removeItem("checkSuccess");
-  sessionStorage.removeItem("checkpwd");
-});
-
 onActivated(() => {
-  searchDetail();
+  checkpwd.value = "";
+  checkSuccess.value = false;
+  myQnaDetail.value = null;
+  searchDetail(); // 새 데이터 로드
 });
 </script>
 <style>
