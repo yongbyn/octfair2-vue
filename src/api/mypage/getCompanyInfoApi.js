@@ -44,6 +44,17 @@ export const getCompanyInfoApi = async (companySave, fileData) => {
     bizLogo: data.bizLogo,
     logicalPath: data.logicalPath,
   };
+  console.log("fileData.value 1: ", fileData.value);
+
+  watch(
+    () => fileData.value.logicalPath,
+    (newPath) => {
+      const fileInput = document.getElementById("logoPreview");
+      if (fileInput) {
+        fileInput.src = newPath;
+      }
+    }
+  );
 
   return result.data;
 };
