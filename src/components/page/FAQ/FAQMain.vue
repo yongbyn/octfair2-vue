@@ -100,10 +100,10 @@ const {
   refetch,
 } = useFAQListQuery(injectedValue, cPage, type);
 
-const faqDetail = (faq_idx) => {
+const faqDetail = (param) => {
   router.push({
     name: "faqDetail",
-    params: { faq_idx },
+    params: { faq_idx: param },
   });
 };
 
@@ -115,21 +115,6 @@ const handlerShowContent = (faq_idx) => {
   style.value = style.value === faq_idx ? null : faq_idx;
 };
 </script>
-
-<style>
-.listCountBadge {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.listCountBadge:hover,
-.listCountBadge:active,
-.listCountBadge:visited {
-  cursor: default;
-  background-color: rgb(253, 253, 253);
-  border: 1px solid rgb(253, 253, 253);
-}
-</style>
 
 <style lang="scss" scoped>
 .show {

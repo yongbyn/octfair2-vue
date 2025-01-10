@@ -8,7 +8,7 @@ export const useFAQDetailUpdate = (detailValue, faq_idx) => {
 
   return useMutation({
     mutationKey: ["faqUpdate"],
-    mutationFn: () => faqDetailUpdateApi(detailValue.value, faq_idx),
+    mutationFn: () => faqDetailUpdateApi(detailValue, faq_idx),
     onSuccess: () => {
       router.go(-1);
       queryClient.invalidateQueries({

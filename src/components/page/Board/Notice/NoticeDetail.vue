@@ -22,7 +22,7 @@
       {{ fileData.name || detailValue.fileName }}</label
     >
     <!-- <input type="text" :value="" readonly /> -->
-    <label label style="margin-top: 5px">미리보기:</label>
+    <label>미리보기:</label>
     <img :src="imageUrl" />
   </div>
   <div v-else>

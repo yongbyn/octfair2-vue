@@ -9,6 +9,7 @@
         개의 글
       </b-badge>
     </h4>
+
     <table>
       <colgroup>
         <col width="10%" />
@@ -83,21 +84,6 @@ const handlerDetail = (param) => {
 };
 </script>
 
-<style>
-.listCountBadge {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.listCountBadge:hover,
-.listCountBadge:active,
-.listCountBadge:visited {
-  cursor: default;
-  background-color: rgb(253, 253, 253);
-  border: 1px solid rgb(253, 253, 253);
-}
-</style>
-
 <style lang="scss" scoped>
 table {
   width: 100%;
@@ -109,7 +95,6 @@ table {
   th,
   td {
     padding: 8px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
     text-align: center;
   }
