@@ -3,8 +3,15 @@ import { MyPage } from "../api";
 
 export const getCompanyInfoApi = async (companySave, fileData) => {
   const result = await axios.post(MyPage.GetCompanyInfo, companySave.value);
-
   const data = result.data.payload;
+  console.log("실행이 되는가? ");
+  console.log(data);
+
+  if (!data) {
+    console.log("값없음");
+  } else {
+    console.log("값있음");
+  }
 
   companySave.value = {
     bizName: {
@@ -44,17 +51,6 @@ export const getCompanyInfoApi = async (companySave, fileData) => {
     bizLogo: data.bizLogo,
     logicalPath: data.logicalPath,
   };
-  console.log("fileData.value 1: ", fileData.value);
-
-  watch(
-    () => fileData.value.logicalPath,
-    (newPath) => {
-      const fileInput = document.getElementById("logoPreview");
-      if (fileInput) {
-        fileInput.src = newPath;
-      }
-    }
-  );
 
   return result.data;
 };

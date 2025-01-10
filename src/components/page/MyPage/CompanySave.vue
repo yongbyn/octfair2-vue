@@ -200,7 +200,7 @@
       </tr>
     </table>
     <div class="d-flex justify-content-center align-items-center mt-4">
-      <b-button @click="goBack" class="me-2">뒤로가기</b-button>
+      <b-button class="me-2" @click="router.go(-1)">뒤로가기</b-button>
       <b-button
         variant="danger"
         class="me-2"
@@ -218,7 +218,7 @@
 <script setup>
 import { kakaoPostcode } from "@/common/kakaoPostCodeApi";
 import { toast } from "@/common/toastMessage";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useCompanyDelete } from "../../../hook/mypage/useCompanyDelete";
 import { useCompanySave } from "../../../hook/mypage/useCompanySave";
@@ -261,7 +261,7 @@ const companySave = ref({
     state: false,
   },
   bizIntro: "",
-  bizIdx: sessionStorage.getItem("bizIdx"),
+  bizIdx: "",
   userIdx: user.userIdx,
   loginId: user.loginId,
   userType: user.userType,
@@ -271,39 +271,43 @@ const fileData = ref({
   logicalPath: "",
 });
 
-// 등록된 값 가져오기
+// 해당 api에서 db를 불러와서 변수에 값을 넣는다.
 const { mutate: getCompanyInfo } = useGetCompanyInfo(companySave, fileData);
-onMounted(() => {
-  if (companySave.value.bizIdx !== 0) {
-    getCompanyInfo();
-  }
-});
-const logoPreview = ref("");
-const fileName = ref("");
+console.log(user);
 
-console.log("fileData.value 2: ", fileData.value);
+// // 등록된 값 가져오기
+// const { mutate: getCompanyInfo } = useGetCompanyInfo(companySave, fileData);
+// onMounted(() => {
+//   if (companySave.value.bizIdx !== 0) {
+//     getCompanyInfo();
+//   }
+// });
+// const logoPreview = ref("");
+// const fileName = ref("");
 
-// 포커스용 변수
-const bizName = ref("");
-const bizCeoName = ref("");
-const bizAddr = ref("");
-const bizContact = ref("");
-const bizWebUrl = ref("");
-const bizFoundDate = ref("");
-const bizEmpCount = ref("");
-const bizRevenue = ref("");
-const fileInfo = ref("");
+// console.log("fileData.value 2: ", fileData.value);
 
-watch(fileData.value.bizLogo, () => {});
+// // 포커스용 변수
+// const bizName = ref("");
+// const bizCeoName = ref("");
+// const bizAddr = ref("");
+// const bizContact = ref("");
+// const bizWebUrl = ref("");
+// const bizFoundDate = ref("");
+// const bizEmpCount = ref("");
+// const bizRevenue = ref("");
+// const fileInfo = ref("");
 
-// 1. 사업자명, 사업자 대표, 주소, 홈페이지, 사원수, 매출액
-const inputValid = (validName) => {
-  if (companySave.value[validName].value) {
-    companySave.value[validName].state = true;
-  } else {
-    companySave.value[validName].state = false;
-  }
-};
+// watch(fileData.value.bizLogo, () => {});
+
+// // 1. 사업자명, 사업자 대표, 주소, 홈페이지, 사원수, 매출액
+// const inputValid = (validName) => {
+//   if (companySave.value[validName].value) {
+//     companySave.value[validName].state = true;
+//   } else {
+//     companySave.value[validName].state = false;
+//   }
+// };
 
 // 2. 연락처
 watch(
@@ -461,110 +465,110 @@ const handlerKakaoPost = () => {
 };
 
 // 4. 설립일
-const bizFoundDateValid = () => {
-  const foundDate = new Date(companySave.value.bizFoundDate.value);
-  const today = new Date();
+// const bizFoundDateValid = () => {
+//   const foundDate = new Date(companySave.value.bizFoundDate.value);
+//   const today = new Date();
 
-  foundDate.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
+//   foundDate.setHours(0, 0, 0, 0);
+//   today.setHours(0, 0, 0, 0);
 
-  if (foundDate > today || companySave.value.bizFoundDate.value === "") {
-    toast.error("미래의 날짜로 선택 할 수 없습니다.");
-    companySave.value.bizFoundDate.state = false;
-    companySave.value.bizFoundDate.value = "";
-  } else {
-    companySave.value.bizFoundDate.state = true;
-  }
-};
+//   if (foundDate > today || companySave.value.bizFoundDate.value === "") {
+//     toast.error("미래의 날짜로 선택 할 수 없습니다.");
+//     companySave.value.bizFoundDate.state = false;
+//     companySave.value.bizFoundDate.value = "";
+//   } else {
+//     companySave.value.bizFoundDate.state = true;
+//   }
+// };
 
 // 5. 파일 등록
-const fileInput = () => {
-  const fileInput = document.getElementById("fileInput");
-  fileData.value = fileInput.files[0];
+// const fileInput = () => {
+//   const fileInput = document.getElementById("fileInput");
+//   fileData.value = fileInput.files[0];
 
-  if (fileData.value) {
-    if (!fileData.value.type.startsWith("image/")) {
-      toast.error("이미지 파일만 업로드할 수 있습니다.");
-      fileName.value = "";
-      logoPreview.value = "";
-      fileInput.classList.add("is-invalid");
-      fileInput.classList.remove("is-valid");
-      return;
-    }
+//   if (fileData.value) {
+//     if (!fileData.value.type.startsWith("image/")) {
+//       toast.error("이미지 파일만 업로드할 수 있습니다.");
+//       fileName.value = "";
+//       logoPreview.value = "";
+//       fileInput.classList.add("is-invalid");
+//       fileInput.classList.remove("is-valid");
+//       return;
+//     }
 
-    const maxSize = 10 * 1024 * 1024;
-    if (fileData.value.size > maxSize) {
-      toast.error("파일 용량은 10MB를 초과할 수 없습니다.");
-      fileName.value = "";
-      fileInput.classList.add("is-invalid");
-      fileInput.classList.remove("is-valid");
-      return;
-    }
+//     const maxSize = 10 * 1024 * 1024;
+//     if (fileData.value.size > maxSize) {
+//       toast.error("파일 용량은 10MB를 초과할 수 없습니다.");
+//       fileName.value = "";
+//       fileInput.classList.add("is-invalid");
+//       fileInput.classList.remove("is-valid");
+//       return;
+//     }
 
-    fileName.value = fileData.value.name;
-    logoPreview.value = URL.createObjectURL(fileData.value);
-    fileInput.classList.add("is-valid");
-    fileInput.classList.remove("is-invalid");
-  } else {
-    fileName.value = "";
-    logoPreview.value = "";
-    fileInput.classList.add("is-invalid");
-    fileInput.classList.remove("is-valid");
-  }
-};
+//     fileName.value = fileData.value.name;
+//     logoPreview.value = URL.createObjectURL(fileData.value);
+//     fileInput.classList.add("is-valid");
+//     fileInput.classList.remove("is-invalid");
+//   } else {
+//     fileName.value = "";
+//     logoPreview.value = "";
+//     fileInput.classList.add("is-invalid");
+//     fileInput.classList.remove("is-valid");
+//   }
+// };
 
 // 등록하기 유효성 검사
-const companySaveValid = () => {
-  if (!companySave.value.bizName.state) {
-    toast.error("사업자명을 입력하세요!");
-    bizName.value.focus();
-    return;
-  } else if (!companySave.value.bizCeoName.state) {
-    toast.error("사업자 대표를 입력하세요!");
-    bizCeoName.value.focus();
-    return;
-  } else if (!bizContact.value.classList.contains("is-valid")) {
-    toast.error("전화번호를 입력하세요!");
-    bizContact.value.focus();
-    return;
-  } else if (!companySave.value.bizAddr.state) {
-    toast.error("사업자 주소를 입력하세요!");
-    bizAddr.value.focus();
-  } else if (!companySave.value.bizEmpCount.state) {
-    toast.error("사원수를 선택하세요!");
-    bizEmpCount.value.focus();
-    return;
-  } else if (!companySave.value.bizWebUrl.state) {
-    toast.error("홈페이지 주소를 입력하세요!");
-    bizWebUrl.value.focus();
-    return;
-  } else if (!companySave.value.bizFoundDate.state) {
-    toast.error("설립일을 입력하세요!");
-    bizFoundDate.value.focus();
-    return;
-  } else if (!companySave.value.bizRevenue.state) {
-    toast.error("매출액을 선택하세요!");
-    bizRevenue.value.focus();
-    return;
-  } else if (!fileInfo.value.classList.contains("is-valid")) {
-    toast.error("기업로고를 첨부하세요!");
-    fileInfo.value.focus();
-    return;
-  } else {
-    console.log("companySave.value.bizIdx : ", companySave.value.bizIdx);
-    if (companySave.value.bizIdx === "0") {
-      handlerCompanySave();
-      toast.success("기업을 등록하였습니다.");
-    } else {
-      handlerCompanyUpdate();
-      toast.success("기업을 수정하였습니다.");
-    }
-  }
-};
+// const companySaveValid = () => {
+//   if (!companySave.value.bizName.state) {
+//     toast.error("사업자명을 입력하세요!");
+//     bizName.value.focus();
+//     return;
+//   } else if (!companySave.value.bizCeoName.state) {
+//     toast.error("사업자 대표를 입력하세요!");
+//     bizCeoName.value.focus();
+//     return;
+//   } else if (!bizContact.value.classList.contains("is-valid")) {
+//     toast.error("전화번호를 입력하세요!");
+//     bizContact.value.focus();
+//     return;
+//   } else if (!companySave.value.bizAddr.state) {
+//     toast.error("사업자 주소를 입력하세요!");
+//     bizAddr.value.focus();
+//   } else if (!companySave.value.bizEmpCount.state) {
+//     toast.error("사원수를 선택하세요!");
+//     bizEmpCount.value.focus();
+//     return;
+//   } else if (!companySave.value.bizWebUrl.state) {
+//     toast.error("홈페이지 주소를 입력하세요!");
+//     bizWebUrl.value.focus();
+//     return;
+//   } else if (!companySave.value.bizFoundDate.state) {
+//     toast.error("설립일을 입력하세요!");
+//     bizFoundDate.value.focus();
+//     return;
+//   } else if (!companySave.value.bizRevenue.state) {
+//     toast.error("매출액을 선택하세요!");
+//     bizRevenue.value.focus();
+//     return;
+//   } else if (!fileInfo.value.classList.contains("is-valid")) {
+//     toast.error("기업로고를 첨부하세요!");
+//     fileInfo.value.focus();
+//     return;
+//   } else {
+//     console.log("companySave.value.bizIdx : ", companySave.value.bizIdx);
+//     if (companySave.value.bizIdx === "0") {
+//       handlerCompanySave();
+//       toast.success("기업을 등록하였습니다.");
+//     } else {
+//       handlerCompanyUpdate();
+//       toast.success("기업을 수정하였습니다.");
+//     }
+//   }
+// };
 // 회사 등록
 const { mutate: handlerCompanySave } = useCompanySave(companySave, fileData);
 
-// 회사 수정
+// // 회사 수정
 const { mutate: handlerCompanyUpdate } = useCompanyUpdate(
   companySave,
   fileData
@@ -579,10 +583,10 @@ const handlerCompanyDelete = () => {
 };
 const { mutate: companyDelete } = useCompanyDelete(companySave, fileData);
 
-// 뒤로가기
-const goBack = () => {
-  router.go(-1);
-};
+// 값을 초기화한다.
+onActivated(() => {
+  getCompanyInfo();
+});
 </script>
 <style scoped>
 .companySaveContent {
@@ -618,5 +622,8 @@ textarea {
 }
 .addressBtn {
   width: 150px;
+}
+input[type="file"] {
+  width: 500px;
 }
 </style>
