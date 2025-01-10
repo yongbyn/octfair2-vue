@@ -23,6 +23,7 @@
             <tr
               v-for="list in qnaListData.qna"
               @click="showDetailFnc(list.qnaIdx, list.author, list.password)"
+              :key="list.qnaIdx"
             >
               <td>{{ list.qnaIdx }}</td>
               <td>

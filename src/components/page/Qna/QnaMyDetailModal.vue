@@ -52,15 +52,20 @@
             userInfo.user.userType === 'M'
           "
         >
-          <div class="update" @click="myQnaUpdate">
+          <b-button variant="primary" class="update" @click="myQnaUpdate">
             {{ type == "M" ? "답변하기" : "수정하기" }}
-          </div>
-          <div class="delete" @click="handlerDeleteBtn(QnaDetail.qnaIdx)">
+          </b-button>
+          <b-button
+            variant="danger"
+            class="delete"
+            @click="handlerDeleteBtn(QnaDetail.qnaIdx)"
+          >
             삭제
-          </div>
+          </b-button>
         </div>
-
-        <div class="goback" @click="$router.go(-1)">뒤로가기</div>
+        <b-button variant="secondary" class="goback" @click="$router.go(-1)">
+          뒤로가기
+        </b-button>
       </div>
     </div>
   </div>
@@ -82,7 +87,6 @@ const props = defineProps({
 });
 
 const { params } = useRoute();
-const route = useRoute();
 const qnaIdx = params.qnaIdx;
 const imageURL = ref("");
 const fileInfo = ref(null);
@@ -99,23 +103,19 @@ const handlerDeleteBtn = (qnaIdx) => {
 
 const fileChange = (e) => {
   fileInfo.value = e.target.files;
-
   fileName.value = fileInfo.value[0].name;
-
   const fileInfoSplit = fileInfo.value[0].name.split(".");
-
   const fileExtension = fileInfoSplit[1].toLowerCase();
+
   if (
     fileExtension === "jpg" ||
     fileExtension === "gif" ||
     fileExtension === "png" ||
     fileExtension === "webp"
   ) {
-    //
+    fileData.value = fileInfo.value[0];
+    imageURL.value = URL.createObjectURL(fileInfo.value[0]);
   }
-
-  fileData.value = fileInfo.value[0];
-  imageURL.value = window.URL.createObjectURL(fileInfo.value[0]);
 };
 
 const { mutate: myQnaUpdate } = useQnaMyUpdateMutation(
@@ -196,49 +196,44 @@ img {
 .updateDeleteArea {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .myArea {
   display: flex;
-  flex-direction: column;
 }
 
 .update {
   background-color: rgba(106, 130, 236, 0.8);
   color: #fff;
   text-align: center;
-  border-radius: 5px;
-  width: 100%;
+  // border-radius: 5px;
+  // width: 100%;
   /* height: 80%; */
   font-size: 16px;
   font-weight: bold;
-  line-height: 56px;
-  border-radius: 10px;
+  // line-height: 56px;
+  // border-radius: 10px;
 }
 
 .delete {
   background-color: #ff5862;
   color: #fff;
   text-align: center;
-  border-radius: 5px;
-  width: 100%;
-  height: 80%;
+  // border-radius: 5px;
+  // width: 100%;
+  // height: 80%;
   font-size: 16px;
   font-weight: bold;
-  line-height: 56px;
-  border-radius: 10px;
+  // line-height: 56px;
+  // border-radius: 10px;
 }
 
 .goback {
   background-color: rgba(106, 130, 236, 0.8);
   color: #fff;
-  text-align: center;
-  border-radius: 5px;
-
   font-size: 16px;
   font-weight: bold;
-  line-height: 114px;
-  border-radius: 10px;
 }
 
 button {

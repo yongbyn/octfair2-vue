@@ -53,17 +53,14 @@
 <script setup>
 import { toast } from "@/common/toastMessage";
 import { computed, ref, watchEffect } from "vue";
-import { useRoute } from "vue-router";
 import { useFAQDetailDelete } from "../../../hook/faq/useFAQDetailDelete";
 import { useFAQDetailInsert } from "../../../hook/faq/useFAQDetailInsert";
 import { useFAQDetailSearch } from "../../../hook/faq/useFAQDetailSearch";
 import { useFAQDetailUpdate } from "../../../hook/faq/useFAQDetailUpdate";
 import { useUserInfo } from "../../../stores/userInfo";
 
-const { params } = useRoute();
 const userInfo = useUserInfo();
 const userType = computed(() => userInfo.user.userType);
-const route = useRoute();
 const faq_idx = ref("");
 const detailValue = ref({
   faq_type: "1",
