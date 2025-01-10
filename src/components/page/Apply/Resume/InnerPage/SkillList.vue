@@ -62,9 +62,7 @@ watch(() => [props.resume.resIdx], () => {
 
 onActivated(() => {
   isAddSkill.value = false;
-  Object.keys(skill).forEach((key) => {
-    skill[key] = "";
-  });
+  skill.value = { ...skillDefault }
 });
 </script>
 

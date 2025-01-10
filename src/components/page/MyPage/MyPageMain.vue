@@ -227,7 +227,6 @@ import { useUpdateUser } from "../../../hook/mypage/useUpdateUser";
 import { useUserInfo } from "../../../stores/userInfo";
 import UpdatePwdModal from "./UpdatePwdModal.vue";
 
-
 const router = useRouter();
 const { user } = useUserInfo();
 const modalStore = useModalStore();

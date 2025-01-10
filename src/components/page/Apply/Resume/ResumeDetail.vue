@@ -70,10 +70,6 @@ const isEditor = ref(true);
 const isPreview = ref(true);
 const isPrint = ref(true);
 const isShow = computed(() => (isEditor.value && isPreview.value && isPrint.value ? true : false));
-const isExistCareer = ref(true);
-const isExistEdu = ref(true);
-const isExistSkill = ref(true);
-const isExistCert = ref(true);
 
 const { data: resumeDetail } = useResumeDetailReadQuery(resIdx, resume, isEditor);
 const { mutate: handlerUpdateResumeBtn } = useResumeDetailUpdateMutation(resIdx, resume, fileData);
@@ -85,7 +81,7 @@ const handlerPreviewBtn = () => {
 };
 
 const handlerPrintBtn = () => {
-  isPrint.value = true;
+  isPrint.value = false;
 
   setTimeout(() => {
     printJS({
@@ -95,7 +91,7 @@ const handlerPrintBtn = () => {
       maxWidth: "100%", // 인쇄할 내용의 최대 너비 설정
     });
 
-    isPrint.value = false;
+    isPrint.value = true;
   }, 100);
 };
 

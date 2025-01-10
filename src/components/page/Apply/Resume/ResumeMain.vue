@@ -71,13 +71,13 @@
       </div>
     </div>
   </div>
+  <div v-else>일치하는 검색 결과가 없습니다</div>
 
   <!-- 페이지네이션 -->
   <Pagination
     :totalItems="resumeList?.resumeCnt || 0"
     :items-per-page="itemPerPage"
     :max-pages-shown="5"
-    :onClick="() => queryClient.invalidateQueries({ queryKey: ['resumeList'] })"
     v-model="currentPage"
   />
 
