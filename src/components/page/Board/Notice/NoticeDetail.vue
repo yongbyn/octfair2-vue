@@ -37,8 +37,8 @@
       {{ actionLabel }}
     </button>
     <button v-if="detailValue.noticeIdx" @click="handleDelete">삭제</button>
-    <button @click="$router.go(-1)">뒤로가기</button>
   </div>
+  <button @click="$router.go(-1)">뒤로가기</button>
 </template>
 
 <script setup>

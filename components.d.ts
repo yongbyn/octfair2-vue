@@ -45,7 +45,6 @@ declare module 'vue' {
     HistoryMain: typeof import('./src/components/page/Apply/History/HistoryMain.vue')['default']
     HistorySearch: typeof import('./src/components/page/Apply/History/HistorySearch.vue')['default']
     InnerFrame: typeof import('./src/components/page/Apply/Resume/InnerPage/InnerFrame.vue')['default']
-    Left_test: typeof import('./src/components/layout/Left_test.vue')['default']
     LeftManuBar: typeof import('./src/components/layout/LeftManuBar.vue')['default']
     LinkInfo: typeof import('./src/components/page/Apply/Resume/InnerPage/LinkInfo.vue')['default']
     LoginMain: typeof import('./src/components/page/Login/LoginMain.vue')['default']
