@@ -4,7 +4,6 @@ import ResumeDetail from "../components/page/Apply/Resume/ResumeDetail.vue";
 import NoticeDetail from "../components/page/Board/Notice/NoticeDetail.vue";
 import CompanyDetail from "../components/page/Company/CompanyDetail.vue";
 import FAQDetailModal from "../components/page/FAQ/FAQDetailModal.vue";
-import HireApplicantMain from "../components/page/Hire/HireApplicantMain.vue";
 import HirePostEditor from "../components/page/Hire/HirePostEditor.vue";
 import PostDetail from "../components/page/Jobs/Post/PostDetail.vue";
 import QnaDetailModal from "../components/page/Qna/QnaDetailModal.vue";
@@ -150,8 +149,8 @@ const routes = [
 
           {
             path: "applicant.do",
-            name: "volunteer",
-            component: HireApplicantMain,
+            name: "hire-applicant",
+            component: HireApplicant,
           },
           {
             path: "applicantresume.do?:resIdx",
