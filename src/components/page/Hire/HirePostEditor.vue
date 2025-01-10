@@ -450,19 +450,6 @@ const handlerPostCreate = async () => {
       type: "application/json",
     })
   );
-<<<<<<< HEAD
-  await axios
-    .post("/prx/api/manage-hire/post-new", formData)
-    .then(
-      (res) => console.log(res),
-      alert("공고가 등록되었습니다."),
-      resetPostData(),
-      router.push({
-        name: "hire-post",
-      })
-    )
-    .catch((err) => console.log("err : ", err));
-=======
   await axios.post("/prx/api/manage-hire/post-new", formData).then((res) => {
     toast.info("공고가 등록되었습니다."),
       resetPostData(),
@@ -470,16 +457,11 @@ const handlerPostCreate = async () => {
         name: "hire-post",
       });
   });
->>>>>>> dev
 };
 
 const handlerPostUpdate = async () => {
   if (!validateForm()) {
-<<<<<<< HEAD
-    alert(Object.values(validationErrors.value).find((error) => error));
-=======
     toast.error(Object.values(validationErrors.value).find((error) => error));
->>>>>>> dev
     return;
   }
 
@@ -501,22 +483,12 @@ const handlerPostUpdate = async () => {
     })
   );
 
-<<<<<<< HEAD
-  await axios
-    .post("/prx/api/manage-hire/post-update", formData)
-    .then((res) => console.log(res)),
-    alert("공고가 수정되었습니다."),
-    router.push({
-      name: "hire-post",
-    });
-=======
   await axios.post("/prx/api/manage-hire/post-update", formData).then((res) => {
     toast.info("공고가 수정되었습니다."),
       router.push({
         name: "hire-post",
       });
   });
->>>>>>> dev
 };
 
 const handlerFileUpload = (e) => {

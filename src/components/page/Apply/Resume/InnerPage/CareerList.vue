@@ -89,31 +89,17 @@ import { useCareerNewCreateMutation } from "../../../../../hook/apply/resume/car
 import { useCareerNewDeleteMutation } from "../../../../../hook/apply/resume/career/useCareerNewDeleteMutation";
 
 const props = defineProps(["resume", "isShow"]);
-<<<<<<< HEAD
-const emits = defineEmits(["isExistCareer"]);
-=======
->>>>>>> dev
 const resIdx = ref("");
 const careerDefault = { startDate: '', company: '', dept: '', endDate: '', position: '', reason: '', crrDesc: ''};
 const career = ref({ ...careerDefault });
 const isAddCareer = ref(false);
-<<<<<<< HEAD
-const isExistCareer = computed(() => careerList?.payload?.length >= 1 || false);
-=======
->>>>>>> dev
 
 const { data: careerList } = useCareerListReadQuery(resIdx);
 const { mutate: handlerCreateCareerBtn } = useCareerNewCreateMutation();
 const { mutate: handlerDeleteCareerBtn } = useCareerNewDeleteMutation();
 
-<<<<<<< HEAD
-watch(() => [props.resume.resIdx, careerList?.payload], () => {
-  resIdx.value = props.resume.resIdx;
-  emits("isExistCareer", isExistCareer.value);
-=======
 watch(() => [props.resume.resIdx], () => {
   resIdx.value = props.resume.resIdx;
->>>>>>> dev
 });
 
 onActivated(() => {

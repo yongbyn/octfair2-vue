@@ -183,36 +183,6 @@ input[type="text"] {
   width: 400px;
 }
 
-<<<<<<< HEAD
-img {
-  width: 100px;
-  height: 100px;
-}
-
-.img-label {
-  margin-top: 10px;
-  padding: 6px 25px;
-  background-color: #ccc;
-  border-radius: 4px;
-  color: rgba(0, 0, 0, 0.9);
-  cursor: pointer;
-
-  &:hover {
-    background-color: #45a049;
-    color: white;
-  }
-
-  &:active {
-    background-color: #3e8e41;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px);
-  }
-}
-
-.button-box {
-  text-align: right;
-  margin-top: 10px;
-=======
 .button-box {
   text-align: right;
   margin-top: 10px;
@@ -225,17 +195,12 @@ td {
   padding: 8px;
   border-bottom: 1px solid #ddd;
   text-align: center;
->>>>>>> dev
 }
 button {
   background-color: #3bb2ea;
   border: none;
   color: white;
   padding: 10px 22px;
-<<<<<<< HEAD
-  text-align: right;
-=======
->>>>>>> dev
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
