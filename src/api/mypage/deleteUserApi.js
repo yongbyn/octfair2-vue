@@ -1,3 +1,4 @@
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { MyPage } from "../api";
 
@@ -20,9 +21,9 @@ export const deleteUserApi = async (loginId, password) => {
   });
 
   if (result.data.result === "success") {
-    alert("계정이 삭제되었습니다.");
+    toast.info("계정이 삭제되었습니다.");
   } else {
-    alert("비밀번호가 틀렸습니다. 다시 시도해주세요");
+    toast.warning("비밀번호가 틀렸습니다. 다시 시도해주세요");
   }
   return result;
 };

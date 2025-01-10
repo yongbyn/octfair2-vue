@@ -1,3 +1,4 @@
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { Post } from "../api";
 
@@ -9,9 +10,9 @@ export const postDetailApplyApi = async (resumeIdx, postIdx, onSuccess) => {
     })
     .then((res) => {
       if (res.data.result === "fail") {
-        alert(res.data.message);
+        toast.error(res.data.message);
       } else {
-        alert("지원 완료되었습니다.");
+        toast.info("지원 완료되었습니다.");
         if (onSuccess) onSuccess();
       }
     });

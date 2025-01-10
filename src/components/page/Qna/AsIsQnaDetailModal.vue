@@ -75,8 +75,6 @@ const fileChange = (e) => {
   }
 
   fileData.value = fileInfo[0];
-
-  console.log(fileData.value);
 };
 
 const qnaApplication = async () => {
@@ -85,8 +83,6 @@ const qnaApplication = async () => {
   // 			, now()  필요 없음
   // 			, #{password}  name으로 빼온다.
   // 			, #{qna_type}  name  그리고 히든으로 스토어
-
-  //console.log(userInfo.user);
 
   const textData = {
     loginId: userInfo.user.loginId,

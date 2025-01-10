@@ -214,6 +214,9 @@ ul {
 
   .parent-menu-text {
     margin-left: 20px;
+    @media (max-width: 900px) {
+      margin-left: 0px;
+    }
   }
 
   &:hover {

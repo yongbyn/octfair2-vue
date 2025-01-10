@@ -1,138 +1,128 @@
 <template>
-  <teleport to="body">
-    <div class="backdrop">
-      <div v-if="isLoading">로딩 중...</div>
-      <div v-else class="container">
-        <table class="form-table">
-          <caption>
-            개인회원정보
-          </caption>
-          <colgroup>
-            <col with="25%" />
-            <col with="25%" />
-            <col with="25%" />
-            <col with="25%" />
-          </colgroup>
-          <tbody>
-            <tr>
-              <th>유저타입</th>
-              <td colspan="3">
-                <select v-model="detailValue.userType">
-                  <option selected disabled>선택</option>
-                  <option value="A">개인회원</option>
-                  <option value="B">기업회원</option>
-                </select>
-              </td>
-            </tr>
+  <div class="backdrop">
+    <div v-if="isLoading">로딩 중...</div>
+    <div v-else class="container">
+      <table class="form-table">
+        <caption>
+          개인회원정보
+        </caption>
+        <colgroup>
+          <col with="25%" />
+          <col with="25%" />
+          <col with="25%" />
+          <col with="25%" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <th>유저타입</th>
+            <td colspan="3">
+              <select v-model="detailValue.userType">
+                <option selected disabled>선택</option>
+                <option value="A">개인회원</option>
+                <option value="B">기업회원</option>
+              </select>
+            </td>
+          </tr>
 
-            <tr>
-              <th>아이디</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.loginId"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>비밀번호</th>
-              <td colspan="3">
-                <button @click="handlerPasswordReset">초기화</button>
-              </td>
-            </tr>
-            <tr>
-              <th>이름</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  class="input-text"
-                  v-model="detailValue.name"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>성별</th>
-              <td colspan="3">
-                <select v-model="detailValue.sex">
-                  <option selected disabled>선택</option>
-                  <option value="1">남자</option>
-                  <option value="2">여자</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>생년월일</th>
-              <td colspan="3">
-                <input
-                  type="date"
-                  id="birthday"
-                  v-model="detailValue.birthday"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>전화번호</th>
-              <td colspan="3">
-                <input type="text" id="phone" v-model="detailValue.phone" />
-              </td>
-            </tr>
-            <tr>
-              <th>가입일자</th>
-              <td colspan="3">
-                <input
-                  disabled
-                  type="date"
-                  id="birthday"
-                  v-model="detailValue.birthday"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>활성화</th>
-              <td colspan="3">
-                <select v-model="detailValue.statusYn">
-                  <option selected disabled>선택</option>
-                  <option value="1">활성</option>
-                  <option value="2">비활성</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>우편번호</th>
-              <td colspan="2">
-                <input
-                  type="text"
-                  id="zip-code"
-                  v-model="detailValue.zipCode"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>주소</th>
-              <td colspan="3">
-                <input type="text" id="address" v-model="detailValue.address" />
-              </td>
-            </tr>
-            <tr>
-              <th>상세주소</th>
-              <td colspan="3">
-                <input
-                  type="text"
-                  id="address"
-                  v-model="detailValue.detailAddress"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="button-div">
-          <button id="update-button" @click="handlerUpdate">수정</button>
-          <button id="cancle-button" @click="handlerModal">취소</button>
-        </div>
+          <tr>
+            <th>아이디</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.loginId"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>비밀번호</th>
+            <td colspan="3">
+              <button @click="handlerPasswordReset">초기화</button>
+            </td>
+          </tr>
+          <tr>
+            <th>이름</th>
+            <td colspan="3">
+              <input
+                type="text"
+                class="input-text"
+                v-model="detailValue.name"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td colspan="3">
+              <select v-model="detailValue.sex">
+                <option selected disabled>선택</option>
+                <option value="1">남자</option>
+                <option value="2">여자</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>생년월일</th>
+            <td colspan="3">
+              <input type="date" id="birthday" v-model="detailValue.birthday" />
+            </td>
+          </tr>
+          <tr>
+            <th>전화번호</th>
+            <td colspan="3">
+              <input type="text" id="phone" v-model="detailValue.phone" />
+            </td>
+          </tr>
+          <tr>
+            <th>가입일자</th>
+            <td colspan="3">
+              <input
+                disabled
+                type="date"
+                id="birthday"
+                v-model="detailValue.birthday"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>활성화</th>
+            <td colspan="3">
+              <select v-model="detailValue.statusYn">
+                <option selected disabled>선택</option>
+                <option value="1">활성</option>
+                <option value="2">비활성</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>우편번호</th>
+            <td colspan="2">
+              <input type="text" id="zip-code" v-model="detailValue.zipCode" />
+            </td>
+          </tr>
+          <tr>
+            <th>주소</th>
+            <td colspan="3">
+              <input type="text" id="address" v-model="detailValue.address" />
+            </td>
+          </tr>
+          <tr>
+            <th>상세주소</th>
+            <td colspan="3">
+              <input
+                type="text"
+                id="address"
+                v-model="detailValue.detailAddress"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="button-div">
+        <button id="update-button" @click="handlerUpdate">수정</button>
+        <button id="cancle-button" @click="handlerModal">취소</button>
       </div>
     </div>
-  </teleport>
+  </div>
 </template>
 
 <script setup>

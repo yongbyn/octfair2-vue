@@ -48,13 +48,11 @@ const myQnaFnc = () => {
   injectedValue.value = "my";
 
   paginData.value.requestType = "my";
-  console.log(paginData.value.requestType);
 };
 
 onMounted(() => {
   const Type = useUserInfo().user.userType;
   injectedValue.value = Type;
-  console.log(userType);
   userType.value = Type;
 });
 

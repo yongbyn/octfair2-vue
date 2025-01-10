@@ -73,7 +73,9 @@
 <script setup>
 import { useQnaListSearchQuery } from "../../../hook/qna/useQnaListSearchQuery";
 // const route = useRoute();
+import { toast } from "@/common/toastMessage";
 import { useUserInfo } from "../../../stores/userInfo";
+
 const qnaList = ref({});
 const startIndex = ref(1);
 const paginCalCulData = ref({});
@@ -99,15 +101,13 @@ const {
 } = useQnaListSearchQuery(paginData, injectedValue, qnaList, startIndex);
 
 const getBoardFnc = async (pages, flagMessage) => {
-  console.log(`flagMessage : ${flagMessage}`);
-
   if (flagMessage) {
-    alert("더이상 페이지가 없습니다.");
+    toast.error("더이상 페이지가 없습니다.");
     return;
   }
 
   if (flagMessage) {
-    alert("마지막 페이지 입니다.");
+    toast.error("마지막 페이지 입니다.");
     return;
   }
 

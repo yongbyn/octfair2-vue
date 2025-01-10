@@ -20,6 +20,7 @@
   </template>
 </template>
 <script setup>
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import { Notice } from "../../../api/api";
@@ -48,7 +49,7 @@ const checkPwdFnc = () => {
   if (checkpwd.value === myQnaDetail.value.password) {
     checkSuccess.value = true;
   } else {
-    alert("비밀번호가 틀렸습니다.");
+    toast.warning("비밀번호가 틀렸습니다.");
   }
 };
 

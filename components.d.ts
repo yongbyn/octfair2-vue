@@ -29,6 +29,7 @@ declare module 'vue' {
     CommonModalFrame: typeof import('./src/components/common/CommonModalFrame.vue')['default']
     CommonOnOff: typeof import('./src/components/common/CommonOnOff.vue')['default']
     CompanyDetail: typeof import('./src/components/page/Company/CompanyDetail.vue')['default']
+    CompanySave: typeof import('./src/components/page/MyPage/CompanySave.vue')['default']
     ConfirmedPostMain: typeof import('./src/components/page/Approval/ConfirmedPostMain.vue')['default']
     ContextBox: typeof import('./src/components/common/ContextBox.vue')['default']
     EduList: typeof import('./src/components/page/Apply/Resume/InnerPage/EduList.vue')['default']

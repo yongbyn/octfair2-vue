@@ -1,7 +1,7 @@
 <template>
   <ul class="dashboard-ul" @click="isBtnClicked = false">
     <li class="menu-bar">
-      <div class="align-center">
+      <div class="margin-left-20">
         <button @click.stop="isBtnClicked = !isBtnClicked"></button>
         <img
           :src="happyjobLogo"
@@ -93,6 +93,7 @@ onUnmounted(() => {
 }
 
 .happyjoblogo {
+  width: 250px;
   cursor: pointer;
 }
 
@@ -105,14 +106,20 @@ onUnmounted(() => {
   transition: 1s;
 }
 
-.align-center {
+.margin-left-20 {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 20px;
+
+  @media (max-width: 900px) {
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 button {
-  visibility: hidden; /* 숨김 */
+  display: none; /* 숨김 */
   width: 50px;
   height: 50px;
   margin-right: 3px;
@@ -132,7 +139,7 @@ button {
   }
 
   button {
-    visibility: visible; /* 숨김해제 */
+    display: flex; /* 숨김해제 */
 
     &:active {
       background-color: goldenrod;
@@ -158,6 +165,10 @@ button {
   /* 기본상태, 위 transition애니메이션이 끝나고 유지되는 상태를 의미 */
   .leftmenu {
     opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .content {
