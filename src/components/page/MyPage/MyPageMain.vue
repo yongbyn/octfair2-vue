@@ -533,10 +533,8 @@ const updatePwdModalOpen = () => {
 
 // 기업 등록, 수정 페이지(bizIdx값을 보냄)
 const goCompanyWritePage = () => {
-  router.push({
-    path: "/vue/mypage/companyWritePage.do",
-    state: { bizIdx: updateUserInfo.value.bizIdx },
-  });
+  sessionStorage.setItem('bizIdx', updateUserInfo.value.bizIdx);
+  router.push('/vue/mypage/companyWritePage.do');
 };
 </script>
 

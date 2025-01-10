@@ -52,11 +52,13 @@
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import axios from "axios";
 import { Post } from "../../../../api/api";
 import { usePostDetailApplyMutation } from "../../../../hook/jobs/usePostDetailApplyMutation";
 import { useModalStore } from "../../../../stores/modalState";
 
+const emit = defineEmits(["modalClose"]);
 const props = defineProps(["postIdx", "title", "bizName"]);
 const modalState = useModalStore();
 const resumeList = ref();
@@ -74,7 +76,7 @@ const searchResumeList = async () => {
 
 const handlerApplyBtn = async () => {
   if (!selected.value) {
-    alert("이력서를 선택하세요.");
+    toast.warning("이력서를 선택하세요.");
     return;
   }
 
@@ -83,6 +85,7 @@ const handlerApplyBtn = async () => {
     postIdx: props.postIdx,
     onSuccess: () => {
       modalState.setModalState();
+      emit("modalClose");
     },
   });
 };

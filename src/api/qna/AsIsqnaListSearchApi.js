@@ -9,8 +9,6 @@ export const qnaListSearchApi = async (
   qnaList,
   startIndex
 ) => {
-  // console.log(paginData, injectedValue);
-
   //되는 코드 13~14
   // const result = await axios.post(Notice.SearchQnaBoardList, paginData);
   // return result.data;
@@ -23,7 +21,6 @@ export const qnaListSearchApi = async (
     paginData.qna_type = injectedValue;
   }
 
-  console.log(paginData.requestType);
   const result = await axios.post(Notice.SearchQnaBoardList, paginData);
 
   let paginCalCulData = paginCalCulFnc(

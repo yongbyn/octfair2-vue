@@ -9,7 +9,9 @@
             <h3>Experience</h3>
             <div class="sectionArea">
               <template v-if="fullInfo.careerList == 0">
-                <div class="defaultList" v-for="idx in 3" :key="idx">비고:{{ idx }}</div>
+                <div class="defaultList" v-for="idx in 3" :key="idx">
+                  비고:{{ idx }}
+                </div>
               </template>
             </div>
           </div>
@@ -18,7 +20,9 @@
             <h3>Education</h3>
             <div class="sectionArea">
               <template v-if="fullInfo.educationList == 0">
-                <div class="defaultList" v-for="idx in 3" :key="idx">비고:{{ idx }}</div>
+                <div class="defaultList" v-for="idx in 3" :key="idx">
+                  비고:{{ idx }}
+                </div>
               </template>
             </div>
           </div>
@@ -27,7 +31,9 @@
             <h3>Skill</h3>
             <div class="sectionArea">
               <template v-if="fullInfo.skillList == 0">
-                <div class="defaultList" v-for="idx in 3" :key="idx">비고:{{ idx }}</div>
+                <div class="defaultList" v-for="idx in 3" :key="idx">
+                  비고:{{ idx }}
+                </div>
               </template>
             </div>
           </div>
@@ -61,8 +67,8 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
 import axios from "axios";
+import { useRoute } from "vue-router";
 import { useApplicantResumeListQuery } from "../../../hook/Applicant/useApplicantResumeListQuery";
 import sadd from "../../../ImageApplicant/saddfrog.jpg";
 
@@ -75,30 +81,30 @@ const fullInfo = ref({});
 const { data: resumeFullList, isSuccess } = useApplicantResumeListQuery(resIdx);
 
 const getResumeFnc = async () => {
-  console.log(params);
-
   let res1;
   let res2;
   let res3;
   let res4;
   try {
-    res1 = await axios.post("/prx/api/apply/resumeDetail", { resIdx: params.resIdx });
-    res2 = await axios.post("/prx/api/apply/careerList", { resIdx: params.resIdx });
-    res3 = await axios.post("/prx/api/apply/educationList", { resIdx: params.resIdx });
-    res4 = await axios.post("/prx/api/apply/skillList", { resIdx: params.resIdx });
-    console.log(res1.data.payload);
-    console.log(res2.data.payload);
-    console.log(res3.data.payload);
-    console.log(res4.data.payload);
+    res1 = await axios.post("/prx/api/apply/resumeDetail", {
+      resIdx: params.resIdx,
+    });
+    res2 = await axios.post("/prx/api/apply/careerList", {
+      resIdx: params.resIdx,
+    });
+    res3 = await axios.post("/prx/api/apply/educationList", {
+      resIdx: params.resIdx,
+    });
+    res4 = await axios.post("/prx/api/apply/skillList", {
+      resIdx: params.resIdx,
+    });
 
     fullInfo.value.resume = res1.data.payload;
     fullInfo.value.careerList = res2.data.payload;
     fullInfo.value.educationList = res3.data.payload;
     fullInfo.value.skillList = res4.data.payload;
-    console.log(fullInfo.value);
   } catch (err) {
     //데이터는 모두 한번에 정확히 와야한다. 실패하면 리패치 함수를 추가한다.
-    console.log(err);
   }
 };
 </script>

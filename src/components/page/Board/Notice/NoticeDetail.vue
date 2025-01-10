@@ -17,8 +17,8 @@
     <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
   </div>
   <div v-if="imageUrl">
-    파일명:
-    <label style="border: 1px solid black; margin-top: 5px; margin-bottom: 5px">
+    <label style="margin-top: 5px">파일명:</label>
+    <label style="border: 2px solid grey; margin-top: 5px; margin-bottom: 5px">
       {{ fileData.name || detailValue.fileName }}</label
     >
     <!-- <input type="text" :value="" readonly /> -->
@@ -37,11 +37,12 @@
       {{ actionLabel }}
     </button>
     <button v-if="detailValue.noticeIdx" @click="handleDelete">삭제</button>
-    <button @click="$router.go(-1)">뒤로가기</button>
   </div>
+  <button @click="$router.go(-1)">뒤로가기</button>
 </template>
 
 <script setup>
+import { toast } from "@/common/toastMessage";
 import { computed, onActivated, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { noticeImageGetApi } from "../../../../api/notice/noticeImageGetApi";
@@ -103,11 +104,11 @@ const actionLabel = computed(() =>
 
 const validateInputs = () => {
   if (!detailValue.value.title) {
-    alert("제목을 입력해주세요.");
+    toast.warning("제목을 입력해주세요.");
     return false;
   }
   if (!detailValue.value.content) {
-    alert("내용을 입력해주세요.");
+    toast.warning("내용을 입력해주세요.");
     return false;
   }
   return true;
@@ -209,10 +210,12 @@ img {
     transform: translateY(2px);
   }
 }
-
 .button-box {
   text-align: right;
   margin-top: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
 }
 button {
   background-color: #3bb2ea;

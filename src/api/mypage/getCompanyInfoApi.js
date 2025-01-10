@@ -2,7 +2,6 @@ import axios from "axios";
 import { MyPage } from "../api";
 
 export const getCompanyInfoApi = async (companySave, fileData) => {
-  console.log(companySave.value);
   const result = await axios.post(MyPage.GetCompanyInfo, companySave.value);
 
   const data = result.data.payload;
