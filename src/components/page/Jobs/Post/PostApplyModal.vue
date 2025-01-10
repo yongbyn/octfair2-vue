@@ -57,6 +57,7 @@ import { Post } from "../../../../api/api";
 import { usePostDetailApplyMutation } from "../../../../hook/jobs/usePostDetailApplyMutation";
 import { useModalStore } from "../../../../stores/modalState";
 
+const emit = defineEmits(["modalClose"]);
 const props = defineProps(["postIdx", "title", "bizName"]);
 const modalState = useModalStore();
 const resumeList = ref();
@@ -83,6 +84,7 @@ const handlerApplyBtn = async () => {
     postIdx: props.postIdx,
     onSuccess: () => {
       modalState.setModalState();
+      emit("modalClose");
     },
   });
 };
