@@ -2,7 +2,7 @@
   <div>
     <PostApplyModal
       v-if="modalState.modalState"
-      @applySuccess="refetch()"
+      @modalClose="refetch()"
       :postIdx="detailValue.postIdx"
       :title="detailValue.title"
       :bizName="bizDetail.bizName"
