@@ -3,7 +3,6 @@ import { MyPage } from "../api";
 
 export const getCompanyInfoApi = async (companySave, fileData) => {
   const result = await axios.post(MyPage.GetCompanyInfo, companySave.value);
-
   const data = result.data.payload;
 
   companySave.value = {
@@ -38,8 +37,8 @@ export const getCompanyInfoApi = async (companySave, fileData) => {
     },
     bizIntro: data.bizIntro,
     bizLogo: data.logoUrl,
+    bizIdx: data.bizIdx,
   };
-
   fileData.value = {
     bizLogo: data.bizLogo,
     logicalPath: data.logicalPath,

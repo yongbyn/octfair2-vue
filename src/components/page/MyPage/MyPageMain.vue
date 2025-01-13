@@ -274,7 +274,6 @@ const regExPatterns = {
 
 // 사용자 정보 가져오기
 const { mutate: handlerGetUserInfo } = useGetUserInfo(user, updateUserInfo);
-handlerGetUserInfo();
 
 // 1. 이름 유효성 검사
 const nameValid = () => {
@@ -531,11 +530,15 @@ const updatePwdModalOpen = () => {
   modalStore.setModalState();
 };
 
-// 기업 등록, 수정 페이지(bizIdx값을 보냄)
+// // 기업 등록, 수정 페이지로 이동
 const goCompanyWritePage = () => {
-  sessionStorage.setItem('bizIdx', updateUserInfo.value.bizIdx);
-  router.push('/vue/mypage/companyWritePage.do');
+  router.push("/vue/mypage/companyWritePage.do");
 };
+
+// 값을 초기화한다.
+onActivated(() => {
+  handlerGetUserInfo();
+});
 </script>
 
 <style scoped>
@@ -580,5 +583,8 @@ select {
 }
 .height {
   height: 80px;
+}
+.zipCodeBtn {
+  width: 200px;
 }
 </style>
