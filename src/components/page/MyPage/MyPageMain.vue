@@ -530,7 +530,7 @@ const updatePwdModalOpen = () => {
   modalStore.setModalState();
 };
 
-// 기업 등록, 수정 페이지(bizIdx값을 보냄)
+// // 기업 등록, 수정 페이지로 이동
 const goCompanyWritePage = () => {
   router.push("/vue/mypage/companyWritePage.do");
 };

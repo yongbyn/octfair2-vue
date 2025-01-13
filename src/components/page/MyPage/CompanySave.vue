@@ -62,7 +62,7 @@
         <th>사원수 <span class="text-danger">*</span></th>
         <td>
           <b-form-select
-            class="input_gray mb-3"
+            class="mb-3 b_form_select"
             ref="bizEmpCount"
             v-model="companySave.bizEmpCount.value"
             :state="companySave.bizEmpCount.state"
@@ -71,20 +71,20 @@
             <b-form-select-option value="" hidden
               >선택하세요</b-form-select-option
             >
-            <b-form-select-option value="10명이하"
-              >10명이하</b-form-select-option
+            <b-form-select-option value="10명 이하"
+              >10명 이하</b-form-select-option
             >
-            <b-form-select-option value="50명이하"
-              >50명이하</b-form-select-option
+            <b-form-select-option value="50명 이하"
+              >50명 이하</b-form-select-option
             >
-            <b-form-select-option value="100명이하"
-              >100명이하</b-form-select-option
+            <b-form-select-option value="100명 이하"
+              >100명 이하</b-form-select-option
             >
-            <b-form-select-option value="1000명이하"
-              >1000명이하</b-form-select-option
+            <b-form-select-option value="1000명 이하"
+              >1000명 이하</b-form-select-option
             >
-            <b-form-select-option value="1000명이상"
-              >1000명이상</b-form-select-option
+            <b-form-select-option value="1000명 이상"
+              >1000명 이상</b-form-select-option
             >
           </b-form-select>
         </td>
@@ -157,32 +157,23 @@
       <tr>
         <th>기업로고 <span class="text-danger">*</span></th>
         <td colspan="3">
-          <input
-            type="file"
-            id="fileInput"
-            class="form-control"
-            :class="fileName || fileData.bizLogo ? 'is-valid' : 'is-invalid'"
-            ref="fileInfo"
-            @change="fileInput"
-          />
-          <div class="d-flex justify-content-between">
-            <span class="text-start">
-              {{
-                fileName
-                  ? `현재 파일 : ${fileName}`
-                  : fileData.bizLogo
-                    ? `이전 파일 : ${fileData.bizLogo}`
-                    : ""
-              }}
-            </span>
-            <span class="text-end text-primary">
-              10MB이하의 파일만 업로드 가능합니다.</span
+          <div class="d-flex align-items-center">
+            <input
+              type="file"
+              id="fileInput"
+              class="form-control me-2"
+              :class="fileName || fileData.bizLogo ? 'is-valid' : 'is-invalid'"
+              ref="fileInfo"
+              @change="fileInput"
+            />
+            <span class="text-primary text-end ms-auto"
+              >10MB 이하의 파일만 업로드 가능합니다.</span
             >
           </div>
         </td>
       </tr>
 
-      <tr>
+      <tr class="logo_tr">
         <th>로고 미리보기</th>
         <td colspan="3">
           <img
@@ -190,11 +181,11 @@
             id="logoPreview"
             :src="logoPreview || fileData.bizLogo"
             alt="미리보기 이미지"
+            class="logoPreview"
             :class="{
               'is-valid': fileData.logicalPath,
               'is-invalid': !fileData.logicalPath,
             }"
-            style="max-width: 300px"
           />
         </td>
       </tr>
@@ -205,11 +196,11 @@
         variant="danger"
         class="me-2"
         @click="handlerCompanyDelete"
-        v-if="companySave.bizIdx !== '0'"
+        v-if="companySave.bizIdx !== 0"
         >삭제하기</b-button
       >
       <b-button variant="primary" @click="companySaveValid">{{
-        companySave.bizIdx !== "0" ? "수정하기" : "등록하기"
+        companySave.bizIdx !== 0 ? "수정하기" : "등록하기"
       }}</b-button>
     </div>
   </div>
@@ -261,55 +252,43 @@ const companySave = ref({
     state: false,
   },
   bizIntro: "",
-  bizIdx: "",
   userIdx: user.userIdx,
   loginId: user.loginId,
   userType: user.userType,
+  bizIdx: 0,
 });
 const fileData = ref({
   bizLogo: "",
   logicalPath: "",
 });
 
+const logoPreview = ref("");
+const fileName = ref("");
+
 // 해당 api에서 db를 불러와서 변수에 값을 넣는다.
 const { mutate: getCompanyInfo } = useGetCompanyInfo(companySave, fileData);
-console.log(user);
-
-// // 등록된 값 가져오기
-// const { mutate: getCompanyInfo } = useGetCompanyInfo(companySave, fileData);
-// onMounted(() => {
-//   if (companySave.value.bizIdx !== 0) {
-//     getCompanyInfo();
-//   }
-// });
-// const logoPreview = ref("");
-// const fileName = ref("");
-
-// console.log("fileData.value 2: ", fileData.value);
 
 // // 포커스용 변수
-// const bizName = ref("");
-// const bizCeoName = ref("");
-// const bizAddr = ref("");
-// const bizContact = ref("");
-// const bizWebUrl = ref("");
-// const bizFoundDate = ref("");
-// const bizEmpCount = ref("");
-// const bizRevenue = ref("");
-// const fileInfo = ref("");
+const bizName = ref("");
+const bizCeoName = ref("");
+const bizAddr = ref("");
+const bizContact = ref("");
+const bizWebUrl = ref("");
+const bizFoundDate = ref("");
+const bizEmpCount = ref("");
+const bizRevenue = ref("");
+const fileInfo = ref("");
 
-// watch(fileData.value.bizLogo, () => {});
+// 1. 사업자명,  사업자 대표, 주소, 홈페이지, 사원수, 매출액
+const inputValid = (validName) => {
+  if (companySave.value[validName].value) {
+    companySave.value[validName].state = true;
+  } else {
+    companySave.value[validName].state = false;
+  }
+};
 
-// // 1. 사업자명, 사업자 대표, 주소, 홈페이지, 사원수, 매출액
-// const inputValid = (validName) => {
-//   if (companySave.value[validName].value) {
-//     companySave.value[validName].state = true;
-//   } else {
-//     companySave.value[validName].state = false;
-//   }
-// };
-
-// 2. 연락처
+// 2. 전화번호(연락처)
 watch(
   () => companySave.value.bizContact,
   () => {
@@ -456,7 +435,7 @@ watch(
   }
 );
 
-// 3. 주소검색
+// 3. 사업자 주소 (다음 카카오 api 주소 검색)
 const handlerKakaoPost = () => {
   kakaoPostcode((data) => {
     companySave.value.bizAddr.value = data.address;
@@ -465,110 +444,119 @@ const handlerKakaoPost = () => {
 };
 
 // 4. 설립일
-// const bizFoundDateValid = () => {
-//   const foundDate = new Date(companySave.value.bizFoundDate.value);
-//   const today = new Date();
+const bizFoundDateValid = () => {
+  const foundDate = new Date(companySave.value.bizFoundDate.value);
+  const today = new Date();
 
-//   foundDate.setHours(0, 0, 0, 0);
-//   today.setHours(0, 0, 0, 0);
+  foundDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
 
-//   if (foundDate > today || companySave.value.bizFoundDate.value === "") {
-//     toast.error("미래의 날짜로 선택 할 수 없습니다.");
-//     companySave.value.bizFoundDate.state = false;
-//     companySave.value.bizFoundDate.value = "";
-//   } else {
-//     companySave.value.bizFoundDate.state = true;
-//   }
-// };
+  if (foundDate > today || companySave.value.bizFoundDate.value === "") {
+    toast.error("미래의 날짜로 선택 할 수 없습니다.");
+    companySave.value.bizFoundDate.state = false;
+    companySave.value.bizFoundDate.value = "";
+  } else {
+    companySave.value.bizFoundDate.state = true;
+  }
+};
 
 // 5. 파일 등록
-// const fileInput = () => {
-//   const fileInput = document.getElementById("fileInput");
-//   fileData.value = fileInput.files[0];
+const fileInput = () => {
+  const fileInput = document.getElementById("fileInput");
+  fileData.value = fileInput.files[0];
 
-//   if (fileData.value) {
-//     if (!fileData.value.type.startsWith("image/")) {
-//       toast.error("이미지 파일만 업로드할 수 있습니다.");
-//       fileName.value = "";
-//       logoPreview.value = "";
-//       fileInput.classList.add("is-invalid");
-//       fileInput.classList.remove("is-valid");
-//       return;
-//     }
+  if (fileData.value) {
+    if (!fileData.value.type.startsWith("image/")) {
+      toast.error("이미지 파일만 업로드할 수 있습니다.");
+      fileName.value = "";
+      logoPreview.value = "";
+      fileInput.classList.add("is-invalid");
+      fileInput.classList.remove("is-valid");
+      return;
+    }
 
-//     const maxSize = 10 * 1024 * 1024;
-//     if (fileData.value.size > maxSize) {
-//       toast.error("파일 용량은 10MB를 초과할 수 없습니다.");
-//       fileName.value = "";
-//       fileInput.classList.add("is-invalid");
-//       fileInput.classList.remove("is-valid");
-//       return;
-//     }
+    const maxSize = 10 * 1024 * 1024;
+    if (fileData.value.size > maxSize) {
+      toast.error("파일 용량은 10MB를 초과할 수 없습니다.");
+      fileName.value = "";
+      fileInput.classList.add("is-invalid");
+      fileInput.classList.remove("is-valid");
+      return;
+    }
 
-//     fileName.value = fileData.value.name;
-//     logoPreview.value = URL.createObjectURL(fileData.value);
-//     fileInput.classList.add("is-valid");
-//     fileInput.classList.remove("is-invalid");
-//   } else {
-//     fileName.value = "";
-//     logoPreview.value = "";
-//     fileInput.classList.add("is-invalid");
-//     fileInput.classList.remove("is-valid");
-//   }
-// };
+    fileName.value = fileData.value.name;
+    logoPreview.value = URL.createObjectURL(fileData.value);
+    fileInput.classList.add("is-valid");
+    fileInput.classList.remove("is-invalid");
+  } else {
+    fileName.value = "";
+    logoPreview.value = "";
+    fileInput.classList.add("is-invalid");
+    fileInput.classList.remove("is-valid");
+  }
+};
+// DB에서 가져온 이미지 파일 처리
+watch(
+  () => fileData.value.bizLogo,
+  () => {
+    if (fileData.value.bizLogo) {
+      logoPreview.value = fileData.value.logicalPath;
+    }
+  }
+);
 
 // 등록하기 유효성 검사
-// const companySaveValid = () => {
-//   if (!companySave.value.bizName.state) {
-//     toast.error("사업자명을 입력하세요!");
-//     bizName.value.focus();
-//     return;
-//   } else if (!companySave.value.bizCeoName.state) {
-//     toast.error("사업자 대표를 입력하세요!");
-//     bizCeoName.value.focus();
-//     return;
-//   } else if (!bizContact.value.classList.contains("is-valid")) {
-//     toast.error("전화번호를 입력하세요!");
-//     bizContact.value.focus();
-//     return;
-//   } else if (!companySave.value.bizAddr.state) {
-//     toast.error("사업자 주소를 입력하세요!");
-//     bizAddr.value.focus();
-//   } else if (!companySave.value.bizEmpCount.state) {
-//     toast.error("사원수를 선택하세요!");
-//     bizEmpCount.value.focus();
-//     return;
-//   } else if (!companySave.value.bizWebUrl.state) {
-//     toast.error("홈페이지 주소를 입력하세요!");
-//     bizWebUrl.value.focus();
-//     return;
-//   } else if (!companySave.value.bizFoundDate.state) {
-//     toast.error("설립일을 입력하세요!");
-//     bizFoundDate.value.focus();
-//     return;
-//   } else if (!companySave.value.bizRevenue.state) {
-//     toast.error("매출액을 선택하세요!");
-//     bizRevenue.value.focus();
-//     return;
-//   } else if (!fileInfo.value.classList.contains("is-valid")) {
-//     toast.error("기업로고를 첨부하세요!");
-//     fileInfo.value.focus();
-//     return;
-//   } else {
-//     console.log("companySave.value.bizIdx : ", companySave.value.bizIdx);
-//     if (companySave.value.bizIdx === "0") {
-//       handlerCompanySave();
-//       toast.success("기업을 등록하였습니다.");
-//     } else {
-//       handlerCompanyUpdate();
-//       toast.success("기업을 수정하였습니다.");
-//     }
-//   }
-// };
+const companySaveValid = () => {
+  if (!companySave.value.bizName.state) {
+    toast.error("사업자명을 입력하세요!");
+    bizName.value.focus();
+    return;
+  } else if (!companySave.value.bizCeoName.state) {
+    toast.error("사업자 대표를 입력하세요!");
+    bizCeoName.value.focus();
+    return;
+  } else if (!bizContact.value.classList.contains("is-valid")) {
+    toast.error("전화번호를 입력하세요!");
+    bizContact.value.focus();
+    return;
+  } else if (!companySave.value.bizAddr.state) {
+    toast.error("사업자 주소를 입력하세요!");
+    bizAddr.value.focus();
+  } else if (!companySave.value.bizEmpCount.state) {
+    toast.error("사원수를 선택하세요!");
+    bizEmpCount.value.focus();
+    return;
+  } else if (!companySave.value.bizWebUrl.state) {
+    toast.error("홈페이지 주소를 입력하세요!");
+    bizWebUrl.value.focus();
+    return;
+  } else if (!companySave.value.bizFoundDate.state) {
+    toast.error("설립일을 입력하세요!");
+    bizFoundDate.value.focus();
+    return;
+  } else if (!companySave.value.bizRevenue.state) {
+    toast.error("매출액을 선택하세요!");
+    bizRevenue.value.focus();
+    return;
+  } else if (!fileInfo.value.classList.contains("is-valid")) {
+    toast.error("기업로고를 첨부하세요!");
+    fileInfo.value.focus();
+    return;
+  } else {
+    if (companySave.value.bizIdx === 0) {
+      handlerCompanySave();
+      toast.success("기업을 등록하였습니다.");
+      companySave.value.bizIdx = 1;
+    } else {
+      handlerCompanyUpdate();
+      toast.success("기업을 수정하였습니다.");
+    }
+  }
+};
 // 회사 등록
 const { mutate: handlerCompanySave } = useCompanySave(companySave, fileData);
 
-// // 회사 수정
+// 회사 수정
 const { mutate: handlerCompanyUpdate } = useCompanyUpdate(
   companySave,
   fileData
@@ -577,9 +565,25 @@ const { mutate: handlerCompanyUpdate } = useCompanyUpdate(
 // 회사 삭제
 const handlerCompanyDelete = () => {
   companyDelete();
-  companySave.value = { ...companySave.value, bizIdx: "0" };
-  sessionStorage.setItem("bizIdx", "0");
   toast.success("회사 정보가 삭제되었습니다.");
+  companySave.value = {
+    bizContact: "",
+    bizName: "",
+    bizCeoName: "",
+    bizAddr: "",
+    bizEmpCount: "",
+    bizWebUrl: "",
+    bizFoundDate: "",
+    bizRevenue: "",
+  };
+  fileData.value = {
+    bizLogo: "",
+  };
+  logoPreview.value = "";
+  document.getElementById("fileInput").value = "";
+  const fileInput = document.getElementById("fileInput");
+  fileInput.classList.add("is-invalid");
+  fileInput.classList.remove("is-valid");
 };
 const { mutate: companyDelete } = useCompanyDelete(companySave, fileData);
 
@@ -599,11 +603,10 @@ table {
 }
 th {
   background-color: #fff3cd;
-  text-align: center;
-  width: 150px;
+  width: 300px;
 }
 td {
-  width: 35%;
+  width: 550px;
 }
 
 input,
@@ -625,5 +628,15 @@ textarea {
 }
 input[type="file"] {
   width: 500px;
+}
+.logo_tr {
+  min-height: 500px;
+}
+.logoPreview {
+  margin-top: 20px;
+  width: 500px;
+}
+.b_form_select {
+  height: 35px;
 }
 </style>
